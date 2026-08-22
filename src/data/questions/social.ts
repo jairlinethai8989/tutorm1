@@ -1,6 +1,8 @@
 import { Question } from '@/types/question';
+import { BENCHAMA_SOCIAL_QUESTIONS } from './benchamaSocial';
 
 export const SOCIAL_QUESTIONS: Question[] = [
+  ...BENCHAMA_SOCIAL_QUESTIONS,
   {
     id: 'soc-geo-001',
     subjectId: 'social',

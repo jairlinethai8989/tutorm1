@@ -11,7 +11,7 @@ export const SUBJECTS: Subject[] = [
     bgColor: '#EFF6FF',
     borderColor: '#BFDBFE',
     description: 'เน้นวิเคราะห์โจทย์ปัญหา เรขาคณิต พีชคณิต แบบรูปความสัมพันธ์ และสถิติแนว มศว./สสวท.',
-    totalQuestions: 60,
+    totalQuestions: 110,
     order: 1,
     topics: [
       {
@@ -21,7 +21,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'arithmetic',
         description: 'การหารร่วมมาก คูณร่วมน้อย สมบัติจำนวนนับ เศษส่วน ทศนิยม และการหารลงตัว',
         icon: 'Hash',
-        totalQuestions: 15,
+        totalQuestions: 25,
         order: 1,
       },
       {
@@ -31,7 +31,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'algebra',
         description: 'การแก้สมการ 1 ตัวแปรและ 2 ตัวแปร แบบรูปและลำดับตัวเลข',
         icon: 'Variable',
-        totalQuestions: 12,
+        totalQuestions: 22,
         order: 2,
       },
       {
@@ -41,7 +41,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'geometry',
         description: 'พื้นที่รูปหลายเหลี่ยม ปริมาตร พื้นที่ผิว มุมและเส้นขนาน การตัดแปะชิ้นส่วนรูปทรง',
         icon: 'Shapes',
-        totalQuestions: 15,
+        totalQuestions: 30,
         order: 3,
       },
       {
@@ -51,7 +51,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'word-problems',
         description: 'ร้อยละ กำไร-ขาดทุน อัตราเร็ว-ระยะทาง-เวลา การทำงานร่วมกัน',
         icon: 'FileQuestion',
-        totalQuestions: 10,
+        totalQuestions: 20,
         order: 4,
       },
       {
@@ -61,7 +61,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'statistics',
         description: 'การอ่านแผนภูมิแท่ง/วงกลม ค่าเฉลี่ย มัธยฐาน ฐานนิยม และความน่าจะเป็นเบื้องต้น',
         icon: 'BarChart2',
-        totalQuestions: 8,
+        totalQuestions: 15,
         order: 5,
       },
     ],
@@ -76,7 +76,7 @@ export const SUBJECTS: Subject[] = [
     bgColor: '#ECFDF5',
     borderColor: '#A7F3D0',
     description: 'เน้นกระบวนการทดลอง วิเคราะห์ตารางข้อมูล ฟิสิกส์ เคมี ชีววิทยา และดาราศาสตร์',
-    totalQuestions: 55,
+    totalQuestions: 150,
     order: 2,
     topics: [
       {
@@ -86,7 +86,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'biology',
         description: 'เซลล์พืช/สัตว์ ระบบร่างกายมนุษย์ การสังเคราะห์ด้วยแสง และการสืบพันธุ์',
         icon: 'HeartPulse',
-        totalQuestions: 15,
+        totalQuestions: 40,
         order: 1,
       },
       {
@@ -96,7 +96,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'physics',
         description: 'วงจรไฟฟ้า แรงลอยตัว แสงและการสะท้อน คานและรอก งานและพลังงาน',
         icon: 'Zap',
-        totalQuestions: 15,
+        totalQuestions: 40,
         order: 2,
       },
       {
@@ -106,7 +106,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'chemistry',
         description: 'การแยกสาร (ตกผลึก, สกัด, กลั่น, โครมาโทกราฟี) สารละลาย กรด-เบส',
         icon: 'FlaskConical',
-        totalQuestions: 13,
+        totalQuestions: 35,
         order: 3,
       },
       {
@@ -116,7 +116,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'earth-space',
         description: 'บรรยากาศ ดิน หิน แร่ ปรากฏการณ์น้ำขึ้นน้ำลง ข้างขึ้นข้างแรม และระบบสุริยะ',
         icon: 'Globe',
-        totalQuestions: 12,
+        totalQuestions: 35,
         order: 4,
       },
     ],
@@ -131,7 +131,7 @@ export const SUBJECTS: Subject[] = [
     bgColor: '#F5F3FF',
     borderColor: '#DDD6FE',
     description: 'Grammar in Use, Reading Comprehension, Situational Conversations, and Vocabulary in Context',
-    totalQuestions: 30,
+    totalQuestions: 100,
     order: 3,
     topics: [
       {
@@ -141,7 +141,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'grammar',
         description: 'Tenses, Subject-Verb Agreement, Passive Voice, Prepositions, Conjunctions',
         icon: 'BookCheck',
-        totalQuestions: 12,
+        totalQuestions: 40,
         order: 1,
       },
       {
@@ -151,7 +151,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'reading',
         description: 'Short passages, News articles, Scientific extracts, Main idea & Inference',
         icon: 'BookOpen',
-        totalQuestions: 10,
+        totalQuestions: 30,
         order: 2,
       },
       {
@@ -161,7 +161,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'conversation',
         description: 'Everyday dialogues, Contextual clues, Synonyms & Antonyms',
         icon: 'MessageSquare',
-        totalQuestions: 8,
+        totalQuestions: 30,
         order: 3,
       },
     ],
@@ -176,7 +176,7 @@ export const SUBJECTS: Subject[] = [
     bgColor: '#FFFBEB',
     borderColor: '#FDE68A',
     description: 'การอ่านจับใจความ ตีความสาร หลักภาษา สมาส-สนธิ คำราชาศัพท์ และสำนวนไทย',
-    totalQuestions: 25,
+    totalQuestions: 100,
     order: 4,
     topics: [
       {
@@ -186,7 +186,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'grammar',
         description: 'ชนิดของคำ คำสมาส สนธิ ประโยค คำราชาศัพท์ และคำยืมภาษาต่างประเทศ',
         icon: 'PenTool',
-        totalQuestions: 13,
+        totalQuestions: 50,
         order: 1,
       },
       {
@@ -196,7 +196,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'reading',
         description: 'การจับใจความสำคัญ เจตนาผู้เขียน ข้อเท็จจริง-ข้อคิดเห็น และสำนวนไทย',
         icon: 'FileText',
-        totalQuestions: 12,
+        totalQuestions: 50,
         order: 2,
       },
     ],
@@ -211,7 +211,7 @@ export const SUBJECTS: Subject[] = [
     bgColor: '#FEF2F2',
     borderColor: '#FECACA',
     description: 'ภูมิศาสตร์ แผนที่ เศรษฐศาสตร์ หน้าที่พลเมือง ประวัติศาสตร์ และข่าวสารปัจจุบัน',
-    totalQuestions: 20,
+    totalQuestions: 100,
     order: 5,
     topics: [
       {
@@ -221,7 +221,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'geography-econ',
         description: 'เครื่องมือทางภูมิศาสตร์ พิกัด แผนที่ กลไกราคา อุปสงค์-อุปทาน สถาบันการเงิน',
         icon: 'MapPin',
-        totalQuestions: 10,
+        totalQuestions: 50,
         order: 1,
       },
       {
@@ -231,7 +231,7 @@ export const SUBJECTS: Subject[] = [
         slug: 'civics-history',
         description: 'รัฐธรรมนูญ กฎหมายเบื้องต้น พุทธประวัติและหลักธรรม ประวัติศาสตร์ไทยและอุบลฯ/อีสาน',
         icon: 'Landmark',
-        totalQuestions: 10,
+        totalQuestions: 50,
         order: 2,
       },
     ],

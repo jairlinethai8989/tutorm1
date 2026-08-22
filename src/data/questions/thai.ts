@@ -1,7 +1,9 @@
 import { Question } from '@/types/question';
 import { CHULABHORN_THAI_QUESTIONS } from './chulabhornThai';
+import { BENCHAMA_THAI_QUESTIONS } from './benchamaThai';
 
 export const THAI_QUESTIONS: Question[] = [
+  ...BENCHAMA_THAI_QUESTIONS,
   ...CHULABHORN_THAI_QUESTIONS,
   {
     id: 'thai-gram-001',

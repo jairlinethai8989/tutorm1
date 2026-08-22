@@ -88,7 +88,7 @@ export default function DashboardPage() {
             </div>
 
             <h3 className="text-lg font-bold">
-              กลยุทธ์พิชิตห้องพิเศษ รร.เบ็ญจะมะฯ & จุฬาภรณ์มุกดาหาร
+              กลยุทธ์พิชิตห้องพิเศษ โรงเรียนชั้นนำของไทย
             </h3>
 
             <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">

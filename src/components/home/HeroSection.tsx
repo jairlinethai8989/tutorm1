@@ -22,7 +22,7 @@ export const HeroSection: React.FC = () => {
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
             พิชิตสอบเข้า ม.1 <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-200 to-yellow-400">
-              รร.เบ็ญจะมะมหาราช & จุฬาภรณ์มุกดาหาร
+              ห้องพิเศษ โรงเรียนชั้นนำของไทย
             </span>
           </h1>
 

@@ -1,6 +1,8 @@
 import { Question } from '@/types/question';
+import { BENCHAMA_ENGLISH_QUESTIONS } from './benchamaEnglish';
 
 export const ENGLISH_QUESTIONS: Question[] = [
+  ...BENCHAMA_ENGLISH_QUESTIONS,
   {
     id: 'eng-gram-001',
     subjectId: 'english',
