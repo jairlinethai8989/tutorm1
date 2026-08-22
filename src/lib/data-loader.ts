@@ -8,6 +8,8 @@ import { ENGLISH_QUESTIONS } from '@/data/questions/english';
 import { THAI_QUESTIONS } from '@/data/questions/thai';
 import { SOCIAL_QUESTIONS } from '@/data/questions/social';
 
+import { SATRIWIT_SCIENCE_QUESTIONS } from '@/data/questions/satriwitScience';
+
 export const ALL_QUESTIONS: Question[] = [
   ...MATH_QUESTIONS,
   ...SCIENCE_QUESTIONS,
@@ -48,7 +50,7 @@ export const getMockExams = (): MockExam[] => {
     } else if (exam.id === 'chulabhorn-math-intensive') {
       questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'math');
     } else if (exam.id === 'satriwit-pretest-sci-05') {
-      questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'science');
+      questions = SATRIWIT_SCIENCE_QUESTIONS;
     } else {
       questions = ALL_QUESTIONS.slice(0, 10);
     }

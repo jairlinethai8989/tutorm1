@@ -69,10 +69,12 @@ export const MOCK_EXAMS: MockExam[] = [
     passingScorePercent: 75,
     description: 'ข้อสอบ Pretest วิทยาศาสตร์ห้องเรียนพิเศษ รร.สตรีวิทยา ครอบคลุมฟิสิกส์ เคมี ชีววิทยา โลกและดาราศาสตร์ พร้อมเฉลยละเอียดและภาพประกอบ',
     questionIds: [
-      'sw-sci-026', 'sw-sci-027', 'sw-sci-029', 'sw-sci-030', 'sw-sci-033',
-      'sw-sci-036', 'sw-sci-037', 'sw-sci-038', 'sw-sci-039', 'sw-sci-043',
-      'sw-sci-045', 'sw-sci-047', 'sw-sci-049', 'sw-sci-051', 'sw-sci-052',
-      'sci-phy-001', 'sci-bio-001', 'sci-chem-001', 'sci-astro-001', 'sci-proc-001'
+      'sw-sci-026', 'sw-sci-027', 'sw-sci-028', 'sw-sci-029', 'sw-sci-030',
+      'sw-sci-031', 'sw-sci-032', 'sw-sci-033', 'sw-sci-034', 'sw-sci-035',
+      'sw-sci-036', 'sw-sci-037', 'sw-sci-038', 'sw-sci-039', 'sw-sci-040',
+      'sw-sci-041', 'sw-sci-042', 'sw-sci-043', 'sw-sci-044', 'sw-sci-045',
+      'sw-sci-046', 'sw-sci-047', 'sw-sci-048', 'sw-sci-049', 'sw-sci-050',
+      'sw-sci-051', 'sw-sci-052', 'sw-sci-053', 'sw-sci-054', 'sw-sci-055'
     ],
     badgeColor: '#F43F5E',
   },
