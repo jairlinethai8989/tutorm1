@@ -1,6 +1,8 @@
 import { Question } from '@/types/question';
+import { CHULABHORN_MATH_QUESTIONS } from './chulabhornMath';
 
 export const MATH_QUESTIONS: Question[] = [
+  ...CHULABHORN_MATH_QUESTIONS,
   // 1. เรขาคณิต - พื้นที่สี่เหลี่ยมคางหมู (แนว มศว.)
   {
     id: 'math-geo-001',

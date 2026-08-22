@@ -4,6 +4,7 @@ import { SUANKULARB_SCIENCE_QUESTIONS } from './suankularbScience';
 import { SUKSANARI_SCIENCE_QUESTIONS } from './suksanariScience';
 import { RITTIYA_SCIENCE_QUESTIONS } from './rittiyaScience';
 import { SARAWITTAYA_SCIENCE_QUESTIONS } from './sarawittayaScience';
+import { CHULABHORN_SCIENCE_QUESTIONS } from './chulabhornScience';
 
 export const SCIENCE_QUESTIONS: Question[] = [
   ...SATRIWIT_SCIENCE_QUESTIONS,
@@ -11,6 +12,7 @@ export const SCIENCE_QUESTIONS: Question[] = [
   ...SUKSANARI_SCIENCE_QUESTIONS,
   ...RITTIYA_SCIENCE_QUESTIONS,
   ...SARAWITTAYA_SCIENCE_QUESTIONS,
+  ...CHULABHORN_SCIENCE_QUESTIONS,
 
   // 1. ฟิสิกส์ - วงจรไฟฟ้า (อนุกรม vs ขนาน) สไตล์ มศว. & จภ.
   {

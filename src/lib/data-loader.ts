@@ -13,6 +13,8 @@ import { SUANKULARB_SCIENCE_QUESTIONS } from '@/data/questions/suankularbScience
 import { SUKSANARI_SCIENCE_QUESTIONS } from '@/data/questions/suksanariScience';
 import { RITTIYA_SCIENCE_QUESTIONS } from '@/data/questions/rittiyaScience';
 import { SARAWITTAYA_SCIENCE_QUESTIONS } from '@/data/questions/sarawittayaScience';
+import { CHULABHORN_SCIENCE_QUESTIONS, CHULABHORN_SET1_SCIENCE_QUESTIONS, CHULABHORN_2562_SCIENCE_QUESTIONS } from '@/data/questions/chulabhornScience';
+import { CHULABHORN_MATH_QUESTIONS } from '@/data/questions/chulabhornMath';
 
 export const ALL_QUESTIONS: Question[] = [
   ...MATH_QUESTIONS,
@@ -50,9 +52,13 @@ export const getMockExams = (): MockExam[] => {
     } else if (exam.id === 'benchama-sci-01') {
       questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'science');
     } else if (exam.id === 'chulabhorn-combined-01') {
-      questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'math' || q.subjectId === 'science');
+      questions = [...CHULABHORN_SCIENCE_QUESTIONS, ...CHULABHORN_MATH_QUESTIONS];
     } else if (exam.id === 'chulabhorn-math-intensive') {
-      questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'math');
+      questions = CHULABHORN_MATH_QUESTIONS;
+    } else if (exam.id === 'chulabhorn-pretest-sci-62') {
+      questions = CHULABHORN_2562_SCIENCE_QUESTIONS;
+    } else if (exam.id === 'chulabhorn-sci-set1') {
+      questions = CHULABHORN_SET1_SCIENCE_QUESTIONS;
     } else if (exam.id === 'satriwit-pretest-sci-05') {
       questions = SATRIWIT_SCIENCE_QUESTIONS;
     } else if (exam.id === 'suankularb-pretest-sci-64') {

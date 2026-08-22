@@ -1,6 +1,8 @@
 import { Question } from '@/types/question';
+import { CHULABHORN_THAI_QUESTIONS } from './chulabhornThai';
 
 export const THAI_QUESTIONS: Question[] = [
+  ...CHULABHORN_THAI_QUESTIONS,
   {
     id: 'thai-gram-001',
     subjectId: 'thai',

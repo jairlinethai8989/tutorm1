@@ -479,6 +479,163 @@ export const Illustration: React.FC<IllustrationProps> = ({ type, className = ''
         </div>
       );
 
+    // ----------------------------------------------------
+    // จุฬาภรณราชวิทยาลัย (Chulabhorn)
+    // ----------------------------------------------------
+    // แบบจำลองการหายใจ
+    case 'pcsh-sci-62-002':
+      return (
+        <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-violet-100 shadow-sm ${className}`}>
+          <svg viewBox="0 0 340 220" className="w-full max-w-sm h-auto">
+            {/* Bottle Outline */}
+            <path d="M 150 20 L 190 20 L 190 45 L 240 70 L 240 180 L 100 180 L 100 70 L 150 45 Z" fill="#F8FAFC" stroke="#475569" strokeWidth="2.5" />
+            <text x="250" y="110" fill="#334155" fontSize="12" fontWeight="bold">ขวดพลาสติกตัดก้น</text>
+            <text x="250" y="125" fill="#64748B" fontSize="11">(แทนช่องอก)</text>
+
+            {/* Glass Y-Tube */}
+            <line x1="170" y1="10" x2="170" y2="70" stroke="#0284C7" strokeWidth="4" />
+            <line x1="170" y1="70" x2="140" y2="105" stroke="#0284C7" strokeWidth="3.5" />
+            <line x1="170" y1="70" x2="200" y2="105" stroke="#0284C7" strokeWidth="3.5" />
+            <text x="170" y="12" textAnchor="middle" fill="#0369A1" fontSize="11" fontWeight="bold">หลอด Y</text>
+
+            {/* Left Balloon */}
+            <ellipse cx="135" cy="120" rx="16" ry="20" fill="#F472B6" stroke="#DB2777" strokeWidth="2" />
+            {/* Right Balloon */}
+            <ellipse cx="205" cy="120" rx="16" ry="20" fill="#F472B6" stroke="#DB2777" strokeWidth="2" />
+            <text x="50" y="125" fill="#BE185D" fontSize="12" fontWeight="bold">ลูกโป่ง (แทนปอด)</text>
+
+            {/* Rubber Sheet Bottom */}
+            <line x1="95" y1="180" x2="245" y2="180" stroke="#E11D48" strokeWidth="4" />
+            <path d="M 170 180 L 170 205" stroke="#E11D48" strokeWidth="2.5" />
+            <circle cx="170" cy="207" r="4" fill="#E11D48" />
+            <text x="180" y="205" fill="#9F1239" fontSize="12" fontWeight="bold">แผ่นยาง (กะบังลม)</text>
+          </svg>
+          <span className="text-xs text-slate-600 font-semibold mt-2">แบบจำลองการหายใจเข้า-ออก ข้อที่ 2</span>
+        </div>
+      );
+
+    // วัฏจักรไนโตรเจน
+    case 'pcsh-sci-62-009':
+      return (
+        <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-emerald-100 shadow-sm ${className}`}>
+          <svg viewBox="0 0 380 230" className="w-full max-w-md h-auto">
+            {/* Atmosphere N2 */}
+            <rect x="110" y="15" width="160" height="35" rx="8" fill="#E0F2FE" stroke="#0284C7" strokeWidth="2" />
+            <text x="190" y="37" textAnchor="middle" fill="#0369A1" fontSize="13" fontWeight="bold">แก๊สไนโตรเจนในอากาศ (N2)</text>
+
+            {/* Plants & Animals */}
+            <rect x="60" y="80" width="70" height="30" rx="6" fill="#DCFCE7" stroke="#16A34A" strokeWidth="1.5" />
+            <text x="95" y="100" textAnchor="middle" fill="#15803D" fontSize="12" fontWeight="bold">พืช</text>
+
+            <rect x="150" y="80" width="70" height="30" rx="6" fill="#FEF3C7" stroke="#D97706" strokeWidth="1.5" />
+            <text x="185" y="100" textAnchor="middle" fill="#B45309" fontSize="12" fontWeight="bold">สัตว์</text>
+
+            {/* Decomposers */}
+            <rect x="250" y="80" width="110" height="30" rx="6" fill="#F1F5F9" stroke="#64748B" strokeWidth="1.5" />
+            <text x="305" y="100" textAnchor="middle" fill="#334155" fontSize="11" fontWeight="bold">ผู้ย่อยสลายอินทรีย์สาร</text>
+
+            {/* Soil Nitrogen */}
+            <rect x="60" y="165" width="260" height="40" rx="8" fill="#FEF08A" stroke="#CA8A04" strokeWidth="2" />
+            <text x="190" y="190" textAnchor="middle" fill="#854D0E" fontSize="13" fontWeight="bold">สารประกอบไนโตรเจนในดิน (NH4+, NO3-)</text>
+
+            {/* Arrow C (Rhizobium) */}
+            <path d="M 120 50 L 80 165" stroke="#10B981" strokeWidth="2.5" strokeDasharray="3,3" />
+            <rect x="20" y="95" width="35" height="25" rx="4" fill="#D1FAE5" stroke="#059669" />
+            <text x="37" y="112" textAnchor="middle" fill="#047857" fontSize="12" fontWeight="bold">ค</text>
+            <text x="15" y="140" fill="#047857" fontSize="10" fontWeight="bold">ไรโซเบียม</text>
+
+            {/* Arrow A (Denitrification) */}
+            <path d="M 300 165 L 260 50" stroke="#EF4444" strokeWidth="2" />
+            <text x="300" y="60" fill="#DC2626" fontSize="12" fontWeight="bold">ก</text>
+
+            {/* Arrow B (Ammonification) */}
+            <path d="M 305 110 L 305 165" stroke="#3B82F6" strokeWidth="2" />
+            <text x="315" y="140" fill="#1D4ED8" fontSize="12" fontWeight="bold">ข</text>
+          </svg>
+          <span className="text-xs text-slate-600 font-semibold mt-2">วัฏจักรไนโตรเจน (Nitrogen Cycle) ข้อที่ 9</span>
+        </div>
+      );
+
+    // สามเหลี่ยมบนตารางกริด
+    case 'pcsh-math-007':
+      return (
+        <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm ${className}`}>
+          <svg viewBox="0 0 280 230" className="w-full max-w-xs h-auto">
+            {/* Grid 10x8 */}
+            <defs>
+              <pattern id="mathGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" strokeWidth="1" />
+              </pattern>
+            </defs>
+            <rect x="20" y="20" width="200" height="160" fill="url(#mathGrid)" stroke="#94A3B8" strokeWidth="1.5" />
+            {/* Bounding box 6x6 */}
+            <rect x="40" y="40" width="120" height="120" fill="none" stroke="#3B82F6" strokeWidth="1.5" strokeDasharray="3,3" />
+            {/* Shaded Triangle */}
+            <polygon points="100,40 40,140 160,160" fill="#6366F1" fillOpacity="0.3" stroke="#4F46E5" strokeWidth="2.5" />
+            <text x="120" y="195" textAnchor="middle" fill="#64748B" fontSize="11">ตารางขนาดช่องละ 1x1 หน่วย</text>
+          </svg>
+          <span className="text-xs text-slate-600 font-semibold mt-2">พื้นที่รูปสามเหลี่ยมบนตารางกริด ข้อที่ 7</span>
+        </div>
+      );
+
+    // เรขาคณิตวงกลมและสามเหลี่ยมหน้าจั่ว
+    case 'pcsh-math-008':
+      return (
+        <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm ${className}`}>
+          <svg viewBox="0 0 320 240" className="w-full max-w-sm h-auto">
+            {/* Circle O */}
+            <circle cx="120" cy="120" r="70" fill="#F8FAFC" stroke="#334155" strokeWidth="2" />
+            <circle cx="120" cy="120" r="3" fill="#0F172A" />
+            <text x="110" y="125" fill="#0F172A" fontSize="12" fontWeight="bold">O</text>
+
+            {/* Radius OP */}
+            <line x1="120" y1="120" x2="120" y2="50" stroke="#0284C7" strokeWidth="2" />
+            <text x="115" y="45" fill="#0284C7" fontSize="12" fontWeight="bold">P</text>
+
+            {/* Line OAC */}
+            <line x1="120" y1="120" x2="230" y2="175" stroke="#334155" strokeWidth="2" />
+            <text x="180" y="145" fill="#334155" fontSize="12" fontWeight="bold">A</text>
+            <text x="235" y="185" fill="#334155" fontSize="12" fontWeight="bold">C</text>
+
+            {/* Parallel QA // PO */}
+            <line x1="175" y1="30" x2="175" y2="210" stroke="#DC2626" strokeWidth="2" />
+            <text x="170" y="25" fill="#DC2626" fontSize="12" fontWeight="bold">Q</text>
+            <text x="165" y="225" fill="#DC2626" fontSize="12" fontWeight="bold">B</text>
+
+            {/* Triangle ABC */}
+            <polygon points="175,147 175,210 230,175" fill="#FEF3C7" fillOpacity="0.4" stroke="#D97706" strokeWidth="1.5" />
+            <line x1="175" y1="147" x2="208" y2="188" stroke="#16A34A" strokeWidth="1.5" strokeDasharray="3,3" />
+            <text x="215" y="200" fill="#16A34A" fontSize="11" fontWeight="bold">D</text>
+          </svg>
+          <span className="text-xs text-slate-600 font-semibold mt-2">แผนภาพมุมวงกลมและสามเหลี่ยมหน้าจั่ว ข้อที่ 8</span>
+        </div>
+      );
+
+    // สี่เหลี่ยมมุมฉาก AEFG และ ABCD
+    case 'pcsh-math-009':
+      return (
+        <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm ${className}`}>
+          <svg viewBox="0 0 280 200" className="w-full max-w-xs h-auto">
+            {/* Square ABCD */}
+            <rect x="100" y="30" width="100" height="100" fill="#E0F2FE" stroke="#0284C7" strokeWidth="2" />
+            <text x="90" y="25" fill="#0369A1" fontSize="12" fontWeight="bold">C</text>
+            <text x="205" y="25" fill="#0369A1" fontSize="12" fontWeight="bold">B</text>
+            <text x="205" y="145" fill="#0369A1" fontSize="12" fontWeight="bold">A</text>
+            <text x="90" y="145" fill="#0369A1" fontSize="12" fontWeight="bold">D</text>
+
+            {/* Point E */}
+            <circle cx="200" cy="80" r="3" fill="#DC2626" />
+            <text x="210" y="85" fill="#DC2626" fontSize="12" fontWeight="bold">E</text>
+
+            {/* Rect AEFG */}
+            <rect x="40" y="80" width="160" height="50" fill="none" stroke="#DC2626" strokeWidth="2" strokeDasharray="4,3" />
+            <text x="30" y="75" fill="#DC2626" fontSize="12" fontWeight="bold">F</text>
+            <text x="30" y="145" fill="#DC2626" fontSize="12" fontWeight="bold">G</text>
+          </svg>
+          <span className="text-xs text-slate-600 font-semibold mt-2">รูปสี่เหลี่ยม ABCD และ AEFG ข้อที่ 9</span>
+        </div>
+      );
+
     default:
       return null;
   }
