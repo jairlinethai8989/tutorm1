@@ -72,10 +72,8 @@ export const Navbar: React.FC = () => {
           </nav>
 
           {/* User Streak, Readiness & Notice Widget */}
-          <div className="flex items-center space-x-2.5">
-            <div className="hidden sm:block">
-              <UserNoticeModal triggerButton={true} />
-            </div>
+          <div className="flex items-center space-x-2">
+            <UserNoticeModal triggerButton={true} />
 
             {/* Streak */}
             <div className="flex items-center space-x-1 bg-orange-50 border border-orange-200/80 px-2.5 py-1 rounded-full text-orange-600 text-xs font-bold shadow-2xs">

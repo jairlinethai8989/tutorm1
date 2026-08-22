@@ -156,3 +156,34 @@ export const getUserStats = (): UserOverallStats => {
     return calculateOverallStats([]);
   }
 };
+
+export const getUserProfileName = (): string => {
+  if (typeof window === 'undefined') return 'ผู้เรียน';
+  try {
+    return localStorage.getItem('tutor_m1_user_name') || 'ผู้เรียน';
+  } catch {
+    return 'ผู้เรียน';
+  }
+};
+
+export const saveUserProfileName = (name: string): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem('tutor_m1_user_name', name.trim() || 'ผู้เรียน');
+  } catch (e) {
+    console.error('Error saving user profile name', e);
+  }
+};
+
+export const clearAllUserData = (): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.removeItem(STORAGE_KEYS.ATTEMPTS);
+    localStorage.removeItem(STORAGE_KEYS.BOOKMARKS);
+    localStorage.removeItem(STORAGE_KEYS.USER_STATS);
+    localStorage.removeItem('tutor_m1_practice_attempts');
+    localStorage.removeItem('tutor_m1_user_name');
+  } catch (e) {
+    console.error('Error clearing user data', e);
+  }
+};
