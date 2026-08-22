@@ -1,8 +1,16 @@
 import { Question } from '@/types/question';
 import { SATRIWIT_SCIENCE_QUESTIONS } from './satriwitScience';
+import { SUANKULARB_SCIENCE_QUESTIONS } from './suankularbScience';
+import { SUKSANARI_SCIENCE_QUESTIONS } from './suksanariScience';
+import { RITTIYA_SCIENCE_QUESTIONS } from './rittiyaScience';
+import { SARAWITTAYA_SCIENCE_QUESTIONS } from './sarawittayaScience';
 
 export const SCIENCE_QUESTIONS: Question[] = [
   ...SATRIWIT_SCIENCE_QUESTIONS,
+  ...SUANKULARB_SCIENCE_QUESTIONS,
+  ...SUKSANARI_SCIENCE_QUESTIONS,
+  ...RITTIYA_SCIENCE_QUESTIONS,
+  ...SARAWITTAYA_SCIENCE_QUESTIONS,
 
   // 1. ฟิสิกส์ - วงจรไฟฟ้า (อนุกรม vs ขนาน) สไตล์ มศว. & จภ.
   {

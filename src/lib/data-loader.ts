@@ -9,6 +9,10 @@ import { THAI_QUESTIONS } from '@/data/questions/thai';
 import { SOCIAL_QUESTIONS } from '@/data/questions/social';
 
 import { SATRIWIT_SCIENCE_QUESTIONS } from '@/data/questions/satriwitScience';
+import { SUANKULARB_SCIENCE_QUESTIONS } from '@/data/questions/suankularbScience';
+import { SUKSANARI_SCIENCE_QUESTIONS } from '@/data/questions/suksanariScience';
+import { RITTIYA_SCIENCE_QUESTIONS } from '@/data/questions/rittiyaScience';
+import { SARAWITTAYA_SCIENCE_QUESTIONS } from '@/data/questions/sarawittayaScience';
 
 export const ALL_QUESTIONS: Question[] = [
   ...MATH_QUESTIONS,
@@ -51,6 +55,14 @@ export const getMockExams = (): MockExam[] => {
       questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'math');
     } else if (exam.id === 'satriwit-pretest-sci-05') {
       questions = SATRIWIT_SCIENCE_QUESTIONS;
+    } else if (exam.id === 'suankularb-pretest-sci-64') {
+      questions = SUANKULARB_SCIENCE_QUESTIONS;
+    } else if (exam.id === 'suksanari-pretest-sci-63') {
+      questions = SUKSANARI_SCIENCE_QUESTIONS;
+    } else if (exam.id === 'rittiya-pre-sci-64') {
+      questions = RITTIYA_SCIENCE_QUESTIONS;
+    } else if (exam.id === 'sarawittaya-pretest-sci-63') {
+      questions = SARAWITTAYA_SCIENCE_QUESTIONS;
     } else {
       questions = ALL_QUESTIONS.slice(0, 10);
     }
