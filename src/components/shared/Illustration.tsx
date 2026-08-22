@@ -147,6 +147,100 @@ export const Illustration: React.FC<IllustrationProps> = ({ type, className = ''
         </div>
       );
 
+    case 'free-fall':
+    case 'sw-sci-026':
+      return (
+        <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-blue-100 shadow-sm ${className}`}>
+          <svg viewBox="0 0 320 200" className="w-full max-w-sm h-auto">
+            {/* Top platform */}
+            <rect x="20" y="20" width="280" height="15" fill="#CBD5E1" stroke="#64748B" strokeWidth="1.5" rx="3" />
+            <text x="160" y="12" textAnchor="middle" fill="#475569" fontSize="12" fontWeight="bold">ความสูง h เท่ากัน (ปล่อยพร้อมกัน u=0)</text>
+
+            {/* Object A */}
+            <circle cx="90" cy="55" r="22" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="2" />
+            <text x="90" y="60" textAnchor="middle" fill="#FFFFFF" fontSize="13" fontWeight="bold">A (2m)</text>
+            <path d="M 90 85 L 90 145" stroke="#EF4444" strokeWidth="2.5" strokeDasharray="4,4" />
+            <polygon points="85,145 90,155 95,145" fill="#EF4444" />
+            <text x="50" y="120" fill="#DC2626" fontSize="12" fontWeight="bold">a = g</text>
+
+            {/* Object B */}
+            <circle cx="230" cy="55" r="14" fill="#10B981" stroke="#047857" strokeWidth="2" />
+            <text x="230" y="60" textAnchor="middle" fill="#FFFFFF" fontSize="12" fontWeight="bold">B (m)</text>
+            <path d="M 230 75 L 230 145" stroke="#EF4444" strokeWidth="2.5" strokeDasharray="4,4" />
+            <polygon points="225,145 230,155 235,145" fill="#EF4444" />
+            <text x="245" y="120" fill="#DC2626" fontSize="12" fontWeight="bold">a = g</text>
+
+            {/* Ground */}
+            <line x1="20" y1="170" x2="300" y2="170" stroke="#334155" strokeWidth="3" />
+            <text x="160" y="190" textAnchor="middle" fill="#1E293B" fontSize="12" fontWeight="bold">ความเร็วขณะกระทบพื้น v_A = v_B = √(2gh)</text>
+          </svg>
+          <span className="text-xs text-slate-500 mt-2">ภาพประกอบ: การตกอิสระในสุญญากาศ ความเร่ง g เท่ากัน</span>
+        </div>
+      );
+
+    case 'friction-stacked':
+    case 'sw-sci-029':
+      return (
+        <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-indigo-100 shadow-sm ${className}`}>
+          <svg viewBox="0 0 340 180" className="w-full max-w-sm h-auto">
+            {/* Block A */}
+            <rect x="110" y="30" width="100" height="40" fill="#60A5FA" stroke="#2563EB" strokeWidth="2" rx="4" />
+            <text x="160" y="55" textAnchor="middle" fill="#FFFFFF" fontSize="14" fontWeight="bold">วัตถุ A</text>
+
+            {/* Friction on A */}
+            <path d="M 160 20 L 210 20" stroke="#059669" strokeWidth="2.5" markerEnd="url(#arrow)" />
+            <polygon points="210,16 220,20 210,24" fill="#059669" />
+            <text x="160" y="14" fill="#059669" fontSize="11" fontWeight="bold">f_A (ไปทางขวา)</text>
+
+            {/* Block B */}
+            <rect x="70" y="75" width="180" height="45" fill="#FBBF24" stroke="#D97706" strokeWidth="2" rx="4" />
+            <text x="160" y="103" textAnchor="middle" fill="#78350F" fontSize="14" fontWeight="bold">วัตถุ B</text>
+
+            {/* Pull Force F */}
+            <path d="M 255 97 L 310 97" stroke="#DC2626" strokeWidth="3" />
+            <polygon points="310,92 322,97 310,102" fill="#DC2626" />
+            <text x="280" y="90" fill="#DC2626" fontSize="13" fontWeight="bold">แรง F</text>
+
+            {/* Friction on B bottom */}
+            <path d="M 130 130 L 70 130" stroke="#059669" strokeWidth="2.5" />
+            <polygon points="70,126 60,130 70,134" fill="#059669" />
+            <text x="80" y="145" fill="#059669" fontSize="11" fontWeight="bold">f_พื้น (ต้านไปทางซ้าย)</text>
+
+            {/* Ground */}
+            <line x1="20" y1="125" x2="320" y2="125" stroke="#475569" strokeWidth="2.5" strokeDasharray="6,4" />
+          </svg>
+          <span className="text-xs text-slate-500 mt-2">ภาพประกอบ: แรงเสียดทานระหว่างวัตถุที่วางซ้อนกัน</span>
+        </div>
+      );
+
+    case 'sound-glasses':
+    case 'sw-sci-030':
+      return (
+        <div className={`flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-teal-100 shadow-sm ${className}`}>
+          <svg viewBox="0 0 340 180" className="w-full max-w-sm h-auto">
+            {/* Glass A */}
+            <rect x="30" y="40" width="60" height="90" fill="#F1F5F9" stroke="#475569" strokeWidth="2" rx="3" />
+            <rect x="32" y="85" width="56" height="43" fill="#93C5FD" opacity="0.8" />
+            <text x="60" y="145" textAnchor="middle" fill="#1E293B" fontSize="12" fontWeight="bold">แก้ว A (น้ำ 1/2)</text>
+            <text x="60" y="160" textAnchor="middle" fill="#2563EB" fontSize="11">เสียงกลาง</text>
+
+            {/* Glass B */}
+            <rect x="140" y="40" width="60" height="90" fill="#F1F5F9" stroke="#475569" strokeWidth="2" rx="3" />
+            <rect x="142" y="85" width="56" height="43" fill="#93C5FD" opacity="0.8" />
+            <rect x="150" y="123" width="40" height="8" fill="#78350F" rx="2" />
+            <text x="170" y="145" textAnchor="middle" fill="#1E293B" fontSize="12" fontWeight="bold">แก้ว B (+ดินน้ำมัน)</text>
+            <text x="170" y="160" textAnchor="middle" fill="#DC2626" fontSize="11">เสียงต่ำสุด (มวลมาก)</text>
+
+            {/* Glass C */}
+            <rect x="250" y="40" width="60" height="90" fill="#F1F5F9" stroke="#475569" strokeWidth="2" rx="3" />
+            <rect x="252" y="108" width="56" height="20" fill="#93C5FD" opacity="0.8" />
+            <text x="280" y="145" textAnchor="middle" fill="#1E293B" fontSize="12" fontWeight="bold">แก้ว C (น้ำ 1/4)</text>
+            <text x="280" y="160" textAnchor="middle" fill="#059669" fontSize="11">เสียงสูงสุด (มวลน้อย)</text>
+          </svg>
+          <span className="text-xs text-slate-500 mt-2">ภาพประกอบ: การเคาะแก้วน้ำ เรียงความถี่ C &gt; A &gt; B</span>
+        </div>
+      );
+
     default:
       return null;
   }

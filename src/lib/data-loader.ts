@@ -47,6 +47,8 @@ export const getMockExams = (): MockExam[] => {
       questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'math' || q.subjectId === 'science');
     } else if (exam.id === 'chulabhorn-math-intensive') {
       questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'math');
+    } else if (exam.id === 'satriwit-pretest-sci-05') {
+      questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'science');
     } else {
       questions = ALL_QUESTIONS.slice(0, 10);
     }

@@ -3,8 +3,8 @@ import { Question } from './question';
 export interface MockExam {
   id: string;
   name: string;
-  targetSchool: 'เบ็ญจะมะมหาราช' | 'จุฬาภรณราชวิทยาลัย' | 'ทั่วไป';
-  targetSchoolEn: 'benchama' | 'chulabhorn' | 'general';
+  targetSchool: 'เบ็ญจะมะมหาราช' | 'จุฬาภรณราชวิทยาลัย' | 'สตรีวิทยา' | 'ทั่วไป' | string;
+  targetSchoolEn: 'benchama' | 'chulabhorn' | 'satriwit' | 'general' | string;
   subjectId: string;
   subjectName: string;
   totalQuestions: number;

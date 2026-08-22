@@ -1,6 +1,9 @@
 import { Question } from '@/types/question';
+import { SATRIWIT_SCIENCE_QUESTIONS } from './satriwitScience';
 
 export const SCIENCE_QUESTIONS: Question[] = [
+  ...SATRIWIT_SCIENCE_QUESTIONS,
+
   // 1. ฟิสิกส์ - วงจรไฟฟ้า (อนุกรม vs ขนาน) สไตล์ มศว. & จภ.
   {
     id: 'sci-phy-001',
