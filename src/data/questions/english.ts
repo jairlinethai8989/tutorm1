@@ -23,19 +23,19 @@ export const ENGLISH_QUESTIONS: Question[] = [
       { id: 'c4', label: 'D', content: 'were', isCorrect: false },
     ],
     solution: {
-      summary: 'The correct answer is "was" because "Neither of + plural noun" takes a singular verb in standard formal grammar, and "yesterday" indicates past tense.',
-      trickTip: '💡 Rule: "Neither of / Either of / Each of / One of + Plural Noun" -> ALWAYS takes a SINGULAR VERB! + "yesterday" = Past tense (was).',
-      commonMistake: '⚠️ Students often see "boys" and incorrectly choose "were". Look at "Neither" as the subject pronoun!',
+      summary: 'คำตอบที่ถูกต้องคือ "was" เพราะประธานขึ้นต้นด้วย "Neither of + นามพหูพจน์" ถือเป็นเอกพจน์ตามหลักไวยากรณ์มาตรฐาน และมีคำว่า "yesterday" บ่งบอกเวลาในอดีต (Past Tense)',
+      trickTip: '💡 กฎเหล็ก: "Neither of / Either of / Each of / One of + Plural Noun" ➔ ใช้คำกริยาเอกพจน์เสมอ! + "yesterday" = อดีต (was)',
+      commonMistake: '⚠️ ข้อควรระวัง: นักเรียนมักเห็นคำว่า "boys" มี s แล้วเผลอเลือก "were" ต้องดูที่ "Neither" ซึ่งเป็นสรรพนามเอกพจน์',
       steps: [
         {
           stepNumber: 1,
-          title: 'Identify Subject-Verb Agreement',
-          content: 'The subject phrase "Neither of the boys" has "Neither" as the core indefinite pronoun, which is singular.',
+          title: 'แปลความหมายประโยค',
+          content: 'แปล: "ไม่มีเด็กผู้ชายคนใดในสองคนนั้นที่สามารถแก้โจทย์คณิตศาสตร์เมื่อวานนี้ได้เลย"',
         },
         {
           stepNumber: 2,
-          title: 'Check the Time Marker (Tense)',
-          content: 'The word "yesterday" requires a past tense verb. The singular past form of verb to be is **was**.',
+          title: 'วิเคราะห์ประธานและกาล (Tense)',
+          content: 'ประธาน "Neither of the boys" มีแกนหลักคือ Neither (เอกพจน์) และคำว่า "yesterday" กำหนดให้ใช้ Past Tense รูปอดีตเอกพจน์ของ Verb to be จึงเป็น **was**',
         },
       ],
     },
@@ -60,18 +60,19 @@ export const ENGLISH_QUESTIONS: Question[] = [
       { id: 'c4', label: 'D', content: 'To keep themselves warm during winter', isCorrect: false },
     ],
     solution: {
-      summary: 'The waggle dance is used to communicate the direction and distance of flower fields (food sources) to fellow bees.',
-      trickTip: '💡 Key phrases in passage: "communicate the precise direction and distance of newly discovered flower fields"',
+      summary: 'การเต้นส่ายตัว (Waggle dance) ของผึ้งมีจุดประสงค์หลักเพื่อสื่อสารบอกทิศทางและระยะทางของทุ่งดอกไม้ (แหล่งอาหาร) ให้ผึ้งตัวอื่นทราบ',
+      trickTip: '💡 วลีสำคัญในบทความ: "communicate the precise direction and distance of newly discovered flower fields" (สื่อสารทิศทางและระยะทางของแหล่งดอกไม้)',
+      commonMistake: '📚 คำศัพท์สำคัญ: waggle dance = การเต้นส่ายตัวสื่อสาร, precise = แม่นยำ, navigation = การนำทาง',
       steps: [
         {
           stepNumber: 1,
-          title: 'Scan for the keyword "waggle dance"',
-          content: 'The text directly states: "...they communicate the precise direction and distance of newly discovered flower fields to other bees."',
+          title: 'แปลเนื้อหาบทอ่าน',
+          content: 'แปล: "ผึ้งงานจะเต้นส่ายตัว (waggle dance) อันเป็นเอกลักษณ์ภายในรัง โดยการส่ายลำตัวตามองศาและจังหวะเฉพาะ เพื่อสื่อสารบอกทิศทางและระยะทางที่แม่นยำของทุ่งดอกไม้ที่เพิ่งค้นพบใหม่ให้ผึ้งตัวอื่นรับรู้"',
         },
         {
           stepNumber: 2,
-          title: 'Match with the correct option',
-          content: 'Flower fields are where bees get nectar/food, hence option B is the most accurate summary.',
+          title: 'จับคู่ใจความสำคัญกับตัวเลือก',
+          content: 'ทุ่งดอกไม้ (flower fields) คือแหล่งอาหารของผึ้ง ดังนั้นตัวเลือก B (To share navigation information about food locations - เพื่อแชร์ข้อมูลการนำทางไปยังแหล่งอาหาร) จึงถูกต้องและตรงกับเนื้อเรื่องที่สุด',
         },
       ],
     },

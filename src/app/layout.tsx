@@ -19,9 +19,11 @@ const sarabun = Sarabun({
   display: 'swap',
 });
 
+import { APP_CONFIG } from '@/lib/constants/app';
+
 export const metadata: Metadata = {
-  title: 'ระบบติวสอบเข้า ม.1 — ห้องพิเศษ โรงเรียนชั้นนำของไทย',
-  description: 'ระบบติวและคลังข้อสอบออนไลน์สอบเข้า ม.1 โรงเรียนชั้นนำ ทั้งปรนัยและอัตนัย พร้อมเฉลยละเอียดแบบ Step-by-Step และระบบจำลองสอบเสมือนจริง',
+  title: APP_CONFIG.titleFull,
+  description: APP_CONFIG.description,
 };
 
 export default function RootLayout({

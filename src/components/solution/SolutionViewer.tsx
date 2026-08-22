@@ -78,6 +78,12 @@ export const SolutionViewer: React.FC<SolutionViewerProps> = ({ question }) => {
         trickTip={question.solution.trickTip}
         commonMistake={question.solution.commonMistake}
       />
+
+      {/* Academic Verification Note */}
+      <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+        <span>💡 คำชี้แจง: เฉลยละเอียดจัดทำขึ้นตามแนวทางหลักสูตรแกนกลาง สพฐ. เพื่อการฝึกคิดวิเคราะห์</span>
+        <span className="hidden sm:inline">Tutor M.1 Quality Checked ✓</span>
+      </div>
     </div>
   );
 };

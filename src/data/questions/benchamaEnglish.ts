@@ -3,7 +3,7 @@ import { Question } from '@/types/question';
 /**
  * คลังข้อสอบภาษาอังกฤษ 100 ข้อ (มศว./เบ็ญจะมะมหาราช)
  * คลังข้อสอบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ รร.เบ็ญจะมะมหาราช (แนว มศว.ประสานมิตร)
- * จำนวน 100 ข้อ ครบทุกหมวดเนื้อหา
+ * จำนวน 100 ข้อ ครบทุกหมวดเนื้อหา พร้อมเฉลยละเอียดภาษาไทย
  */
 
 export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
@@ -52,13 +52,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ประธานตามหลัง nor คือ his friends (พหูพจน์) กริยาจึงใช้ are",
-      "trickTip": "💡 Neither...nor... ดูประธานตัวหลัง",
+      "summary": "คำตอบที่ถูกต้องคือ 'are' เพราะโครงสร้าง Neither...nor... กริยาต้องผันตามประธานตัวหลัง คือ his friends ซึ่งเป็นพหูพจน์ และมี tonight บ่งบอกเหตุการณ์ในปัจจุบัน/อนาคต",
+      "trickTip": "💡 Neither...nor... ดูประธานตัวหลังสุดเสมอ",
+      "commonMistake": "⚠️ ระวังเห็น John ข้างหน้าแล้วเผลอใช้ is หรือระวังจำสลับ tense",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "ประธานตามหลัง nor คือ his friends (พหูพจน์) กริยาจึงใช้ are"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ทั้งจอห์นและเพื่อนๆ ของเขาไม่ได้กำลังจะไปดูหนังในคืนนี้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "โครงสร้าง 'Neither A nor B + Verb' กริยาต้องผันตาม B (ประธานตัวหลัง) ในที่นี้ B คือ his friends (พหูพจน์) กริยาช่วยจึงต้องเป็น 'are'"
         }
       ]
     }
@@ -108,13 +114,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "First Conditional (If + Present Simple, will + V1)",
-      "trickTip": "💡 If Present Simple -> will + V1",
+      "summary": "คำตอบที่ถูกต้องคือ 'will cancel' เพราะเป็นประโยคเงื่อนไขแบบที่ 1 (First Conditional) ที่มีโอกาสเกิดขึ้นจริงในอนาคต: If + Present Simple, will + V.1",
+      "trickTip": "💡 If + Present Simple คู่กับ will + V.1 เสมอ",
+      "commonMistake": "⚠️ อย่าใช้ cancel ซ้ำ หรือเผลอใช้ would cancel ซึ่งเป็นเงื่อนไขสมมุติแบบที่ 2",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "First Conditional (If + Present Simple, will + V1)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ถ้าพรุ่งนี้ฝนตก พวกเราจะยกเลิกการแข่งขันฟุตบอล'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "First Conditional ใช้กับเหตุการณ์ที่เป็นไปได้ในอนาคต: ประโยคหน้า 'If it rains (V.1)' ประโยคหลังต้องใช้ 'will + V.infinitive' คือ 'will cancel'"
         }
       ]
     }
@@ -164,13 +176,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Passive Voice ในอดีต: was/were + V3",
-      "trickTip": "💡 Past Passive = was/were + V3",
+      "summary": "คำตอบที่ถูกต้องคือ 'was written' เพราะประธานคือนวนิยาย (The novel) ซึ่งถูกเขียนขึ้นโดย Mark Twain ในปี 1884 (อดีต) จึงต้องใช้รูปประธานถูกกระทำ (Past Passive Voice: was/were + V.3)",
+      "trickTip": "💡 ประธานเป็นสิ่งของที่ทำกริยาเองไม่ได้ ต้องใช้ Passive Voice (was/were + V.3)",
+      "commonMistake": "⚠️ ระวังเลือก wrote ซึ่งแปลว่านวนิยายเป็นผู้ลงมือเขียนเอง",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Passive Voice ในอดีต: was/were + V3"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'นวนิยายเล่มนี้ถูกเขียนขึ้นโดย มาร์ก ทเวน ในปี ค.ศ. 1884'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "โครงสร้าง Passive Voice ในอดีต: Subject + was/were + V.3 ประธานเป็นเอกพจน์ (The novel) และมีระบุเวลาในอดีต (in 1884) จึงใช้ 'was written'"
         }
       ]
     }
@@ -220,13 +238,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "for ใช้กับช่วงระยะเวลา (period of time)",
-      "trickTip": "💡 for + ช่วงเวลา / since + จุดเริ่มต้น",
+      "summary": "คำตอบที่ถูกต้องคือ 'for' เพราะ five years เป็นช่วงระยะเวลา (Period of time) ในโครงสร้าง Present Perfect Tense",
+      "trickTip": "💡 for + จำนวนเวลา / since + จุดเริ่มต้นเวลา",
+      "commonMistake": "⚠️ ระวังใช้ since นำหน้า five years ซึ่งผิดหลักไวยากรณ์",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "for ใช้กับช่วงระยะเวลา (period of time)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ซาร่าห์อาศัยอยู่ในลอนดอนมาเป็นเวลา 5 ปีแล้ว'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "การบอกเวลาใน Present Perfect: 'for + ช่วงระยะเวลา' (เช่น for 5 years, for two months) ส่วน 'since + จุดเริ่มต้นของเวลา' (เช่น since 2018, since Monday)"
         }
       ]
     }
@@ -276,13 +300,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "who ใช้แทนบุคคลทำหน้าที่เป็นประธานของ relative clause",
-      "trickTip": "💡 คน + who + กริยา",
+      "summary": "คำตอบที่ถูกต้องคือ 'who' เพราะใช้เชื่อมขยายคำนามที่เป็นบุคคล (The boy) และทำหน้าที่เป็นประธานของกริยา won",
+      "trickTip": "💡 คน + who + คำกริยา",
+      "commonMistake": "⚠️ ระวังใช้ which กับคน หรือใช้ whose เมื่อไม่มีคำนามตามหลัง",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "who ใช้แทนบุคคลทำหน้าที่เป็นประธานของ relative clause"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เด็กผู้ชายคนที่ชนะการแข่งขันวิทยาศาสตร์คือลูกพี่ลูกน้องของฉัน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Relative Pronoun: ใช้ 'who' แทนคนเมื่อทำหน้าที่เป็นประธาน (คน + who + กริยา), ใช้ 'which' แทนสิ่งของ/สัตว์, ใช้ 'whom' แทนคนที่เป็นกรรม, และ 'whose' แสดงความเป็นเจ้าของ"
         }
       ]
     }
@@ -332,13 +362,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เหตุการณ์ที่เกิดและจบลงก่อนอีกเหตุการณ์ในอดีตใช้ Past Perfect (had + V3)",
-      "trickTip": "💡 By the time + Past Simple, Past Perfect",
+      "summary": "คำตอบที่ถูกต้องคือ 'had left' เพราะเป็นเหตุการณ์ที่เกิดขึ้นและสิ้นสุดลงก่อนอีกเหตุการณ์หนึ่งในอดีต จึงต้องใช้ Past Perfect (had + V.3)",
+      "trickTip": "💡 By the time + อดีต, เหตุการณ์ที่เกิดก่อนใช้ had + V.3",
+      "commonMistake": "⚠️ ระวังใช้ left (Past Simple) ทั้งคู่ ซึ่งไม่แสดงลำดับก่อนหลังที่ชัดเจน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "เหตุการณ์ที่เกิดและจบลงก่อนอีกเหตุการณ์ในอดีตใช้ Past Perfect (had + V3)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เมื่อตอนที่เราไปถึงสถานีรถไฟ รถไฟก็ได้ออกไปเรียบร้อยแล้ว'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "โครงสร้าง By the time + Past Simple (arrived), ประโยคหลักใช้ Past Perfect (had + V.3) เพื่อเน้นย้ำว่ารถไฟออกไปก่อนที่พวกเราจะไปถึง"
         }
       ]
     }
@@ -388,13 +424,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "interested in = สนใจใน...",
-      "trickTip": "💡 interested + in",
+      "summary": "คำตอบที่ถูกต้องคือ 'in' เพราะคำคุณศัพท์ interested ต้องใช้คู่กับบุพบท 'in' เสมอ (interested in + Noun/V-ing)",
+      "trickTip": "💡 interested in / good at / excited about",
+      "commonMistake": "⚠️ อย่าเผลอใช้ interested about หรือ interested on ตามความเคยชินภาษาไทย",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "interested in = สนใจใน..."
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เธอมีความสนใจในการเรียนรู้ภาษาใหม่ๆ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Prepositional Phrase: 'interested in' เป็นสำนวนเฉพาะที่ต้องจำ แปลว่า 'สนใจใน...'"
         }
       ]
     }
@@ -444,13 +486,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Everyone เป็น Indefinite Pronoun เอกพจน์ กริยาใช้ is",
-      "trickTip": "💡 Everyone/Everybody ถือเป็นเอกพจน์",
+      "summary": "คำตอบที่ถูกต้องคือ 'is' เพราะสรรพนามไม่ชี้เฉพาะ Everyone ถือเป็นคำนามเอกพจน์เสมอ จึงต้องใช้กริยาเอกพจน์ 'is'",
+      "trickTip": "💡 Every- / Some- / Any- / No- + one/body = ประธานเอกพจน์",
+      "commonMistake": "⚠️ หลายคนเข้าใจผิดว่า Everyone แปลว่าทุกคนจึงเป็นพหูพจน์และเผลอใช้ are",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Everyone เป็น Indefinite Pronoun เอกพจน์ กริยาใช้ is"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ทุกคนในห้องเรียนกำลังตั้งใจฟังครูอย่างจดจ่อ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Indefinite Pronouns เช่น Everyone, Everybody, Someone, Somebody, Anyone, Nobody ถือเป็นประธานรูปเอกพจน์ ต้องใช้กริยาเอกพจน์ (is/was/V-s,es)"
         }
       ]
     }
@@ -500,13 +548,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Second Conditional (If + Past Simple, would + V1)",
-      "trickTip": "💡 If + Past Simple -> would + V1",
+      "summary": "คำตอบที่ถูกต้องคือ 'had' เพราะเป็นประโยคเงื่อนไขแบบที่ 2 (Second Conditional) แสดงเรื่องสมมุติที่ไม่เป็นจริงในปัจจุบัน: If + Past Simple (had), would + V.1",
+      "trickTip": "💡 If + V.2 (Past Simple) คู่กับ would + V.1",
+      "commonMistake": "⚠️ ห้ามใช้ would have ในประโยคส่วน If-clause เด็ดขาด",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Second Conditional (If + Past Simple, would + V1)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ถ้าฉันมีเงินหนึ่งล้านดอลลาร์ ฉันจะเดินทางท่องเที่ยวไปรอบโลก'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Second Conditional: โครงสร้าง If + Subject + V.2, Subject + would + V.infinitive ใช้สมมุติตรงข้ามกับความจริงในปัจจุบัน"
         }
       ]
     }
@@ -556,13 +610,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "enjoy ตามด้วย Gerund (V-ing)",
-      "trickTip": "💡 enjoy + V-ing",
+      "summary": "คำตอบที่ถูกต้องคือ 'reading' เพราะคำกริยา enjoy ต้องตามหลังด้วย Gerund (V-ing) เสมอ",
+      "trickTip": "💡 enjoy + V-ing เสมอ (ไม่ใช้ to read)",
+      "commonMistake": "⚠️ ระวังเผลอใช้ to read ตามความเคยชินแบบกริยา like/love",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "enjoy ตามด้วย Gerund (V-ing)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'คุณพ่อของฉันชอบอ่านหนังสือในเวลาว่าง'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "กริยาที่ต้องตามด้วย Gerund (V-ing) เสมอ ได้แก่ enjoy, avoid, keep, finish, mind, practice, suggest"
         }
       ]
     }
@@ -612,13 +672,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "salt เป็นคำนามนับไม่ได้ ใช้ a little",
+      "summary": "คำตอบที่ถูกต้องคือ 'little' เพราะ salt (เกลือ) เป็นคำนามนับไม่ได้ จึงต้องใช้ปริมาณ a little",
       "trickTip": "💡 a little + นามนับไม่ได้ / a few + นามนับได้",
+      "commonMistake": "⚠️ ห้ามใช้ a few กับ salt เพราะเกลือเป็นนามนับไม่ได้",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "salt เป็นคำนามนับไม่ได้ ใช้ a little"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ซุปนี้รสชาติอร่อยแล้ว แต่ต้องการเกลือเพิ่มอีกเล็กน้อย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "คำบอกปริมาณ: 'a little' ใช้กับคำนามนับไม่ได้ (เช่น water, sugar, salt), ส่วน 'a few' ใช้กับคำนามนับได้พหูพจน์ (เช่น books, pens)"
         }
       ]
     }
@@ -668,13 +734,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "so + adjective + that = มากเสียจนกระทั่ง...",
-      "trickTip": "💡 so + Adj + that",
+      "summary": "คำตอบที่ถูกต้องคือ 'so' เพราะโครงสร้างคือ 'so + adjective + that' แปลว่า '...มากเสียจนกระทั่ง...'",
+      "trickTip": "💡 so + Adj + that / such + (a/an) + Adj + Noun + that",
+      "commonMistake": "⚠️ ระวังใช้ too เพราะ too ต้องคู่กับ to + V.inf (too expensive to buy)",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "so + adjective + that = มากเสียจนกระทั่ง..."
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'รถยนต์คันนั้นมีราคาแพงมากเสียจนกระทั่งเขาไม่สามารถซื้อได้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "ไวยากรณ์: 'so + Adj + that' (so expensive that...) ถ้าเป็น such จะต้องตามด้วยนาม เช่น 'such an expensive car that...'"
         }
       ]
     }
@@ -724,13 +796,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "mustn't แสดงข้อห้ามเด็ดขาด (prohibition)",
-      "trickTip": "💡 mustn't = ห้ามเด็ดขาด",
+      "summary": "คำตอบที่ถูกต้องคือ 'mustn't' (must not) เพราะแสดงข้อห้ามเด็ดขาดและกฎหมาย (Prohibition)",
+      "trickTip": "💡 mustn't = ห้ามเด็ดขาด (Prohibition)",
+      "commonMistake": "⚠️ ระวังตอบ don't have to ซึ่งแปลว่าไม่จำเป็นต้องทำ แต่สูบได้ ซึ่งผิดบริบท",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "mustn't แสดงข้อห้ามเด็ดขาด (prohibition)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'คุณต้องไม่สูบบุหรี่ในโรงพยาบาลเด็ดขาด เพราะเป็นข้อห้ามอย่างเคร่งครัด'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "ความแตกต่าง: 'mustn't' = ห้ามทำเด็ดขาด (มีโทษ/ฝ่าฝืนกฎ), ส่วน 'don't have to' / 'needn't' = ไม่จำเป็นต้องทำ (จะทำก็ได้ไม่ทำก็ได้)"
         }
       ]
     }
@@ -780,13 +858,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เมื่อมี Although แล้ว ไม่ใช้ but ซ้ำซ้อน",
-      "trickTip": "💡 ห้ามใช้ Although คู่กับ but",
+      "summary": "คำตอบที่ถูกต้องคือ 'she still' เพราะในภาษาอังกฤษเมื่อมีคำเชื่อม Although (แม้ว่า) แล้ว จะไม่ใช้ but หรือ so ซ้ำซ้อนอีก",
+      "trickTip": "💡 Although ห้ามใช้คู่กับ but ในประโยคเดียวกัน",
+      "commonMistake": "⚠️ คนไทยมักติดแปลว่า 'แม้ว่า...แต่...' จึงเผลอเลือกข้อที่มี but",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "เมื่อมี Although แล้ว ไม่ใช้ but ซ้ำซ้อน"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'แม้ว่าเธอจะเหนื่อยมาก แต่เธอก็ยังคงทำการบ้านของเธอจนเสร็จ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "กฎเหล็กไวยากรณ์: 'Although + Clause 1, Clause 2' ห้ามใส่ but คั่นระหว่างสองประโยค จึงใช้ 'she still' เพื่อเสริมความหมายว่ายังคงทำ"
         }
       ]
     }
@@ -836,13 +920,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "postpone until = เลื่อนไปจนถึง...",
-      "trickTip": "💡 until + เวลา",
+      "summary": "คำตอบที่ถูกต้องคือ 'until' เพราะสำนวน postpone until หมายถึง 'เลื่อนไปจนถึงวัน...'",
+      "trickTip": "💡 postpone until + วัน/เวลาใหม่",
+      "commonMistake": "⚠️ ระวังใช้ on next Monday เพราะคำว่า next นำหน้าวันอยู่แล้ว",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "postpone until = เลื่อนไปจนถึง..."
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'การประชุมได้ถูกเลื่อนออกไปจนถึงวันจันทร์หน้า'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "กริยา postpone / delay มักใช้คู่กับบุพบท 'until' หรือ 'to' เพื่อระบุเวลาใหม่ที่กำหนดขึ้น"
         }
       ]
     }
@@ -892,13 +982,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "in order to + V.infinitive เพื่อบอกจุดประสงค์",
-      "trickTip": "💡 in order to + V.inf",
+      "summary": "คำตอบที่ถูกต้องคือ 'in order to' เพราะตามด้วยคำกริยาไม่ผัน (catch) เพื่อบอกจุดประสงค์ แปลว่า 'เพื่อที่จะ...'",
+      "trickTip": "💡 in order to + V.inf / so that + S + V",
+      "commonMistake": "⚠️ ระวังใช้ so that เพราะข้างหลัง catch ไม่มีประธาน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "in order to + V.infinitive เพื่อบอกจุดประสงค์"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เขาวิ่งอย่างรวดเร็วเพื่อที่จะขึ้นรถโรงเรียนให้ทัน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "การบอกจุดประสงค์: 'in order to / so as to + V.infinitive' ส่วน 'so that + Subject + Verb' (ต้องตามด้วยประโยคสมบูรณ์)"
         }
       ]
     }
@@ -948,13 +1044,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "its = ของมัน (Possessive Determiner)",
-      "trickTip": "💡 its = ของมัน / it's = it is",
+      "summary": "คำตอบที่ถูกต้องคือ 'its' (ไม่มี apostrophe) ซึ่งเป็นคำคุณศัพท์แสดงความเป็นเจ้าของ (Possessive Adjective) แปลว่า 'ของมัน'",
+      "trickTip": "💡 its = ของมัน (ไม่มีขีด) / it's = it is (มีขีด)",
+      "commonMistake": "⚠️ อย่าสับสนใส่ apostrophe ในคำว่า its เมื่อแสดงความเป็นเจ้าของ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "its = ของมัน (Possessive Determiner)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'สุนัขกระดิกหางของมันเมื่อมันมองเห็นเจ้าของ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "ความแตกต่าง: 'its' = ของมัน (แสดงความเป็นเจ้าของ เช่น its tail), ส่วน 'it's' = it is หรือ it has"
         }
       ]
     }
@@ -1004,13 +1106,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Neither of + นามพหูพจน์ ถือเป็นเอกพจน์ กริยาใช้ is",
-      "trickTip": "💡 Neither of + Plural Noun -> กริยาเอกพจน์",
+      "summary": "คำตอบที่ถูกต้องคือ 'is' เพราะกลุ่มคำ 'Neither of + คำนามพหูพจน์' มีประธานหลักคือคำว่า Neither ซึ่งเป็นสรรพนามเอกพจน์",
+      "trickTip": "💡 Neither of + นามพหูพจน์ -> กริยาเอกพจน์",
+      "commonMistake": "⚠️ เด็กๆ มักเห็น answers มี s แล้วเผลอเลือก are",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Neither of + นามพหูพจน์ ถือเป็นเอกพจน์ กริยาใช้ is"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ไม่มีคำตอบข้อใดในสองข้อนี้ที่ถูกต้องเลย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "หลักไวยากรณ์: 'Neither of / Either of / Each of / One of + Plural Noun' ต้องใช้กริยาเอกพจน์เสมอ (is/was)"
         }
       ]
     }
@@ -1060,13 +1168,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "look forward to ตามด้วย Gerund (V-ing)",
-      "trickTip": "💡 look forward to + V-ing",
+      "summary": "คำตอบที่ถูกต้องคือ 'hearing' เพราะในสำนวน look forward to คำว่า to เป็นบุพบท (Preposition) จึงต้องตามหลังด้วย Gerund (V-ing)",
+      "trickTip": "💡 look forward to + V-ing เสมอ",
+      "commonMistake": "⚠️ คนส่วนใหญ่เห็น to แล้วคิดว่าเป็น Infinitive จึงเผลอเลือก hear",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "look forward to ตามด้วย Gerund (V-ing)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ฉันตั้งหน้าตั้งตารอคอยที่จะได้รับข่าวจากคุณเร็วๆ นี้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "สำนวน look forward to + V-ing แปลว่า 'เฝ้ารอคอยสิ่งใดสิ่งหนึ่งอย่างใจจดใจจ่อ'"
         }
       ]
     }
@@ -1116,13 +1230,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ใช้วันที่มีวันระบุชัดเจนใช้ on (on Friday morning)",
-      "trickTip": "💡 on + วันในสัปดาห์",
+      "summary": "คำตอบที่ถูกต้องคือ 'on' เพราะเมื่อมีการระบุวันในสัปดาห์ (Friday) แม้จะมีคำว่า morning ตามหลัง ก็ยังต้องใช้บุพบท 'on'",
+      "trickTip": "💡 มีชื่อวันระบุชัดเจน ใช้ on เสมอ",
+      "commonMistake": "⚠️ ระวังเห็น morning แล้วเผลอใช้ in",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "ใช้วันที่มีวันระบุชัดเจนใช้ on (on Friday morning)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'พัสดุถูกจัดส่งมาถึงในเช้าวันศุกร์'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "การใช้บุพบทบอกเวลา: 'on + วัน' (on Friday, on Friday morning), 'in + ช่วงเวลาทั่วไป' (in the morning), 'at + เวลาเป๊ะๆ' (at 8:00 AM)"
         }
       ]
     }
@@ -1172,13 +1292,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Hardly...when... = ทันทีที่...ก็...",
-      "trickTip": "💡 Hardly had + S + V3 when + S + V2",
+      "summary": "คำตอบที่ถูกต้องคือ 'when' เพราะโครงสร้างไวยากรณ์ชั้นสูง (Inversion) ของคำว่า Hardly ต้องใช้คู่กับ 'when'",
+      "trickTip": "💡 Hardly คู่กับ when / No sooner คู่กับ than",
+      "commonMistake": "⚠️ ระวังจำสลับคู่ระหว่าง when และ than",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Hardly...when... = ทันทีที่...ก็..."
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ทันทีที่เขาก้าวเท้าเข้ามาในห้อง เสียงโทรศัพท์ก็ดังขึ้นทันที'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "โครงสร้างคู่จำ: 'Hardly had + S + V.3 ... when + S + V.2' (แทบจะไม่ทัน...ก็...) และ 'No sooner had + S + V.3 ... than + S + V.2'"
         }
       ]
     }
@@ -1228,13 +1354,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Neither + auxiliary verb + subject (คล้อยตามเชิงปฏิเสธ)",
-      "trickTip": "💡 Neither + did + I",
+      "summary": "คำตอบที่ถูกต้องคือ 'neither did I' เพราะเป็นการคล้อยตามประโยคปฏิเสธ (Negative Agreement) ด้วยโครงสร้าง Neither + กริยาช่วย + ประธาน",
+      "trickTip": "💡 Neither + กริยาช่วย + ประธาน (คล้อยตามปฏิเสธ)",
+      "commonMistake": "⚠️ ระวังใช้ so did I ซึ่งใช้คล้อยตามประโยคบอกเล่าเท่านั้น",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Neither + auxiliary verb + subject (คล้อยตามเชิงปฏิเสธ)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เธอไม่รู้คำตอบ และฉันเองก็ไม่รู้เหมือนกัน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "การคล้อยตาม: คล้อยตามประโยคปฏิเสธใช้ 'Neither + Helping Verb + Subject' (Neither did I) หรือ 'Subject + Verb ปฏิเสธ + either' (I didn't either)"
         }
       ]
     }
@@ -1284,13 +1416,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "make someone do something (Causative verb ใช้ V.inf ไม่ผัน)",
-      "trickTip": "💡 make + someone + V.inf",
+      "summary": "คำตอบที่ถูกต้องคือ 'rewrite' เพราะคำกริยา 'make' ในรูป Causative Verb (สั่ง/บังคับให้ทำ) ต้องตามด้วยกรรม + V.infinitive ไม่ผันและไม่มี to",
+      "trickTip": "💡 make / let / have + คน + V.1 ไม่เติม to",
+      "commonMistake": "⚠️ ระวังเผลอเลือก to rewrite",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "make someone do something (Causative verb ใช้ V.inf ไม่ผัน)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'คุณครูสั่งให้นักเรียนเขียนเรียงความใหม่อีกรอบหนึ่ง'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Causative Verbs: 'make / let / have + someone + V.infinitive (V.1 ไม่ผัน)' เช่น make them rewrite, let him go"
         }
       ]
     }
@@ -1340,13 +1478,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Subjunctive mood: Important that + S + V.inf (be)",
-      "trickTip": "💡 It is important that S + V.inf",
+      "summary": "คำตอบที่ถูกต้องคือ 'be' เพราะเป็นโครงสร้าง Subjunctive Mood หลังคำคุณศัพท์แสดงความสำคัญ (important, essential, necessary) กริยาใน that-clause ต้องเป็นรูป Base Form (V.infinitive ไม่ผัน)",
+      "trickTip": "💡 important that + ประธาน + V.base form (be)",
+      "commonMistake": "⚠️ หลายคนมองว่า he เป็นเอกพจน์แล้วเผลอเลือก is",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Subjunctive mood: Important that + S + V.inf (be)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เป็นสิ่งสำคัญอย่างยิ่งที่เขาจะต้องมาให้ตรงเวลาสำหรับการสอบ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Present Subjunctive: 'It is important/essential that + Subject + (should) + V.base form' กริยา Verb to be จึงต้องใช้ 'be' เสมอสำหรับทุกประธาน"
         }
       ]
     }
@@ -1396,13 +1540,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "since ใช้กับจุดเริ่มต้นของเวลา",
-      "trickTip": "💡 since + ปี ค.ศ.",
+      "summary": "คำตอบที่ถูกต้องคือ 'since' เพราะ 2018 คือจุดเริ่มต้นของเวลาในอดีต (Point in time) ที่การกระทำดำเนินต่อเนื่องมาถึงปัจจุบัน",
+      "trickTip": "💡 since + จุดเริ่มต้นเวลา / for + ช่วงเวลา",
+      "commonMistake": "⚠️ ระวังใช้ in ซึ่งใช้กับ Past Simple ปกติ ไม่ใช่ Present Perfect",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "since ใช้กับจุดเริ่มต้นของเวลา"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เธอทำงานที่นี่มาตั้งแต่ปี ค.ศ. 2018'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Present Perfect Continuous: ใช้ 'since + ปี/จุดเริ่มต้น' (since 2018) ส่วน 'for + จำนวนปี' (for 5 years)"
         }
       ]
     }
@@ -1452,13 +1602,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "luggage เป็นนามนับไม่ได้ ถือเป็นเอกพจน์",
-      "trickTip": "💡 luggage/baggage = นามนับไม่ได้",
+      "summary": "คำตอบที่ถูกต้องคือ 'is' เพราะ luggage (สัมภาระ) เป็นคำนามนับไม่ได้ (Uncountable Noun) ในภาษาอังกฤษ จึงถือเป็นเอกพจน์เสมอ",
+      "trickTip": "💡 luggage/baggage = คำนามนับไม่ได้ ถือเป็นเอกพจน์",
+      "commonMistake": "⚠️ อย่านับกระเป๋าเป็นใบๆ ในภาษาไทยแล้วเผลอคิดว่าเป็นพหูพจน์",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "luggage เป็นนามนับไม่ได้ ถือเป็นเอกพจน์"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'สัมภาระกระเป๋าเดินทางใบนี้หนักเกินกว่าที่ฉันจะยกคนเดียวได้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "คำนามนับไม่ได้ที่มักออกสอบ: luggage, baggage, furniture, information, advice, news, homework ทั้งหมดนี้ถือเป็นเอกพจน์และใช้กริยาเอกพจน์"
         }
       ]
     }
@@ -1508,13 +1664,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "No sooner...than... = พอ...ก็...",
-      "trickTip": "💡 No sooner had... than...",
+      "summary": "คำตอบที่ถูกต้องคือ 'than' เพราะสำนวน No sooner... ต้องใช้คู่กับ 'than' เสมอ",
+      "trickTip": "💡 No sooner คู่กับ than / Hardly คู่กับ when",
+      "commonMistake": "⚠️ ระวังจำสับสนนำ when มาใช้กับ No sooner",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "No sooner...than... = พอ...ก็..."
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'พอกระดิ่งส่งสัญญาณดังขึ้น นักเรียนก็กรูกันวิ่งออกไปทันที'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "โครงสร้าง: 'No sooner had + S + V.3 ... than + S + V.2' แปลว่า 'พอ...ก็...' จำคู่กับ Hardly...when..."
         }
       ]
     }
@@ -1564,13 +1726,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "whose แสดงความเป็นเจ้าของ (whose car)",
-      "trickTip": "💡 whose + คำนาม",
+      "summary": "คำตอบที่ถูกต้องคือ 'whose' เพราะใช้แสดงความเป็นเจ้าของรถยนต์ของชายคนนั้น (the man's car -> whose car)",
+      "trickTip": "💡 คน + whose + คำนามสิ่งของ",
+      "commonMistake": "⚠️ ระวังใช้ who หรือ which แทนความเป็นเจ้าของ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "whose แสดงความเป็นเจ้าของ (whose car)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ชายคนที่รถยนต์ของเขาถูกขโมยได้โทรแจ้งเจ้าหน้าที่ตำรวจ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Relative Pronoun แสดงความเป็นเจ้าของ: 'whose + คำนามที่เป็นของบุคคลนั้น' (whose car = รถของเขา)"
         }
       ]
     }
@@ -1620,13 +1788,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "had better + V.inf = ควรจะ...",
-      "trickTip": "💡 had better + V.inf",
+      "summary": "คำตอบที่ถูกต้องคือ 'leave' เพราะคำว่า 'had better' เป็นกริยาช่วย (Modal) มีความหมายว่า 'ควรจะ' ต้องตามหลังด้วย V.infinitive ไม่ผันและไม่มี to",
+      "trickTip": "💡 had better + V.1 ไม่เติม to",
+      "commonMistake": "⚠️ อย่าเห็นคำว่า had แล้วคิดว่าเป็นอดีตแล้วเผลอเลือก left",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "had better + V.inf = ควรจะ..."
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'พวกเราควรจะออกเดินทางเดี๋ยวนี้เลย ก่อนที่การจราจรจะติดขัด'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "ไวยากรณ์: 'had better + V.infinitive' (เช่น had better leave, had better study) รูปปฏิเสธคือ 'had better not + V.inf'"
         }
       ]
     }
@@ -1676,13 +1850,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "capable of + V-ing = มีความสามารถในการ...",
-      "trickTip": "💡 capable + of",
+      "summary": "คำตอบที่ถูกต้องคือ 'of' เพราะคำคุณศัพท์ capable ต้องใช้คู่กับบุพบท 'of' เสมอ (capable of + V-ing) แปลว่า 'มีความสามารถในการ...'",
+      "trickTip": "💡 capable of + V-ing / able to + V.inf",
+      "commonMistake": "⚠️ ระวังใช้ capable to ซึ่งเป็นข้อผิดพลาดที่พบบ่อย",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "capable of + V-ing = มีความสามารถในการ..."
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เขามีความสามารถในการแก้โจทย์สมการคณิตศาสตร์ที่ซับซ้อนได้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "สำนวนบุพบท: 'capable of + V-ing' เทียบเท่ากับ 'able to + V.inf'"
         }
       ]
     }
@@ -1732,13 +1912,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Either...or... กริยาผันตามประธานตัวหลัง (students -> are)",
-      "trickTip": "💡 Either...or... ตามประธานตัวหลัง",
+      "summary": "คำตอบที่ถูกต้องคือ 'are' เพราะโครงสร้าง Either A or B กริยาต้องผันตามประธานตัวหลัง (B) คือ the students ซึ่งเป็นพหูพจน์",
+      "trickTip": "💡 Either...or... ผันตามประธานตัวหลังสุด",
+      "commonMistake": "⚠️ อย่าผันตาม the teacher ที่อยู่ตัวแรก",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Either...or... กริยาผันตามประธานตัวหลัง (students -> are)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ไม่คุณครูก็นักเรียนจะต้องเป็นผู้รับผิดชอบต่อสิ่งนี้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "กฎ Subject-Verb Agreement: 'Either A or B' และ 'Neither A nor B' กริยาจะผันตามประธานตัวที่อยู่ใกล้กริยาที่สุด (ประธานตัวหลัง)"
         }
       ]
     }
@@ -1788,13 +1974,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Wish ในปัจจุบัน ใช้ were (Subjunctive)",
-      "trickTip": "💡 wish + were",
+      "summary": "คำตอบที่ถูกต้องคือ 'were' เพราะการใช้ wish เพื่อแสดงความปรารถนาในสิ่งที่ไม่เป็นจริงในปัจจุบัน ต้องใช้รูป Past Subjunctive ซึ่งใช้ 'were' กับประธานทุกตัว",
+      "trickTip": "💡 I wish I were... (เรื่องสมมุติในปัจจุบันใช้ were เสมอ)",
+      "commonMistake": "⚠️ แม้ประธานจะเป็น I แต่ในภาษาเขียนทางการของข้อสอบคัดเลือกจะใช้ were",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Wish ในปัจจุบัน ใช้ were (Subjunctive)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ฉันหวังว่าฉันจะสูงกว่านี้ เพื่อที่ฉันจะได้เข้าร่วมทีมบาสเกตบอล'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Subjunctive with Wish: 'Subject + wish + Subject + were / V.2' สำหรับความปรารถนาในปัจจุบันที่ตรงข้ามกับความจริง (I wish I were...)"
         }
       ]
     }
@@ -1844,13 +2036,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "police เป็นคำนามพหูพจน์เสมอ ใช้ are",
-      "trickTip": "💡 police = คำนามพหูพจน์เสมอ",
+      "summary": "คำตอบที่ถูกต้องคือ 'are' เพราะคำว่า 'police' (ตำรวจ) เป็นคำนามพหูพจน์รวมหมู่ (Collective Plural Noun) เสมอในภาษาอังกฤษ",
+      "trickTip": "💡 police = คำนามพหูพจน์เสมอ ใช้ are/were",
+      "commonMistake": "⚠️ ระวังคิดว่า police เป็นเอกพจน์แล้วเผลอเลือก is (ถ้าต้องการเอกพจน์ต้องใช้ a police officer)",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "police เป็นคำนามพหูพจน์เสมอ ใช้ are"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เจ้าหน้าที่ตำรวจกำลังสืบสวนคดีโจรกรรมนี้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "คำนามพหูพจน์เสมอ: police, people, cattle, poultry กริยาที่ใช้ตามหลังต้องเป็นรูปพหูพจน์ (are/were/have)"
         }
       ]
     }
@@ -1900,13 +2098,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "prefer A to B = ชอบ A มากกว่า B",
-      "trickTip": "💡 prefer + to",
+      "summary": "คำตอบที่ถูกต้องคือ 'to' เพราะคำกริยา prefer ใช้คู่กับบุพบท 'to' ในโครงสร้าง 'prefer A to B' แปลว่า 'ชอบ A มากกว่า B'",
+      "trickTip": "💡 prefer A to B = ชอบ A มากกว่า B (ใช้ to ไม่ใช้ than)",
+      "commonMistake": "⚠️ คนไทยมักติดคำว่า 'มากกว่า' จึงเผลอเลือก than",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "prefer A to B = ชอบ A มากกว่า B"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เธอชอบดื่มชามากกว่ากาแฟในตอนเช้า'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "โครงสร้างการเปรียบเทียบความชอบ: 'prefer + Noun/V-ing + to + Noun/V-ing' (ห้ามใช้ than คู่กับ prefer)"
         }
       ]
     }
@@ -1956,13 +2160,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "stop walking to buy = หยุดเดินเพื่อซื้อ",
-      "trickTip": "💡 stop to do (หยุดเพื่อทำ) vs stop doing (เลิกทำ)",
+      "summary": "คำตอบที่ถูกต้องคือ 'walking' เพราะบริบทคือเขาหยุดการเดิน (เลิกเดินชั่วคราว) เพื่อที่จะซื้อดอกไม้: stop + V-ing (หยุดทำสิ่งนั้น)",
+      "trickTip": "💡 stop + V-ing = หยุดทำสิ่งนั้น",
+      "commonMistake": "⚠️ ระวังความหมายสับสนระหว่างหยุดทำ กับหยุดเพื่อจะทำ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "stop walking to buy = หยุดเดินเพื่อซื้อ"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เขาหยุดเดินเพื่อที่จะซื้อดอกไม้สดระหว่างทางกลับบ้าน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "ความแตกต่างของกริยา stop: 'stop doing something' = หยุดทำสิ่งนั้น (หยุดเดิน), ส่วน 'stop to do something' = หยุดเพื่อจะทำสิ่งใหม่"
         }
       ]
     }
@@ -2012,13 +2222,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Physics เป็นชื่อวิชา นับเป็นเอกพจน์ ในอดีตใช้ was",
-      "trickTip": "💡 ชื่อวิชาลงท้าย s = เอกพจน์",
+      "summary": "คำตอบที่ถูกต้องคือ 'was' เพราะ Physics (วิชาฟิสิกส์) แม้จะลงท้ายด้วย -s แต่เป็นชื่อวิชาจึงนับเป็นคำนามเอกพจน์ และบริบทอยู่ในอดีต (when I was)",
+      "trickTip": "💡 ชื่อวิชาลงท้าย s = นามเอกพจน์",
+      "commonMistake": "⚠️ ระวังเห็น -s ท้ายคำแล้วคิดว่าเป็นพหูพจน์",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Physics เป็นชื่อวิชา นับเป็นเอกพจน์ ในอดีตใช้ was"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'วิชาฟิสิกส์เคยเป็นวิชาที่ฉันชอบที่สุดตอนที่ฉันยังเรียนอยู่'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "ชื่อวิชาและชื่อโรคที่ลงท้ายด้วย -s เช่น Physics, Mathematics, Economics, News, Measles ถือเป็นคำนามเอกพจน์เสมอ และเมื่อมี when I was จึงใช้ Past Tense 'was'"
         }
       ]
     }
@@ -2068,13 +2284,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "be used to + V-ing = เคยชินกับ...",
-      "trickTip": "💡 be used to + V-ing",
+      "summary": "คำตอบที่ถูกต้องคือ 'getting' เพราะโครงสร้าง 'be used to' แปลว่า 'เคยชินกับ...' คำว่า to ในที่นี้เป็นบุพบท จึงต้องตามด้วย Gerund (V-ing)",
+      "trickTip": "💡 be used to + V-ing (เคยชิน) vs used to + V.1 (เคยทำในอดีต)",
+      "commonMistake": "⚠️ ระวังจำสลับกับ used to ธรรมดาแล้วเผลอเลือก get",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "be used to + V-ing = เคยชินกับ..."
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ฉันยังไม่เคยชินกับการตื่นนอนแต่เช้าตรู่ขนาดนี้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "เปรียบเทียบโครงสร้าง: 'be/get used to + V-ing' = เคยชินกับ..., ส่วน 'used to + V.inf' = เคยทำในอดีตแต่ปัจจุบันเลิกแล้ว"
         }
       ]
     }
@@ -2124,13 +2346,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Not only...but also... ผันตามประธานตัวหลัง (brothers -> are)",
-      "trickTip": "💡 Not only...but also... ดูตัวหลัง",
+      "summary": "คำตอบที่ถูกต้องคือ 'are' เพราะโครงสร้าง 'Not only A but also B' กริยาต้องผันตามประธานตัวหลัง (B) คือ his brothers ซึ่งเป็นพหูพจน์",
+      "trickTip": "💡 Not only...but also... ผันตามประธานตัวหลัง",
+      "commonMistake": "⚠️ อย่าผันตาม Tom ที่อยู่ข้างหน้า",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Not only...but also... ผันตามประธานตัวหลัง (brothers -> are)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ไม่ใช่แค่ทอมเท่านั้น แต่พี่น้องของเขาก็กำลังจะไปประเทศญี่ปุ่นด้วย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "กฎไวยากรณ์: 'Not only A but also B + Verb' กริยาจะสอดคล้องกับประธานตัวหลังสุด (B) คือ his brothers จึงใช้ 'are'"
         }
       ]
     }
@@ -2180,13 +2408,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Third Conditional: If + had V3, would have V3",
-      "trickTip": "💡 If had + V3 -> would have + V3",
+      "summary": "คำตอบที่ถูกต้องคือ 'would have passed' เพราะเป็นประโยคเงื่อนไขแบบที่ 3 (Third Conditional) แสดงเรื่องสมมุติในอดีตที่ไม่ได้เกิดขึ้นจริง: If + had + V.3, would have + V.3",
+      "trickTip": "💡 If had + V.3 คู่กับ would have + V.3",
+      "commonMistake": "⚠️ ระวังใช้ would pass ซึ่งเป็นเงื่อนไขแบบที่ 2",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Third Conditional: If + had V3, would have V3"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'ถ้าในตอนนั้นเธอตั้งใจอ่านหนังสือมากกว่านี้ เธอคงจะสอบเข้าผ่านไปแล้ว'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "Third Conditional: 'If + Subject + had + V.3, Subject + would have + V.3' ใช้พูดถึงเหตุการณ์ในอดีตที่เสียดายและย้อนกลับไปแก้ไขไม่ได้"
         }
       ]
     }
@@ -2236,13 +2470,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Indirect Question: S + V (บอกเล่า)",
-      "trickTip": "💡 Indirect question ไม่กลับกริยา",
+      "summary": "คำตอบที่ถูกต้องคือ 'I had gone' เพราะเป็นประโยคคำถามทางอ้อม (Indirect / Embedded Question) ที่ต้องเรียงลำดับประโยคแบบบอกเล่า (Question word + Subject + Verb) และถอย Tense ตาม Past Tense ข้างหน้า (asked)",
+      "trickTip": "💡 Indirect Question: คำเชื่อม + ประธาน + กริยา (ห้ามกลับกริยาเหมือนคำถามตรง)",
+      "commonMistake": "⚠️ ข้อผิดพลาดอันดับ 1 คือการเผลอเรียงประโยคเป็นคำถาม did I go",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Grammar Rule",
-          "content": "Indirect Question: S + V (บอกเล่า)"
+          "title": "แปลประโยคและวิเคราะห์บริบท",
+          "content": "แปล: 'เธอถามฉันว่าฉันได้ไปเที่ยวที่ไหนมาในช่วงปิดเทอมฤดูร้อน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หลักไวยากรณ์และการเลือกคำตอบ",
+          "content": "กฎประโยค Indirect Question: เมื่อคำถามซ้อนอยู่ในประโยคอื่น ห้ามสลับกริยาช่วยมาไว้หน้าประธาน (ห้ามใช้ did I go หรือ had I gone) ต้องเรียงเป็น 'where + I + had gone'"
         }
       ]
     }
@@ -2292,13 +2532,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Honeybees are crucial pollinators for global food crops.",
-      "trickTip": "💡 Main idea = ความสำคัญของผึ้งต่อพืชผล",
+      "summary": "ใจความสำคัญของบทความคือ ผึ้งมีบทบาทสำคัญอย่างยิ่งต่อการผสมเกสรพืชผลทางการเกษตรของโลก",
+      "trickTip": "💡 Main Idea = ประเด็นหลักที่ผู้เขียนต้องการสื่อ (มักอยู่ที่ประโยคแรกหรือประโยคสุดท้าย)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: essential = จำเป็นอย่างยิ่ง, pollinators = ผู้ผสมเกสร, drastically = อย่างมหาศาล",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Honeybees are crucial pollinators for global food crops."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'ผึ้งเป็นแมลงผสมเกสรที่จำเป็นอย่างยิ่งสำหรับพืชผลหลายชนิด หากไม่มีพวกมัน ผลผลิตอาหารของโลกจะลดลงอย่างมหาศาล'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "วิเคราะห์ตัวเลือก: ตัวเลือกที่ 2 สรุปใจความหลักได้ครอบคลุมและตรงกับข้อความมากที่สุด ส่วนตัวเลือก 1 และ 4 เป็นเพียงข้อเท็จจริงทั่วไปที่บทความไม่ได้เน้นย้ำ"
         }
       ]
     }
@@ -2348,13 +2594,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Arid means very dry, having little or no rain.",
-      "trickTip": "💡 arid = แห้งแล้ง",
+      "summary": "คำว่า 'arid' หมายถึง 'แห้งแล้ง หรือขาดแคลนน้ำ' สอดคล้องกับตัวเลือกที่ 2 (Dry and lacking water)",
+      "trickTip": "💡 เดาความหมายศัพท์จาก Context Clues (คำใบ้ในบริบทแวดล้อม)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: arid = แห้งแล้ง, fertile = อุดมสมบูรณ์, humid = ชื้น",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Arid means very dry, having little or no rain."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'สภาพภูมิอากาศของทะเลทรายนั้นมีความแห้งแล้งอย่างยิ่ง โดยมีปริมาณน้ำฝนน้อยกว่า 10 เซนติเมตรต่อปี'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "บริบทชี้แนะ: คำว่า 'desert climate' (ภูมิอากาศทะเลทราย) และ 'less than 10 cm of rain' (ฝนตกน้อยมาก) เป็นตัวบอกความหมายว่า arid แปลว่าแห้งแล้ง"
         }
       ]
     }
@@ -2404,13 +2656,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "At an exam room where silence is required.",
-      "trickTip": "💡 examination hall = ห้องสอบ",
+      "summary": "ป้ายประกาศนี้มักพบที่ 'ห้องสอบของโรงเรียน' (At a school exam room) เพราะคำว่า examination hall หมายถึงห้องสอบ",
+      "trickTip": "💡 examination hall = ห้องสอบ, silence = ปิดเสียง",
+      "commonMistake": "📚 คำศัพท์สำคัญ: examination แปลว่าการสอบ สังเกตจากรากศัพท์ exam",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "At an exam room where silence is required."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลป้ายประกาศ: 'กรุณาปิดเสียงอุปกรณ์มือถือทุกชนิดก่อนเข้าสู่ห้องสอบ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำสำคัญ: 'examination hall' แปลว่าห้องสอบ และการขอความร่วมมือให้ปิดเสียงโทรศัพท์ (silence mobile devices) เพื่อไม่ให้รบกวนสมาธิผู้สอบ"
         }
       ]
     }
@@ -2460,13 +2718,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "They mistake floating bags for jellyfish, their prey.",
-      "trickTip": "💡 mistake plastic bags for jellyfish = นึกว่าเป็นแมงกะพรุน",
+      "summary": "เต่าทะเลกินถุงพลาสติกเพราะถุงพลาสติกที่ลอยในน้ำมีลักษณะรูปร่างคล้ายกับแมงกะพรุนซึ่งเป็นอาหารของพวกมัน",
+      "trickTip": "💡 mistake A for B = เข้าใจผิดคิดว่า A คือ B",
+      "commonMistake": "📚 คำศัพท์สำคัญ: marine animals = สัตว์ทะเล, jellyfish = แมงกะพรุน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "They mistake floating bags for jellyfish, their prey."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'มลพิษจากพลาสติกในมหาสมุทรเป็นอันตรายต่อสัตว์ทะเลเมื่อพวกมันเข้าใจผิดคิดว่าถุงพลาสติกคือแมงกะพรุน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "สำนวน 'mistake A for B' แปลว่า เข้าใจผิดคิดว่า A คือ B ในที่นี้คือเข้าใจผิดว่าถุงพลาสติกคือแมงกะพรุน (jellyfish) สอดคล้องกับตัวเลือกที่ 2"
         }
       ]
     }
@@ -2516,13 +2780,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "High initial installation costs.",
-      "trickTip": "💡 initial costs remain high = ค่าติดตั้งเริ่มต้นยังสูง",
+      "summary": "ข้อเสียของพลังงานหมุนเวียนตามที่บทความระบุคือ 'มีค่าใช้จ่ายในการติดตั้งเริ่มต้นที่สูงมาก' (expensive to install initially)",
+      "trickTip": "💡 คำถาม disadvantage / drawback = มองหาข้อเสียหรือข้อจำกัด",
+      "commonMistake": "📚 คำศัพท์สำคัญ: renewable energy = พลังงานหมุนเวียน, installation = การติดตั้ง",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "High initial installation costs."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'แม้ว่าพลังงานหมุนเวียนจะสะอาดกว่า แต่ต้นทุนค่าติดตั้งในระยะเริ่มต้นยังคงสูงอยู่'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'disadvantage' ถามถึงข้อเสีย ซึ่งตรงกับท่อน 'initial installation costs remain high' (ต้นทุนติดตั้งเริ่มต้นยังสูง)"
         }
       ]
     }
@@ -2572,13 +2842,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Tom was tired due to lack of sleep.",
-      "trickTip": "💡 eyes red and heavy = อ่อนเพลียอดนอน",
+      "summary": "สามารถอนุมานได้ว่า 'ทอมรู้สึกเหนื่อยล้าและง่วงนอนอย่างมาก' (Tom was exhausted and sleepy) จากการอดนอนทั้งคืน",
+      "trickTip": "💡 Inference = การตีความสิ่งที่ไม่ได้เขียนบอกตรงๆ จากหลักฐานในเนื้อเรื่อง",
+      "commonMistake": "📚 คำศัพท์สำคัญ: exhausted = เหนื่อยล้าหมดแรง, stayed up = อดนอน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Tom was tired due to lack of sleep."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'ทอมอดนอนตลอดทั้งคืนเพื่ออ่านหนังสือสอบย่อยวิชาวิทยาศาสตร์ เช้าวันรุ่งขึ้น ดวงตาของเขาแดงก่ำและหนักอึ้ง'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "การอนุมาน (Inference): 'stayed up all night' (อดนอนทั้งคืน) และ 'eyes were red and heavy' (ตาแดงและลืมตาไม่ขึ้น) แสดงถึงความเหนื่อยล้าอดนอน (exhausted)"
         }
       ]
     }
@@ -2628,13 +2904,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Abstain means to choose not to do or consume something.",
-      "trickTip": "💡 abstain = งดเว้น / หลีกเลี่ยง",
+      "summary": "คำว่า 'abstain from' หมายถึง 'งดเว้น หลีกเลี่ยง หรือหยุดบริโภค' ตรงกับตัวเลือกที่ 2 (To avoid or stop consuming)",
+      "trickTip": "💡 abstain from = งดเว้น / หลีกเลี่ยง",
+      "commonMistake": "📚 คำศัพท์สำคัญ: อย่าสับสนกับ attain (บรรลุ) หรือ obtain (ได้รับ)",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Abstain means to choose not to do or consume something."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'แพทย์ได้แนะนำให้เขางดเว้นจากเครื่องดื่มที่มีน้ำตาลสูง'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "วิเคราะห์คำศัพท์: สำนวน 'abstain from + Noun' แปลว่า งดเว้น ละเว้น ซึ่งหมอมักแนะนำกับของที่ส่งผลเสียต่อสุขภาพ เช่น sugary drinks หรือ alcohol"
         }
       ]
     }
@@ -2684,13 +2966,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "To inform parents of the early closing time on Friday.",
-      "trickTip": "💡 notify about early dismissal = แจ้งเลิกเรียนเร็ว",
+      "summary": "จุดประสงค์ของอีเมลนี้คือ 'เพื่อแจ้งให้ผู้ปกครองทราบเกี่ยวกับการเลิกเรียนเร็วกว่าปกติในวันศุกร์'",
+      "trickTip": "💡 purpose = จุดประสงค์ของบทความ/จดหมาย",
+      "commonMistake": "📚 คำศัพท์สำคัญ: dismiss = ปล่อยแถว/เลิกเรียน, notify = แจ้งให้ทราบ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "To inform parents of the early closing time on Friday."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลอีเมล: 'เรียนท่านผู้ปกครอง โรงเรียนจะเลิกเรียนเร็วกว่าปกติในเวลา 12:00 น. ในวันศุกร์นี้ เนื่องจากการจัดอบรมครู'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'dismissed early' แปลว่า เลิกเรียนเร็วกว่าเวลาปกติ จึงตรงกับข้อ 2 (notify parents about early dismissal)"
         }
       ]
     }
@@ -2740,13 +3028,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Oxygen and glucose are the products.",
-      "trickTip": "💡 product = ผลผลิต (ออกซิเจนและกลูโคส)",
+      "summary": "ผลผลิต (Product) ของกระบวนการสังเคราะห์ด้วยแสงคือ 'ออกซิเจน (Oxygen)' และน้ำตาลกลูโคส",
+      "trickTip": "💡 product = ผลผลิตที่ได้ / reactant = สารตั้งต้น",
+      "commonMistake": "📚 คำศัพท์สำคัญ: photosynthesis = การสังเคราะห์ด้วยแสง, convert into = เปลี่ยนเป็น",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Oxygen and glucose are the products."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'กระบวนการสังเคราะห์ด้วยแสงเปลี่ยนพลังงานแสงแดด น้ำ และคาร์บอนไดออกไซด์ ให้กลายเป็นน้ำตาลกลูโคสและออกซิเจน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'product' หมายถึง สารผลลัพธ์ที่เกิดขึ้นหลังปฏิกิริยา (glucose และ oxygen) ส่วน sunlight, water, CO2 เป็นสารตั้งต้น (reactants)"
         }
       ]
     }
@@ -2796,13 +3090,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Fragile means easily broken.",
-      "trickTip": "💡 fragile = แตกหักง่าย",
+      "summary": "คำว่า 'fragile' หมายถึง 'บอบบาง แตกหักเสียหายได้ง่าย' ตรงกับตัวเลือกที่ 2 (Easily broken or damaged)",
+      "trickTip": "💡 fragile = แตกหักง่าย (มักพบป้ายนี้บนกล่องพัสดุ)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: fragile = แตกง่าย, durable = ทนทาน, antique = วัตถุโบราณ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Fragile means easily broken."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'แจกันโบราณชิ้นนั้นบอบบางแตกหักง่ายอย่างยิ่ง ดังนั้นเธอจึงถือมันด้วยความระมัดระวังเป็นพิเศษ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "บริบทแวดล้อม: 'handled it with great care' (ถือด้วยความระมัดระวังอย่างยิ่ง) ชี้ชัดว่าสิ่งของนั้นแตกหักง่าย"
         }
       ]
     }
@@ -2852,13 +3152,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Preheat the oven to 180°C first.",
-      "trickTip": "💡 First step = Preheat oven",
+      "summary": "ขั้นตอนแรกสุดตามสูตรการทำอาหารคือ 'วอร์มเตาอบที่อุณหภูมิ 180°C' (Preheat the oven)",
+      "trickTip": "💡 Preheat = อุ่นเตาล่วงหน้าก่อนอบจริง",
+      "commonMistake": "📚 คำศัพท์สำคัญ: ingredients = ส่วนผสม, bake = อบ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Preheat the oven to 180°C first."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลสูตรทำขนม: '1. อุ่นเตาอบล่วงหน้าที่อุณหภูมิ 180°C 2. ผสมแป้ง น้ำตาล และไข่ลงในชามผสม 3. อบเป็นเวลา 25 นาที'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "โจทย์ถาม 'the first step' (ขั้นตอนแรก) ประโยคแรกของสูตรระบุชัดเจนว่า 'Preheat oven to 180°C'"
         }
       ]
     }
@@ -2908,13 +3214,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "They are mammals that nurse their calves with milk.",
-      "trickTip": "💡 nurse calves with milk = เลี้ยงลูกด้วยนม",
+      "summary": "ข้อความที่ถูกต้องเกี่ยวกับวาฬคือ 'พวกมันเลี้ยงลูกอ่อนด้วยน้ำนม' (They feed their young with milk) เพราะเป็นสัตว์เลี้ยงลูกด้วยนม",
+      "trickTip": "💡 nurse with milk = เลี้ยงลูกด้วยนม (ลักษณะของ mammals)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: mammals = สัตว์เลี้ยงลูกด้วยนม, gills = เหงือกปลา, calves = ลูกสัตว์ตัวใหญ่",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "They are mammals that nurse their calves with milk."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'วาฬเป็นสัตว์เลี้ยงลูกด้วยนม ไม่ใช่ปลา พวกมันหายใจรับอากาศผ่านช่องพ่นน้ำด้านบน และเลี้ยงลูกอ่อนด้วยน้ำนม'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'nurse their calves with milk' แปลว่า เลี้ยงลูกอ่อนด้วยนม (calves = ลูกวาฬ) สอดคล้องกับข้อ 3 (feed their young with milk)"
         }
       ]
     }
@@ -2964,13 +3276,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "It reopens the day after June 15, which is June 16.",
-      "trickTip": "💡 reopen = วันถัดจากปิดปรับปรุง",
+      "summary": "ห้องสมุดจะเปิดให้บริการอีกครั้งในวันที่ 16 มิถุนายน (June 16) ซึ่งเป็นวันแรกหลังจากสิ้นสุดการปิดปรับปรุงในวันที่ 15 มิถุนายน",
+      "trickTip": "💡 ปิดถึงวันที่ 15 ➔ วันเปิดคือวันที่ 16",
+      "commonMistake": "📚 คำศัพท์สำคัญ: ระวังตอบ June 15 ซึ่งเป็นวันสุดท้ายที่ยังปิดทำการอยู่",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "It reopens the day after June 15, which is June 16."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'ห้องสมุดจะปิดเพื่อปรับปรุงตั้งแต่วันที่ 1 มิถุนายน ถึง 15 มิถุนายน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'reopen' ถามถึงวันที่เริ่มเปิดทำการใหม่ ซึ่งต้องเป็นวันถัดไปหลังจากวันสิ้นสุดการปิด (15 มิ.ย. ยังคงปิดอยู่ วันเปิดคือ 16 มิ.ย.)"
         }
       ]
     }
@@ -3020,13 +3338,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Crucial means extremely important or vital.",
-      "trickTip": "💡 crucial = สำคัญยิ่ง",
+      "summary": "คำว่า 'crucial' เป็นคำพ้องความหมาย (Synonym) กับ 'extremely important หรือ vital' แปลว่า สำคัญยิ่ง / มีความสำคัญชี้ขาด",
+      "trickTip": "💡 crucial = สำคัญยิ่งยวด (ตรงข้ามกับ unimportant)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: clue = เบาะแส, mysterious = ลึกลับน่าพิศวง",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Crucial means extremely important or vital."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'นักสืบได้ค้นพบเบาะแสสำคัญยิ่งที่สามารถคลี่คลายคดีปริศนานี้ได้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'crucial' หมายถึง สิ่งที่สำคัญมากจนสามารถตัดสินผลลัพธ์ได้ (ตรงกับ vital / essential / extremely important)"
         }
       ]
     }
@@ -3076,13 +3400,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "$80 + $40 = $120.",
-      "trickTip": "💡 $80 + (50% of $80 = $40) = $120",
+      "summary": "ซื้อรองเท้า 2 คู่จ่ายเงินทั้งหมด $120 (คู่แรก $80 + คู่ที่สองลด 50% เหลือ $40)",
+      "trickTip": "💡 50% off = ลดราคาครึ่งหนึ่ง (เหลือ 50% ของราคาเดิม)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: ระวังคิดลด 50% ทั้ง 2 คู่ หรือคิดราคาเต็ม 2 คู่",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "$80 + $40 = $120."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลโฆษณา: 'ซื้อรองเท้าวิ่ง 1 คู่ รับสิทธิ์ซื้อคู่ที่สองในราคาลด 50%!' ถ้ารองเท้าราคาคู่ละ 80 ดอลลาร์"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "การคำนวณ: คู่ที่ 1 = $80, คู่ที่ 2 = 50% ของ $80 = $40 รวมเป็น $80 + $40 = $120"
         }
       ]
     }
@@ -3132,13 +3462,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Rising sea levels.",
-      "trickTip": "💡 leading to rising sea levels = ระดับน้ำทะเลสูงขึ้น",
+      "summary": "ผลกระทบจากการละลายของธารน้ำแข็งขั้วโลกคือ 'ทำให้ระดับน้ำทะเลสูงขึ้น' (Rising sea levels)",
+      "trickTip": "💡 Cause (สาเหตุ) ➔ Effect (ผลลัพธ์: leading to...)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: ice caps = ธารน้ำแข็งขั้วโลก, sea levels = ระดับน้ำทะเล",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Rising sea levels."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'ภาวะโลกร้อนส่งผลให้ธารน้ำแข็งขั้วโลกละลาย นำไปสู่การเพิ่มสูงขึ้นของระดับน้ำทะเล'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "วลี 'leading to rising sea levels' บ่งชี้ผลลัพธ์ (Effect) โดยตรงว่าการละลายของน้ำแข็งทำให้ระดับน้ำทะเลสูงขึ้น"
         }
       ]
     }
@@ -3188,13 +3524,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Reluctant means unwilling or hesitant.",
-      "trickTip": "💡 reluctant = ลังเล / ไม่เต็มใจ",
+      "summary": "คำว่า 'reluctant' หมายถึง 'ลังเลใจ หรือไม่เต็มใจ' ตรงกับตัวเลือกที่ 2 (Hesitant and unwilling)",
+      "trickTip": "💡 reluctant = ลังเล / ไม่เต็มใจ (ตรงข้ามกับ eager / willing)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: stage fright = อาการตื่นเวที, hesitant = ลังเล",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Reluctant means unwilling or hesitant."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'นักเรียนคนนั้นรู้สึกลังเลไม่เต็มใจที่จะพูดหน้าชั้นเรียนเนื่องจากอาการตื่นเวที'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำใบ้ 'because of stage fright' (เพราะตื่นเวที) แสดงให้เห็นว่านักเรียนไม่อยากพูดหรือรู้สึกลังเล (hesitant)"
         }
       ]
     }
@@ -3244,13 +3586,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Stay safe indoors during thunderstorms.",
-      "trickTip": "💡 thunderstorms = อยู่ในที่ร่มปลอดภัย",
+      "summary": "สิ่งที่ประชาชนควรปฏิบัติตามรายงานสภาพอากาศคือ 'อยู่ภายในอาคารที่ปลอดภัยและเตรียมรับมือพายุ' (Stay indoors)",
+      "trickTip": "💡 thunderstorm = พายุฝนฟ้าคะนอง ➔ stay indoors",
+      "commonMistake": "📚 คำศัพท์สำคัญ: coastal areas = พื้นที่ชายฝั่ง, residents = ผู้อยู่อาศัย",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Stay safe indoors during thunderstorms."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลพยากรณ์อากาศ: 'คาดว่าจะมีพายุฝนฟ้าคะนองรุนแรงและลมกระโชกแรงตามแนวชายฝั่งในบ่ายวันพรุ่งนี้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "เมื่อมี 'heavy thunderstorms and strong winds' การทำกิจกรรมกลางแจ้งหรือลงเล่นน้ำทะเลจะเป็นอันตรายอย่างยิ่ง การหลบในอาคาร (stay indoors) จึงเป็นคำตอบที่ถูกต้องและปลอดภัยที่สุด"
         }
       ]
     }
@@ -3300,13 +3648,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Contrasts warm-blooded birds with cold-blooded reptiles.",
-      "trickTip": "💡 contrast = เปรียบเทียบความต่าง",
+      "summary": "บทความนี้เปรียบเทียบความแตกต่างระหว่าง 'การควบคุมอุณหภูมิร่างกายของนกและสัตว์เลื้อยคลาน' (Body temperature regulation)",
+      "trickTip": "💡 contrast = เปรียบเทียบความแตกต่าง",
+      "commonMistake": "📚 คำศัพท์สำคัญ: warm-blooded = สัตว์เลือดอุ่น, reptiles = สัตว์เลื้อยคลาน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Contrasts warm-blooded birds with cold-blooded reptiles."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'นกแตกต่างจากสัตว์เลื้อยคลานตรงที่นกเป็นสัตว์เลือดอุ่นและสามารถรักษาอุณหภูมิร่างกายให้คงที่ได้'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'Unlike' (ไม่เหมือนกับ) ใช้เปรียบเทียบความแตกต่าง โดยประโยคพูดถึงสัตว์เลือดอุ่น (warm-blooded) และการรักษาอุณหภูมิร่างกาย (maintain constant temperature)"
         }
       ]
     }
@@ -3356,13 +3710,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Innovative means featuring new and advanced ideas.",
-      "trickTip": "💡 innovative = แปลกใหม่สร้างสรรค์",
+      "summary": "คำว่า 'innovative' หมายถึง 'แปลกใหม่ สร้างสรรค์ หรือเป็นนวัตกรรมใหม่' ตรงกับตัวเลือกที่ 2 (Creative and new)",
+      "trickTip": "💡 innovative = แปลกใหม่เชิงสร้างสรรค์ (รากศัพท์เดียวกับ innovation)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: conduct experiment = ทำการทดลอง, traditional = ดั้งเดิม",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Innovative means featuring new and advanced ideas."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'นักวิทยาศาสตร์ได้ทำการทดลองที่แปลกใหม่สร้างสรรค์อย่างที่ไม่เคยมีใครทำมาก่อน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำใบ้ 'never done before' (ไม่เคยทำมาก่อน) ชี้ชัดว่าการทดลองนั้นมีความแปลกใหม่และสร้างสรรค์ (innovative / creative)"
         }
       ]
     }
@@ -3412,13 +3772,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "For camouflage, temperature control, and mood communication.",
-      "trickTip": "💡 not only...but also... = หลากหลายสาเหตุ",
+      "summary": "กิ้งก่าเปลี่ยนสีผิวด้วยหลายสาเหตุ ได้แก่ เพื่อพรางตัว ปรับอุณหภูมิร่างกาย และสื่อสารอารมณ์ สอดคล้องกับข้อ 2",
+      "trickTip": "💡 not only A but also B = ไม่ใช่แค่ A แต่ยังมี B ด้วย",
+      "commonMistake": "📚 คำศัพท์สำคัญ: camouflage = การพรางตัว, regulate = ควบคุมปรับเปลี่ยน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "For camouflage, temperature control, and mood communication."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'กิ้งก่าเปลี่ยนสีผิวไม่ใช่เพียงเพื่อการพรางตัวเท่านั้น แต่ยังเพื่อควบคุมอุณหภูมิของร่างกายและแสดงอารมณ์อีกด้วย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "โครงสร้าง 'not only A, but also B' แสดงว่ามีเหตุผลมากกว่า 1 อย่าง ดังนั้นตัวเลือกที่ตอบว่า 'Only...' (เพียงอย่างเดียว) จึงผิด"
         }
       ]
     }
@@ -3468,13 +3834,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Do not step or walk on the grass.",
-      "trickTip": "💡 Keep off = ห้ามเดินบน...",
+      "summary": "กฎระเบียบของป้ายนี้คือ 'ห้ามเดินเหยียบหรือเข้าไปบนสนามหญ้า' (Do not walk on the grass)",
+      "trickTip": "💡 Keep off = ห้ามเข้าไปเหยียบ",
+      "commonMistake": "📚 คำศัพท์สำคัญ: maintenance = การซ่อมบำรุงรักษา",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Do not step or walk on the grass."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลป้ายประกาศ: 'กรุณาอย่าย่ำบนสนามหญ้าในระหว่างการปรับปรุงบำรุงรักษา'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "สำนวน 'Keep off + สถานที่' แปลว่า ห้ามเข้าไป / ห้ามเหยียบย่ำ สอดคล้องกับ Do not walk on the grass"
         }
       ]
     }
@@ -3524,13 +3896,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Focus and memory are negatively impaired.",
-      "trickTip": "💡 negatively affects memory and focus",
+      "summary": "ผลกระทบเมื่อวัยรุ่นอดนอนคือ 'สมาธิและความจำจะเสื่อมถอยลง' (Their focus and memory deteriorate)",
+      "trickTip": "💡 negatively affects = ส่งผลเสีย / deteriorate = แย่ลง",
+      "commonMistake": "📚 คำศัพท์สำคัญ: sleep deprivation = การนอนไม่พอ, adolescents = วัยรุ่น",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Focus and memory are negatively impaired."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'การอดนอนส่งผลกระทบเชิงลบต่อความจำ สมาธิ และการทำงานของระบบภูมิคุ้มกันในวัยรุ่น'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'Sleep deprivation' (การอดนอน) และ 'negatively affects' (ส่งผลเสีย) ตรงกับคำว่า deteriorate (แย่ลง/เสื่อมถอย)"
         }
       ]
     }
@@ -3580,13 +3958,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Resilience is the capacity to recover quickly from difficulties.",
-      "trickTip": "💡 resilience = ความยืดหยุ่นฟื้นตัวเร็ว",
+      "summary": "คำว่า 'resilience' หมายถึง 'ความสามารถในการฟื้นตัวจากความยากลำบากหรือบาดแผลได้อย่างรวดเร็ว' ตรงกับตัวเลือกที่ 1",
+      "trickTip": "💡 resilience = ความยืดหยุ่นทางใจ / ความสามารถในการฟื้นตัว",
+      "commonMistake": "📚 คำศัพท์สำคัญ: injury = อาการบาดเจ็บ, remarkable = ยอดเยี่ยมโดดเด่น",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Resilience is the capacity to recover quickly from difficulties."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'นักกีฬาคนนั้นได้แสดงให้เห็นถึงพลังใจและการฟื้นตัวอันยอดเยี่ยม โดยสามารถคว้าเหรียญทองมาได้หลังจากอาการบาดเจ็บที่หัวเข่าอย่างรุนแรง'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "บริบท: การกลับมาชนะเหรียญทองได้หลังจากบาดเจ็บหนัก แสดงถึงพลังของการไม่ยอมแพ้และฟื้นตัวได้ไว (resilience)"
         }
       ]
     }
@@ -3636,13 +4020,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "No direct exhaust air pollution.",
-      "trickTip": "💡 zero tailpipe emissions = ไม่มีไอเสีย",
+      "summary": "ยานยนต์ไฟฟ้าเป็นมิตรต่อสิ่งแวดล้อมเพราะ 'ไม่มีการปล่อยมลพิษจากท่อไอเสียขณะขับขี่' (produce no exhaust emissions)",
+      "trickTip": "💡 zero emissions = ปลอดมลพิษ 100%",
+      "commonMistake": "📚 คำศัพท์สำคัญ: tailpipe = ท่อไอเสีย, environmentally friendly = เป็นมิตรต่อสิ่งแวดล้อม",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "No direct exhaust air pollution."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'รถยนต์ไฟฟ้าไม่ปล่อยไอเสียจากท่อไอเสียเลย จึงทำให้พวกมันเป็นมิตรต่อสิ่งแวดล้อม'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'zero tailpipe emissions' แปลว่า ปล่อยมลพิษจากท่อไอเสียเป็นศูนย์ (ไม่มีควันพิษ) สอดคล้องกับข้อ 2"
         }
       ]
     }
@@ -3692,13 +4082,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Ambiguous means open to more than one interpretation; unclear.",
-      "trickTip": "💡 ambiguous = กำกวม ไม่ชัดเจน",
+      "summary": "คำว่า 'ambiguous' หมายถึง 'กำกวม ไม่ชัดเจน สามารถตีความได้หลายแง่' ตรงกับตัวเลือกที่ 2 (Unclear with multiple meanings)",
+      "trickTip": "💡 ambiguous = กำกวม / ไม่ชัดเจน (ตรงข้ามกับ clear)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: contract = สัญญา, confused = สับสน, parties = คู่สัญญา",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Ambiguous means open to more than one interpretation; unclear."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'สัญญาฉบับนั้นมีข้อความที่กำกวมหลายจุดซึ่งสร้างความสับสนให้แก่คู่สัญญาทั้งสองฝ่าย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำใบ้ 'confused both parties' (สร้างความสับสนให้ทั้งสองฝ่าย) บ่งชี้ว่าข้อความนั้นไม่ชัดเจนและตีความได้หลายแบบ (ambiguous)"
         }
       ]
     }
@@ -3748,13 +4144,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "8,848.86 meters (~8,849 meters).",
-      "trickTip": "💡 8,848.86 meters",
+      "summary": "ยอดเขาเอเวอเรสต์มีความสูงประมาณ 8,849 เมตร (8,848.86 เมตร)",
+      "trickTip": "💡 อ่านตัวเลขและจับคู่ตัวเลือกที่มีค่าใกล้เคียงที่สุด",
+      "commonMistake": "📚 คำศัพท์สำคัญ: above sea level = เหนือระดับน้ำทะเล",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "8,848.86 meters (~8,849 meters)."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'ยอดเขาเอเวอเรสต์เป็นภูเขาที่สูงที่สุดเหนือระดับน้ำทะเล โดยมีความสูงถึง 8,848.86 เมตร'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "ตัวเลข 8,848.86 เมตร เมื่อปัดเศษเป็นจำนวนเต็มจะได้ประมาณ 8,849 เมตร ตรงกับตัวเลือกที่ 1"
         }
       ]
     }
@@ -3804,13 +4206,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Only authorized individuals.",
-      "trickTip": "💡 Authorized Personnel Only = เฉพาะผู้ได้รับอนุญาต",
+      "summary": "ผู้ที่สามารถเข้าไปในบริเวณนี้ได้คือ 'เฉพาะเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น' (Authorized Personnel Only)",
+      "trickTip": "💡 Authorized = ได้รับอนุญาต / Personnel = บุคลากร/เจ้าหน้าที่",
+      "commonMistake": "📚 คำศัพท์สำคัญ: High Voltage = ไฟฟ้าแรงสูง",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Only authorized individuals."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลป้ายเตือน: 'อันตราย: ไฟฟ้าแรงสูง เฉพาะเจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'Authorized Personnel Only' เป็นสำนวนสากลแปลว่า เฉพาะพนักงานหรือเจ้าหน้าที่ที่ได้รับอนุญาตอย่างเป็นทางการเท่านั้น"
         }
       ]
     }
@@ -3860,13 +4268,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Decreased CO2 absorption contributes to climate change.",
-      "trickTip": "💡 reduces capacity to absorb CO2",
+      "summary": "ผลลัพธ์ของการตัดไม้ทำลายป่าคือ 'ความสามารถในการดูดซับก๊าซคาร์บอนไดออกไซด์ลดลง ส่งผลให้โลกร้อนขึ้น'",
+      "trickTip": "💡 deforestation = การตัดไม้ทำลายป่า, absorb = ดูดซับ",
+      "commonMistake": "📚 คำศัพท์สำคัญ: atmosphere = ชั้นบรรยากาศ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Decreased CO2 absorption contributes to climate change."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลบทความ: 'การตัดไม้ทำลายป่าลดความสามารถของโลกลงในการดูดซับก๊าซคาร์บอนไดออกไซด์จากชั้นบรรยากาศ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำว่า 'reduces capacity to absorb CO2' แปลว่า ลดความสามารถในการดูดซับก๊าซคาร์บอนไดออกไซด์ ทำให้ก๊าซเรือนกระจกสะสมในชั้นบรรยากาศมากขึ้น"
         }
       ]
     }
@@ -3916,13 +4330,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Concise means giving a lot of information clearly and in a few words.",
-      "trickTip": "💡 concise = กระชับ รัดกุม",
+      "summary": "คำว่า 'concise' หมายถึง 'กระชับ สั้น รัดกุม และได้ใจความตรงประเด็น' ตรงกับตัวเลือกที่ 2 (Brief and to the point)",
+      "trickTip": "💡 concise = กระชับ รัดกุม (ตรงข้ามกับ wordy / lengthy)",
+      "commonMistake": "📚 คำศัพท์สำคัญ: brief = สั้นกระชับ, wordy = ใช้คำฟุ่มเฟือยเยิ่นเย้อ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Reading Comprehension",
-          "content": "Concise means giving a lot of information clearly and in a few words."
+          "title": "แปลเนื้อหาและคำถาม",
+          "content": "แปลประโยค: 'เธอได้ให้การสรุปความที่กระชับรัดกุมซึ่งใช้เวลาเพียงแค่สองนาทีเท่านั้น'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์ใจความและตัดตัวเลือก",
+          "content": "คำใบ้ 'lasted only two minutes' (ใช้เวลาแค่ 2 นาที) และคำว่า summary บ่งบอกว่าเป็นการสรุปที่สั้นกระชับตรงประเด็น"
         }
       ]
     }
@@ -3973,13 +4393,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "The patient describes symptoms to the doctor.",
-      "trickTip": "💡 บอกอาการเจ็บป่วยแก่แพทย์",
+      "summary": "คำตอบที่ถูกต้องคือ 'I have a severe headache and fever.' เพราะเป็นประโยคบอกอาการเจ็บป่วยแก่แพทย์อย่างถูกต้อง",
+      "trickTip": "💡 ไปหาหมอ ตอบด้วยอาการเจ็บป่วย: I have a headache / stomachache / fever",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: severe = รุนแรง, fever = มีไข้",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "The patient describes symptoms to the doctor."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nหมอ: 'วันนี้คุณมีอาการผิดปกติอย่างไรบ้างครับ?'\nคนไข้: 'ฉันมีอาการปวดศีรษะอย่างรุนแรงและมีไข้ค่ะ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "เมื่อแพทย์ถาม 'What seems to be the problem?' หรือ 'What's the matter?' เป็นการถามอาการเจ็บป่วย คนไข้ต้องตอบด้วยอาการป่วย (I have...)"
         }
       ]
     }
@@ -4030,13 +4456,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'Not at all' means no problem, willing to help.",
-      "trickTip": "💡 Would you mind...? ตอบ Not at all = ยินดีช่วย",
+      "summary": "คำตอบที่ถูกต้องคือ 'Not at all. Here you go.' แปลว่า 'ไม่รังเกียจเลยครับ/ค่ะ นี่ครับ' เป็นการตอบรับช่วยหยิบของให้อย่างสุภาพ",
+      "trickTip": "💡 Would you mind...? ➔ ยินดีช่วยตอบ 'Not at all' (ไม่รังเกียจ)",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: ระวังตอบ Yes เพราะจะแปลว่า 'รังเกียจ (ไม่ช่วย)'",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'Not at all' means no problem, willing to help."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'คุณจะรังเกียจไหมถ้าช่วยส่งเกลือให้ฉันหน่อย?'\nB: 'ไม่รังเกียจเลยครับ นี่ครับ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "คำถาม 'Would you mind...?' (คุณจะรังเกียจไหม?) ถ้าเรายินดีช่วย ต้องตอบปฏิเสธความรังเกียจ เช่น 'Not at all' หรือ 'No, of course not'"
         }
       ]
     }
@@ -4087,13 +4519,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Congratulating someone on their achievement.",
-      "trickTip": "💡 แสดงความยินดี (Congratulations)",
+      "summary": "คำตอบที่ถูกต้องคือ 'Congratulations! That's wonderful news.' เป็นการกล่าวแสดงความยินดีเมื่อผู้อื่นประสบความสำเร็จ",
+      "trickTip": "💡 ข่าวดี ➔ Congratulations! / ข่าวร้าย ➔ What a pity! หรือ I'm sorry to hear that.",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: What a pity = น่าเสียดายจัง (ใช้กับเรื่องน่าเสียดาย)",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Congratulating someone on their achievement."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'ฉันสอบวิชาคณิตศาสตร์ผ่านด้วยคะแนนเต็มเลย!'\nB: 'ยินดีด้วยนะ! นั่นเป็นข่าวที่ยอดเยี่ยมมากเลย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "เมื่อได้ยินข่าวดีหรือความสำเร็จของผู้อื่น ควรใช้สำนวน 'Congratulations!' หรือ 'Well done!'"
         }
       ]
     }
@@ -4144,13 +4582,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Providing the price of the item.",
-      "trickTip": "💡 ตอบราคา 500 บาท",
+      "summary": "คำตอบที่ถูกต้องคือ 'It's 500 Baht.' เพราะลูกค้าถามราคา ('how much')",
+      "trickTip": "💡 How much = ถามราคา / How many = ถามจำนวนชิ้น",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: clerk = พนักงานขาย, cotton = ผ้าฝ้าย",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Providing the price of the item."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nลูกค้า: 'ช่วยบอกหน่อยได้ไหมครับว่าเสื้อตัวนี้ราคาเท่าไหร่?'\nพนักงาน: 'ราคา 500 บาทครับ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "คำถาม 'How much is...?' เป็นการถามราคา คำตอบจึงต้องระบุจำนวนเงิน (500 Baht)"
         }
       ]
     }
@@ -4201,13 +4645,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'Under the weather' is an idiom meaning feeling ill/sick.",
-      "trickTip": "💡 under the weather = รู้สึกไม่สบาย / ป่วย",
+      "summary": "สำนวน 'under the weather' หมายถึง 'รู้สึกไม่ค่อยสบาย หรือมีอาการป่วยเล็กน้อย' ตรงกับตัวเลือกที่ 2 (Feeling sick or unwell)",
+      "trickTip": "💡 under the weather = ป่วย / ไม่สบาย",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: อย่าแปลตรงตัวว่าอยู่ใต้สภาพอากาศ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'Under the weather' is an idiom meaning feeling ill/sick."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'วันนี้ฉันรู้สึกไม่ค่อยสบายเนื้อสบายตัวเลย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Idiom: 'under the weather' เป็นสำนวนยอดนิยมในข้อสอบ แปลว่า ป่วยหรือไม่สบาย"
         }
       ]
     }
@@ -4258,13 +4708,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'Call it a day' means to stop working on something.",
-      "trickTip": "💡 call it a day = เลิกงาน / พอก่อนสำหรับวันนี้",
+      "summary": "สำนวน 'call it a day' หมายถึง 'เลิกงาน หรือพอก่อนสำหรับวันนี้' ตรงกับตัวเลือกที่ 2 (Let's stop working for today)",
+      "trickTip": "💡 call it a day = พอก่อนสำหรับวันนี้ / เลิกงาน",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: call it a night = เลิกกิจกรรมตอนกลางคืนเพื่อเข้านอน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'Call it a day' means to stop working on something."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'วันนี้พวกเราพอแค่นี้กันก่อนเถอะ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Idiom: 'call it a day' ใช้เมื่อทำงานหรือกิจกรรมมาพอสมควรแล้วและต้องการยุติการทำงานในวันนั้น"
         }
       ]
     }
@@ -4315,13 +4771,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Giving clear directions.",
-      "trickTip": "💡 บอกเส้นทาง (Go straight and turn left)",
+      "summary": "คำตอบที่ถูกต้องคือ 'Go straight and turn left at the traffic light.' เป็นการบอกทิศทางเส้นทางอย่างชัดเจน",
+      "trickTip": "💡 ถามทาง ➔ ตอบด้วยคำบอกทิศทาง (Go straight / Turn left)",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: traffic light = สัญญาณไฟจราจร",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Giving clear directions."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nนักท่องเที่ยว: 'ขอโทษนะครับ ผมจะเดินทางไปสถานีรถไฟได้อย่างไรครับ?'\nคนท้องถิ่น: 'เดินตรงไปแล้วเลี้ยวซ้ายตรงสัญญาณไฟจราจรครับ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "เมื่อถูกถามทาง ('how do I get to...?') ต้องตอบด้วยคำบอกทิศทาง เช่น Go straight (ตรงไป), Turn left/right (เลี้ยวซ้าย/ขวา)"
         }
       ]
     }
@@ -4372,13 +4834,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'You're welcome' is the polite response to 'Thank you'.",
-      "trickTip": "💡 You're welcome = ด้วยความยินดี",
+      "summary": "คำตอบที่ถูกต้องคือ 'You're welcome.' (ด้วยความยินดี) เป็นการตอบรับคำขอบคุณที่เป็นทางการและสุภาพที่สุด",
+      "trickTip": "💡 Thank you ➔ You're welcome",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: Never mind ใช้ตอบเมื่อมีคนมาขอโทษ (แปลว่า ไม่เป็นไร/ช่างมันเถอะ) ไม่นิยมใช้ตอบรับคำขอบคุณ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'You're welcome' is the polite response to 'Thank you'."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'ขอบคุณมากเลยนะสำหรับความช่วยเหลือของคุณ'\nB: 'ด้วยความยินดีเลยครับ/ค่ะ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "การตอบรับคำขอบคุณ: 'You're welcome / My pleasure / Don't mention it'"
         }
       ]
     }
@@ -4429,13 +4897,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Forgiving an accident politely.",
-      "trickTip": "💡 Don't mention it / It's fine = ไม่เป็นไร",
+      "summary": "คำตอบที่ถูกต้องคือ 'Don't mention it. It's fine.' แปลว่า 'ไม่เป็นไรหรอก ไม่ต้องคิดมากนะ' เป็นการให้อภัยต่ออุบัติเหตุอย่างสุภาพ",
+      "trickTip": "💡 ตอบรับคำขอโทษ ➔ Don't worry / It's fine / Never mind",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: accidentally = โดยไม่ได้ตั้งใจ, favorite mug = แก้วใบโปรด",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Forgiving an accident politely."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'ฉันเผลอทำแก้วมัคใบโปรดของเธอแตกโดยไม่ได้ตั้งใจ ฉันขอโทษจริงๆ นะ'\nB: 'ไม่เป็นไรเลย มันไม่เป็นไรหรอก'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "การตอบรับคำขอโทษ: 'Never mind / It's fine / Don't worry about it / That's okay'"
         }
       ]
     }
@@ -4486,13 +4960,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Feeling nervous before a performance.",
-      "trickTip": "💡 butterflies in my stomach = ตื่นเต้นกังวล",
+      "summary": "สำนวน 'butterflies in my stomach' หมายถึง 'รู้สึกตื่นเต้น ประหม่า หรือกังวลใจอย่างมาก' ตรงกับตัวเลือกที่ 2",
+      "trickTip": "💡 butterflies in my stomach = ตื่นเต้น / ประหม่า",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: speech = สุนทรพจน์, nervous = ประหม่า, anxious = กังวล",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Feeling nervous before a performance."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'ฉันรู้สึกประหม่าตื่นเต้นจนท้องไส้ปั่นป่วนไปหมดก่อนการขึ้นกล่าวสุนทรพจน์'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Idiom: อาการตื่นเต้นเหมือนมีผีเสื้อบินอยู่ในท้อง เกิดขึ้นก่อนการแสดง การพูด หรือการสอบ"
         }
       ]
     }
@@ -4543,13 +5023,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Ordering food politely.",
-      "trickTip": "💡 สั่งอาหาร: I'd like...",
+      "summary": "คำตอบที่ถูกต้องคือ 'Yes, I'd like the grilled salmon, please.' เป็นประโยคการสั่งอาหารที่สุภาพในร้านอาหาร",
+      "trickTip": "💡 สั่งอาหารใช้: I'd like... / Could I have...",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: Check, please ใช้ตอนเรียกเช็คบิลเก็บเงินหลังทานเสร็จ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Ordering food politely."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nบริกร: 'คุณผู้ชายพร้อมที่จะสั่งอาหารแล้วหรือยังครับ?'\nลูกค้า: 'พร้อมแล้วครับ ผมขอสั่งแซลมอนย่างครับ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "สำนวนสั่งอาหาร: 'I'd like + เมนูอาหาร, please' หรือ 'May I have...'"
         }
       ]
     }
@@ -4600,13 +5086,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'Break a leg' is an idiom wishing someone good luck in performance.",
-      "trickTip": "💡 break a leg = ขอให้โชคดี (ใช้กับการแสดง)",
+      "summary": "สำนวน 'Break a leg!' หมายถึง 'ขอให้โชคดีนะ!' (Good luck) มักใช้อวยพรนักแสดงก่อนขึ้นเวที",
+      "trickTip": "💡 Break a leg = Good luck (ขอให้โชคดี)",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: อย่าแปลตรงตัวว่าขาหักเด็ดขาด",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'Break a leg' is an idiom wishing someone good luck in performance."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'ขอให้โชคดีในการคัดเลือกนักแสดงละครเวทีนะ!'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "ที่มาของสำนวน: ในวงการการแสดงมีความเชื่อดั้งเดิมว่าการอวยพรว่า Good luck ตรงๆ จะทำให้โชคร้าย จึงใช้คำว่า Break a leg แทนเพื่อแก้เคล็ด"
         }
       ]
     }
@@ -4657,13 +5149,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Accepting an invitation enthusiastically.",
-      "trickTip": "💡 I'd love to = ตอบรับคำชวน",
+      "summary": "คำตอบที่ถูกต้องคือ 'I'd love to! What's playing?' แปลว่า 'อยากไปมากเลย! มีเรื่องอะไรฉายอยู่บ้างล่ะ?' เป็นการตอบรับคำชวนอย่างกระตือรือร้น",
+      "trickTip": "💡 Do you fancy...? = Do you want to...? (ชวนไปทำกิจกรรม)",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: cinema = โรงภาพยนตร์, I'd love to = ยินดี/อยากไปมาก",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Accepting an invitation enthusiastically."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'คืนนี้เธออยากไปดูหนังด้วยกันไหม?'\nB: 'อยากไปมากเลย! มีเรื่องอะไรฉายอยู่เหรอ?'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "สำนวน 'Do you fancy + V-ing?' (ภาษาอังกฤษแบบบริติช) แปลว่า 'อยากทำ...ไหม?' การตอบรับใช้ 'I'd love to!'"
         }
       ]
     }
@@ -4714,13 +5212,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'Give me a hand' means help me.",
-      "trickTip": "💡 give me a hand = ช่วยหน่อย",
+      "summary": "คำตอบที่ถูกต้องคือ 'Sure, I'd be glad to help.' แปลว่า 'ได้แน่นอน ฉันยินดีช่วยนะ'",
+      "trickTip": "💡 give a hand = help (ช่วยเหลือ)",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: อย่าตอบ No, I have two hands เพราะเป็นการเข้าใจสำนวนผิด",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'Give me a hand' means help me."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'เธอช่วยฉันยกกล่องหนักๆ ใบนี้หน่อยได้ไหม?'\nB: 'ได้สิ ฉันยินดีช่วยเลย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "สำนวน 'give someone a hand' แปลว่า 'ช่วยเหลืองาน/ช่วยออกแรง' ไม่ได้แปลว่ายื่นมือให้"
         }
       ]
     }
@@ -4771,13 +5275,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Raining heavily.",
+      "summary": "สำนวน 'raining cats and dogs' หมายถึง 'ฝนกำลังตกหนักอย่างรุนแรง' ตรงกับตัวเลือกที่ 2 (It is raining very heavily)",
       "trickTip": "💡 raining cats and dogs = ฝนตกหนักมาก",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: ข้อสอบชอบนำสำนวนนี้มาลวงด้วยตัวเลือกเกี่ยวกับสัตว์ตกจากฟ้า",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Raining heavily."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'ข้างนอกฝนกำลังตกหนักเทกระหน่ำเลย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Idiom: สำนวนเปรียบเทียบฝนตกหนักมากจนมองไม่เห็นทาง"
         }
       ]
     }
@@ -4828,13 +5338,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Confirming a room booking.",
-      "trickTip": "💡 ยืนยันการจองห้องพัก",
+      "summary": "คำตอบที่ถูกต้องคือ 'Yes, under the name of Smith.' แปลว่า 'มีครับ จองไว้ในชื่อของคุณสมิธครับ'",
+      "trickTip": "💡 reservation = การจองห้อง/โต๊ะล่วงหน้า",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: under the name of = ในชื่อของ...",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Confirming a room booking."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nพนักงานต้อนรับ: 'ยินดีต้อนรับสู่โรงแรมแกรนด์ครับ ท่านได้ทำการจองห้องพักไว้ล่วงหน้าไหมครับ?'\nแขก: 'จองไว้ครับ ในชื่อคุณสมิธครับ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "เมื่อพนักงานโรงแรมถามหาการจอง ('Do you have a reservation?') หากจองไว้จะตอบว่า 'Yes, under the name of + [ชื่อผู้จอง]'"
         }
       ]
     }
@@ -4885,13 +5401,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "To make a decision.",
+      "summary": "สำนวน 'make up one's mind' หมายถึง 'การตัดสินใจ หรือเลือก' ตรงกับตัวเลือกที่ 2 (To decide / make a decision)",
       "trickTip": "💡 make up one's mind = ตัดสินใจ",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: อย่าสับสนกับ make up ที่แปลว่าแต่งหน้า หรือกุเรื่อง",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "To make a decision."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'ฉันตัดสินใจไม่ได้เลยว่าจะซื้อเสื้อตัวไหนดี'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Idiom: 'make up one's mind' = decide (ตัดสินใจ)"
         }
       ]
     }
@@ -4942,13 +5464,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "To submit work.",
-      "trickTip": "💡 hand in = ส่งงาน",
+      "summary": "กริยาวลี 'hand in' หมายถึง 'ส่งงาน หรือส่งการบ้าน' (To submit / deliver)",
+      "trickTip": "💡 hand in = turn in = submit (ส่งงาน)",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: hand out = แจกจ่าย / hand in = ส่งคืน/ส่งงาน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "To submit work."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค:\nครู: 'กรุณาส่งงานที่ได้รับมอบหมายของพวกเธอภายในวันศุกร์นี้นะ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Phrasal Verb: 'hand in / turn in' = submit (ส่งเอกสาร/การบ้าน)"
         }
       ]
     }
@@ -4999,13 +5527,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Locating the lost keys.",
-      "trickTip": "💡 บอกตำแหน่งสิ่งของ",
+      "summary": "คำตอบที่ถูกต้องคือ 'Yes, they're on the kitchen counter.' เป็นการบอกตำแหน่งของกุญแจที่ถามหาได้อย่างชัดเจน",
+      "trickTip": "💡 look for = ตามหา / find = พบเจอ",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: kitchen counter = เคาน์เตอร์ครัว",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Locating the lost keys."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'ฉันกำลังตามหากุญแจอยู่ เธอเห็นบ้างไหม?'\nB: 'เห็นสิ มันวางอยู่บนเคาน์เตอร์ในครัวน่ะ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "เมื่อมีคนถามหากุญแจหลายดอก ('my keys' เป็นพหูพจน์ สรรพนามแทนคือ them/they) คำตอบจึงต้องระบุที่อยู่ของกุญแจ"
         }
       ]
     }
@@ -5056,13 +5590,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Very rarely.",
-      "trickTip": "💡 once in a blue moon = นานๆ ครั้ง / แทบไม่เคยเลย",
+      "summary": "สำนวน 'once in a blue moon' หมายถึง 'นานๆ ครั้ง หรือแทบจะไม่เคยเกิดขึ้นเลย' ตรงกับตัวเลือกที่ 2 (Very rarely / hardly ever)",
+      "trickTip": "💡 once in a blue moon = นานๆ ครั้ง / แทบไม่เคยเลย (Rarely)",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: ตรงข้ามกับ frequently (บ่อยๆ)",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Very rarely."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'นานๆ ทีเขาถึงจะกลับไปเยี่ยมบ้านเกิดของเขาสักครั้งหนึ่ง'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Idiom: Blue moon คือพระจันทร์เต็มดวงครั้งที่สองในเดือนเดียวกัน ซึ่งเกิดขึ้นยากมาก จึงนำมาเปรียบกับเหตุการณ์ที่เกิดขึ้นแทบจะนานๆ ครั้ง"
         }
       ]
     }
@@ -5113,13 +5653,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'It's my treat' means I will pay for you.",
-      "trickTip": "💡 it's my treat = ฉันเลี้ยงเอง",
+      "summary": "คำตอบที่ถูกต้องคือ 'No, it's my treat today.' แปลว่า 'ไม่ต้องหรอก มื้อนี้ฉันเลี้ยงเองนะ'",
+      "trickTip": "💡 split the bill = หารครึ่ง / It's my treat = ฉันเลี้ยงเอง",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: bill = ใบเสร็จค่าอาหาร",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'It's my treat' means I will pay for you."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'เรามาหารค่าอาหารเย็นมื้อนี้กันไหม?'\nB: 'ไม่ต้องหรอก มื้อนี้ฉันเลี้ยงเอง'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "สำนวน 'split the bill' / 'go Dutch' = แชร์ค่าอาหารคนละครึ่ง, ส่วน 'It's my treat' / 'It's on me' = มื้อนี้ฉันเลี้ยงเอง"
         }
       ]
     }
@@ -5170,13 +5716,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Appearance can be deceptive.",
-      "trickTip": "💡 อย่าตัดสินคนจากภายนอก",
+      "summary": "สุภาษิตนี้หมายถึง 'อย่าตัดสินคุณค่าของคนหรือสิ่งใดสิ่งหนึ่งจากเพียงรูปลักษณ์ภายนอก' ตรงกับข้อ 2",
+      "trickTip": "💡 Don't judge a book by its cover = อย่าตัดสินคนจากภายนอก",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: appearance = รูปลักษณ์ภายนอก, solely = เพียงแค่",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Appearance can be deceptive."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลสุภาษิต: 'อย่าตัดสินหนังสือจากแค่หน้าปกของมัน'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Proverb: รูปลักษณ์ภายนอกอาจหลอกตาได้ สิ่งสำคัญคือคุณค่าเนื้อแท้ที่อยู่ข้างใน"
         }
       ]
     }
@@ -5227,13 +5779,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "A positive and professional answer.",
-      "trickTip": "💡 ตอบอย่างสร้างสรรค์และมีวิสัยทัศน์",
+      "summary": "คำตอบที่เหมาะสมและสร้างสรรค์ที่สุดในการสัมภาษณ์คือ 'เพราะผมต้องการรับใช้และช่วยเหลือชุมชนโรงเรียนของเราครับ'",
+      "trickTip": "💡 การสัมภาษณ์ ➔ เลือกคำตอบเชิงบวกและสร้างสรรค์",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: student council = สภานักเรียน, serve = ทำประโยชน์/รับใช้",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "A positive and professional answer."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nผู้สัมภาษณ์: 'ทำไมคุณถึงต้องการเข้าร่วมสภานักเรียนของเราครับ?'\nนักเรียน: 'เพราะผมต้องการทำประโยชน์และช่วยเหลือส่วนรวมในโรงเรียนครับ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "การตอบคำถามสัมภาษณ์ (Interview) ต้องเลือกคำตอบที่มีทัศนคติเชิงบวก แสดงความรับผิดชอบ และมีจิตสาธารณะ"
         }
       ]
     }
@@ -5284,13 +5842,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Working late into the night.",
-      "trickTip": "💡 burn the midnight oil = ทำงานดึกดื่นค่อนคืน",
+      "summary": "สำนวน 'burn the midnight oil' หมายถึง 'ทำงานหรืออ่านหนังสือดึกดื่นค่อนคืน' ตรงกับตัวเลือกที่ 2 (To study or work late into the night)",
+      "trickTip": "💡 burn the midnight oil = ทำงาน/อ่านหนังสือดึกดื่น",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: อย่าแปลตรงตัวว่าเผาน้ำมัน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Working late into the night."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'ฉันต้องอดนอนทำงานดึกดื่นเพื่อทำงานชิ้นนี้ให้เสร็จ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "ที่มาของสำนวน: ในสมัยโบราณยังไม่มีไฟฟ้า คนที่ต้องทำงานดึกจะต้องจุดตะเกียงน้ำมัน (oil lamp) นั่งทำงานยามค่ำคืน"
         }
       ]
     }
@@ -5341,13 +5905,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Declining food politely when full.",
-      "trickTip": "💡 No, thank you = ปฏิเสธอย่างสุภาพ",
+      "summary": "คำตอบที่ถูกต้องคือ 'No, thank you' (ไม่รับแล้วครับ ขอบคุณครับ) เป็นการปฏิเสธการรับอาหารเพิ่มอย่างสุภาพเมื่ออิ่มแล้ว",
+      "trickTip": "💡 รับ ➔ Yes, please / ไม่รับ ➔ No, thank you",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: completely full = อิ่มแปล้แล้ว",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Declining food politely when full."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'คุณต้องการรับขนมหวานเพิ่มอีกไหมครับ?'\nB: 'ไม่แล้วครับ ขอบคุณครับ ตอนนี้ผมอิ่มมากแล้ว'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "มารยาทในการตอบรับ/ปฏิเสธอาหาร: ถ้าต้องการรับตอบ 'Yes, please' ถ้าต้องการปฏิเสธอย่างสุภาพตอบ 'No, thank you'"
         }
       ]
     }
@@ -5398,13 +5968,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Cooperating with the officer politely.",
-      "trickTip": "💡 ยื่นเอกสารให้ตรวจ (Here you are)",
+      "summary": "คำตอบที่ถูกต้องคือ 'Here you are, officer.' แปลว่า 'นี่ครับเจ้าหน้าที่' เป็นประโยคยื่นส่งเอกสารให้อย่างสุภาพ",
+      "trickTip": "💡 ยื่นของให้ผู้อื่นใช้ 'Here you are.'",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: driver's license = ใบขับขี่",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Cooperating with the officer politely."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nตำรวจ: 'ขอดูใบอนุญาตขับขี่ของคุณหน่อยครับ?'\nคนขับ: 'นี่ครับเจ้าหน้าที่'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "สำนวนยื่นของให้ผู้อื่น: 'Here you are.' หรือ 'Here it is.' แปลว่า นี่ครับ/นี่ค่ะ"
         }
       ]
     }
@@ -5455,13 +6031,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'A piece of cake' means very easy.",
-      "trickTip": "💡 a piece of cake = ง่ายเหมือนปอกกล้วย",
+      "summary": "สำนวน 'a piece of cake' หมายถึง 'ง่ายมากๆ เหมือนปอกกล้วยเข้าปาก' ตรงกับตัวเลือกที่ 2 (It was very easy)",
+      "trickTip": "💡 a piece of cake = ง่ายมาก (Very easy)",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: อย่านำไปแปลเกี่ยวกับของหวานหรือความอร่อย",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'A piece of cake' means very easy."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลประโยค: 'ข้อสอบชุดนี้ง่ายมากๆ เลย!'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Idiom: สำนวนเปรียบเทียบสิ่งที่ทำได้ง่ายดายเหมือนกับการรับประทานเค้กหนึ่งชิ้น"
         }
       ]
     }
@@ -5512,13 +6094,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "Encouraging a friend not to quit.",
-      "trickTip": "💡 ให้กำลังใจเพื่อน (Don't give up)",
+      "summary": "คำตอบที่ถูกต้องคือ 'Don't give up!' แปลว่า 'อย่ายอมแพ้นะ!' เพื่อให้กำลังใจเพื่อนคู่กับคำว่า Keep practicing (ฝึกต่อไปนะ)",
+      "trickTip": "💡 give up = ยอมแพ้ / Don't give up = อย่ายอมแพ้",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: keep practicing = ฝึกฝนต่อไปเรื่อยๆ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "Encouraging a friend not to quit."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nA: 'ฉันกำลังคิดว่าจะเลิกเล่นกีตาร์แล้วล่ะ'\nB: 'อย่ายอมแพ้สิ! พยายามฝึกต่อไปนะ!'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "สำนวนให้กำลังใจ: 'Don't give up / Hang in there / Keep it up' แปลว่า อย่ายอมแพ้ / พยายามต่อไป"
         }
       ]
     }
@@ -5569,13 +6157,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "'Just browsing' means just looking around politely.",
-      "trickTip": "💡 I'm just browsing = ขอดูก่อนครับ/ค่ะ",
+      "summary": "คำตอบที่สุภาพที่สุดเมื่อพนักงานร้านเข้ามาถามคือ 'I'm just browsing, thank you.' แปลว่า 'ฉันขอเดินดูรอบๆ ก่อนครับ ขอบคุณครับ'",
+      "trickTip": "💡 I'm just browsing = ขอดูรอบๆ ก่อนครับ/ค่ะ",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: browse = เดินดูสินค้าเรื่อยๆ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "'Just browsing' means just looking around politely."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลบทสนทนา:\nพนักงานร้าน: 'มีอะไรให้ผมช่วยหาไหมครับ?'\nลูกค้า: 'ขอดูก่อนรอบๆ ครับ ขอบคุณมากครับ'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "สำนวน 'just browsing / just looking' ใช้ตอบพนักงานอย่างสุภาพเมื่อเรายังไม่ได้ต้องการให้ช่วยหาของชิ้นใดเป็นพิเศษ"
         }
       ]
     }
@@ -5626,13 +6220,19 @@ export const BENCHAMA_ENGLISH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "It is better to complete something late than never do it.",
-      "trickTip": "💡 better late than never = มาช้ายังดีกว่าไม่มา",
+      "summary": "สุภาษิต 'Better late than never' หมายถึง 'มาช้าหรือทำช้ายังดีกว่าไม่มาหรือไม่ทำเลย' ตรงกับตัวเลือกที่ 2",
+      "trickTip": "💡 Better late than never = มาช้ายังดีกว่าไม่มา",
+      "commonMistake": "📌 เกร็ดสำนวน/คำศัพท์: arrive late = มาสาย, not at all = ไม่ทำเลย",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "Situational English",
-          "content": "It is better to complete something late than never do it."
+          "title": "แปลบทสนทนาและสถานการณ์",
+          "content": "แปลสุภาษิต: 'มาช้ายังดีกว่าไม่มาเลย'"
+        },
+        {
+          "stepNumber": 2,
+          "title": "วิเคราะห์การใช้ภาษาและสำนวน",
+          "content": "Proverb: ใช้พูดให้กำลังใจหรือผ่อนคลายเมื่อมีคนมาสายหรือทำงานเสร็จช้ากว่ากำหนด แต่อย่างน้อยก็ยังทำสำเร็จ"
         }
       ]
     }

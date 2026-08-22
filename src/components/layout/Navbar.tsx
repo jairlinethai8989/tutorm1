@@ -3,9 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GraduationCap, Flame, BarChart3, Award, BookOpen, Clock } from 'lucide-react';
+import { GraduationCap, Flame, BarChart3, Award, BookOpen, Clock, Sparkles } from 'lucide-react';
 import { getUserStats } from '@/lib/storage';
 import { UserOverallStats } from '@/types/analytics';
+
+import { APP_CONFIG } from '@/lib/constants/app';
+import { UserNoticeModal } from '@/components/home/UserNoticeModal';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -16,9 +19,10 @@ export const Navbar: React.FC = () => {
   }, [pathname]);
 
   const navLinks = [
-    { name: 'เลือกวิชา', href: '/', icon: BookOpen },
+    { name: '5 วิชาหลัก', href: '/', icon: BookOpen },
     { name: 'จำลองสอบจริง', href: '/mock-exam', icon: Clock },
-    { name: 'ประเมินผล & จุดอ่อน', href: '/dashboard', icon: BarChart3 },
+    { name: 'AI Practice', href: '/practice', icon: Sparkles },
+    { name: 'แดชบอร์ด & จุดอ่อน', href: '/dashboard', icon: BarChart3 },
   ];
 
   return (
@@ -31,16 +35,16 @@ export const Navbar: React.FC = () => {
               <GraduationCap className="w-6 h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-lg text-slate-900 tracking-tight">
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
                   Tutor M.1
                 </span>
-                <span className="text-[10px] uppercase tracking-wider bg-blue-100 text-blue-700 font-bold px-1.5 py-0.5 rounded-md">
-                  มศว. & สสวท.
+                <span className="text-[10px] uppercase tracking-wider bg-purple-100 text-purple-700 font-bold px-1.5 py-0.5 rounded-md">
+                  {APP_CONFIG.version}
                 </span>
               </div>
-              <p className="text-xs text-slate-500 hidden sm:block">
-                เตรียมสอบ รร.เบ็ญจะมะมหาราช & จุฬาภรณราชวิทยาลัย มุกดาหาร
+              <p className="text-[11px] text-slate-500 hidden sm:block font-medium">
+                {APP_CONFIG.title}
               </p>
             </div>
           </Link>
@@ -54,31 +58,35 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${
+                  className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-blue-50 text-blue-600 font-bold shadow-xs'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
                   <span>{link.name}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* User Streak & Readiness Widget */}
-          <div className="flex items-center space-x-3">
+          {/* User Streak, Readiness & Notice Widget */}
+          <div className="flex items-center space-x-2.5">
+            <div className="hidden sm:block">
+              <UserNoticeModal triggerButton={true} />
+            </div>
+
             {/* Streak */}
-            <div className="flex items-center space-x-1.5 bg-orange-50 border border-orange-200/80 px-2.5 py-1 rounded-full text-orange-600 text-xs font-bold shadow-2xs">
-              <Flame className="w-4 h-4 fill-orange-500 text-orange-500 animate-pulse" />
-              <span>{stats?.streakDays || 1} วันติดกัน</span>
+            <div className="flex items-center space-x-1 bg-orange-50 border border-orange-200/80 px-2.5 py-1 rounded-full text-orange-600 text-xs font-bold shadow-2xs">
+              <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500 animate-pulse" />
+              <span>{stats?.streakDays || 1} วัน</span>
             </div>
 
             {/* Readiness */}
-            <div className="hidden lg:flex items-center space-x-2 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-full text-emerald-700 text-xs font-bold">
-              <Award className="w-4 h-4 text-emerald-600" />
-              <span>ความพร้อม {stats?.examReadinessScore || 0}%</span>
+            <div className="hidden lg:flex items-center space-x-1.5 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-full text-emerald-700 text-xs font-bold">
+              <Award className="w-3.5 h-3.5 text-emerald-600" />
+              <span>พร้อม {stats?.examReadinessScore || 0}%</span>
             </div>
           </div>
         </div>
