@@ -56,13 +56,13 @@ export const SolutionViewer: React.FC<SolutionViewerProps> = ({ question }) => {
           <div className="text-base font-bold text-emerald-950">
             {question.type === 'multiple_choice' && correctChoice ? (
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-emerald-600 text-white text-xs flex items-center justify-center">
+                <span className="w-6 h-6 rounded-lg bg-emerald-600 text-white text-xs flex items-center justify-center shrink-0">
                   {correctChoice.label}
                 </span>
-                <span>{correctChoice.content}</span>
+                <MathText content={correctChoice.content} inline={true} />
               </div>
             ) : (
-              <span>{question.correctAnswer || question.solution.summary}</span>
+              <MathText content={question.correctAnswer || question.solution.summary} inline={true} />
             )}
           </div>
         </div>

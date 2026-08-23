@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.6.3',
-  versionLabel: 'Version 2.6.3 (Exam & Quiz Progress Bar)',
+  version: 'v2.6.4',
+  versionLabel: 'Version 2.6.4 (Solution Math KaTeX & Quality Update)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,32 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.6.4',
+    date: '23 สิงหาคม 2026',
+    title: 'แก้ไขการแสดงผลสัญลักษณ์คณิตศาสตร์ในกล่องเฉลยคำตอบ (Solution KaTeX Fix)',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'fix',
+        title: 'แก้ไขการเรนเดอร์ KaTeX ในกล่อง "คำตอบที่ถูกต้อง" (SolutionViewer)',
+        description:
+          'ปรับปรุงให้ข้อความคำตอบที่ถูกต้อง (เช่น เศษส่วน 99/100, ทศนิยมซ้ำ 62/99, สแควร์รูท 3√3, และค่าพาย 36π) เรนเดอร์เป็นสูตรคณิตศาสตร์สวยงามผ่าน KaTeX 100% แทนการแสดงผลเป็นข้อความ raw text',
+      },
+      {
+        type: 'fix',
+        title: 'แก้ไขการเรนเดอร์ KaTeX ในกล่องคำตอบอัตนัย (ShortAnswer)',
+        description:
+          'ปรับปรุงการแสดงผลข้อความเฉลยคำตอบของข้อสอบอัตนัยให้รองรับสูตรคณิตศาสตร์ผ่าน MathText อัตโนมัติ',
+      },
+    ],
+  },
+  {
     version: 'v2.6.3',
     date: '23 สิงหาคม 2026',
     title: 'เพิ่ม Progress Bar แสดงความคืบหน้าการทำข้อสอบทุกโหมด',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

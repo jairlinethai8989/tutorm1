@@ -75,8 +75,11 @@ export const ShortAnswer: React.FC<ShortAnswerProps> = ({
               {isCorrect ? 'ยอดเยี่ยมมาก! คุณตอบถูกต้อง' : 'ยังไม่ถูกต้อง'}
             </div>
             {!isCorrect && correctAnswer && (
-              <div className="text-xs mt-1">
-                คำตอบที่ถูกต้องคือ: <strong className="underline text-rose-900">{correctAnswer}</strong>
+              <div className="text-xs mt-1 flex items-center gap-1">
+                <span>คำตอบที่ถูกต้องคือ:</span>
+                <strong className="underline text-rose-900 font-bold">
+                  <MathText content={correctAnswer} inline={true} />
+                </strong>
               </div>
             )}
           </div>

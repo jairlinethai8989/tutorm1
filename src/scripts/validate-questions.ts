@@ -216,25 +216,58 @@ function validateQuestion(q: Question, sourceFile: string): ValidationIssue[] {
     });
   }
 
-  // Also check question content
+  // Check question content
   if (q.content && hasRawLatex(q.content)) {
     addIssue('ERROR', 9, 'latex-missing-delimiter', `Question content contains raw LaTeX without \$...\$ delimiter`, 'content');
   }
 
+  // Check solution fields
+  if (q.solution) {
+    if (q.solution.summary && hasRawLatex(q.solution.summary)) {
+      addIssue('ERROR', 9, 'latex-missing-delimiter', `Solution summary contains raw LaTeX without \$...\$ delimiter: "${q.solution.summary}"`, 'solution.summary');
+    }
+    if (q.solution.trickTip && hasRawLatex(q.solution.trickTip)) {
+      addIssue('ERROR', 9, 'latex-missing-delimiter', `Solution trickTip contains raw LaTeX without \$...\$ delimiter: "${q.solution.trickTip}"`, 'solution.trickTip');
+    }
+    if (q.solution.commonMistake && hasRawLatex(q.solution.commonMistake)) {
+      addIssue('ERROR', 9, 'latex-missing-delimiter', `Solution commonMistake contains raw LaTeX without \$...\$ delimiter: "${q.solution.commonMistake}"`, 'solution.commonMistake');
+    }
+    if (q.solution.steps) {
+      q.solution.steps.forEach((step, sIdx) => {
+        if (step.content && hasRawLatex(step.content)) {
+          addIssue('ERROR', 9, 'latex-missing-delimiter', `Solution step[${sIdx + 1}] contains raw LaTeX without \$...\$ delimiter: "${step.content}"`, `solution.steps[${sIdx}].content`);
+        }
+      });
+    }
+  }
+
+  // Check correctAnswer
+  if (q.correctAnswer && hasRawLatex(q.correctAnswer)) {
+    addIssue('ERROR', 9, 'latex-missing-delimiter', `correctAnswer contains raw LaTeX without \$...\$ delimiter: "${q.correctAnswer}"`, 'correctAnswer');
+  }
+
   // Rule 10: balanced braces in LaTeX
-  const allTextFields = [q.content, ...(q.choices?.map(c => c.content) || [])];
+  const allTextFields = [
+    q.content,
+    ...(q.choices?.map(c => c.content) || []),
+    q.solution?.summary,
+    q.solution?.trickTip,
+    ...(q.solution?.steps?.map(s => s.content) || []),
+  ].filter(Boolean) as string[];
+
   allTextFields.forEach((text, i) => {
     if (text && !checkBracesBalance(text)) {
-      const fieldName = i === 0 ? 'content' : `choices[${i - 1}].content`;
-      addIssue('WARNING', 10, 'unbalanced-braces', `Unbalanced braces {} in ${fieldName}`, fieldName);
+      addIssue('WARNING', 10, 'unbalanced-braces', `Unbalanced braces {} in text field`, 'text');
     }
   });
 
   // Rule 11: unmatched dollar signs
   allTextFields.forEach((text, i) => {
     if (text && countUnmatchedDollars(text) !== 0) {
-      const fieldName = i === 0 ? 'content' : `choices[${i - 1}].content`;
-      addIssue('WARNING', 11, 'unmatched-dollar', `Unmatched \$ sign in ${fieldName}`, fieldName);
+      // Exclude English questions where dollar is currency ($)
+      if (q.subjectId !== 'english') {
+        addIssue('WARNING', 11, 'unmatched-dollar', `Unmatched \$ sign in text field`, 'text');
+      }
     }
   });
 
