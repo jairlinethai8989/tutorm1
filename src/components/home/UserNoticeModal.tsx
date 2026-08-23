@@ -345,7 +345,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                         <span>3. AI Practice</span>
                       </div>
                       <p className="text-xs text-slate-600 leading-relaxed">
-                        สุ่มตัวเลขและโจทย์ใหม่ 33 รูปแบบ ฝึกคิดคำนวณซ้ำไม่จำกัดชุด 0 บาท
+                        สุ่มตัวเลขและโจทย์ใหม่ 33 รูปแบบ ฝึกคิดคำนวณซ้ำไม่จำกัดชุด
                       </p>
                     </div>
                   </div>

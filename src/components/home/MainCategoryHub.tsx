@@ -230,7 +230,7 @@ export const MainCategoryHub: React.FC = () => {
                   activeCategory === 'ai-practice' ? 'text-purple-100' : 'text-slate-500'
                 }`}
               >
-                สุ่มโจทย์และตัวเลขใหม่แบบไดนามิก ฝึกคิดคำนวณซ้ำไม่จำกัดชุด 0 บาท
+                สุ่มโจทย์และตัวเลขใหม่แบบไดนามิก ฝึกคิดคำนวณซ้ำไม่จำกัดชุด
               </p>
             </div>
           </button>
@@ -344,7 +344,7 @@ export const MainCategoryHub: React.FC = () => {
               <div>
                 <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-purple-600" />
-                  <span>หมวด AI Practice (สุ่มโจทย์ไดนามิก 33 รูปแบบ 0 บาท)</span>
+                  <span>หมวด AI Practice (สุ่มโจทย์ไดนามิก 33 รูปแบบ)</span>
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
                   สุ่มตัวเลขและตัวเลือกใหม่ทุกครั้ง ฝึกคิดคำนวณซ้ำไม่จำกัดรอบ

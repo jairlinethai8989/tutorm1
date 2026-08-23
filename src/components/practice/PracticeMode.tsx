@@ -480,9 +480,9 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
       </div>
 
       {/* Solution Viewer */}
-      {showSolution && currentQuestion.solution && (
+      {showSolution && currentQuestion && (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
-          <SolutionViewer solution={currentQuestion.solution} />
+          <SolutionViewer question={currentQuestion} />
         </div>
       )}
 

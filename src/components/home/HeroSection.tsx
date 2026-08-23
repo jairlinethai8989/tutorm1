@@ -47,7 +47,7 @@ export const HeroSection: React.FC = () => {
               <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Mock Exam จับเวลาจริง
             </span>
             <span className="flex items-center gap-1.5 bg-black/20 px-3 py-1.5 rounded-lg backdrop-blur-xs">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> AI Practice 33 แบบ (0 บาท)
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> AI Practice 33 แบบ (สุ่มไม่จำกัด)
             </span>
           </div>
         </div>

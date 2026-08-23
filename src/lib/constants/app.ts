@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.6.4',
-  versionLabel: 'Version 2.6.4 (Solution Math KaTeX & Quality Update)',
+  version: 'v2.6.5',
+  versionLabel: 'Version 2.6.5 (AI Practice Fix & UI Refinement)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,32 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.6.5',
+    date: '23 สิงหาคม 2026',
+    title: 'แก้ไขข้อผิดพลาดการตรวจคำตอบในโหมด AI Practice & ปรับชื่อหมวดหมู่',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'fix',
+        title: 'แก้ไข Client-side Exception เมื่อกดตรวจคำตอบใน AI Practice',
+        description:
+          'แก้ไขการส่ง props ให้กับคอมโพเนนต์ SolutionViewer ในโหมด AI Practice จากเดิมที่ส่ง object solution เปลี่ยนเป็นส่ง question เต็มรูปแบบ ทำให้ระบบแสดงเฉลยวิธีทำอย่างละเอียดได้ถูกต้อง 100% ไม่เกิด error',
+      },
+      {
+        type: 'feature',
+        title: 'ปรับปรุงข้อความชื่อหมวดหมู่ AI Practice',
+        description:
+          'ตัดคำว่า "0 บาท" ออกจากชื่อหมวดหมู่ AI Practice และข้อความแนะนำทั่วทั้งระบบ เพื่อความสวยงามและเป็นทางการ',
+      },
+    ],
+  },
+  {
     version: 'v2.6.4',
     date: '23 สิงหาคม 2026',
     title: 'แก้ไขการแสดงผลสัญลักษณ์คณิตศาสตร์ในกล่องเฉลยคำตอบ (Solution KaTeX Fix)',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'fix',
