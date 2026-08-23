@@ -320,6 +320,34 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
           )}
         </div>
       </div>
+      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs space-y-2.5">
+        <div className="flex items-center justify-between text-xs flex-wrap gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-bold text-slate-700">📊 สถิติความคืบหน้ารอบปัจจุบัน:</span>
+            <span className="font-extrabold text-purple-700 bg-purple-50 border border-purple-200/60 px-2.5 py-0.5 rounded-lg">
+              ทำไปแล้ว {totalAttempted} ข้อ (ถูก {correctCount} ข้อ)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 font-extrabold text-xs">
+            <span className="text-slate-500">ความแม่นยำ:</span>
+            <span className={accuracyRate >= 70 ? 'text-emerald-600 font-extrabold' : 'text-amber-600 font-extrabold'}>
+              {accuracyRate}%
+            </span>
+          </div>
+        </div>
+
+        <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200/80">
+          <div
+            className={`h-full rounded-full transition-all duration-300 shadow-xs ${
+              accuracyRate >= 70
+                ? 'bg-gradient-to-r from-emerald-500 to-teal-600'
+                : 'bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-600'
+            }`}
+            style={{ width: `${Math.max(totalAttempted > 0 ? 5 : 0, Math.min(100, (totalAttempted / 10) * 100))}%` }}
+          />
+        </div>
+      </div>
 
       {/* AI Generated & Disclaimer Warning Banner */}
       <div className="rounded-2xl p-4 bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 border border-purple-200/80 space-y-2">

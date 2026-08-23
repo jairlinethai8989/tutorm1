@@ -378,6 +378,16 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   const isFlagged = answers[currentQuestion?.id]?.markedForReview;
   const currentAnswer = answers[currentQuestion?.id];
 
+  const totalQuestionsCount = questions.length;
+  const answeredQuestionsCount = questions.filter(
+    (q) =>
+      (q.type === 'multiple_choice' && !!answers[q.id]?.selectedChoiceId) ||
+      (q.type !== 'multiple_choice' && !!answers[q.id]?.textAnswer && answers[q.id]!.textAnswer!.trim() !== '')
+  ).length;
+  const remainingQuestionsCount = Math.max(0, totalQuestionsCount - answeredQuestionsCount);
+  const examProgressPercentage =
+    totalQuestionsCount > 0 ? Math.round((answeredQuestionsCount / totalQuestionsCount) * 100) : 0;
+
   return (
     <div className="max-w-5xl mx-auto space-y-6 pb-20">
       {/* Top Header with Timer and School Badge */}
@@ -425,6 +435,35 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
               กลับหน้ารวมคะแนน
             </button>
           )}
+        </div>
+      </div>
+
+      {/* Real-time Exam Progress Bar */}
+      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs space-y-2.5">
+        <div className="flex items-center justify-between text-xs flex-wrap gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-bold text-slate-700">📊 ความคืบหน้าการทำข้อสอบ:</span>
+            <span className="font-extrabold text-blue-700 bg-blue-50 border border-blue-200/60 px-2.5 py-0.5 rounded-lg">
+              ทำไปแล้ว {answeredQuestionsCount} จาก {totalQuestionsCount} ข้อ
+            </span>
+            {remainingQuestionsCount > 0 && !isFinished && (
+              <span className="text-slate-500 font-medium hidden sm:inline">
+                (ยังไม่ได้ทำอีก {remainingQuestionsCount} ข้อ)
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1.5 font-extrabold text-slate-900 text-sm">
+            <span className="text-blue-600">{examProgressPercentage}%</span>
+          </div>
+        </div>
+
+        {/* Visual Progress Bar Track */}
+        <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200/80">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 transition-all duration-300 shadow-xs"
+            style={{ width: `${Math.max(answeredQuestionsCount > 0 ? 4 : 0, examProgressPercentage)}%` }}
+          />
         </div>
       </div>
 

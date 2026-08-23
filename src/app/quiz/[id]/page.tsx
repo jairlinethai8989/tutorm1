@@ -15,5 +15,8 @@ export default async function QuizPage({
     notFound();
   }
 
-  return <QuizPlayer question={question} allQuestions={ALL_QUESTIONS} />;
+  const subjectQuestions = ALL_QUESTIONS.filter((q) => q.subjectId === question.subjectId);
+  const questionsSet = subjectQuestions.length > 0 ? subjectQuestions : ALL_QUESTIONS;
+
+  return <QuizPlayer question={question} allQuestions={questionsSet} />;
 }

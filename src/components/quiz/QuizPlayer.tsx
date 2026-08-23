@@ -124,6 +124,10 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
   const nextQuestion = currentIndex >= 0 && currentIndex < allQuestions.length - 1 ? allQuestions[currentIndex + 1] : null;
   const prevQuestion = currentIndex > 0 ? allQuestions[currentIndex - 1] : null;
 
+  const totalInSet = allQuestions.length;
+  const currentPos = currentIndex >= 0 ? currentIndex + 1 : 1;
+  const progressPercent = totalInSet > 0 ? Math.round((currentPos / totalInSet) * 100) : 0;
+
   const canSubmit =
     question.type === 'multiple_choice' ? !!selectedChoiceId : textAnswer.trim().length > 0;
 
@@ -163,6 +167,31 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
           </button>
         </div>
       </div>
+
+      {/* Quiz Progress Bar (when multiple questions in set) */}
+      {totalInSet > 1 && (
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs space-y-2.5">
+          <div className="flex items-center justify-between text-xs flex-wrap gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-bold text-slate-700">📊 ความคืบหน้าแบบฝึกหัด:</span>
+              <span className="font-extrabold text-blue-700 bg-blue-50 border border-blue-200/60 px-2.5 py-0.5 rounded-lg">
+                ข้อที่ {currentPos} จากทั้งหมด {totalInSet} ข้อ
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5 font-extrabold text-slate-900 text-sm">
+              <span className="text-blue-600">{progressPercent}%</span>
+            </div>
+          </div>
+
+          <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200/80">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 transition-all duration-300 shadow-xs"
+              style={{ width: `${Math.max(4, progressPercent)}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Main Question Card */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">

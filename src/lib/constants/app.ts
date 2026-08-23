@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.6.2',
-  versionLabel: 'Version 2.6.2 (Real-Time Analytics & Student Profile)',
+  version: 'v2.6.3',
+  versionLabel: 'Version 2.6.3 (Exam & Quiz Progress Bar)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,32 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.6.3',
+    date: '23 สิงหาคม 2026',
+    title: 'เพิ่ม Progress Bar แสดงความคืบหน้าการทำข้อสอบทุกโหมด',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'Progress Bar ในห้องสอบจำลองเสมือนจริง (Timed Mock Exam)',
+        description:
+          'แสดงแถบสถานะความคืบหน้าแบบ Real-time: บอกจำนวนข้อที่ทำไปแล้ว, จำนวนข้อทั้งหมด, จำนวนข้อที่ยังเหลือ, และคำนวณเป็นเปอร์เซ็นต์ความคืบหน้า (%) อย่างชัดเจน',
+      },
+      {
+        type: 'feature',
+        title: 'Progress Bar ในแบบฝึกหัดรายวิชา & AI Practice',
+        description:
+          'เพิ่มแถบความคืบหน้าระบุลำดับข้อในหมวดวิชา (เช่น ข้อ 4 จาก 100 ข้อ คิดเป็น 4%) และแถบแสดงสถิติความคืบหน้าในโหมด AI Practice',
+      },
+    ],
+  },
+  {
     version: 'v2.6.2',
     date: '23 สิงหาคม 2026',
     title: 'ระบบประเมินผลตามจริง 100% & ป๊อปอัปกรอกชื่อผู้เรียนก่อนสอบ',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',
