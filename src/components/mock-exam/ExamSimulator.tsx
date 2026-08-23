@@ -11,8 +11,9 @@ import { QuestionPalette } from '@/components/quiz/QuestionPalette';
 import { MathText } from '@/components/shared/MathText';
 import { Illustration } from '@/components/shared/Illustration';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
+import { StudentNameModal } from '@/components/shared/StudentNameModal';
 import { calculateAttemptSummary } from '@/lib/scoring';
-import { saveAttempt } from '@/lib/storage';
+import { saveAttempt, getUserProfileName } from '@/lib/storage';
 import { formatTime } from '@/lib/utils';
 import {
   Clock,
@@ -27,6 +28,7 @@ import {
   BookOpen,
   Sparkles,
   HelpCircle,
+  User,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -42,6 +44,12 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   const [secondsRemaining, setSecondsRemaining] = useState<number>(exam.timeLimitMinutes * 60);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const [reviewMode, setReviewMode] = useState<boolean>(false);
+  const [studentName, setStudentName] = useState<string>('ผู้เรียน');
+  const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setStudentName(getUserProfileName());
+  }, []);
 
   // User answers state
   const [answers, setAnswers] = useState<
@@ -171,6 +179,21 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             {exam.description}
           </p>
 
+          {/* Student Profile Info */}
+          <div className="flex items-center justify-between p-3.5 bg-blue-50/80 border border-blue-200/80 rounded-2xl max-w-xl mx-auto text-xs">
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4 text-blue-600 shrink-0" />
+              <span>ผู้เข้าสอบ: <strong className="text-slate-900 text-sm font-bold">{studentName}</strong></span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsNameModalOpen(true)}
+              className="text-blue-600 hover:text-blue-700 font-bold hover:underline cursor-pointer"
+            >
+              {studentName === 'ผู้เรียน' ? '✏️ ระบุชื่อผู้เรียน' : 'เปลี่ยนชื่อ'}
+            </button>
+          </div>
+
           {/* Exam Rules & Meta */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto">
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
@@ -199,18 +222,37 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             <ul className="list-disc list-inside space-y-1 pl-1">
               <li>ระบบจะเริ่มจับเวลาทันทีหลังจากกดปุ่มเริ่มทำข้อสอบ</li>
               <li>สามารถกดปักหมุดข้อที่ต้องการกลับมาทบทวนได้ตลอดเวลา</li>
-              <li>เมื่อหมดเวลาระบบจะส่งกระดาษคำตอบให้โดยอัตโนมัติ</li>
+              <li>เมื่อหมดเวลาระบบจะส่งกระดาษคำตอบและบันทึกประเมินผลอัตโนมัติ</li>
             </ul>
           </div>
 
           <button
             type="button"
-            onClick={() => setHasStarted(true)}
+            onClick={() => {
+              if (studentName === 'ผู้เรียน') {
+                setIsNameModalOpen(true);
+              } else {
+                setHasStarted(true);
+              }
+            }}
             className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-base shadow-lg shadow-blue-500/25 hover:scale-105 transition-all cursor-pointer"
           >
             เริ่มทำข้อสอบจำลองทันที
           </button>
         </div>
+
+        {/* Student Name Modal */}
+        <StudentNameModal
+          isOpen={isNameModalOpen}
+          onClose={() => setIsNameModalOpen(false)}
+          onConfirm={(name) => {
+            setStudentName(name);
+            setIsNameModalOpen(false);
+            setHasStarted(true);
+          }}
+          title="ระบุชื่อผู้เรียนก่อนเข้าห้องสอบ"
+          subtitle={`กำลังจะเข้าสอบ: ${exam.name}`}
+        />
       </div>
     );
   }
@@ -237,6 +279,10 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
               {exam.name}
             </h1>
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold mt-2">
+              <User className="w-3.5 h-3.5" />
+              <span>ผู้เข้าสอบ: {studentName}</span>
+            </div>
             <div className="text-sm font-semibold mt-2">
               สถานะ:{' '}
               <span className={`font-bold ${isPassed ? 'text-emerald-600' : 'text-amber-600'}`}>

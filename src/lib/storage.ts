@@ -74,8 +74,16 @@ export const calculateOverallStats = (attempts: ExamAttempt[]): UserOverallStats
       lastActiveDate: new Date().toISOString(),
       mockExamsCompleted: 0,
       examReadinessScore: 0,
-      strongestTopics: ['กำลังเริ่มประเมิน...'],
-      weakestTopics: ['กำลังเริ่มประเมิน...'],
+      strongestTopics: [],
+      weakestTopics: [],
+      radarCompetencyData: [
+        { subject: 'พีชคณิต/สมการ', score: 0, fullMark: 100, questionsCount: 0 },
+        { subject: 'เรขาคณิต/พื้นที่', score: 0, fullMark: 100, questionsCount: 0 },
+        { subject: 'จำนวน/การคำนวณ', score: 0, fullMark: 100, questionsCount: 0 },
+        { subject: 'ฟิสิกส์/ไฟฟ้า', score: 0, fullMark: 100, questionsCount: 0 },
+        { subject: 'เคมี/การแยกสาร', score: 0, fullMark: 100, questionsCount: 0 },
+        { subject: 'ชีววิทยา/สิ่งมีชีวิต', score: 0, fullMark: 100, questionsCount: 0 },
+      ],
     };
   }
 
@@ -84,6 +92,16 @@ export const calculateOverallStats = (attempts: ExamAttempt[]): UserOverallStats
   let totalStudyTime = 0;
   let mockExamsCount = 0;
   const topicStats: Record<string, { total: number; correct: number }> = {};
+
+  // 6 Domain Aggregators for Radar Chart
+  const radarBuckets: Record<string, { total: number; correct: number }> = {
+    'พีชคณิต/สมการ': { total: 0, correct: 0 },
+    'เรขาคณิต/พื้นที่': { total: 0, correct: 0 },
+    'จำนวน/การคำนวณ': { total: 0, correct: 0 },
+    'ฟิสิกส์/ไฟฟ้า': { total: 0, correct: 0 },
+    'เคมี/การแยกสาร': { total: 0, correct: 0 },
+    'ชีววิทยา/สิ่งมีชีวิต': { total: 0, correct: 0 },
+  };
 
   attempts.forEach((att) => {
     totalQuestions += att.totalQuestions;
@@ -98,6 +116,28 @@ export const calculateOverallStats = (attempts: ExamAttempt[]): UserOverallStats
         }
         topicStats[topicName].total += stats.total;
         topicStats[topicName].correct += stats.correct;
+
+        // Categorize into 6 Radar Competency Domains
+        const lower = topicName.toLowerCase();
+        if (lower.includes('พีชคณิต') || lower.includes('สมการ') || lower.includes('ลำดับ') || lower.includes('algebra')) {
+          radarBuckets['พีชคณิต/สมการ'].total += stats.total;
+          radarBuckets['พีชคณิต/สมการ'].correct += stats.correct;
+        } else if (lower.includes('เรขาคณิต') || lower.includes('พื้นที่') || lower.includes('ปริมาตร') || lower.includes('geometry')) {
+          radarBuckets['เรขาคณิต/พื้นที่'].total += stats.total;
+          radarBuckets['เรขาคณิต/พื้นที่'].correct += stats.correct;
+        } else if (lower.includes('จำนวน') || lower.includes('คำนวณ') || lower.includes('ห.ร.ม.') || lower.includes('ค.ร.น.') || lower.includes('arithmetic')) {
+          radarBuckets['จำนวน/การคำนวณ'].total += stats.total;
+          radarBuckets['จำนวน/การคำนวณ'].correct += stats.correct;
+        } else if (lower.includes('ฟิสิกส์') || lower.includes('แรง') || lower.includes('ไฟฟ้า') || lower.includes('พลังงาน') || lower.includes('physics')) {
+          radarBuckets['ฟิสิกส์/ไฟฟ้า'].total += stats.total;
+          radarBuckets['ฟิสิกส์/ไฟฟ้า'].correct += stats.correct;
+        } else if (lower.includes('สาร') || lower.includes('เคมี') || lower.includes('chemistry') || lower.includes('matter')) {
+          radarBuckets['เคมี/การแยกสาร'].total += stats.total;
+          radarBuckets['เคมี/การแยกสาร'].correct += stats.correct;
+        } else if (lower.includes('สิ่งมีชีวิต') || lower.includes('ร่างกาย') || lower.includes('พืช') || lower.includes('สังเคราะห์') || lower.includes('biology')) {
+          radarBuckets['ชีววิทยา/สิ่งมีชีวิต'].total += stats.total;
+          radarBuckets['ชีววิทยา/สิ่งมีชีวิต'].correct += stats.correct;
+        }
       });
     }
   });
@@ -110,17 +150,40 @@ export const calculateOverallStats = (attempts: ExamAttempt[]): UserOverallStats
   const accuracyComponent = (accuracy / 100) * 50;
   const readiness = Math.min(100, Math.round(accuracyComponent + volumeBonus + examBonus));
 
-  // Calculate strongest and weakest topics
+  // Calculate actual Topic Entries
   const topicEntries = Object.entries(topicStats)
-    .filter(([, s]) => s.total >= 3)
+    .filter(([, s]) => s.total >= 1)
     .map(([name, s]) => ({
       name,
-      accuracy: (s.correct / s.total) * 100,
-    }))
-    .sort((a, b) => b.accuracy - a.accuracy);
+      total: s.total,
+      correct: s.correct,
+      accuracy: Math.round((s.correct / s.total) * 100),
+    }));
 
-  const strongestTopics = topicEntries.slice(0, 3).map((t) => `${t.name} (${Math.round(t.accuracy)}%)`);
-  const weakestTopics = topicEntries.slice(-3).reverse().map((t) => `${t.name} (${Math.round(t.accuracy)}%)`);
+  // Strengths: Only topics with Accuracy >= 70%
+  const strongestTopics = topicEntries
+    .filter((t) => t.accuracy >= 70)
+    .sort((a, b) => b.accuracy - a.accuracy || b.total - a.total)
+    .slice(0, 3)
+    .map((t) => `${t.name} (${t.accuracy}%)`);
+
+  // Weaknesses: Topics with Accuracy < 70% (lowest accuracy first)
+  const weakestTopics = topicEntries
+    .filter((t) => t.accuracy < 70)
+    .sort((a, b) => a.accuracy - b.accuracy || b.total - a.total)
+    .slice(0, 3)
+    .map((t) => `${t.name} (${t.accuracy}%)`);
+
+  // Radar Competency calculation
+  const radarCompetencyData = Object.entries(radarBuckets).map(([subject, stats]) => {
+    const score = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+    return {
+      subject,
+      score,
+      fullMark: 100,
+      questionsCount: stats.total,
+    };
+  });
 
   return {
     totalQuestionsAttempted: totalQuestions,
@@ -131,8 +194,9 @@ export const calculateOverallStats = (attempts: ExamAttempt[]): UserOverallStats
     lastActiveDate: new Date().toISOString(),
     mockExamsCompleted: mockExamsCount,
     examReadinessScore: readiness,
-    strongestTopics: strongestTopics.length > 0 ? strongestTopics : ['พีชคณิตและสมการ (85%)', 'จำนวนและการคำนวณ (82%)'],
-    weakestTopics: weakestTopics.length > 0 ? weakestTopics : ['แรงและวงจรไฟฟ้า (52%)', 'เรขาคณิตพื้นที่แรเงา (58%)'],
+    strongestTopics,
+    weakestTopics,
+    radarCompetencyData,
   };
 };
 

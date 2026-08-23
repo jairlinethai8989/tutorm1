@@ -18,6 +18,13 @@ export interface SubjectAnalytics {
   topicsMastery: TopicMastery[];
 }
 
+export interface RadarCompetencyItem {
+  subject: string;
+  score: number;
+  fullMark: number;
+  questionsCount: number;
+}
+
 export interface UserOverallStats {
   totalQuestionsAttempted: number;
   totalCorrect: number;
@@ -29,4 +36,6 @@ export interface UserOverallStats {
   examReadinessScore: number; // 0 - 100
   strongestTopics: string[];
   weakestTopics: string[];
+  radarCompetencyData?: RadarCompetencyItem[];
 }
+

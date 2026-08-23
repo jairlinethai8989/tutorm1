@@ -57,22 +57,22 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
             </span>
 
             {/* Choice Content */}
-            <div className="flex-1 pt-1 font-medium text-slate-800 text-base">
-              <MathText content={choice.content} />
-            </div>
+            <span className="flex-1 pt-1 font-medium text-slate-800 text-base block text-left">
+              <MathText content={choice.content} inline={true} />
+            </span>
 
             {/* Selected Indicator */}
             {isSelected && !showResult && (
-              <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 mt-1">
+              <span className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 mt-1">
                 <Check className="w-3.5 h-3.5 stroke-[3]" />
-              </div>
+              </span>
             )}
 
             {showResult && isCorrect && (
-              <div className="flex items-center gap-1 text-emerald-600 font-bold text-xs shrink-0 mt-1">
+              <span className="flex items-center gap-1 text-emerald-600 font-bold text-xs shrink-0 mt-1">
                 <CheckCircle2 className="w-4 h-4" />
                 <span>คำตอบที่ถูก</span>
-              </div>
+              </span>
             )}
           </button>
         );

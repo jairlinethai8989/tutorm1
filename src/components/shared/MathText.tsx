@@ -4,18 +4,33 @@ import React from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 
+// Auto-detect raw LaTeX commands that aren't wrapped in $...$ delimiters
+const LATEX_COMMAND_RE = /^\\(frac|dfrac|cfrac|sqrt|binom|sum|prod|int|lim|vec|hat|bar|dot|ddot|overline|underline|mathbb|mathcal|mathrm)\{/;
+
+function autoWrapLatex(text: string): string {
+  const trimmed = text.trim();
+  // If the entire content is a single raw LaTeX command without any $ delimiters, wrap it
+  if (!trimmed.includes('$') && LATEX_COMMAND_RE.test(trimmed)) {
+    return `$${trimmed}$`;
+  }
+  return text;
+}
+
 interface MathTextProps {
   content: string;
   className?: string;
+  inline?: boolean;
 }
 
-export const MathText: React.FC<MathTextProps> = ({ content, className = '' }) => {
-  if (!content) return null;
+export const MathText: React.FC<MathTextProps> = ({ content, className = '', inline = false }) => {
+  if (content === undefined || content === null || content === '') return null;
 
   // Split by $$...$$ (display math) and $...$ (inline math)
   const renderFormattedText = (text: string) => {
+    // Auto-wrap raw LaTeX commands that are missing $ delimiters
+    const processedText = autoWrapLatex(text);
     // Split by block math $$...$$
-    const blockParts = text.split(/(\$\$[\s\S]*?\$\$)/g);
+    const blockParts = processedText.split(/(\$\$[\s\S]*?\$\$)/g);
 
     return blockParts.map((blockPart, blockIdx) => {
       if (blockPart.startsWith('$$') && blockPart.endsWith('$$')) {
@@ -25,6 +40,15 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '' }) =
             displayMode: true,
             throwOnError: false,
           });
+          if (inline) {
+            return (
+              <span
+                key={blockIdx}
+                className="inline-block my-1 py-1 px-2 bg-slate-50/80 rounded-lg text-slate-800 text-center font-mono border border-slate-100"
+                dangerouslySetInnerHTML={{ __html: html }}
+              />
+            );
+          }
           return (
             <div
               key={blockIdx}
@@ -34,9 +58,9 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '' }) =
           );
         } catch {
           return (
-            <div key={blockIdx} className="my-2 p-2 bg-slate-100 font-mono text-center">
+            <span key={blockIdx} className="my-1 p-1 bg-slate-100 font-mono text-center inline-block">
               {math}
-            </div>
+            </span>
           );
         }
       }
@@ -98,5 +122,17 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '' }) =
     });
   };
 
-  return <div className={`leading-relaxed text-slate-700 text-base ${className}`}>{renderFormattedText(content)}</div>;
+  if (inline) {
+    return (
+      <span className={`leading-relaxed text-slate-700 text-base ${className}`}>
+        {renderFormattedText(String(content))}
+      </span>
+    );
+  }
+
+  return (
+    <div className={`leading-relaxed text-slate-700 text-base ${className}`}>
+      {renderFormattedText(String(content))}
+    </div>
+  );
 };

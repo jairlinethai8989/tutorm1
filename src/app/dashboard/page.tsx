@@ -6,7 +6,8 @@ import { OverviewCards } from '@/components/dashboard/OverviewCards';
 import { RadarCompetency } from '@/components/dashboard/RadarCompetency';
 import { WeaknessStrengthList } from '@/components/dashboard/WeaknessStrengthList';
 import { ScoreHistoryChart } from '@/components/dashboard/ScoreHistoryChart';
-import { getUserStats, getStoredAttempts } from '@/lib/storage';
+import { StudentNameModal } from '@/components/shared/StudentNameModal';
+import { getUserStats, getStoredAttempts, getUserProfileName } from '@/lib/storage';
 import { UserOverallStats } from '@/types/analytics';
 import { ExamAttempt } from '@/types/exam';
 import {
@@ -19,15 +20,24 @@ import {
   HelpCircle,
   Clock,
   ArrowLeft,
+  User,
+  Edit3,
 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<UserOverallStats | null>(null);
   const [attempts, setAttempts] = useState<ExamAttempt[]>([]);
+  const [studentName, setStudentName] = useState<string>('ผู้เรียน');
+  const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
+  const refreshData = () => {
     setStats(getUserStats());
     setAttempts(getStoredAttempts());
+    setStudentName(getUserProfileName());
+  };
+
+  useEffect(() => {
+    refreshData();
   }, []);
 
   if (!stats) return null;
@@ -53,13 +63,52 @@ export default function DashboardPage() {
           </h1>
         </div>
 
-        <Link
-          href="/mock-exam"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition-all hover:scale-105"
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => setIsNameModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-xs transition-all cursor-pointer"
+          >
+            <User className="w-4 h-4 text-blue-600" />
+            <span>ผู้เรียน: <strong className="text-blue-700">{studentName}</strong></span>
+            <Edit3 className="w-3.5 h-3.5 text-slate-400 ml-1" />
+          </button>
+
+          <Link
+            href="/mock-exam"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition-all hover:scale-105"
+          >
+            <Clock className="w-4 h-4" />
+            <span>เริ่มสอบจำลองเพิ่มสถิติ</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* Student Profile Card */}
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-3xl p-5 sm:p-6 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 text-white shadow-inner shrink-0">
+            <User className="w-7 h-7" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg sm:text-xl font-bold">
+                ผลการประเมินรายบุคคล: {studentName}
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-blue-100/90 mt-0.5">
+              ระบบประเมินผลคำนวณจากประวัติการทำข้อสอบจริง 100% เพื่อเตรียมความพร้อมสอบเข้า ม.1 ห้องเรียนพิเศษ
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setIsNameModalOpen(true)}
+          className="self-start sm:self-auto px-4 py-2 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-md text-white text-xs font-bold transition-all border border-white/30 cursor-pointer shrink-0"
         >
-          <Clock className="w-4 h-4" />
-          <span>เริ่มสอบจำลองเพิ่มสถิติ</span>
-        </Link>
+          แก้ไขชื่อ / เปลี่ยนผู้เรียน
+        </button>
       </div>
 
       {/* Overview Cards (Questions, Accuracy, Streak, Readiness) */}
@@ -69,7 +118,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Radar Chart */}
         <div className="lg:col-span-6 space-y-6">
-          <RadarCompetency />
+          <RadarCompetency data={stats.radarCompetencyData} />
           <ScoreHistoryChart attempts={attempts} />
         </div>
 
@@ -78,6 +127,7 @@ export default function DashboardPage() {
           <WeaknessStrengthList
             strongest={stats.strongestTopics}
             weakest={stats.weakestTopics}
+            totalQuestionsAttempted={stats.totalQuestionsAttempted}
           />
 
           {/* Action Recommendations Box */}
@@ -107,6 +157,20 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Student Name Modal */}
+      <StudentNameModal
+        isOpen={isNameModalOpen}
+        onClose={() => setIsNameModalOpen(false)}
+        onConfirm={(name) => {
+          setStudentName(name);
+          setIsNameModalOpen(false);
+          refreshData();
+        }}
+        title="จัดการโปรไฟล์ผู้เรียน"
+        subtitle="ระบุชื่อผู้เรียนเพื่อแสดงผลการประเมินเฉพาะบุคคล"
+      />
     </div>
   );
 }
+

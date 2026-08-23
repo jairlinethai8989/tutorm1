@@ -9,8 +9,9 @@ import { LongAnswer } from './LongAnswer';
 import { MathText } from '@/components/shared/MathText';
 import { Illustration } from '@/components/shared/Illustration';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
+import { StudentNameModal } from '@/components/shared/StudentNameModal';
 import { evaluateAnswer } from '@/lib/scoring';
-import { saveAttempt, isBookmarked, toggleBookmark } from '@/lib/storage';
+import { saveAttempt, isBookmarked, toggleBookmark, getUserProfileName } from '@/lib/storage';
 import {
   ArrowLeft,
   ArrowRight,
@@ -20,6 +21,7 @@ import {
   RotateCcw,
   Sparkles,
   Award,
+  User,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -35,6 +37,12 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [showSolution, setShowSolution] = useState<boolean>(false);
   const [bookmarked, setBookmarked] = useState<boolean>(false);
+  const [studentName, setStudentName] = useState<string>('ผู้เรียน');
+  const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setStudentName(getUserProfileName());
+  }, []);
 
   useEffect(() => {
     setSelectedChoiceId(undefined);
@@ -122,7 +130,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-16">
       {/* Top Bar Navigation */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <Link
           href={`/subjects/${question.subjectId}`}
           className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors"
@@ -131,18 +139,29 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
           <span>กลับไปหน้าหัวข้อวิชา</span>
         </Link>
 
-        <button
-          type="button"
-          onClick={handleToggleBookmark}
-          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-colors cursor-pointer ${
-            bookmarked
-              ? 'bg-amber-50 border-amber-300 text-amber-800'
-              : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-          }`}
-        >
-          <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
-          <span>{bookmarked ? 'บันทึกแล้ว' : 'บันทึกทบทวน'}</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setIsNameModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold transition-colors cursor-pointer border border-blue-200/60"
+          >
+            <User className="w-3.5 h-3.5" />
+            <span>{studentName}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleToggleBookmark}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-colors cursor-pointer ${
+              bookmarked
+                ? 'bg-amber-50 border-amber-300 text-amber-800'
+                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+            }`}
+          >
+            <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
+            <span>{bookmarked ? 'บันทึกแล้ว' : 'บันทึกทบทวน'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Question Card */}
@@ -261,6 +280,18 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
           <SolutionViewer question={question} />
         </div>
       )}
+
+      {/* Student Name Modal */}
+      <StudentNameModal
+        isOpen={isNameModalOpen}
+        onClose={() => setIsNameModalOpen(false)}
+        onConfirm={(name) => {
+          setStudentName(name);
+          setIsNameModalOpen(false);
+        }}
+        title="จัดการโปรไฟล์ผู้เรียน"
+        subtitle="ระบุชื่อผู้เรียนเพื่อบันทึกประวัติการฝึกซ้อมใน Dashboard"
+      />
     </div>
   );
 };

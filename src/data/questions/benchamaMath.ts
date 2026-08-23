@@ -193,19 +193,19 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       {
         "id": "c1",
         "label": "1",
-        "content": "\\frac{99}{100}",
+        "content": "$\\frac{99}{100}$",
         "isCorrect": true
       },
       {
         "id": "c2",
         "label": "2",
-        "content": "\\frac{100}{101}",
+        "content": "$\\frac{100}{101}$",
         "isCorrect": false
       },
       {
         "id": "c3",
         "label": "3",
-        "content": "\\frac{1}{100}",
+        "content": "$\\frac{1}{100}$",
         "isCorrect": false
       },
       {
@@ -298,7 +298,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "source": "ข้อสอบเข้า ม.1 ห้องพิเศษ เบ็ญจะมะมหาราช / มศว.",
     "targetSchool": "benchama",
-    "content": "จำนวนนับที่มากที่สุดที่หาร 85 และ 133 แล้วเหลือเศษ 1 และ 5 ตามลำดับ คือจำนวนใด",
+    "content": "จำนวนนับที่มากที่สุดที่หาร 85 และ 137 แล้วเหลือเศษ 1 และ 5 ตามลำดับ คือจำนวนใด",
     "choices": [
       {
         "id": "c1",
@@ -327,7 +327,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "จำนวนนั้นคือ 12",
-      "trickTip": "💡 ห.ร.ม. ของ 84 และ 128 คือ 12",
+      "trickTip": "💡 ห.ร.ม. ของ (85-1)=84 และ (137-5)=132 คือ 12",
       "steps": [
         {
           "stepNumber": 1,
@@ -798,25 +798,25 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       {
         "id": "c1",
         "label": "1",
-        "content": "\\frac{31}{99}",
+        "content": "$\\frac{31}{99}$",
         "isCorrect": false
       },
       {
         "id": "c2",
         "label": "2",
-        "content": "\\frac{58}{99}",
+        "content": "$\\frac{58}{99}$",
         "isCorrect": false
       },
       {
         "id": "c3",
         "label": "3",
-        "content": "\\frac{62}{99}",
+        "content": "$\\frac{62}{99}$",
         "isCorrect": true
       },
       {
         "id": "c4",
         "label": "4",
-        "content": "\\frac{2}{3}",
+        "content": "$\\frac{2}{3}$",
         "isCorrect": false
       }
     ],
@@ -963,19 +963,19 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       {
         "id": "c1",
         "label": "1",
-        "content": "\\frac{31}{32}",
+        "content": "$\\frac{31}{32}$",
         "isCorrect": false
       },
       {
         "id": "c2",
         "label": "2",
-        "content": "\\frac{63}{64}",
+        "content": "$\\frac{63}{64}$",
         "isCorrect": true
       },
       {
         "id": "c3",
         "label": "3",
-        "content": "\\frac{127}{128}",
+        "content": "$\\frac{127}{128}$",
         "isCorrect": false
       },
       {
@@ -2003,7 +2003,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "source": "ข้อสอบเข้า ม.1 ห้องพิเศษ เบ็ญจะมะมหาราช / มศว.",
     "targetSchool": "benchama",
-    "content": "จงหาค่า $x$ จากสมการ $\\frac{3x+1}{2} - \\frac{x-2}{3} = 5$",
+    "content": "จงหาค่า $x$ จากสมการ $\\frac{3x-1}{2} + \\frac{x+1}{4} = 5$",
     "choices": [
       {
         "id": "c1",
@@ -2032,12 +2032,12 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x = 3",
-      "trickTip": "💡 9x+3-2x+4 = 30 -> 7x = 23 (approx 3)",
+      "trickTip": "💡 คูณตลอดด้วย 4: 2(3x-1) + (x+1) = 20 -> 7x - 1 = 20 -> x = 3",
       "steps": [
         {
           "stepNumber": 1,
           "title": "วิธีทำ",
-          "content": "x = 3"
+          "content": "คูณสมการตลอดด้วย ค.ร.น. ของ 2 และ 4 คือ 4: 2(3x-1) + (x+1) = 20 จะได้ 6x - 2 + x + 1 = 20 ดังนั้น 7x - 1 = 20 จะได้ 7x = 21 ดังนั้น x = 3"
         }
       ]
     }

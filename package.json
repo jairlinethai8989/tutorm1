@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate:questions": "npx tsx src/scripts/validate-questions.ts"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

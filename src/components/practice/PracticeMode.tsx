@@ -7,7 +7,8 @@ import { generateQuestionFromTemplate, getTemplatesByTopic, getTemplatesBySubjec
 import { QuestionTemplate } from '@/lib/template-engine/types';
 import { MathText } from '@/components/shared/MathText';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
-import { saveAttempt } from '@/lib/storage';
+import { StudentNameModal } from '@/components/shared/StudentNameModal';
+import { saveAttempt, getUserProfileName } from '@/lib/storage';
 import { ExamAttempt, UserAnswer } from '@/types/exam';
 import {
   ArrowLeft,
@@ -21,6 +22,7 @@ import {
   ArrowRight,
   RefreshCw,
   Trophy,
+  User,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -45,6 +47,10 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [showSolution, setShowSolution] = useState<boolean>(false);
 
+  // Student Profile
+  const [studentName, setStudentName] = useState<string>('ผู้เรียน');
+  const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
+
   // Statistics
   const [totalAttempted, setTotalAttempted] = useState<number>(0);
   const [correctCount, setCorrectCount] = useState<number>(0);
@@ -53,6 +59,10 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
   const [sessionAnswers, setSessionAnswers] = useState<Record<string, UserAnswer>>({});
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [sessionStartTime] = useState<string>(new Date().toISOString());
+
+  useEffect(() => {
+    setStudentName(getUserProfileName());
+  }, []);
 
   // Initialize templates pool
   useEffect(() => {
@@ -281,25 +291,31 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
             </h1>
           </div>
         </div>
+        {/* Stats & Student Badge */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+          <button
+            type="button"
+            onClick={() => setIsNameModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold transition-colors cursor-pointer border border-blue-200/60"
+          >
+            <User className="w-3.5 h-3.5" />
+            <span>{studentName}</span>
+          </button>
 
-        {/* Real-time stats bar */}
-        <div className="flex items-center gap-3 self-end sm:self-auto">
-          <div className="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl text-center">
-            <div className="text-xs text-slate-400 font-medium">ทำไปแล้ว</div>
-            <div className="text-sm font-extrabold text-slate-800">
-              {correctCount}/{totalAttempted}
-            </div>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+            <span className="text-slate-400">ทำแล้ว:</span>
+            <strong className="text-slate-900">{totalAttempted}</strong>
           </div>
-          <div className="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl text-center">
-            <div className="text-xs text-slate-400 font-medium">แม่นยำ</div>
-            <div className="text-sm font-extrabold text-emerald-600">
-              {accuracyRate}%
-            </div>
+
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-100 text-xs text-emerald-700 font-bold">
+            <span>ถูก:</span>
+            <strong>{correctCount}</strong>
           </div>
-          {streak > 0 && (
-            <div className="bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl flex items-center gap-1 text-amber-600 font-extrabold text-sm">
-              <Flame className="w-4 h-4 animate-bounce" />
-              <span>{streak}</span>
+
+          {streak > 1 && (
+            <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-700 font-extrabold animate-bounce">
+              <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              <span>{streak} Streak!</span>
             </div>
           )}
         </div>
@@ -373,9 +389,9 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
                 disabled={isSubmitted}
                 className={`p-4 rounded-2xl border-2 text-left transition-all flex items-center justify-between gap-3 ${choiceStyle}`}
               >
-                <div className="flex items-center gap-3">
+                <span className="flex items-center gap-3">
                   <span
-                    className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-extrabold shrink-0 ${
+                    className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ${
                       isSelected
                         ? 'bg-blue-600 text-white'
                         : 'bg-slate-100 text-slate-600'
@@ -384,9 +400,9 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
                     {choice.label}
                   </span>
                   <span className="text-sm font-medium">
-                    <MathText content={choice.content} />
+                    <MathText content={choice.content} inline={true} />
                   </span>
-                </div>
+                </span>
 
                 {isSubmitted && choice.isCorrect && (
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
@@ -441,6 +457,18 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
           <SolutionViewer solution={currentQuestion.solution} />
         </div>
       )}
+
+      {/* Student Name Modal */}
+      <StudentNameModal
+        isOpen={isNameModalOpen}
+        onClose={() => setIsNameModalOpen(false)}
+        onConfirm={(name) => {
+          setStudentName(name);
+          setIsNameModalOpen(false);
+        }}
+        title="จัดการโปรไฟล์ผู้เรียน"
+        subtitle="ระบุชื่อผู้เรียนเพื่อบันทึกประวัติการฝึกซ้อมใน Dashboard"
+      />
     </div>
   );
 };

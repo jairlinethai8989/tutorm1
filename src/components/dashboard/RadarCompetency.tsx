@@ -4,22 +4,22 @@ import React from 'react';
 import { Sparkles } from 'lucide-react';
 
 interface RadarCompetencyProps {
-  data?: { subject: string; score: number; fullMark: number }[];
+  data?: { subject: string; score: number; fullMark: number; questionsCount?: number }[];
 }
 
 export const RadarCompetency: React.FC<RadarCompetencyProps> = ({
   data = [
-    { subject: 'พีชคณิต/สมการ', score: 85, fullMark: 100 },
-    { subject: 'เรขาคณิต/พื้นที่', score: 65, fullMark: 100 },
-    { subject: 'จำนวน/ห.ร.ม./ค.ร.น.', score: 90, fullMark: 100 },
-    { subject: 'ฟิสิกส์/วงจรไฟฟ้า', score: 55, fullMark: 100 },
-    { subject: 'เคมี/การแยกสาร', score: 60, fullMark: 100 },
-    { subject: 'ชีววิทยา/กระบวนการ', score: 75, fullMark: 100 },
+    { subject: 'พีชคณิต/สมการ', score: 0, fullMark: 100 },
+    { subject: 'เรขาคณิต/พื้นที่', score: 0, fullMark: 100 },
+    { subject: 'จำนวน/การคำนวณ', score: 0, fullMark: 100 },
+    { subject: 'ฟิสิกส์/ไฟฟ้า', score: 0, fullMark: 100 },
+    { subject: 'เคมี/การแยกสาร', score: 0, fullMark: 100 },
+    { subject: 'ชีววิทยา/สิ่งมีชีวิต', score: 0, fullMark: 100 },
   ],
 }) => {
-  const size = 320;
+  const size = 360;
   const center = size / 2;
-  const radius = center - 50;
+  const radius = 95;
   const totalAxes = data.length;
 
   const getCoordinates = (index: number, valueRatio: number) => {
@@ -31,10 +31,12 @@ export const RadarCompetency: React.FC<RadarCompetencyProps> = ({
 
   // Generate polygon points for data
   const dataPoints = data.map((d, i) => {
-    const ratio = Math.max(0.1, Math.min(1, d.score / d.fullMark));
+    const ratio = Math.max(0.05, Math.min(1, d.score / d.fullMark));
     const { x, y } = getCoordinates(i, ratio);
     return `${x},${y}`;
   }).join(' ');
+
+  const hasAnyAttempt = data.some((d) => (d.questionsCount ? d.questionsCount > 0 : d.score > 0));
 
   return (
     <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs flex flex-col items-center justify-between">
@@ -49,8 +51,8 @@ export const RadarCompetency: React.FC<RadarCompetencyProps> = ({
       </div>
 
       {/* SVG Radar Chart */}
-      <div className="relative my-2">
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="max-w-full h-auto">
+      <div className="relative my-2 w-full flex justify-center overflow-visible">
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="max-w-full h-auto overflow-visible">
           {/* Concentric Grid Webs */}
           {[0.25, 0.5, 0.75, 1].map((level, lIdx) => {
             const levelPoints = data.map((_, i) => {
@@ -76,28 +78,32 @@ export const RadarCompetency: React.FC<RadarCompetencyProps> = ({
           })}
 
           {/* Data Filled Polygon */}
-          <polygon
-            points={dataPoints}
-            fill="rgba(59, 130, 246, 0.25)"
-            stroke="#2563EB"
-            strokeWidth="3"
-          />
+          {hasAnyAttempt && (
+            <polygon
+              points={dataPoints}
+              fill="rgba(59, 130, 246, 0.25)"
+              stroke="#2563EB"
+              strokeWidth="3"
+            />
+          )}
 
           {/* Data Points Dots & Labels */}
           {data.map((d, i) => {
-            const ratio = Math.max(0.1, Math.min(1, d.score / d.fullMark));
+            const ratio = Math.max(0.05, Math.min(1, d.score / d.fullMark));
             const pt = getCoordinates(i, ratio);
-            const labelPt = getCoordinates(i, 1.22);
+            const labelPt = getCoordinates(i, 1.35);
 
             return (
               <g key={i}>
-                <circle cx={pt.x} cy={pt.y} r="5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2" />
+                {hasAnyAttempt && (
+                  <circle cx={pt.x} cy={pt.y} r="4.5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2" />
+                )}
                 <text
                   x={labelPt.x}
                   y={labelPt.y}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  className="text-[11px] font-bold fill-slate-700"
+                  className="text-[10px] sm:text-[11px] font-bold fill-slate-700"
                 >
                   {d.subject} ({d.score}%)
                 </text>
@@ -107,8 +113,10 @@ export const RadarCompetency: React.FC<RadarCompetencyProps> = ({
         </svg>
       </div>
 
-      <p className="text-xs text-slate-500 text-center">
-        พื้นที่สีฟ้าแสดงระดับความเชี่ยวชาญปัจจุบัน ยิ่งขยายเต็มวงกลมยิ่งมีความพร้อมสูง
+      <p className="text-xs text-slate-500 text-center mt-2">
+        {hasAnyAttempt
+          ? 'พื้นที่สีฟ้าแสดงระดับความเชี่ยวชาญปัจจุบัน ยิ่งขยายเต็มวงกลมยิ่งมีความพร้อมสูง'
+          : 'ทำแบบฝึกหัดและจำลองสอบเพื่อเริ่มสร้างแผนภาพสมรรถนะเฉพาะบุคคล'}
       </p>
     </div>
   );

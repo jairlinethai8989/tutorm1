@@ -16,8 +16,12 @@ import {
   User,
   RotateCcw,
   Info,
+  Wrench,
+  CheckCheck,
+  Cpu,
+  History,
 } from 'lucide-react';
-import { APP_CONFIG } from '@/lib/constants/app';
+import { APP_CONFIG, APP_CHANGELOG } from '@/lib/constants/app';
 import {
   getUserProfileName,
   saveUserProfileName,
@@ -36,6 +40,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
   triggerButton = true,
 }) => {
   const [internalIsOpen, setInternalIsOpen] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<'whatsNew' | 'guide'>('whatsNew');
   const [userName, setUserName] = useState<string>('ผู้เรียน');
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [showResetConfirm, setShowResetConfirm] = useState<boolean>(false);
@@ -55,7 +60,8 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
     }
   };
 
-  const openModal = () => {
+  const openModal = (tab: 'whatsNew' | 'guide' = 'whatsNew') => {
+    setActiveTab(tab);
     setUserName(getUserProfileName());
     setInternalIsOpen(true);
   };
@@ -78,12 +84,12 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
     <>
       {triggerButton && (
         <button
-          onClick={openModal}
+          onClick={() => openModal('whatsNew')}
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-800 text-xs font-bold transition-all shadow-2xs group cursor-pointer"
-          title="คำแนะนำ & ข้อควรทราบในการใช้งานโปรแกรม"
+          title="คำแนะนำ & มีอะไรใหม่ในเวอร์ชันล่าสุด"
         >
           <Bell className="w-3.5 h-3.5 text-amber-600 animate-bounce" />
-          <span>คำแนะนำการใช้งาน</span>
+          <span>คำแนะนำ & มีอะไรใหม่</span>
           <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping ml-0.5" />
         </button>
       )}
@@ -104,33 +110,144 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
               <div className="shrink-0 p-4 sm:p-5 bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white flex items-center justify-between shadow-xs">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 shrink-0">
-                    <Bell className="w-5 h-5 text-amber-300" />
+                    <Sparkles className="w-5 h-5 text-amber-300" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="text-base sm:text-lg font-bold">คำแนะนำ & ข้อควรทราบในการใช้งาน</h2>
+                      <h2 className="text-base sm:text-lg font-bold">ศูนย์ข้อมูล & คู่มือผู้เรียน</h2>
                       <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-white/20 text-blue-100">
                         {APP_CONFIG.version}
                       </span>
                     </div>
                     <p className="text-xs text-blue-100/90">
-                      คู่มือการใช้งาน, ความถูกต้องของข้อมูล และการจัดการข้อมูลผู้เรียน
+                      มีอะไรใหม่ในเวอร์ชันนี้, คู่มือการใช้งาน และการจัดการข้อมูลผู้เรียน
                     </p>
                   </div>
                 </div>
 
                 <button
                   onClick={closeModal}
-                  className="w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center text-white/80 hover:text-white transition-colors shrink-0 ml-2"
+                  className="w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center text-white/80 hover:text-white transition-colors shrink-0 ml-2 cursor-pointer"
                   aria-label="ปิดหน้าต่าง"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
+              {/* Tab Navigation */}
+              <div className="shrink-0 px-4 sm:px-6 pt-3 pb-2 bg-slate-100/80 border-b border-slate-200 flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('whatsNew')}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    activeTab === 'whatsNew'
+                      ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                  }`}
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <span>มีอะไรใหม่ ({APP_CONFIG.version})</span>
+                  <span className="px-1.5 py-0.2 text-[9px] bg-rose-500 text-white rounded-full font-bold">NEW</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('guide')}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    activeTab === 'guide'
+                      ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                  }`}
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>คู่มือการใช้งาน & ผู้เรียน</span>
+                </button>
+              </div>
+
               {/* 2. Scrollable Body Content */}
               <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 text-slate-700 text-xs sm:text-sm">
-                {/* Profile & Device Isolation Box */}
+                {activeTab === 'whatsNew' ? (
+                  <div className="space-y-4">
+                    {APP_CHANGELOG.map((log) => (
+                      <div
+                        key={log.version}
+                        className={`rounded-2xl border p-4 sm:p-5 space-y-3.5 transition-all ${
+                          log.isLatest
+                            ? 'bg-gradient-to-b from-blue-50/70 to-indigo-50/40 border-blue-200 ring-1 ring-blue-500/20'
+                            : 'bg-slate-50/70 border-slate-200'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-2 flex-wrap border-b border-slate-200/60 pb-2.5">
+                          <div className="flex items-center gap-2">
+                            <span className="font-extrabold text-sm sm:text-base text-slate-900">
+                              {log.version}
+                            </span>
+                            <span
+                              className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                                log.isLatest
+                                  ? 'bg-blue-600 text-white shadow-2xs'
+                                  : 'bg-slate-200 text-slate-700'
+                              }`}
+                            >
+                              {log.badge}
+                            </span>
+                          </div>
+                          <span className="text-[11px] text-slate-500 font-medium">
+                            {log.date}
+                          </span>
+                        </div>
+
+                        <h4 className="font-bold text-xs sm:text-sm text-slate-800">
+                          {log.title}
+                        </h4>
+
+                        <div className="grid grid-cols-1 gap-2.5">
+                          {log.changes.map((change, idx) => {
+                            let icon = <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />;
+                            let tagBg = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                            let tagText = 'Feature';
+
+                            if (change.type === 'fix') {
+                              icon = <Wrench className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />;
+                              tagBg = 'bg-rose-50 text-rose-700 border-rose-200';
+                              tagText = 'Bug Fix';
+                            } else if (change.type === 'verify') {
+                              icon = <CheckCheck className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />;
+                              tagBg = 'bg-indigo-50 text-indigo-700 border-indigo-200';
+                              tagText = 'Verification';
+                            } else if (change.type === 'system') {
+                              icon = <Cpu className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />;
+                              tagBg = 'bg-purple-50 text-purple-700 border-purple-200';
+                              tagText = 'Quality / CI';
+                            }
+
+                            return (
+                              <div
+                                key={idx}
+                                className="p-3 bg-white rounded-xl border border-slate-200/80 space-y-1 shadow-2xs"
+                              >
+                                <div className="flex items-center gap-2">
+                                  {icon}
+                                  <span className="font-bold text-xs text-slate-900">
+                                    {change.title}
+                                  </span>
+                                  <span
+                                    className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded border ml-auto uppercase ${tagBg}`}
+                                  >
+                                    {tagText}
+                                  </span>
+                                </div>
+                                <p className="text-xs text-slate-600 leading-relaxed pl-6">
+                                  {change.description}
+                                </p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <>
                 <div className="rounded-2xl p-4 bg-slate-50 border border-slate-200/80 space-y-3">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 text-slate-900 font-bold text-xs sm:text-sm">
@@ -300,6 +417,8 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                   </span>
                   <span>{APP_CONFIG.versionLabel}</span>
                 </div>
+                  </>
+                )}
               </div>
 
               {/* 3. Footer (Fixed & Pinned) */}
