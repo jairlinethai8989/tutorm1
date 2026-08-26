@@ -15,6 +15,9 @@ import { RITTIYA_SCIENCE_QUESTIONS } from '@/data/questions/rittiyaScience';
 import { SARAWITTAYA_SCIENCE_QUESTIONS } from '@/data/questions/sarawittayaScience';
 import { CHULABHORN_SCIENCE_QUESTIONS, CHULABHORN_SET1_SCIENCE_QUESTIONS, CHULABHORN_2562_SCIENCE_QUESTIONS } from '@/data/questions/chulabhornScience';
 import { CHULABHORN_MATH_QUESTIONS } from '@/data/questions/chulabhornMath';
+import { SAMSEN_2565_SPECIAL_MATH_QUESTIONS } from '@/data/questions/samsenMath';
+import { SUANKULARB_PRETEST_9_MATH_QUESTIONS } from '@/data/questions/suankularbMath';
+import { PATUMWAN_MATH_QUESTIONS } from '@/data/questions/patumwanMath';
 
 export const ALL_QUESTIONS: Question[] = [
   ...MATH_QUESTIONS,
@@ -69,6 +72,12 @@ export const getMockExams = (): MockExam[] => {
       questions = RITTIYA_SCIENCE_QUESTIONS;
     } else if (exam.id === 'sarawittaya-pretest-sci-63') {
       questions = SARAWITTAYA_SCIENCE_QUESTIONS;
+    } else if (exam.id === 'samsen-pretest-math-65') {
+      questions = SAMSEN_2565_SPECIAL_MATH_QUESTIONS;
+    } else if (exam.id === 'suankularb-pretest-math-9') {
+      questions = SUANKULARB_PRETEST_9_MATH_QUESTIONS;
+    } else if (exam.id === 'patumwan-math-60') {
+      questions = PATUMWAN_MATH_QUESTIONS;
     } else {
       questions = ALL_QUESTIONS.slice(0, 10);
     }

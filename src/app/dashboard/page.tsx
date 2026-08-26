@@ -6,6 +6,9 @@ import { OverviewCards } from '@/components/dashboard/OverviewCards';
 import { RadarCompetency } from '@/components/dashboard/RadarCompetency';
 import { WeaknessStrengthList } from '@/components/dashboard/WeaknessStrengthList';
 import { ScoreHistoryChart } from '@/components/dashboard/ScoreHistoryChart';
+import { SchoolBenchmark } from '@/components/dashboard/SchoolBenchmark';
+import { PersonalizedActionPlan } from '@/components/dashboard/PersonalizedActionPlan';
+import { ExamHistoryTable } from '@/components/dashboard/ExamHistoryTable';
 import { StudentNameModal } from '@/components/shared/StudentNameModal';
 import { getUserStats, getStoredAttempts, getUserProfileName } from '@/lib/storage';
 import { UserOverallStats } from '@/types/analytics';
@@ -116,13 +119,17 @@ export default function DashboardPage() {
 
       {/* Main Analytics Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column: Radar Chart */}
+        {/* Left Column: Radar Chart & Benchmark */}
         <div className="lg:col-span-6 space-y-6">
           <RadarCompetency data={stats.radarCompetencyData} />
+          <SchoolBenchmark
+            currentAccuracy={stats.accuracyRate}
+            readinessScore={stats.examReadinessScore}
+          />
           <ScoreHistoryChart attempts={attempts} />
         </div>
 
-        {/* Right Column: Weaknesses & Strengths */}
+        {/* Right Column: Weaknesses & Strengths & Action Plan */}
         <div className="lg:col-span-6 space-y-6">
           <WeaknessStrengthList
             strongest={stats.strongestTopics}
@@ -130,7 +137,10 @@ export default function DashboardPage() {
             totalQuestionsAttempted={stats.totalQuestionsAttempted}
           />
 
-          {/* Action Recommendations Box */}
+          {/* AI Personalized Action Plan */}
+          <PersonalizedActionPlan actionPlan={stats.actionPlan} />
+
+          {/* Strategy Tip Box */}
           <div className="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 space-y-4 shadow-lg">
             <div className="flex items-center gap-2 text-amber-300 font-bold text-xs uppercase tracking-wider">
               <Sparkles className="w-4 h-4" />
@@ -157,6 +167,9 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Detailed Exam History Table */}
+      <ExamHistoryTable attempts={attempts} />
 
       {/* Student Name Modal */}
       <StudentNameModal

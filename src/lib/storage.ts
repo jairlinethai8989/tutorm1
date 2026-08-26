@@ -185,6 +185,9 @@ export const calculateOverallStats = (attempts: ExamAttempt[]): UserOverallStats
     };
   });
 
+  const admissionChanceTier = getAdmissionChanceTier(accuracy);
+  const actionPlan = generateActionPlan(weakestTopics, accuracy);
+
   return {
     totalQuestionsAttempted: totalQuestions,
     totalCorrect,
@@ -197,7 +200,160 @@ export const calculateOverallStats = (attempts: ExamAttempt[]): UserOverallStats
     strongestTopics,
     weakestTopics,
     radarCompetencyData,
+    admissionChanceTier,
+    actionPlan,
   };
+};
+
+export const getAdmissionChanceTier = (percent: number) => {
+  if (percent >= 80) {
+    return {
+      tier: 'excellent' as const,
+      title: 'ระดับยอดเยี่ยม (Mastery)',
+      description: 'โอกาสสอบติดห้องพิเศษสูงมาก (> 90%) มีความแม่นยำและทักษะพร้อมสอบจริง',
+      color: 'text-emerald-700',
+      bgLight: 'bg-emerald-50 border-emerald-200',
+      badgeBg: 'bg-emerald-600 text-white',
+      probabilityText: 'โอกาสสอบติด: สูงมาก (> 90%)',
+    };
+  }
+  if (percent >= 65) {
+    return {
+      tier: 'good' as const,
+      title: 'ระดับดี (Proficient)',
+      description: 'ผ่านเกณฑ์มาตรฐานห้องเรียนพิเศษ รักษาฟอร์มและเก็บจุดอ่อนเพิ่มอีกนิดจะมั่นใจ 100%',
+      color: 'text-blue-700',
+      bgLight: 'bg-blue-50 border-blue-200',
+      badgeBg: 'bg-blue-600 text-white',
+      probabilityText: 'โอกาสสอบติด: สูง (70 - 89%)',
+    };
+  }
+  if (percent >= 50) {
+    return {
+      tier: 'moderate' as const,
+      title: 'ระดับปานกลาง (Developing)',
+      description: 'มีพื้นฐานที่ดี แต่ยังมีหัวข้อที่เสียคะแนนเรื่อยๆ แนะนำฝึกทำโจทย์จุดอ่อนเพิ่ม',
+      color: 'text-amber-700',
+      bgLight: 'bg-amber-50 border-amber-200',
+      badgeBg: 'bg-amber-600 text-white',
+      probabilityText: 'โอกาสสอบติด: ปานกลาง (50 - 69%)',
+    };
+  }
+  return {
+    tier: 'needs_improvement' as const,
+    title: 'ระดับต้องเร่งเสริมทักษะ (Foundational)',
+    description: 'ต้องการการทบทวนเนื้อหาและฝึกทำข้อสอบอย่างสม่ำเสมอเพื่อก้าวสู่เกณฑ์ผ่าน',
+    color: 'text-rose-700',
+    bgLight: 'bg-rose-50 border-rose-200',
+    badgeBg: 'bg-rose-600 text-white',
+    probabilityText: 'โอกาสสอบติด: กำลังพัฒนา (< 50%)',
+  };
+};
+
+export const calculatePaceAnalysis = (
+  timeSpentSeconds: number,
+  totalQuestions: number,
+  standardPaceSeconds = 120
+) => {
+  if (totalQuestions <= 0 || timeSpentSeconds <= 0) {
+    return {
+      averageSecondsPerQuestion: 0,
+      formattedPace: '0 วินาที/ข้อ',
+      status: 'optimal' as const,
+      statusText: 'เวลาพอดี',
+      tip: 'บริหารเวลาได้เหมาะสมตามมาตรฐานห้องสอบ',
+    };
+  }
+
+  const avgSec = Math.round(timeSpentSeconds / totalQuestions);
+  const minutes = Math.floor(avgSec / 60);
+  const remainingSeconds = avgSec % 60;
+  const formattedPace = minutes > 0 ? `${minutes} นาที ${remainingSeconds} วินาที/ข้อ` : `${remainingSeconds} วินาที/ข้อ`;
+
+  if (avgSec < standardPaceSeconds * 0.5) {
+    return {
+      averageSecondsPerQuestion: avgSec,
+      formattedPace,
+      status: 'fast' as const,
+      statusText: '⚡ ทำเร็วมาก (Speed)',
+      tip: 'ระวังเรื่องความรอบคอบและการอ่านโจทย์ไม่ครบถ้วน',
+    };
+  }
+
+  if (avgSec > standardPaceSeconds * 1.2) {
+    return {
+      averageSecondsPerQuestion: avgSec,
+      formattedPace,
+      status: 'slow' as const,
+      statusText: '⏳ ใช้เวลาค่อนข้างนาน',
+      tip: 'ควรฝึกเทคนิคคิดลัด (Fast Track) เพื่อประหยัดเวลาในห้องสอบ',
+    };
+  }
+
+  return {
+    averageSecondsPerQuestion: avgSec,
+    formattedPace,
+    status: 'optimal' as const,
+    statusText: '🎯 จังหวะเวลาเหมาะสม (Optimal Pace)',
+    tip: 'รักษาจังหวะการทำข้อสอบแบบนี้ไว้ในสนามสอบจริง',
+  };
+};
+
+export const generateActionPlan = (weakestTopics: string[], accuracyRate: number) => {
+  const plan = [];
+
+  if (weakestTopics.length > 0) {
+    const rawTopic = weakestTopics[0].split('(')[0].trim();
+    plan.push({
+      step: 1,
+      title: `เจาะลึกติวเพิ่มหัวข้อ "${rawTopic}"`,
+      description: 'ระบบตรวจพบว่าเป็นจุดที่เสียคะแนนบ่อยที่สุด ควรอ่านเฉลยละเอียดและฝึกทำโจทย์ซ้ำ',
+      actionLabel: 'ฝึกทำโจทย์หัวข้อนี้ทันที',
+      actionUrl: '/practice',
+      priority: 'high' as const,
+    });
+  } else {
+    plan.push({
+      step: 1,
+      title: 'ทำข้อสอบจำลองสนามจริงชุดถัดไป',
+      description: 'ทดสอบความพร้อมรอบด้านด้วยชุดข้อสอบโรงเรียนดังชุดใหม่',
+      actionLabel: 'เลือกชุดข้อสอบจำลอง',
+      actionUrl: '/mock-exam',
+      priority: 'high' as const,
+    });
+  }
+
+  if (weakestTopics.length > 1) {
+    const secondTopic = weakestTopics[1].split('(')[0].trim();
+    plan.push({
+      step: 2,
+      title: `เสริมความแม่นยำหัวข้อ "${secondTopic}"`,
+      description: 'ฝึกทำโจทย์ระดับปานกลาง-ยาก เพื่อปิดช่องโหว่ทางวิชาการ',
+      actionLabel: 'ฝึกใน AI Practice',
+      actionUrl: '/practice',
+      priority: 'medium' as const,
+    });
+  } else {
+    plan.push({
+      step: 2,
+      title: 'ฝึกคำนวณแบบสุ่มใน AI Practice',
+      description: 'เพิ่มความเร็วและความแม่นยำในการคิดเลขเร็วและแก้สมการ',
+      actionLabel: 'เริ่ม AI Practice',
+      actionUrl: '/practice',
+      priority: 'medium' as const,
+    });
+  }
+
+  plan.push({
+    step: 3,
+    title: 'จับเวลาสอบจำลองแบบจับเวลาจริง 60-90 นาที',
+    description: 'จำลองบรรยากาศห้องสอบเพื่อฝึกสมาธิและการบริหารเวลาภายใต้ความกดดัน',
+    actionLabel: 'เข้าห้องสอบจำลอง',
+    actionUrl: '/mock-exam',
+    priority: 'normal' as const,
+  });
+
+  return plan;
 };
 
 const updateUserStats = (attempts: ExamAttempt[]): void => {

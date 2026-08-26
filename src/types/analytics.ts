@@ -25,6 +25,33 @@ export interface RadarCompetencyItem {
   questionsCount: number;
 }
 
+export interface AdmissionChanceTier {
+  tier: 'excellent' | 'good' | 'moderate' | 'needs_improvement';
+  title: string;
+  description: string;
+  color: string;
+  bgLight: string;
+  badgeBg: string;
+  probabilityText: string;
+}
+
+export interface PaceAnalysis {
+  averageSecondsPerQuestion: number;
+  formattedPace: string;
+  status: 'fast' | 'optimal' | 'slow';
+  statusText: string;
+  tip: string;
+}
+
+export interface ActionPlanItem {
+  step: number;
+  title: string;
+  description: string;
+  actionLabel: string;
+  actionUrl: string;
+  priority: 'high' | 'medium' | 'normal';
+}
+
 export interface UserOverallStats {
   totalQuestionsAttempted: number;
   totalCorrect: number;
@@ -37,5 +64,7 @@ export interface UserOverallStats {
   strongestTopics: string[];
   weakestTopics: string[];
   radarCompetencyData?: RadarCompetencyItem[];
+  admissionChanceTier?: AdmissionChanceTier;
+  actionPlan?: ActionPlanItem[];
 }
 

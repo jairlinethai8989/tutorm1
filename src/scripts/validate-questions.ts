@@ -346,6 +346,27 @@ async function main() {
       },
     },
     {
+      name: 'samsenMath.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/samsenMath');
+        return m.SAMSEN_2565_SPECIAL_MATH_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbMath.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbMath');
+        return m.SUANKULARB_PRETEST_9_MATH_QUESTIONS;
+      },
+    },
+    {
+      name: 'patumwanMath.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/patumwanMath');
+        return m.PATUMWAN_MATH_QUESTIONS;
+      },
+    },
+    {
       name: 'chulabhornScience.ts',
       getQuestions: async () => {
         const m = await import('../data/questions/chulabhornScience');

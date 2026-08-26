@@ -1,10 +1,16 @@
 import { Question } from '@/types/question';
 import { CHULABHORN_MATH_QUESTIONS } from './chulabhornMath';
 import { BENCHAMA_MATH_QUESTIONS } from './benchamaMath';
+import { SAMSEN_2565_SPECIAL_MATH_QUESTIONS } from './samsenMath';
+import { SUANKULARB_PRETEST_9_MATH_QUESTIONS } from './suankularbMath';
+import { PATUMWAN_MATH_QUESTIONS } from './patumwanMath';
 
 export const MATH_QUESTIONS: Question[] = [
   ...BENCHAMA_MATH_QUESTIONS,
   ...CHULABHORN_MATH_QUESTIONS,
+  ...SAMSEN_2565_SPECIAL_MATH_QUESTIONS,
+  ...SUANKULARB_PRETEST_9_MATH_QUESTIONS,
+  ...PATUMWAN_MATH_QUESTIONS,
   // 1. เรขาคณิต - พื้นที่สี่เหลี่ยมคางหมู (แนว มศว.)
   {
     id: 'math-geo-001',

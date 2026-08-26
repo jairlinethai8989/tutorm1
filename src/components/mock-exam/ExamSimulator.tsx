@@ -13,7 +13,7 @@ import { Illustration } from '@/components/shared/Illustration';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
 import { StudentNameModal } from '@/components/shared/StudentNameModal';
 import { calculateAttemptSummary } from '@/lib/scoring';
-import { saveAttempt, getUserProfileName } from '@/lib/storage';
+import { saveAttempt, getUserProfileName, getAdmissionChanceTier, calculatePaceAnalysis } from '@/lib/storage';
 import { formatTime } from '@/lib/utils';
 import {
   Clock,
@@ -29,6 +29,11 @@ import {
   Sparkles,
   HelpCircle,
   User,
+  Printer,
+  Pause,
+  Play,
+  Save,
+  AlertTriangle,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -38,18 +43,21 @@ interface ExamSimulatorProps {
 
 export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   const questions = exam.questions || [];
+  const activeExamStorageKey = `tutor_m1_active_exam_${exam.id}`;
+
+  // All state hooks MUST be declared at the top of the component before any conditional returns
   const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [isFinished, setIsFinished] = useState<boolean>(false);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [secondsRemaining, setSecondsRemaining] = useState<number>(exam.timeLimitMinutes * 60);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const [reviewMode, setReviewMode] = useState<boolean>(false);
+  const [reviewFilter, setReviewFilter] = useState<'all' | 'wrong_only'>('all');
   const [studentName, setStudentName] = useState<string>('ผู้เรียน');
   const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    setStudentName(getUserProfileName());
-  }, []);
+  const [hasSavedSession, setHasSavedSession] = useState<boolean>(false);
+  const [savedSessionInfo, setSavedSessionInfo] = useState<{ answeredCount: number; remainingTime: number } | null>(null);
 
   // User answers state
   const [answers, setAnswers] = useState<
@@ -67,9 +75,87 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
 
   const [attemptResult, setAttemptResult] = useState<any>(null);
 
+  // Check profile name and saved in-progress session on mount
+  useEffect(() => {
+    setStudentName(getUserProfileName());
+
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem(activeExamStorageKey);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.answers && Object.keys(parsed.answers).length > 0) {
+            const answeredCount = Object.values(parsed.answers).filter(
+              (a: any) => a.selectedChoiceId || (a.textAnswer && a.textAnswer.trim() !== '')
+            ).length;
+            setHasSavedSession(true);
+            setSavedSessionInfo({
+              answeredCount,
+              remainingTime: parsed.secondsRemaining || exam.timeLimitMinutes * 60,
+            });
+          }
+        }
+      } catch (e) {
+        console.error('Error loading saved exam session', e);
+      }
+    }
+  }, [activeExamStorageKey, exam.timeLimitMinutes]);
+
+  // Auto-save active in-progress exam session to localStorage
+  useEffect(() => {
+    if (hasStarted && !isFinished && typeof window !== 'undefined') {
+      try {
+        const sessionData = {
+          answers,
+          secondsRemaining,
+          currentIndex,
+          updatedAt: Date.now(),
+        };
+        localStorage.setItem(activeExamStorageKey, JSON.stringify(sessionData));
+      } catch (e) {
+        console.error('Error saving in-progress exam session', e);
+      }
+    }
+  }, [hasStarted, isFinished, answers, secondsRemaining, currentIndex, activeExamStorageKey]);
+
+  // Resume saved session handler
+  const handleResumeSavedSession = () => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem(activeExamStorageKey);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.answers) setAnswers(parsed.answers);
+          if (parsed.secondsRemaining !== undefined) setSecondsRemaining(parsed.secondsRemaining);
+          if (parsed.currentIndex !== undefined) setCurrentIndex(parsed.currentIndex);
+          setHasStarted(true);
+          setIsPaused(false);
+          return;
+        }
+      } catch (e) {
+        console.error('Error resuming session', e);
+      }
+    }
+    setHasStarted(true);
+  };
+
+  // Clear saved session and start fresh
+  const handleStartFreshSession = () => {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem(activeExamStorageKey);
+      } catch {}
+    }
+    setAnswers({});
+    setSecondsRemaining(exam.timeLimitMinutes * 60);
+    setCurrentIndex(0);
+    setHasSavedSession(false);
+    setHasStarted(true);
+  };
+
   // Countdown timer
   useEffect(() => {
-    if (!hasStarted || isFinished) return;
+    if (!hasStarted || isFinished || isPaused) return;
 
     const timer = setInterval(() => {
       setSecondsRemaining((prev) => {
@@ -83,12 +169,12 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [hasStarted, isFinished]);
+  }, [hasStarted, isFinished, isPaused]);
 
   const currentQuestion = questions[currentIndex];
 
   const handleSelectChoice = (choiceId: string) => {
-    if (isFinished) return;
+    if (isFinished || isPaused) return;
     setAnswers((prev) => ({
       ...prev,
       [currentQuestion.id]: {
@@ -99,7 +185,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   };
 
   const handleTextAnswerChange = (text: string) => {
-    if (isFinished) return;
+    if (isFinished || isPaused) return;
     setAnswers((prev) => ({
       ...prev,
       [currentQuestion.id]: {
@@ -110,7 +196,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   };
 
   const handleToggleFlag = () => {
-    if (isFinished) return;
+    if (isFinished || isPaused) return;
     setAnswers((prev) => ({
       ...prev,
       [currentQuestion.id]: {
@@ -123,6 +209,13 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   const handleSubmitExam = () => {
     setShowConfirmModal(false);
     setIsFinished(true);
+    setIsPaused(false);
+
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem(activeExamStorageKey);
+      } catch {}
+    }
 
     const timeSpent = exam.timeLimitMinutes * 60 - secondsRemaining;
     const summary = calculateAttemptSummary(
@@ -194,6 +287,37 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             </button>
           </div>
 
+          {/* Saved in-progress Session Alert & Resume Prompt */}
+          {hasSavedSession && savedSessionInfo && (
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 text-left max-w-xl mx-auto space-y-3 shadow-xs">
+              <div className="flex items-center gap-2 text-xs font-extrabold text-blue-800">
+                <AlertTriangle className="w-4 h-4 text-blue-600 shrink-0" />
+                <span>คุณมีข้อสอบชุดนี้ที่ทำค้างไว้</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                ระบบตรวจพบบันทึกการทำข้อสอบค้างไว้ <strong>ทำไปแล้ว {savedSessionInfo.answeredCount} ข้อ</strong> (เวลาคงเหลือ {formatTime(savedSessionInfo.remainingTime)})
+              </p>
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={handleResumeSavedSession}
+                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Play className="w-3.5 h-3.5 fill-white" />
+                  <span>ทำข้อสอบต่อจากเดิม</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleStartFreshSession}
+                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition-colors cursor-pointer"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
+                  <span>เริ่มทำใหม่ตั้งแต่ต้น</span>
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Exam Rules & Meta */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto">
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
@@ -221,6 +345,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             </div>
             <ul className="list-disc list-inside space-y-1 pl-1">
               <li>ระบบจะเริ่มจับเวลาทันทีหลังจากกดปุ่มเริ่มทำข้อสอบ</li>
+              <li>สามารถกดปุ่ม <strong>"พักชั่วคราว"</strong> เพื่อหยุดเวลาและกลับมาทำต่อได้</li>
               <li>สามารถกดปักหมุดข้อที่ต้องการกลับมาทบทวนได้ตลอดเวลา</li>
               <li>เมื่อหมดเวลาระบบจะส่งกระดาษคำตอบและบันทึกประเมินผลอัตโนมัติ</li>
             </ul>
@@ -237,7 +362,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             }}
             className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-base shadow-lg shadow-blue-500/25 hover:scale-105 transition-all cursor-pointer"
           >
-            เริ่มทำข้อสอบจำลองทันที
+            {hasSavedSession ? 'ทำข้อสอบต่อจากเดิม' : 'เริ่มทำข้อสอบจำลองทันที'}
           </button>
         </div>
 
@@ -260,112 +385,262 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   // Post-exam Result Screen (when finished)
   if (isFinished && attemptResult && !reviewMode) {
     const isPassed = attemptResult.scorePercentage >= exam.passingScorePercent;
+    const admissionTier = getAdmissionChanceTier(attemptResult.scorePercentage);
+    const paceAnalysis = calculatePaceAnalysis(attemptResult.timeSpentSeconds, attemptResult.totalQuestions);
+
+    const wrongQuestions = questions.filter((q) => !answers[q.id]?.isCorrect);
+    const wrongCount = wrongQuestions.length;
+
+    // Filter topics into strengths and weaknesses for this specific exam
+    const examTopics = attemptResult.topicBreakdown
+      ? Object.entries(attemptResult.topicBreakdown).map(([name, stats]: any) => ({
+          name,
+          total: stats.total,
+          correct: stats.correct,
+          percent: Math.round((stats.correct / stats.total) * 100),
+        }))
+      : [];
+
+    const examStrengths = examTopics.filter((t) => t.percent >= 70);
+    const examWeaknesses = examTopics.filter((t) => t.percent < 70);
 
     return (
-      <div className="max-w-4xl mx-auto space-y-6 py-6">
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg text-center space-y-6">
-          <div
-            className={`w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-white shadow-lg ${
-              isPassed ? 'bg-emerald-500 shadow-emerald-500/30' : 'bg-amber-500 shadow-amber-500/30'
-            }`}
-          >
-            <Award className="w-10 h-10" />
-          </div>
+      <div className="max-w-4xl mx-auto space-y-6 py-6 print:py-0 print:max-w-none">
+        {/* Printable & Visual Exam Report Card */}
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg space-y-8 text-center print:border-none print:shadow-none print:p-4">
+          {/* Header Info */}
+          <div className="space-y-3 pb-6 border-b border-slate-100">
+            <div className="flex flex-wrap items-center justify-between gap-3 text-left">
+              <div className="flex items-center gap-2">
+                <span
+                  className="text-xs font-bold px-3 py-1 rounded-lg text-white"
+                  style={{ backgroundColor: exam.badgeColor }}
+                >
+                  {exam.targetSchool}
+                </span>
+                <span className="text-xs font-bold text-slate-500">
+                  {exam.subjectId === 'math' ? 'คณิตศาสตร์' : exam.subjectId === 'science' ? 'วิทยาศาสตร์' : 'ภาษาอังกฤษ'}
+                </span>
+              </div>
 
-          <div>
-            <div className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
-              ผลการสอบจำลองเสมือนจริง
+              {/* Print / Save PDF Button */}
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="print:hidden inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer shadow-2xs"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>พิมพ์ / บันทึกผลสอบ (PDF)</span>
+              </button>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight text-left sm:text-center">
               {exam.name}
             </h1>
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold mt-2">
-              <User className="w-3.5 h-3.5" />
-              <span>ผู้เข้าสอบ: {studentName}</span>
-            </div>
-            <div className="text-sm font-semibold mt-2">
-              สถานะ:{' '}
-              <span className={`font-bold ${isPassed ? 'text-emerald-600' : 'text-amber-600'}`}>
-                {isPassed ? '🎉 ผ่านเกณฑ์การคัดเลือก (Passed)' : '⚡ ยังไม่ผ่านเกณฑ์ (Needs Improvement)'}
-              </span>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold">
+                <User className="w-3.5 h-3.5" />
+                <span>ผู้เข้าสอบ: {studentName}</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-medium">
+                <span>เกณฑ์ผ่านโรงเรียน: {exam.passingScorePercent}%</span>
+              </div>
             </div>
           </div>
 
-          {/* Score Overview Box */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-5 rounded-2xl border border-slate-100 max-w-2xl mx-auto">
-            <div>
-              <div className="text-xs text-slate-500 font-semibold">คะแนนที่ได้</div>
-              <div className="text-2xl font-extrabold text-blue-600 mt-1">
-                {attemptResult.totalScore} / {attemptResult.maxPossibleScore}
+          {/* Admission Probability Tier Banner */}
+          <div
+            className={`p-6 rounded-3xl border text-left flex flex-col sm:flex-row sm:items-center justify-between gap-5 shadow-xs ${admissionTier.bgLight}`}
+          >
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className={`text-xs font-extrabold px-3 py-1 rounded-lg ${admissionTier.badgeBg}`}>
+                  {admissionTier.title}
+                </span>
+                <span className={`font-bold text-sm ${admissionTier.color}`}>
+                  {admissionTier.probabilityText}
+                </span>
               </div>
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
+                {admissionTier.description}
+              </p>
             </div>
-            <div>
-              <div className="text-xs text-slate-500 font-semibold">คิดเป็นเปอร์เซ็นต์</div>
-              <div className="text-2xl font-extrabold text-slate-900 mt-1">
+
+            <div className="shrink-0 flex items-center gap-3 bg-white/80 backdrop-blur-xs p-3.5 rounded-2xl border border-slate-200/60 shadow-2xs">
+              <div className="text-right">
+                <div className="text-[11px] text-slate-500 font-bold">ผลการสอบ</div>
+                <div className={`text-xl font-extrabold ${isPassed ? 'text-emerald-600' : 'text-amber-600'}`}>
+                  {isPassed ? '✓ ผ่านเกณฑ์' : '⚡ กำลังพัฒนา'}
+                </div>
+              </div>
+              <div
+                className={`w-12 h-12 rounded-xl flex items-center justify-center text-white font-extrabold text-sm shadow-xs ${
+                  isPassed ? 'bg-emerald-600' : 'bg-amber-600'
+                }`}
+              >
                 {attemptResult.scorePercentage}%
               </div>
             </div>
-            <div>
-              <div className="text-xs text-slate-500 font-semibold">ตอบถูก / ทั้งหมด</div>
-              <div className="text-2xl font-extrabold text-emerald-600 mt-1">
-                {attemptResult.correctCount} / {attemptResult.totalQuestions}
+          </div>
+
+          {/* Key 4 Metrics Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
+              <div className="text-xs text-slate-500 font-semibold">คะแนนที่ได้</div>
+              <div className="text-2xl font-extrabold text-blue-600">
+                {attemptResult.totalScore} <span className="text-xs font-semibold text-slate-400">/ {attemptResult.maxPossibleScore}</span>
               </div>
             </div>
-            <div>
+
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
+              <div className="text-xs text-slate-500 font-semibold">ความแม่นยำ</div>
+              <div className="text-2xl font-extrabold text-slate-900">
+                {attemptResult.scorePercentage}%
+              </div>
+            </div>
+
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
+              <div className="text-xs text-slate-500 font-semibold">ตอบถูก / ทั้งหมด</div>
+              <div className="text-2xl font-extrabold text-emerald-600">
+                {attemptResult.correctCount} <span className="text-xs font-semibold text-slate-400">/ {attemptResult.totalQuestions} ข้อ</span>
+              </div>
+            </div>
+
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
               <div className="text-xs text-slate-500 font-semibold">เวลาที่ใช้</div>
-              <div className="text-2xl font-extrabold text-slate-900 mt-1">
+              <div className="text-2xl font-extrabold text-slate-900">
                 {formatTime(attemptResult.timeSpentSeconds)}
               </div>
             </div>
           </div>
 
-          {/* Topic Breakdown */}
-          {attemptResult.topicBreakdown && (
-            <div className="text-left max-w-2xl mx-auto space-y-3 pt-2">
-              <h3 className="text-sm font-bold text-slate-800">คะแนนแยกตามหัวข้อความรู้:</h3>
-              <div className="space-y-2">
-                {Object.entries(attemptResult.topicBreakdown).map(([topic, stats]: any) => {
-                  const percent = Math.round((stats.correct / stats.total) * 100);
-                  return (
-                    <div key={topic} className="p-3 bg-white rounded-xl border border-slate-200">
-                      <div className="flex justify-between text-xs font-bold mb-1.5">
-                        <span className="text-slate-800">{topic}</span>
-                        <span className={percent >= 70 ? 'text-emerald-600' : 'text-amber-600'}>
-                          {stats.correct}/{stats.total} ข้อ ({percent}%)
-                        </span>
-                      </div>
-                      <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${percent >= 70 ? 'bg-emerald-500' : 'bg-amber-500'}`}
-                          style={{ width: `${percent}%` }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
+          {/* Time Pacing Analysis Box */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-indigo-50/70 border border-indigo-100 text-left flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                <Clock className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xs font-bold text-indigo-950 flex items-center gap-2">
+                  <span>⏱️ การวิเคราะห์ความเร็ว (Time Pacing):</span>
+                  <strong className="text-indigo-700">{paceAnalysis.formattedPace}</strong>
+                </div>
+                <div className="text-xs text-indigo-900/80 mt-0.5">{paceAnalysis.tip}</div>
               </div>
             </div>
-          )}
+            <div className="self-start sm:self-auto text-xs font-extrabold px-3 py-1 rounded-lg bg-white border border-indigo-200 text-indigo-800 shrink-0">
+              {paceAnalysis.statusText}
+            </div>
+          </div>
+
+          {/* Topic Strengths vs Weaknesses in this Exam */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+            {/* Strengths */}
+            <div className="p-5 bg-emerald-50/40 rounded-2xl border border-emerald-200/80 space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-emerald-100">
+                <div className="flex items-center gap-2 text-xs font-extrabold text-emerald-800 uppercase tracking-wider">
+                  <CheckCircle className="w-4 h-4 text-emerald-600" />
+                  <span>จุดแข็งในชุดนี้ (ทำได้ดีเยี่ยม):</span>
+                </div>
+                <span className="text-xs font-bold text-emerald-700">{examStrengths.length} หัวข้อ</span>
+              </div>
+
+              {examStrengths.length > 0 ? (
+                <div className="space-y-2">
+                  {examStrengths.map((t) => (
+                    <div key={t.name} className="flex items-center justify-between p-2.5 bg-white rounded-xl border border-emerald-100 text-xs">
+                      <span className="font-bold text-slate-800">{t.name}</span>
+                      <span className="font-extrabold text-emerald-600">{t.correct}/{t.total} ข้อ ({t.percent}%)</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-slate-500 italic py-2">
+                  ยังไม่มีหัวข้อที่ผ่านเกณฑ์ 70% แนะนำให้เริ่มทบทวนจุดอ่อนด้านขวามือ
+                </p>
+              )}
+            </div>
+
+            {/* Weaknesses / Need Work */}
+            <div className="p-5 bg-amber-50/40 rounded-2xl border border-amber-200/80 space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-amber-100">
+                <div className="flex items-center gap-2 text-xs font-extrabold text-amber-800 uppercase tracking-wider">
+                  <Sparkles className="w-4 h-4 text-amber-600" />
+                  <span>จุดที่ต้องเสริมด่วน (หลุดคะแนน):</span>
+                </div>
+                <span className="text-xs font-bold text-amber-700">{examWeaknesses.length} หัวข้อ</span>
+              </div>
+
+              {examWeaknesses.length > 0 ? (
+                <div className="space-y-2">
+                  {examWeaknesses.map((t) => (
+                    <div key={t.name} className="flex items-center justify-between p-2.5 bg-white rounded-xl border border-amber-200 text-xs">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-slate-800">{t.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-extrabold text-amber-600">{t.correct}/{t.total} ข้อ ({t.percent}%)</span>
+                        <Link
+                          href="/practice"
+                          className="print:hidden px-2 py-0.5 rounded-md bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold text-[10px] transition-colors"
+                        >
+                          ติวเพิ่ม →
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-emerald-700 font-bold py-2 flex items-center gap-1.5">
+                  <CheckCircle className="w-4 h-4 text-emerald-600" />
+                  ยอดเยี่ยมมาก! ไม่มีหัวข้อใดที่ได้คะแนนต่ำกว่า 70%
+                </p>
+              )}
+            </div>
+          </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+          <div className="print:hidden flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-slate-100">
+            {/* View All Solutions */}
             <button
               type="button"
               onClick={() => {
+                setReviewFilter('all');
                 setReviewMode(true);
                 setCurrentIndex(0);
               }}
-              className="px-8 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-md shadow-blue-500/20 transition-all flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-blue-500/20 transition-all flex items-center gap-2 cursor-pointer hover:scale-105"
             >
               <HelpCircle className="w-4 h-4" />
-              <span>ดูเฉลยละเอียด & วิธีคิดทุกข้อ</span>
+              <span>ดูเฉลยละเอียดทุกข้อ ({questions.length} ข้อ)</span>
             </button>
 
+            {/* View Mistakes Only */}
+            {wrongCount > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setReviewFilter('wrong_only');
+                  setReviewMode(true);
+                  // Find first wrong question index
+                  const firstWrongIndex = questions.findIndex((q) => !answers[q.id]?.isCorrect);
+                  setCurrentIndex(firstWrongIndex >= 0 ? firstWrongIndex : 0);
+                }}
+                className="px-6 py-3.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-rose-500/20 transition-all flex items-center gap-2 cursor-pointer hover:scale-105"
+              >
+                <XCircle className="w-4 h-4" />
+                <span>ทบทวนเฉพาะข้อที่ตอบผิด ({wrongCount} ข้อ)</span>
+              </button>
+            )}
+
+            {/* Go to Dashboard */}
             <Link
               href="/dashboard"
-              className="px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all"
+              className="px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm transition-all flex items-center gap-2 hover:scale-105"
             >
-              ไปที่ Dashboard วิเคราะห์จุดอ่อน
+              <Award className="w-4 h-4 text-amber-400" />
+              <span>ดูสรุปภาพรวมใน Dashboard</span>
             </Link>
           </div>
         </div>
@@ -402,8 +677,21 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
           <span className="font-bold text-slate-900 text-sm sm:text-base">{exam.name}</span>
         </div>
 
-        {/* Timer Box */}
-        <div className="flex items-center gap-3">
+        {/* Timer & Actions Box */}
+        <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+          {/* Pause Button */}
+          {!isFinished && !reviewMode && (
+            <button
+              type="button"
+              onClick={() => setIsPaused(true)}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-bold text-xs shadow-2xs transition-all cursor-pointer hover:scale-102"
+              title="หยุดเวลาและพักการทำข้อสอบชั่วคราว"
+            >
+              <Pause className="w-3.5 h-3.5" />
+              <span>พักชั่วคราว</span>
+            </button>
+          )}
+
           <div
             className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono font-extrabold text-sm shadow-2xs ${
               secondsRemaining <= 300
@@ -412,14 +700,14 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             }`}
           >
             <Clock className="w-4 h-4" />
-            <span>{isFinished ? 'หมดเวลาสอบ' : formatTime(secondsRemaining)}</span>
+            <span>{isFinished ? 'หมดเวลาสอบ' : isPaused ? '⏸️ หยุดเวลา' : formatTime(secondsRemaining)}</span>
           </div>
 
           {!isFinished && (
             <button
               type="button"
               onClick={() => setShowConfirmModal(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-xs transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-xs transition-colors cursor-pointer hover:scale-102"
             >
               <Send className="w-3.5 h-3.5" />
               <span>ส่งกระดาษคำตอบ</span>
@@ -466,6 +754,59 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
           />
         </div>
       </div>
+
+      {/* Review Mode Banner & Filter */}
+      {reviewMode && (
+        <div className="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border border-blue-200/80 rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 shadow-2xs">
+          <div className="flex items-center gap-3">
+            <span className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+              <HelpCircle className="w-5 h-5" />
+            </span>
+            <div>
+              <div className="font-extrabold text-slate-900 text-xs sm:text-sm flex items-center gap-2">
+                <span>โหมดตรวจทานเฉลยละเอียด (Review Mode)</span>
+                {reviewFilter === 'wrong_only' && (
+                  <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 text-[10px] font-extrabold">
+                    เฉพาะข้อที่ตอบผิด
+                  </span>
+                )}
+              </div>
+              <div className="text-xs text-slate-500 mt-0.5">
+                เลือกข้อสอบจากแถบด้านขวาหรือสลับตัวกรองเพื่อทบทวนจุดที่เสียคะแนน
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setReviewFilter('all')}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                reviewFilter === 'all'
+                  ? 'bg-blue-600 text-white shadow-xs'
+                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+              }`}
+            >
+              ดูทั้งหมด ({questions.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setReviewFilter('wrong_only');
+                const firstWrongIndex = questions.findIndex((q) => !answers[q.id]?.isCorrect);
+                if (firstWrongIndex >= 0) setCurrentIndex(firstWrongIndex);
+              }}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                reviewFilter === 'wrong_only'
+                  ? 'bg-rose-600 text-white shadow-xs'
+                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+              }`}
+            >
+              เฉพาะข้อผิด ({questions.filter((q) => !answers[q.id]?.isCorrect).length})
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Question Card */}
@@ -630,6 +971,64 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
               >
                 ยืนยันส่งข้อสอบ
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pause Exam Modal */}
+      {isPaused && (
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-slate-200 shadow-2xl space-y-6 text-center animate-in fade-in zoom-in-95 duration-200">
+            <div className="w-16 h-16 rounded-3xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center mx-auto shadow-xs">
+              <Pause className="w-8 h-8" />
+            </div>
+
+            <div className="space-y-2">
+              <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold">
+                ⏸️ พักการสอบชั่วคราว
+              </span>
+              <h2 className="text-xl font-extrabold text-slate-900">
+                เวลาสอบถูกหยุดไว้ชั่วคราวแล้ว
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                คำตอบและเวลาคงเหลือของคุณได้รับการบันทึกไว้ในระบบเรียบร้อย สามารถพักสายตา ดื่มน้ำ หรือกลับมาทำต่อได้ตลอดเวลา
+              </p>
+            </div>
+
+            {/* Progress summary inside pause modal */}
+            <div className="grid grid-cols-2 gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100 text-left">
+              <div>
+                <div className="text-[11px] text-slate-400 font-bold">ทำไปแล้ว</div>
+                <div className="text-lg font-extrabold text-blue-600">
+                  {answeredQuestionsCount} / {totalQuestionsCount} ข้อ
+                </div>
+              </div>
+              <div>
+                <div className="text-[11px] text-slate-400 font-bold">เวลาคงเหลือ</div>
+                <div className="text-lg font-extrabold text-slate-900">
+                  {formatTime(secondsRemaining)}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => setIsPaused(false)}
+                className="w-full py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-md shadow-blue-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-102"
+              >
+                <Play className="w-4 h-4 fill-white" />
+                <span>กลับมาทำข้อสอบต่อ</span>
+              </button>
+
+              <Link
+                href="/mock-exam"
+                className="w-full py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center justify-center gap-2"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>บันทึกความคืบหน้า & กลับหน้าหลัก</span>
+              </Link>
             </div>
           </div>
         </div>
