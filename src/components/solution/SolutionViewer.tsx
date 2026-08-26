@@ -68,6 +68,19 @@ export const SolutionViewer: React.FC<SolutionViewerProps> = ({ question }) => {
         </div>
       </div>
 
+      {/* Detailed Explanation Text (if provided and helpful) */}
+      {question.solution.text && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/60 border border-blue-100 text-slate-800 space-y-2">
+          <div className="text-xs font-extrabold text-blue-800 uppercase tracking-wider flex items-center gap-1.5">
+            <BookOpen className="w-4 h-4 text-blue-600" />
+            <span>คำอธิบายแนวคิด (Concept & Explanation):</span>
+          </div>
+          <div className="text-sm sm:text-base text-slate-700 leading-relaxed pl-1 whitespace-pre-line">
+            <MathText content={question.solution.text} />
+          </div>
+        </div>
+      )}
+
       {/* Step by Step Breakdown */}
       {question.solution.steps && question.solution.steps.length > 0 && (
         <StepByStep steps={question.solution.steps} />
@@ -75,7 +88,7 @@ export const SolutionViewer: React.FC<SolutionViewerProps> = ({ question }) => {
 
       {/* Trick & Trap Box */}
       <TrickTip
-        trickTip={question.solution.trickTip}
+        trickTip={question.solution.trickTip || question.solution.fastTrick}
         commonMistake={question.solution.commonMistake}
       />
 

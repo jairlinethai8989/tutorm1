@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.10.0',
-  versionLabel: 'Version 2.10.0 (Satit Patumwan Math Exam Ingestion)',
+  version: 'v2.10.1',
+  versionLabel: 'Version 2.10.1 (Step-by-Step Solution Display Fix)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,32 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.10.1',
+    date: '26 สิงหาคม 2026',
+    title: 'แก้ไขระบบแสดงผลขั้นตอนวิธีทำเฉลยละเอียด (Step-by-Step Solution)',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'fix',
+        title: 'แก้ไขกล่องวิธีทำว่างเปล่าในหน้าเฉลยข้อสอบ',
+        description:
+          'ปรับปรุงคอมโพเนนต์ StepByStep และ SolutionViewer ให้รองรับข้อมูลขั้นตอนวิธีทำทั้งรูปแบบ String Array และ Object Array พร้อมแสดงหัวข้อขั้นตอนและเนื้อหาคำนวณ KaTeX ชัดเจน 100%',
+      },
+      {
+        type: 'feature',
+        title: 'เพิ่มกล่องคำอธิบายแนวคิดภาพรวม & เทคนิคคิดลัด (Concept & Fast Track)',
+        description:
+          'แสดงกล่องคำอธิบายแนวคิดหลัก (Concept & Explanation) และกล่องสูตรคิดลัด (Fast Track Tip) สำหรับทุกข้อสอบในระบบจำลองสอบและ AI Practice',
+      },
+    ],
+  },
+  {
     version: 'v2.10.0',
     date: '26 สิงหาคม 2026',
     title: 'บรรจุข้อสอบคณิตศาสตร์ ป.6 เข้า ม.1 รร.สาธิตปทุมวัน — 19 ข้อเข้มข้นพร้อมเฉลยละเอียด',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

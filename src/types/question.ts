@@ -10,8 +10,8 @@ export interface Choice {
 }
 
 export interface SolutionStep {
-  stepNumber: number;
-  title: string;
+  stepNumber?: number;
+  title?: string;
   content: string;
   imageUrl?: string;
   imageCaption?: string;
@@ -20,10 +20,13 @@ export interface SolutionStep {
 
 export interface Solution {
   summary: string;
-  steps: SolutionStep[];
+  text?: string;
+  steps: (SolutionStep | string)[];
   trickTip?: string;
+  fastTrick?: string;
   commonMistake?: string;
   videoUrl?: string;
+  correctChoiceId?: string;
 }
 
 export interface Question {
