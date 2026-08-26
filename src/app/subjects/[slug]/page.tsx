@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getSubjectBySlug, getQuestionsBySubject, getQuestionsByTopic } from '@/lib/data-loader';
 import { ArrowLeft, BookOpen, Sparkles, CheckCircle2, ArrowRight, Layers, HelpCircle } from 'lucide-react';
 import { MathText } from '@/components/shared/MathText';
+import { ExamStrategicGuide } from '@/components/guide/ExamStrategicGuide';
 
 export default async function SubjectDetailPage({
   params,
@@ -60,6 +61,12 @@ export default async function SubjectDetailPage({
           </div>
         </div>
       </div>
+
+      {/* Expert Subject Breakdown & Must-Know Topics Guide */}
+      <ExamStrategicGuide
+        initialTab="subject-breakdown"
+        initialSubject={subject.id}
+      />
 
       {/* Topics Grid */}
       <div className="space-y-4">

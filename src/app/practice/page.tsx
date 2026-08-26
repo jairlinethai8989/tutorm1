@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ALL_TEMPLATES } from '@/lib/template-engine';
 import { SUBJECTS } from '@/lib/constants/subjects';
 import { PracticeMode } from '@/components/practice/PracticeMode';
+import { ExamStrategicGuide } from '@/components/guide/ExamStrategicGuide';
 import { Sparkles, ArrowLeft, Layers, ArrowRight, Dna } from 'lucide-react';
 
 export default function PracticeHubPage() {
@@ -66,6 +67,9 @@ export default function PracticeHubPage() {
 
         <PracticeMode title="สุ่มโจทย์รวมทุกหมวด (Infinite Random Pool)" />
       </div>
+
+      {/* In-depth Strategic Exam Guide for 5 Subjects */}
+      <ExamStrategicGuide initialTab="roadmap" />
     </div>
   );
 }

@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.10.2',
-  versionLabel: 'Version 2.10.2 (Math Formula & Fast Track KaTeX Overhaul)',
+  version: 'v2.11.0',
+  versionLabel: 'Version 2.11.0 (5 Core Subjects Exam Breakdown & Parent Guide)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,38 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.11.0',
+    date: '26 สิงหาคม 2026',
+    title: 'เจาะลึกแนวข้อสอบเข้า ม.1 โรงเรียนแข่งขันสูง & คู่มือเตรียมสอบ 5 วิชาหลัก',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'เปิดตัวโมดูล "สิ่งที่น้อง ป.6 และผู้ปกครองต้องรู้ก่อนสอบเข้า ม.1"',
+        description:
+          'คู่มือเตรียมความพร้อม 3 เสาหลัก: การปรับตัวสู่ระดับมัธยม, การเปรียบเทียบจุดเน้นห้อง Gifted vs EP vs ห้องปกติ, และโครงสร้างสัดส่วนคะแนน 5 วิชาหลัก',
+      },
+      {
+        type: 'feature',
+        title: 'เจาะลึกบทวิเคราะห์ 5 วิชาหลักโดยทีมติวเตอร์ผู้เชี่ยวชาญ',
+        description:
+          'บทวิเคราะห์เจาะลึกคณิตศาสตร์ (พี่ภูมิ), วิทยาศาสตร์ (พี่บิ๊ก), ภาษาไทย (พี่ยู), ภาษาอังกฤษ และสังคมศึกษา พร้อม Checklist หัวข้อที่มักออกสอบบ่อย และแนวข้อสอบ สสวท./TEDET/Pre-Test โรงเรียนดัง',
+      },
+      {
+        type: 'feature',
+        title: 'แผน Roadmap พิชิตข้อสอบเข้า ม.1 (4 ระยะ)',
+        description:
+          'ตารางไทม์ไลน์วางแผนการอ่านหนังสือและฝึกทำข้อสอบ 4 ระยะ ตั้งแต่เปิดเทอม 1 จนถึงโค้งสุดท้าย พร้อมแนวทางสำหรับน้อง ๆ และผู้ปกครอง',
+      },
+    ],
+  },
+  {
     version: 'v2.10.2',
     date: '26 สิงหาคม 2026',
     title: 'ปรับปรุงการแสดงผลสัญลักษณ์คณิตศาสตร์ & เทคนิคคิดเร็ว (KaTeX Standard 100%)',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'fix',

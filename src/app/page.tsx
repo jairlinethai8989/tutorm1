@@ -2,12 +2,16 @@ import React from 'react';
 import { HeroSection } from '@/components/home/HeroSection';
 import { QuickStats } from '@/components/home/QuickStats';
 import { MainCategoryHub } from '@/components/home/MainCategoryHub';
+import { ExamStrategicGuide } from '@/components/guide/ExamStrategicGuide';
 
 export default function HomePage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Hero Welcome Banner */}
       <HeroSection />
+
+      {/* Strategic Exam Preparation Guide for Grade 6 & Parents */}
+      <ExamStrategicGuide />
 
       {/* Quick Performance & Streak Stats */}
       <QuickStats />
@@ -17,3 +21,4 @@ export default function HomePage() {
     </div>
   );
 }
+
