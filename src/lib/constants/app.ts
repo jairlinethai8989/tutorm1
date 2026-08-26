@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.11.0',
-  versionLabel: 'Version 2.11.0 (5 Core Subjects Exam Breakdown & Parent Guide)',
+  version: 'v2.11.1',
+  versionLabel: 'Version 2.11.1 (Floating Hub UI & Interactive Learning Road Journey)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,38 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.11.1',
+    date: '26 สิงหาคม 2026',
+    title: 'ปรับปรุง UX/UI หน้าจอหลัก: ปุ่มโหมดหลักลอยได้ & เส้นทางถนน Roadmap แบบ Interactive Checklist',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'ย้ายและจัดวาง 3 โหมดหลักให้อยู่ด้านบนเด่นชัด ไม่ถูกบัง',
+        description:
+          'หมวดฝึกหัด 5 วิชา, จำลองสอบเสมือนจริง และ AI Practice แสดงผลด้านบนพร้อมปุ่มกดแบบ Floating 3D Lift และเอฟเฟกต์รูปนิ้วมือ (cursor-pointer) ตอบสนองทุกการชี้เมาส์',
+      },
+      {
+        type: 'feature',
+        title: 'แปลงหน้า Roadmap เป็นเส้นทางถนน (Learning Journey Road)',
+        description:
+          'ดีไซน์เส้นทางถนนพร้อมจุดแวะพัก (Milestones 1-4) เชื่อมต่อสู่เป้าหมายสอบติด ม.1 พร้อมระบบ Interactive Checklist บันทึกความคืบหน้าลง LocalStorage และแถบวัดระดับความพร้อมสอบอัตโนมัติ',
+      },
+      {
+        type: 'feature',
+        title: 'เพิ่มระบบย่อ/ขยาย (Collapsible) สำหรับกล่องคู่มือกลยุทธ์',
+        description:
+          'สามารถกดเปิด-ปิดแถบสรุปคู่มือได้อย่างอิสระ ไม่บดบังตัวเลือกแบบฝึกหัด',
+      },
+    ],
+  },
+  {
     version: 'v2.11.0',
     date: '26 สิงหาคม 2026',
     title: 'เจาะลึกแนวข้อสอบเข้า ม.1 โรงเรียนแข่งขันสูง & คู่มือเตรียมสอบ 5 วิชาหลัก',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

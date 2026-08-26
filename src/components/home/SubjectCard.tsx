@@ -30,7 +30,7 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({ subject }) => {
   const IconComponent = getIcon(subject.icon);
 
   return (
-    <div className="group relative flex flex-col bg-white rounded-3xl border border-slate-200/80 hover:border-blue-300 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+    <div className="group relative flex flex-col bg-white rounded-3xl border border-slate-200/80 hover:border-blue-300 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden cursor-pointer">
       {/* Top Accent Color Bar */}
       <div className="h-2.5 w-full" style={{ backgroundColor: subject.color }} />
 
@@ -89,7 +89,7 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({ subject }) => {
         {/* Action Button */}
         <Link
           href={`/subjects/${subject.slug}`}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-bold text-sm shadow-md transition-all group-hover:opacity-95"
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white font-bold text-sm shadow-md transition-all group-hover:opacity-95 cursor-pointer"
           style={{ backgroundColor: subject.color }}
         >
           <span>เข้าสู่แบบฝึกหัด & ข้อสอบ</span>
