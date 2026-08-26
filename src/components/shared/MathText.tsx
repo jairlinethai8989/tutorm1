@@ -4,16 +4,17 @@ import React from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 
-// Auto-detect raw LaTeX commands that aren't wrapped in $...$ delimiters
+// Auto-detect raw LaTeX commands and math formatting that aren't wrapped in $...$ delimiters
 const LATEX_COMMAND_RE = /^\\(frac|dfrac|cfrac|sqrt|binom|sum|prod|int|lim|vec|hat|bar|dot|ddot|overline|underline|mathbb|mathcal|mathrm)\{/;
 
-function autoWrapLatex(text: string): string {
-  const trimmed = text.trim();
+function preprocessMathText(text: string): string {
+  let processed = text;
+  const trimmed = processed.trim();
   // If the entire content is a single raw LaTeX command without any $ delimiters, wrap it
   if (!trimmed.includes('$') && LATEX_COMMAND_RE.test(trimmed)) {
     return `$${trimmed}$`;
   }
-  return text;
+  return processed;
 }
 
 interface MathTextProps {
@@ -27,8 +28,8 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '', inl
 
   // Split by $$...$$ (display math) and $...$ (inline math)
   const renderFormattedText = (text: string) => {
-    // Auto-wrap raw LaTeX commands that are missing $ delimiters
-    const processedText = autoWrapLatex(text);
+    // Preprocess math text
+    const processedText = preprocessMathText(text);
     // Split by block math $$...$$
     const blockParts = processedText.split(/(\$\$[\s\S]*?\$\$)/g);
 

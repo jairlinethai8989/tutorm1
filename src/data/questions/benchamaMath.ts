@@ -52,7 +52,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ห.ร.ม. คือ 84",
-      "trickTip": "💡 แยกตัวประกอบ: 168 = 84x2, 252 = 84x3",
+      "trickTip": "💡 แยกตัวประกอบ: $168 = 84 \\times 2$, $252 = 84 \\times 3 \\implies \\text{ห.ร.ม.} = 84$",
       "steps": [
         {
           "stepNumber": 1,
@@ -107,7 +107,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ค.ร.น. คือ 180",
-      "trickTip": "💡 2^2 x 3^2 x 5 = 180",
+      "trickTip": "💡 หา ค.ร.น. จากตัวประกอบ: $2^2 \\times 3^2 \\times 5 = 180$",
       "steps": [
         {
           "stepNumber": 1,
@@ -162,7 +162,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "จำนวนเฉพาะคือ 23, 29, 31, 37 รวมได้ 120",
-      "trickTip": "💡 23+29+31+37 = 120",
+      "trickTip": "💡 จำนวนเฉพาะระหว่าง 20 ถึง 40 คือ $23 + 29 + 31 + 37 = 120$",
       "steps": [
         {
           "stepNumber": 1,
@@ -217,7 +217,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ผลบวกเท่ากับ 99/100",
-      "trickTip": "💡 Telescoping: 1 - 1/100 = 99/100",
+      "trickTip": "💡 สูตรเทเลสโคปิก (Telescoping): $1 - \\frac{1}{100} = \\frac{99}{100}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -272,7 +272,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ห.ร.ม. คือ 36",
-      "trickTip": "💡 2^2 x 3^2 = 36",
+      "trickTip": "💡 ค.ร.น. ของ 12 และ 18: $2^2 \\times 3^2 = 36$",
       "steps": [
         {
           "stepNumber": 1,
@@ -327,7 +327,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "จำนวนนั้นคือ 12",
-      "trickTip": "💡 ห.ร.ม. ของ (85-1)=84 และ (137-5)=132 คือ 12",
+      "trickTip": "💡 หา ห.ร.ม. ของ $(85 - 1) = 84$ และ $(137 - 5) = 132$ จะได้ $12$",
       "steps": [
         {
           "stepNumber": 1,
@@ -382,7 +382,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "หลักหน่วยคือ 1",
-      "trickTip": "💡 7^4 ลงท้ายด้วย 1, 2024 หาร 4 ลงตัว",
+      "trickTip": "💡 $7^4$ ลงท้ายด้วย $1$, เนื่องจาก $2,024$ หารด้วย $4$ ลงตัว เลขหลักหน่วยจึงเป็น $1$",
       "steps": [
         {
           "stepNumber": 1,
@@ -437,7 +437,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "มี 24 จำนวน",
-      "trickTip": "💡 360 = 2^3 x 3^2 x 5^1 -> (3+1)(2+1)(1+1) = 24",
+      "trickTip": "💡 แยกตัวประกอบ $360 = 2^3 \\times 3^2 \\times 5^1 \\implies (3+1)(2+1)(1+1) = 24\\text{ ตัว}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -492,7 +492,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "เท่ากับ -50",
-      "trickTip": "💡 (-1) x 50 = -50",
+      "trickTip": "💡 จัดกลุ่มคู่ละ $-1$: $(-1) \\times 50 = -50$",
       "steps": [
         {
           "stepNumber": 1,
@@ -547,7 +547,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "b - a = 24",
-      "trickTip": "💡 8 ส่วน = 96 -> 1 ส่วน = 12 -> 2 ส่วน = 24",
+      "trickTip": "💡 $8\\text{ ส่วน} = 96 \\implies 1\\text{ ส่วน} = 12 \\implies 2\\text{ ส่วน} = 24$",
       "steps": [
         {
           "stepNumber": 1,
@@ -602,7 +602,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "0.052",
-      "trickTip": "💡 13x4 / 1000 = 0.052",
+      "trickTip": "💡 แปลงเป็นทศนิยม: $\\frac{13 \\times 4}{1,000} = \\frac{52}{1,000} = 0.052$",
       "steps": [
         {
           "stepNumber": 1,
@@ -657,7 +657,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "เท่ากับ 14",
-      "trickTip": "💡 11 + 12 - 9 = 14",
+      "trickTip": "💡 สูตรเซต: $n(A \\cup B) = 11 + 12 - 9 = 14$",
       "steps": [
         {
           "stepNumber": 1,
@@ -712,7 +712,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "เศษ 1",
-      "trickTip": "💡 9^25 mod 8 = 1",
+      "trickTip": "💡 ทฤษฎีเศษเหลือ: $9 \\equiv 1 \\pmod 8 \\implies 9^{25} \\equiv 1^{25} = 1$",
       "steps": [
         {
           "stepNumber": 1,
@@ -767,7 +767,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "47 จำนวน",
-      "trickTip": "💡 33 + 20 - 6 = 47",
+      "trickTip": "💡 รวมจำนวนนักเรียน: $33 + 20 - 6 = 47\\text{ คน}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -822,7 +822,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "62/99",
-      "trickTip": "💡 44/99 + 18/99 = 62/99",
+      "trickTip": "💡 ทศนิยมซ้ำ: $\\frac{44}{99} + \\frac{18}{99} = \\frac{62}{99}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -877,7 +877,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x = 5",
-      "trickTip": "💡 720 = 2^4 x 3^2 x 5^1 -> ต้องคูณ 5",
+      "trickTip": "💡 $720 = 2^4 \\times 3^2 \\times 5^1 \\implies$ ทำให้เป็นกำลังสองสมบูรณ์ต้องคูณด้วย $5$",
       "steps": [
         {
           "stepNumber": 1,
@@ -932,7 +932,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "คือ 72",
-      "trickTip": "💡 12 x 360 / 60 = 72",
+      "trickTip": "💡 คำนวณองศา: $\\frac{12 \\times 360^\\circ}{60} = 72^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
@@ -987,7 +987,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "63/64",
-      "trickTip": "💡 1 - 1/64 = 63/64",
+      "trickTip": "💡 อนุกรมเศษส่วน: $1 - \\frac{1}{64} = \\frac{63}{64}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1042,7 +1042,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "คือ 120",
-      "trickTip": "💡 ค.ร.น.(6,8,10) = 120",
+      "trickTip": "💡 หาเวลาพร้อมกัน: $\\text{ค.ร.น.}(6, 8, 10) = 120\\text{ นาที} = 2\\text{ ชั่วโมง}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1097,7 +1097,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "เท่ากับ 22",
-      "trickTip": "💡 2(4) + 3(5) - 1 = 22",
+      "trickTip": "💡 แทนค่าตัวแปร: $2(4) + 3(5) - 1 = 8 + 15 - 1 = 22$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1152,7 +1152,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "2x - 3 = 11",
-      "trickTip": "💡 3x = 21 -> x = 7 -> 2(7)-3 = 11",
+      "trickTip": "💡 $3x = 21 \\implies x = 7 \\implies 2(7) - 3 = 11$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1207,7 +1207,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x = 11",
-      "trickTip": "💡 6(x-3) = 4(x+1) -> 2x = 22 -> x = 11",
+      "trickTip": "💡 $6(x - 3) = 4(x + 1) \\implies 2x = 22 \\implies x = 11$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1262,7 +1262,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x * y = 144",
-      "trickTip": "💡 x = 16, y = 9 -> 16x9 = 144",
+      "trickTip": "💡 ผลคูณตัวแปร: $x = 16, y = 9 \\implies 16 \\times 9 = 144$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1317,7 +1317,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "พจน์ที่ 10 คือ 101",
-      "trickTip": "💡 รูปทั่วไป n^2 + 1 -> 10^2 + 1 = 101",
+      "trickTip": "💡 ลำดับรูปทั่วไป $n^2 + 1 \\implies 10^2 + 1 = 101$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1371,13 +1371,13 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "a^2 + b^2 = 58",
-      "trickTip": "💡 (a+b)^2 - 2ab = 100 - 42 = 58",
+      "summary": "$a^2 + b^2 = 58$",
+      "trickTip": "💡 กำลังสองสมบูรณ์: $a^2 + b^2 = (a+b)^2 - 2ab = 100 - 42 = 58$",
       "steps": [
         {
           "stepNumber": 1,
           "title": "วิธีทำ",
-          "content": "a^2 + b^2 = 58"
+          "content": "$a^2 + b^2 = 58$"
         }
       ]
     }
@@ -1427,7 +1427,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "จำนวนมากสุดคือ 25",
-      "trickTip": "💡 3x = 72 -> x = 24 -> ตัวมากสุดคือ 25",
+      "trickTip": "💡 ผลรวม 3 จำนวนเรียงกัน: $3x = 72 \\implies x = 24 \\implies$ ตัวมากสุดคือ $25$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1481,13 +1481,13 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x^2 = 25",
-      "trickTip": "💡 x+1 = 6 -> x = 5 -> x^2 = 25",
+      "summary": "$x^2 = 25$",
+      "trickTip": "💡 $x + 1 = 6 \\implies x = 5 \\implies x^2 = 25$",
       "steps": [
         {
           "stepNumber": 1,
           "title": "วิธีทำ",
-          "content": "x^2 = 25"
+          "content": "$x^2 = 25$"
         }
       ]
     }
@@ -1537,7 +1537,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x = 6",
-      "trickTip": "💡 3x - 6 = 12 -> 3x = 18 -> x = 6",
+      "trickTip": "💡 $3x - 6 = 12 \\implies 3x = 18 \\implies x = 6$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1592,7 +1592,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ผลรวมคือ 400",
-      "trickTip": "💡 n = 20 พจน์ -> n^2 = 400",
+      "trickTip": "💡 ผลบวกเลขคี่ $n$ พจน์แรก: $n = 20 \\implies n^2 = 20^2 = 400$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1647,7 +1647,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x = 0.5",
-      "trickTip": "💡 5/x = 10 -> x = 0.5",
+      "trickTip": "💡 $\\frac{5}{x} = 10 \\implies x = 0.5$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1702,7 +1702,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ลูกอายุ 10 ปี",
-      "trickTip": "💡 4x + 5 = 3(x+5) -> x = 10",
+      "trickTip": "💡 สมการอายุ: $4x + 5 = 3(x + 5) \\implies x = 10$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1757,7 +1757,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x + y = 9",
-      "trickTip": "💡 (x-y)(x+y) = 45 -> 5(x+y)=45 -> 9",
+      "trickTip": "💡 ผลต่างกำลังสอง: $(x - y)(x + y) = 45 \\implies 5(x + y) = 45 \\implies x + y = 9$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1812,7 +1812,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "c = 25",
-      "trickTip": "💡 12k = 60 -> k = 5 -> c = 25",
+      "trickTip": "💡 อัตราส่วน: $12k = 60 \\implies k = 5 \\implies c = 5 \\times 5 = 25$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1867,7 +1867,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x = 4",
-      "trickTip": "💡 10x - 5 - 3x - 6 = 17 -> 7x = 28 -> x = 4",
+      "trickTip": "💡 แก้สมการ: $10x - 5 - 3x - 6 = 17 \\implies 7x = 28 \\implies x = 4$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1922,7 +1922,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "พจน์ที่ 15",
-      "trickTip": "💡 n^2 = 225 -> n = 15",
+      "trickTip": "💡 พื้นที่จัตุรัส $n^2 = 225 \\implies n = 15$",
       "steps": [
         {
           "stepNumber": 1,
@@ -1977,7 +1977,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "a + b = 8",
-      "trickTip": "💡 5(a+b) = 40 -> a+b = 8",
+      "trickTip": "💡 แก้สมการ: $5(a + b) = 40 \\implies a + b = 8$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2032,7 +2032,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x = 3",
-      "trickTip": "💡 คูณตลอดด้วย 4: 2(3x-1) + (x+1) = 20 -> 7x - 1 = 20 -> x = 3",
+      "trickTip": "💡 คูณตลอดด้วย $4$: $2(3x - 1) + (x + 1) = 20 \\implies 7x - 1 = 20 \\implies x = 3$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2087,7 +2087,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "เท่ากับ 14",
-      "trickTip": "💡 (x+1/x)^2 - 2 = 16 - 2 = 14",
+      "trickTip": "💡 $x^2 + \\frac{1}{x^2} = \\left(x + \\frac{1}{x}\\right)^2 - 2 = 4^2 - 2 = 14$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2142,7 +2142,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ผลต่างคือ 7",
-      "trickTip": "💡 15 และ 8 -> 15-8 = 7",
+      "trickTip": "💡 ตัวประกอบ: $15$ และ $8 \\implies 15 - 8 = 7$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2197,7 +2197,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ผลรวมคือ 35",
-      "trickTip": "💡 1 + 4 + 7 + 10 + 13 = 35",
+      "trickTip": "💡 ผลรวม 5 พจน์แรก: $1 + 4 + 7 + 10 + 13 = 35$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2252,7 +2252,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ยาว 10 ซม.",
-      "trickTip": "💡 พีทาโกรัส: 6^2 + 8^2 = 100 -> 10 ซม.",
+      "trickTip": "💡 พีทาโกรัส: $\\sqrt{6^2 + 8^2} = \\sqrt{100} = 10\\text{ ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2307,7 +2307,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "พื้นที่ 100 ตร.ซม.",
-      "trickTip": "💡 ด้านยาว 10 ซม. -> พื้นที่ = 10x10 = 100",
+      "trickTip": "💡 ด้านยาว $10\\text{ ซม.} \\implies \\text{พื้นที่} = 10 \\times 10 = 100\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2362,7 +2362,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "พื้นที่ 154 ตร.ซม.",
-      "trickTip": "💡 pi x r^2 = 22/7 x 7 x 7 = 154",
+      "trickTip": "💡 พื้นที่วงกลม: $\\pi r^2 = \\frac{22}{7} \\times 7 \\times 7 = 154\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2417,7 +2417,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "120 องศา",
-      "trickTip": "💡 (6-2)x180 / 6 = 720 / 6 = 120",
+      "trickTip": "💡 มุมภายในรูป 6 เหลี่ยม: $\\frac{(6 - 2) \\times 180^\\circ}{6} = \\frac{720^\\circ}{6} = 120^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2472,7 +2472,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ปริมาตร 400 ลบ.ซม.",
-      "trickTip": "💡 กว้าง x ยาว x สูง = 5 x 8 x 10 = 400",
+      "trickTip": "💡 ปริมาตรทรงสี่เหลี่ยม: $5 \\times 8 \\times 10 = 400\\text{ ลบ.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2527,7 +2527,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "พื้นที่ผิว 96 ตร.ซม.",
-      "trickTip": "💡 ด้านยาว 4 ซม. -> พื้นที่ผิว 6 x 4^2 = 96",
+      "trickTip": "💡 ด้านยาว $4\\text{ ซม.} \\implies \\text{พื้นที่ผิว } 6 \\times 4^2 = 96\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2582,7 +2582,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "100 องศา",
-      "trickTip": "💡 9 ส่วน = 180 -> 1 ส่วน = 20 -> 5 ส่วน = 100",
+      "trickTip": "💡 มุมในสามเหลี่ยม: $9\\text{ ส่วน} = 180^\\circ \\implies 1\\text{ ส่วน} = 20^\\circ \\implies 5\\text{ ส่วน} = 100^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2637,7 +2637,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "พื้นที่ 96 ตร.ซม.",
-      "trickTip": "💡 1/2 x ผลคูณเส้นทแยงมุม = 1/2 x 12 x 16 = 96",
+      "trickTip": "💡 พื้นที่สี่เหลี่ยมขนมเปียกปูน: $\\frac{1}{2} \\times 12 \\times 16 = 96\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2692,7 +2692,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "45 องศา",
-      "trickTip": "💡 360 / 8 = 45 องศา",
+      "trickTip": "💡 มุมภายนอกรูป 8 เหลี่ยม: $\\frac{360^\\circ}{8} = 45^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2747,7 +2747,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "1540 ลบ.ซม.",
-      "trickTip": "💡 pi x r^2 x h = 154 x 10 = 1540",
+      "trickTip": "💡 ปริมาตรทรงกระบอก: $\\pi r^2 h = 154 \\times 10 = 1,540\\text{ ลบ.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2802,7 +2802,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "63 ตร.ซม.",
-      "trickTip": "💡 1/2 x 14 x 9 = 63",
+      "trickTip": "💡 พื้นที่สามเหลี่ยม: $\\frac{1}{2} \\times 14 \\times 9 = 63\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2857,7 +2857,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "66 ตร.ซม.",
-      "trickTip": "💡 1/2 x (8+14) x 6 = 66",
+      "trickTip": "💡 พื้นที่สี่เหลี่ยมคางหมู: $\\frac{1}{2} \\times (8 + 14) \\times 6 = 66\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2912,7 +2912,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ประมาณ 160.3 ตร.ซม.",
-      "trickTip": "💡 pi x (100 - 49) = 22/7 x 51 = 160.28",
+      "trickTip": "💡 พื้นที่วงแหวน: $\\pi(R^2 - r^2) = \\frac{22}{7} \\times (100 - 49) = 160.28\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -2967,7 +2967,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "96 ตร.ซม.",
-      "trickTip": "💡 กว้าง 8, ยาว 12 -> 8x12 = 96",
+      "trickTip": "💡 พื้นที่ผืนผ้า: $8 \\times 12 = 96\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3022,7 +3022,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "4 เท่า",
-      "trickTip": "💡 r^2 กลายเป็น (2r)^2 = 4r^2",
+      "trickTip": "💡 เมื่อรัศมีเพิ่ม $2$ เท่า พื้นที่จะเพิ่ม $2^2 = 4$ เท่า",
       "steps": [
         {
           "stepNumber": 1,
@@ -3077,7 +3077,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "60 ลบ.ซม.",
-      "trickTip": "💡 พื้นที่ฐาน = 6 -> ปริมาตร = 6 x 10 = 60",
+      "trickTip": "💡 ปริมาตรปริซึม: $\\text{พื้นที่ฐาน} \\times \\text{สูง} = 6 \\times 10 = 60\\text{ ลบ.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3132,7 +3132,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "เท่ากันเสมอ",
-      "trickTip": "💡 สมบัติมุมตรงข้ามเท่ากัน",
+      "trickTip": "💡 สมบัติเส้นตรงตัดกัน: มุมตรงข้ามมีขนาดเท่ากันเสมอ",
       "steps": [
         {
           "stepNumber": 1,
@@ -3187,7 +3187,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "แบ่งครึ่งซึ่งกันและกัน",
-      "trickTip": "💡 สมบัติสี่เหลี่ยมด้านขนาน",
+      "trickTip": "💡 สมบัติสี่เหลี่ยมด้านขนาน: มุมตรงข้ามกางเท่ากัน และมุมประชิดรวมกันได้ $180^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3242,7 +3242,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "$3\\sqrt{3}$ ซม.",
-      "trickTip": "💡 h = sqrt(3)/2 x ด้าน = 3 sqrt(3)",
+      "trickTip": "💡 ความสูงสามเหลี่ยมด้านเท่า: $h = \\frac{\\sqrt{3}}{2} \\times \\text{ด้าน} = 3\\sqrt{3}\\text{ ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3297,7 +3297,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "สูง 10 ซม.",
-      "trickTip": "💡 2 pi r h = 44 x h = 440 -> h = 10",
+      "trickTip": "💡 พื้นที่ผิวข้างทรงกระบอก: $2\\pi rh = 440 \\implies 44 \\times h = 440 \\implies h = 10\\text{ ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3352,7 +3352,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "75 ตร.ซม.",
-      "trickTip": "💡 1/2 x 10 x 15 = 75",
+      "trickTip": "💡 พื้นที่รูปว่าว: $\\frac{1}{2} \\times 10 \\times 15 = 75\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3407,7 +3407,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "5 ซม.",
-      "trickTip": "💡 sqrt(3^2 + 4^2) = 5",
+      "trickTip": "💡 เส้นทแยงมุม: $\\sqrt{3^2 + 4^2} = \\sqrt{25} = 5\\text{ ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3462,7 +3462,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "$36\\pi$",
-      "trickTip": "💡 4/3 pi r^3 = 4/3 pi (27) = 36 pi",
+      "trickTip": "💡 ปริมาตรทรงกลม: $\\frac{4}{3}\\pi r^3 = \\frac{4}{3}\\pi (3^3) = 36\\pi\\text{ ลบ.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3517,7 +3517,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "900 องศา",
-      "trickTip": "💡 (7-2) x 180 = 900",
+      "trickTip": "💡 ผลรวมมุมภายในรูป 7 เหลี่ยม: $(7 - 2) \\times 180^\\circ = 900^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3572,7 +3572,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "60 ตร.ซม.",
-      "trickTip": "💡 ยาว = 12 ซม. -> พื้นที่ = 5 x 12 = 60",
+      "trickTip": "💡 ด้านยาว $= 12\\text{ ซม.} \\implies \\text{พื้นที่} = 5 \\times 12 = 60\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3627,7 +3627,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "กำไร 50 บาท",
-      "trickTip": "💡 ติดป้าย 500 บาท ลด 10% ขาย 450 บาท -> กำไร 450 - 400 = 50 บาท",
+      "trickTip": "💡 ติดป้าย $500$ ลด $10\\%$ ขาย $450$ บาท $\\implies$ กำไร $450 - 400 = 50$ บาท",
       "steps": [
         {
           "stepNumber": 1,
@@ -3682,7 +3682,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "180 กิโลเมตร",
-      "trickTip": "💡 80 x 2.25 = 180 กม.",
+      "trickTip": "💡 ระยะทาง $= 80 \\times 2.25 = 180\\text{ กม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3737,7 +3737,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "เสร็จใน 4 วัน",
-      "trickTip": "💡 1/6 + 1/12 = 3/12 = 1/4 -> 4 วัน",
+      "trickTip": "💡 ทำงานร่วมกัน: $\\frac{1}{6} + \\frac{1}{12} = \\frac{3}{12} = \\frac{1}{4} \\implies 4\\text{ วัน}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3792,7 +3792,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "16%",
-      "trickTip": "💡 (20 + 60) / 500 = 80/500 = 16%",
+      "trickTip": "💡 ความเข้มข้น: $\\frac{20 + 60}{500} = \\frac{80}{500} = 16\\%$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3847,7 +3847,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "1,000 บาท",
-      "trickTip": "💡 I = P x r x t = 20000 x 0.025 x 2 = 1000",
+      "trickTip": "💡 ดอกเบี้ยธรรมดา: $I = P \\times r \\times t = 20,000 \\times 0.025 \\times 2 = 1,000\\text{ บาท}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3902,7 +3902,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "14 เหรียญ",
-      "trickTip": "💡 5(30-x) + 10x = 220 -> 5x = 70 -> x = 14",
+      "trickTip": "💡 สมการเหรียญ: $5(30 - x) + 10x = 220 \\implies 5x = 70 \\implies x = 14\\text{ เหรียญ}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -3957,7 +3957,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "7.5 วินาที",
-      "trickTip": "💡 72 กม./ชม. = 20 ม./วินาที -> 150 / 20 = 7.5 วินาที",
+      "trickTip": "💡 $72\\text{ กม./ชม.} = 20\\text{ ม./วินาที} \\implies \\frac{150}{20} = 7.5\\text{ วินาที}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4012,7 +4012,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "48%",
-      "trickTip": "💡 ชาย 24 คน จากทั้งหมด 50 คน -> 24/50 = 48%",
+      "trickTip": "💡 ชาย $24$ คน จากทั้งหมด $50$ คน $\\implies \\frac{24}{50} = 48\\%$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4067,7 +4067,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "12 ชั่วโมง",
-      "trickTip": "💡 1/4 - 1/6 = 1/12 -> 12 ชั่วโมง",
+      "trickTip": "💡 อัตราไหลสุทธิ: $\\frac{1}{4} - \\frac{1}{6} = \\frac{1}{12} \\implies 12\\text{ ชั่วโมง}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4122,7 +4122,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "2,000 บาท",
-      "trickTip": "💡 85% = 1700 -> 100% = 2000 บาท",
+      "trickTip": "💡 ราคาขาย $85\\% = 1,700 \\implies 100\\% = \\frac{1,700 \\times 100}{85} = 2,000\\text{ บาท}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4177,7 +4177,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "36,000 บาท",
-      "trickTip": "💡 ก:ข:ค = 3:4:6 -> ก=18000 -> ค = 6x6000 = 36000",
+      "trickTip": "💡 อัตราส่วน $3:4:6 \\implies \\text{ก} = 18,000 \\implies \\text{ค} = 6 \\times 6,000 = 36,000\\text{ บาท}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4232,7 +4232,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "10 ตัว",
-      "trickTip": "💡 2(25-x) + 4x = 70 -> 2x = 20 -> x = 10",
+      "trickTip": "💡 ขาของสัตว์: $2(25 - x) + 4x = 70 \\implies 2x = 20 \\implies x = 10\\text{ ตัว}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4287,7 +4287,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "12:06 น.",
-      "trickTip": "💡 3 วัน เร็วไป 3x2 = 6 นาที -> 12:06 น.",
+      "trickTip": "💡 เวลาเดินเร็ว: $3\\text{ วัน} \\times 2\\text{ นาที/วัน} = 6\\text{ นาที} \\implies 12:06\\text{ น.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4342,7 +4342,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "25 คน",
-      "trickTip": "💡 15 x 10 = 6 x N -> N = 25",
+      "trickTip": "💡 งานเท่าเดิม: $15 \\times 10 = 6 \\times N \\implies N = 25\\text{ วัน}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4397,7 +4397,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "48 กม./ชม.",
-      "trickTip": "💡 ระยะทางรวม 240 กม. เวลารวม 2+3=5 ชม. -> 240/5 = 48 กม./ชม.",
+      "trickTip": "💡 อัตราเร็วเฉลี่ย: $\\frac{\\text{ระยะทางรวม}}{\\text{เวลารวม}} = \\frac{240}{2 + 3} = \\frac{240}{5} = 48\\text{ กม./ชม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4452,7 +4452,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "30 บาท",
-      "trickTip": "💡 ทุนรวม = 1800/1.2 = 1500 บาท -> 1500/50 = 30 บาท/กก.",
+      "trickTip": "💡 ต้นทุนรวม $= \\frac{1,800}{1.2} = 1,500\\text{ บาท} \\implies \\frac{1,500}{50} = 30\\text{ บาท/กก.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4507,7 +4507,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "10 กิโลกรัม",
-      "trickTip": "💡 50x + 80(30-x) = 2100 -> 30x = 300 -> x = 10",
+      "trickTip": "💡 ผสมสินค้า: $50x + 80(30 - x) = 2,100 \\implies 30x = 300 \\implies x = 10\\text{ กก.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4562,7 +4562,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "3.0 กิโลเมตร",
-      "trickTip": "💡 6 x 50,000 = 300,000 ซม. = 3,000 ม. = 3 กม.",
+      "trickTip": "💡 ระยะทางจริง: $6 \\times 50,000 = 300,000\\text{ ซม.} = 3,000\\text{ ม.} = 3\\text{ กม.}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4617,7 +4617,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "12,100 บาท",
-      "trickTip": "💡 10000 x 1.1 x 1.1 = 12,100 บาท",
+      "trickTip": "💡 ดอกเบี้ยทบต้น: $10,000 \\times 1.1 \\times 1.1 = 12,100\\text{ บาท}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4672,7 +4672,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "600 แผ่น",
-      "trickTip": "💡 พื้นที่ห้อง 54 ตร.ม. / 0.09 = 600 แผ่น",
+      "trickTip": "💡 จำนวนกระเบื้อง: $\\frac{54\\text{ ตร.ม.}}{0.09\\text{ ตร.ม./แผ่น}} = 600\\text{ แผ่น}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4727,7 +4727,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "x = 15",
-      "trickTip": "💡 ผลรวม = 14x5 = 70 -> x = 70 - 55 = 15",
+      "trickTip": "💡 ผลรวมข้อมูล: $14 \\times 5 = 70 \\implies x = 70 - 55 = 15$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4782,7 +4782,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "มัธยฐานคือ 12",
-      "trickTip": "💡 เรียงลำดับ: 7, 8, 10, 12, 15, 19, 22 -> ตัวตรงกลางคือ 12",
+      "trickTip": "💡 มัธยฐาน: เรียง $7, 8, 10, \\mathbf{12}, 15, 19, 22 \\implies$ ค่ากึ่งกลางคือ $12$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4837,7 +4837,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "ฐานนิยมคือ 6",
-      "trickTip": "💡 6 ปรากฏบ่อยที่สุด (3 ครั้ง)",
+      "trickTip": "💡 ฐานนิยม: ค่า $6$ มีความถี่สูงสุด ($3$ ครั้ง)",
       "steps": [
         {
           "stepNumber": 1,
@@ -4892,7 +4892,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "3/4",
-      "trickTip": "💡 ผลลัพธ์ทั้งหมด HH, HT, TH, TT -> ออกหัวอย่างน้อย 1 เหรียญมี 3 แบบ",
+      "trickTip": "💡 ผลลัพธ์ $\\{\\text{HH, HT, TH, TT}\\} \\implies$ ออกหัวอย่างน้อย $1$ เหรียญมี $3$ แบบ $= \\frac{3}{4}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -4947,7 +4947,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "1/2",
-      "trickTip": "💡 จำนวนเฉพาะบนลูกเต๋าคือ 2, 3, 5 (3 จำนวน จาก 6 แต้ม) = 3/6 = 1/2",
+      "trickTip": "💡 แต้มเฉพาะ $\\{2, 3, 5\\} \\implies \\frac{3}{6} = \\frac{1}{2}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5002,7 +5002,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "1/4",
-      "trickTip": "💡 3 / (4+3+5) = 3/12 = 1/4",
+      "trickTip": "💡 ความน่าจะเป็น: $\\frac{3}{4 + 3 + 5} = \\frac{3}{12} = \\frac{1}{4}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5057,7 +5057,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "90 คะแนน",
-      "trickTip": "💡 ผลรวม 5 คน = 390, ผลรวม 4 คน = 300 -> คนที่ 5 ได้ 90 คะแนน",
+      "trickTip": "💡 ผลรวม 5 คน $= 390$, ผลรวม 4 คน $= 300 \\implies$ คนที่ 5 ได้ $390 - 300 = 90\\text{ คะแนน}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5112,7 +5112,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "40%",
-      "trickTip": "💡 144 / 360 = 40%",
+      "trickTip": "💡 สัดส่วนแผนภูมิรูปวงกลม: $\\frac{144^\\circ}{360^\\circ} \\times 100\\% = 40\\%$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5167,7 +5167,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "2/13",
-      "trickTip": "💡 มี King 4 ใบ + Queen 4 ใบ = 8 ใบ -> 8/52 = 2/13",
+      "trickTip": "💡 ไพ่ $\\text{King } 4\\text{ ใบ} + \\text{Queen } 4\\text{ ใบ} = 8\\text{ ใบ} \\implies \\frac{8}{52} = \\frac{2}{13}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5222,7 +5222,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "18",
-      "trickTip": "💡 ผลรวมเดิม 120 -> เหลือ 90/5 = 18",
+      "trickTip": "💡 ผลรวมเดิม $120 \\implies$ นำข้อมูล $30$ ออก เหลือ $\\frac{90}{5} = 18$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5277,7 +5277,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "1/2",
-      "trickTip": "💡 เลขคู่มี 10 ตัว จาก 20 ตัว = 10/20 = 1/2",
+      "trickTip": "💡 เลขคู่ $10$ ตัว จาก $20$ ตัว $\\implies \\frac{10}{20} = \\frac{1}{2}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5332,7 +5332,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "77",
-      "trickTip": "💡 พิสัย = ค่าสูงสุด - ค่าต่ำสุด = 89 - 12 = 77",
+      "trickTip": "💡 $\\text{พิสัย} = \\text{ค่าสูงสุด} - \\text{ค่าต่ำสุด} = 89 - 12 = 77$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5387,7 +5387,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "2/5",
-      "trickTip": "💡 ไม่ได้สีดำ = สีขาว = 4/10 = 2/5",
+      "trickTip": "💡 ความน่าจะเป็นลูกบอลสีขาว: $\\frac{4}{10} = \\frac{2}{5}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5442,7 +5442,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "1/6",
-      "trickTip": "💡 ผลรวม 7 ได้แก่ (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) รวม 6 แบบ จาก 36 แบบ = 6/36 = 1/6",
+      "trickTip": "💡 ผลรวมแต้มได้ $7$ มี $6$ แบบ จาก $36$ แบบ $\\implies \\frac{6}{36} = \\frac{1}{6}$",
       "steps": [
         {
           "stepNumber": 1,
@@ -5497,7 +5497,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "เบ้ขวา (เบ้บวก)",
-      "trickTip": "💡 ฐานนิยม (12) < มัธยฐาน (15) < ค่าเฉลี่ย (16) -> การกระจายแบบเบ้ขวา",
+      "trickTip": "💡 $\\text{ฐานนิยม}(12) < \\text{มัธยฐาน}(15) < \\text{ค่าเฉลี่ย}(16) \\implies$ การกระจายแบบเบ้ขวา (Right-skewed)",
       "steps": [
         {
           "stepNumber": 1,

@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.10.1',
-  versionLabel: 'Version 2.10.1 (Step-by-Step Solution Display Fix)',
+  version: 'v2.10.2',
+  versionLabel: 'Version 2.10.2 (Math Formula & Fast Track KaTeX Overhaul)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,32 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.10.2',
+    date: '26 สิงหาคม 2026',
+    title: 'ปรับปรุงการแสดงผลสัญลักษณ์คณิตศาสตร์ & เทคนิคคิดเร็ว (KaTeX Standard 100%)',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'fix',
+        title: 'แก้ไขสัญลักษณ์คณิตศาสตร์ในกล่องเทคนิคคิดเร็วและเฉลยละเอียด',
+        description:
+          'แปลงสัญลักษณ์ตัวคูณ (x, *), เลขยกกำลัง (^2, ^3), เศษส่วน, สัญลักษณ์ลูกศร (->, =>) และสัญลักษณ์เรขาคณิต (pi, sqrt) ในคำแนะนำเทคนิคคิดเร็ว (Fast Track) และเฉลยวิธีทำให้เป็น KaTeX ($...$) ครบถ้วนทุกข้อสอบ',
+      },
+      {
+        type: 'feature',
+        title: 'ยกระดับ MathText Parser สำหรับฟอร์แมตคณิตศาสตร์อัจฉริยะ',
+        description:
+          'เพิ่มระบบตรวจจับและเรนเดอร์คำสั่ง LaTeX อัตโนมัติ ป้องกันการแสดงผลตกหล่นในหน้าแบบฝึกหัดและหน้าเฉลย',
+      },
+    ],
+  },
+  {
     version: 'v2.10.1',
     date: '26 สิงหาคม 2026',
     title: 'แก้ไขระบบแสดงผลขั้นตอนวิธีทำเฉลยละเอียด (Step-by-Step Solution)',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'fix',
