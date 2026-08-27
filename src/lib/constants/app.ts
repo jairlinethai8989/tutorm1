@@ -25,11 +25,32 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.13.0',
+    date: '27 สิงหาคม 2026',
+    title: 'นำเข้าชุดข้อสอบ SAMSEN Pre-Test 2023 ภาษาอังกฤษ ห้องเรียนพิเศษ (EP/Gifted) 60 ข้อเต็ม',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'บรรจุข้อสอบ SAMSEN Pre-Test 2023 ภาษาอังกฤษ (60 ข้อ 100 คะแนน)',
+        description:
+          'ครอบคลุม 5 สาระสำคัญ: Grammar & Structure (Tenses/Conditionals/Passive/Participles), Vocabulary & Phrasal Verbs, Situational Dialogues, Reading Passages & Real-World Media (Health/USA travel/Infographics), และ Error Identification พร้อมโหมดจำลองสอบจับเวลา 60 นาที',
+      },
+      {
+        type: 'feature',
+        title: 'เฉลยวิเคราะห์ไวยากรณ์และเทคนิคตัดชอยส์ (Grammar Analysis & Fast Tricks)',
+        description:
+          'ทุกข้อมีคำอธิบายโครงสร้างไวยากรณ์ แปลไทย-อังกฤษ และสูตรตัดชอยส์อย่างแม่นยำ',
+      },
+    ],
+  },
+  {
     version: 'v2.12.0',
     date: '27 สิงหาคม 2026',
     title: 'นำเข้าชุดข้อสอบ SAMSEN Pre-Test 2022 วิทยาศาสตร์ ห้องเรียนพิเศษ (Gifted) 30 ข้อเต็ม',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

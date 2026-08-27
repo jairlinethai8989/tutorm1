@@ -423,6 +423,13 @@ async function main() {
         return m.SAMSEN_SCIENCE_QUESTIONS;
       },
     },
+    {
+      name: 'samsenEnglish.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/samsenEnglish');
+        return m.SAMSEN_ENGLISH_QUESTIONS;
+      },
+    },
   ];
 
   const allIssues: ValidationIssue[] = [];

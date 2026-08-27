@@ -1,8 +1,10 @@
 import { Question } from '@/types/question';
 import { BENCHAMA_ENGLISH_QUESTIONS } from './benchamaEnglish';
+import { SAMSEN_ENGLISH_QUESTIONS } from './samsenEnglish';
 
 export const ENGLISH_QUESTIONS: Question[] = [
   ...BENCHAMA_ENGLISH_QUESTIONS,
+  ...SAMSEN_ENGLISH_QUESTIONS,
   {
     id: 'eng-gram-001',
     subjectId: 'english',

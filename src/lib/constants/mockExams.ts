@@ -276,5 +276,32 @@ export const MOCK_EXAMS: MockExam[] = [
     ],
     badgeColor: '#059669',
   },
+  {
+    id: 'samsen-pretest-eng-66',
+    name: 'SAMSEN Pre-Test 2023 (ห้องเรียนพิเศษ EP/Gifted) — ภาษาอังกฤษ 60 ข้อเต็ม',
+    targetSchool: 'สามเสนวิทยาลัย',
+    targetSchoolEn: 'samsen',
+    subjectId: 'english',
+    subjectName: 'ภาษาอังกฤษ',
+    totalQuestions: 60,
+    timeLimitMinutes: 60,
+    passingScorePercent: 70,
+    description: 'แบบทดสอบ SAMSEN Pre-Test 2023 ภาษาอังกฤษ ห้องเรียนพิเศษ 60 ข้อเต็ม (100 คะแนน) ครอบคลุม Grammar & Structure, Vocabulary & Phrasal Verbs, Situational Dialogues, Reading Passages & Infographics, และ Error Identification',
+    questionIds: [
+      'ss-eng-66-001', 'ss-eng-66-002', 'ss-eng-66-003', 'ss-eng-66-004', 'ss-eng-66-005',
+      'ss-eng-66-006', 'ss-eng-66-007', 'ss-eng-66-008', 'ss-eng-66-009', 'ss-eng-66-010',
+      'ss-eng-66-011', 'ss-eng-66-012', 'ss-eng-66-013', 'ss-eng-66-014', 'ss-eng-66-015',
+      'ss-eng-66-016', 'ss-eng-66-017', 'ss-eng-66-018', 'ss-eng-66-019', 'ss-eng-66-020',
+      'ss-eng-66-021', 'ss-eng-66-022', 'ss-eng-66-023', 'ss-eng-66-024', 'ss-eng-66-025',
+      'ss-eng-66-026', 'ss-eng-66-027', 'ss-eng-66-028', 'ss-eng-66-029', 'ss-eng-66-030',
+      'ss-eng-66-031', 'ss-eng-66-032', 'ss-eng-66-033', 'ss-eng-66-034', 'ss-eng-66-035',
+      'ss-eng-66-036', 'ss-eng-66-037', 'ss-eng-66-038', 'ss-eng-66-039', 'ss-eng-66-040',
+      'ss-eng-66-041', 'ss-eng-66-042', 'ss-eng-66-043', 'ss-eng-66-044', 'ss-eng-66-045',
+      'ss-eng-66-046', 'ss-eng-66-047', 'ss-eng-66-048', 'ss-eng-66-049', 'ss-eng-66-050',
+      'ss-eng-66-051', 'ss-eng-66-052', 'ss-eng-66-053', 'ss-eng-66-054', 'ss-eng-66-055',
+      'ss-eng-66-056', 'ss-eng-66-057', 'ss-eng-66-058', 'ss-eng-66-059', 'ss-eng-66-060'
+    ],
+    badgeColor: '#2563EB',
+  },
 ];
 
