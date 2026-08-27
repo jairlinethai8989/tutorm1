@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import Image from 'next/image';
 import {
   Bell,
   X,
@@ -20,6 +21,8 @@ import {
   CheckCheck,
   Cpu,
   History,
+  Coffee,
+  Heart,
 } from 'lucide-react';
 import { APP_CONFIG, APP_CHANGELOG } from '@/lib/constants/app';
 import {
@@ -40,7 +43,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
   triggerButton = true,
 }) => {
   const [internalIsOpen, setInternalIsOpen] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'whatsNew' | 'guide'>('whatsNew');
+  const [activeTab, setActiveTab] = useState<'whatsNew' | 'guide' | 'support'>('whatsNew');
   const [userName, setUserName] = useState<string>('ผู้เรียน');
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [showResetConfirm, setShowResetConfirm] = useState<boolean>(false);
@@ -60,7 +63,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
     }
   };
 
-  const openModal = (tab: 'whatsNew' | 'guide' = 'whatsNew') => {
+  const openModal = (tab: 'whatsNew' | 'guide' | 'support' = 'whatsNew') => {
     setActiveTab(tab);
     setUserName(getUserProfileName());
     setInternalIsOpen(true);
@@ -135,11 +138,11 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
               </div>
 
               {/* Tab Navigation */}
-              <div className="shrink-0 px-4 sm:px-6 pt-3 pb-2 bg-slate-100/80 border-b border-slate-200 flex gap-2">
+              <div className="shrink-0 px-4 sm:px-6 pt-3 pb-2 bg-slate-100/80 border-b border-slate-200 flex gap-2 overflow-x-auto">
                 <button
                   type="button"
                   onClick={() => setActiveTab('whatsNew')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                     activeTab === 'whatsNew'
                       ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
@@ -152,7 +155,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setActiveTab('guide')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                     activeTab === 'guide'
                       ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
@@ -160,6 +163,18 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                 >
                   <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
                   <span>คู่มือการใช้งาน & ผู้เรียน</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('support')}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                    activeTab === 'support'
+                      ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 text-white shadow-xs'
+                      : 'text-amber-800 hover:text-amber-900 hover:bg-amber-100/60 bg-amber-50/70 border border-amber-200/60'
+                  }`}
+                >
+                  <Coffee className="w-3.5 h-3.5" />
+                  <span>สนับสนุนผู้พัฒนา (Donate) 💖</span>
                 </button>
               </div>
 
@@ -246,7 +261,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                       </div>
                     ))}
                   </div>
-                ) : (
+                ) : activeTab === 'guide' ? (
                   <>
                 <div className="rounded-2xl p-4 bg-slate-50 border border-slate-200/80 space-y-3">
                   <div className="flex items-center justify-between gap-2">
@@ -418,6 +433,59 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                   <span>{APP_CONFIG.versionLabel}</span>
                 </div>
                   </>
+                ) : (
+                  /* TAB 3: Support / Buy Me a Coffee */
+                  <div className="space-y-5 text-center py-2">
+                    <div className="max-w-md mx-auto space-y-2">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-400 to-rose-500 text-white flex items-center justify-center mx-auto shadow-md shadow-orange-500/20">
+                        <Coffee className="w-7 h-7 text-white" />
+                      </div>
+                      <h3 className="text-base sm:text-lg font-black text-slate-900">
+                        ร่วมสนับสนุนค่ากาแฟ & เซิร์ฟเวอร์ ☕💖
+                      </h3>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        แอปพลิเคชัน <strong>Tutor M.1</strong> ถูกพัฒนาขึ้นด้วยความตั้งใจให้เด็กไทยทุกคนได้ฝึกทำข้อสอบคุณภาพสูง <strong>ฟรี 100% โดยไม่มีค่าใช้จ่ายและไม่มีโฆษณาคั่น</strong>
+                      </p>
+                    </div>
+
+                    {/* QR Code Card */}
+                    <div className="p-3.5 bg-slate-50 rounded-3xl border border-slate-200 inline-block shadow-inner mx-auto max-w-[320px] w-full">
+                      <div className="relative w-full aspect-[712/1000] rounded-2xl overflow-hidden shadow-xs border border-slate-200 bg-white">
+                        <Image
+                          src="/images/promptpay-qr.jpg"
+                          alt="PromptPay QR Code ให้กำลังใจผู้พัฒนา ยชญ์สุรา น่วมสกนธ์"
+                          fill
+                          className="object-contain"
+                          sizes="320px"
+                          priority
+                          unoptimized
+                        />
+                      </div>
+                      <div className="mt-3 space-y-0.5">
+                        <div className="text-xs font-black text-slate-800">
+                          ชื่อบัญชี: ยชญ์สุรา น่วมสกนธ์
+                        </div>
+                        <div className="text-[11px] font-semibold text-emerald-700">
+                          พร้อมเพย์ PromptPay (สแกนได้จากทุกแอปธนาคาร)
+                        </div>
+                        <div className="text-[10px] text-slate-400 pt-1">
+                          รหัสอ้างอิง: 088988000019978
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-amber-50 border border-amber-200/80 rounded-2xl p-3.5 text-xs text-amber-900/90 max-w-md mx-auto text-left leading-relaxed">
+                      💡 <strong>เงินสนับสนุนทั้งหมดจะนำไปใช้สำหรับ:</strong>
+                      <ul className="list-disc list-inside mt-1 space-y-0.5 text-[11px] text-amber-800">
+                        <li>ค่าเช่าและบำรุงรักษา Cloud Server สำหรับระบบ</li>
+                        <li>ค่ากาแฟและพลังงานในการพัฒนาคลังข้อสอบและฟังก์ชันใหม่ ๆ ต่อเนื่อง</li>
+                      </ul>
+                    </div>
+
+                    <p className="text-xs font-extrabold text-orange-600">
+                      กราบขอบพระคุณทุกท่านที่ร่วมเป็นส่วนหนึ่งในการสนับสนุนการศึกษาของเด็กไทยครับ 🙏✨
+                    </p>
+                  </div>
                 )}
               </div>
 

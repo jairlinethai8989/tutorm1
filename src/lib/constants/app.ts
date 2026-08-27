@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.15.0',
-  versionLabel: 'Version 2.15.0 (Gamification & Daily Habit, AI Diagnostic & Mistake Book)',
+  version: 'v2.16.0',
+  versionLabel: 'Version 2.16.0 (UX/UI Polish, Compact Hub, Granular Roadmap & Support Coffee Widget)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,50 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.16.0',
+    date: '27 สิงหาคม 2026',
+    title: 'ปรับปรุง UX/UI เมนูย่อยกระชับ, แถบภารกิจสีเหลืองส้มสดใส & ปุ่มให้กำลังใจผู้พัฒนา',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'ปุ่มลอยให้กำลังใจผู้พัฒนา & สนับสนุนค่ากาแฟ (Support Coffee Widget)',
+        description:
+          'เพิ่มปุ่มลอยมุมขวาบน พร้อมหน้าต่าง QR Code พร้อมเพย์คมชัด 100% สแกนง่าย และเพิ่มแท็บสนับสนุนในศูนย์ข้อมูล',
+      },
+      {
+        type: 'feature',
+        title: 'ปรับปรุง UI/UX เมนูย่อย 5 วิชาหลัก & จำลองสอบ (Compact Hub Layout)',
+        description:
+          'จัดเลย์เอาต์ 5 คอลัมน์แถวเดียวแนวนอน กระชับพื้นที่ ลดความสูงการ์ดลง 45% มองเห็นครบทุกวิชาทันที',
+      },
+      {
+        type: 'feature',
+        title: 'แถบ Gamification สีเหลืองส้มสดใส & ปุ่มย่อขยายเดี่ยว (Vibrant Amber Hub)',
+        description:
+          'ปรับโทนสีเป็นสีเหลืองส้ม Amber-Gold สดใส สวยงาม เข้ากับเลเวลสีทอง และแยกปุ่มพับขยายแถบภารกิจอิสระ',
+      },
+      {
+        type: 'feature',
+        title: 'Roadmap แยก Checklist รายวิชา & พับขยายรายด่าน (Granular Roadmap)',
+        description:
+          'แยกหัวข้อย่อยเฉพาะทางละเอียดขึ้น และรองรับการพับ/ขยายตามด่านที่ผ่านแล้ว',
+      },
+      {
+        type: 'fix',
+        title: 'อัปเดต Badge หัวข้อและระบบนำทาง 3D Floating Hover',
+        description:
+          'ปรับ Badge เป็น "แนวข้อสอบจากติวเตอร์ชั้นนำ" และเพิ่มมิติ 3D Floating Hover บน Navbar',
+      },
+    ],
+  },
+  {
     version: 'v2.15.0',
     date: '27 สิงหาคม 2026',
     title: 'เปิดตัวระบบสร้างแรงจูงใจ (Gamification, Level & EXP, Daily Quests & 12 Badges)',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'เสถียร (Stable)',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

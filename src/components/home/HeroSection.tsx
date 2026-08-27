@@ -19,7 +19,7 @@ export const HeroSection: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs font-semibold text-blue-100 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin" style={{ animationDuration: '6s' }} />
-              <span>แนวข้อสอบคณาจารย์ มศว. & สสวท.</span>
+              <span>แนวข้อสอบจากติวเตอร์ชั้นนำ</span>
             </div>
             <span className="text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-200">
               {APP_CONFIG.version}

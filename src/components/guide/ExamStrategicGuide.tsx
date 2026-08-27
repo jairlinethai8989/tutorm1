@@ -60,6 +60,7 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
   );
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>(initialSubject);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+  const [expandedSteps, setExpandedSteps] = useState<Record<number, boolean>>({ 0: true });
 
   // Load checked roadmap items from localStorage
   useEffect(() => {
@@ -72,6 +73,13 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
       // ignore
     }
   }, []);
+
+  const toggleStepExpand = (stepIdx: number) => {
+    setExpandedSteps((prev) => ({
+      ...prev,
+      [stepIdx]: prev[stepIdx] !== undefined ? !prev[stepIdx] : false,
+    }));
+  };
 
   // Toggle checklist item
   const toggleCheckItem = (id: string) => {
@@ -243,6 +251,7 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
                   const stepTaskIds = step.checklist.map((_, cIdx) => `step-${idx}-task-${cIdx}`);
                   const stepCompletedCount = stepTaskIds.filter((id) => checkedItems[id]).length;
                   const isStepFullyDone = stepCompletedCount === step.checklist.length && step.checklist.length > 0;
+                  const isStepExpanded = expandedSteps[idx] !== undefined ? expandedSteps[idx] : (isStepFullyDone || idx === 0);
 
                   return (
                     <div key={idx} className="relative group">
@@ -263,80 +272,108 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
                           isStepFullyDone ? 'border-emerald-300 bg-emerald-50/30' : 'border-slate-200 hover:border-blue-300'
                         }`}
                       >
-                        {/* Milestone Header */}
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200/60">
+                        {/* Milestone Header (Clickable) */}
+                        <div
+                          onClick={() => toggleStepExpand(idx)}
+                          className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200/60 cursor-pointer group/header"
+                        >
                           <div className="space-y-0.5">
                             <div className="flex items-center gap-2">
                               <span className="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700">
                                 จุดแวะพักที่ {idx + 1}
                               </span>
-                              <span className="text-xs text-slate-500 font-bold">
-                                {stepCompletedCount}/{step.checklist.length} ภารกิจสำเร็จ
+                              <span
+                                className={`text-xs font-bold ${
+                                  isStepFullyDone ? 'text-emerald-700 font-extrabold' : 'text-slate-500'
+                                }`}
+                              >
+                                {isStepFullyDone
+                                  ? '🎉 ผ่านระยะนี้แล้ว 100%'
+                                  : `${stepCompletedCount}/${step.checklist.length} ภารกิจสำเร็จ`}
                               </span>
                             </div>
-                            <h3 className="font-extrabold text-slate-900 text-base sm:text-lg">
+                            <h3 className="font-extrabold text-slate-900 text-base sm:text-lg group-hover/header:text-blue-600 transition-colors">
                               {step.phase}
                             </h3>
                           </div>
-                          <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-200 text-slate-800 self-start sm:self-auto shrink-0 shadow-2xs">
-                            {step.period}
-                          </span>
+
+                          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                            <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-200 text-slate-800 shadow-2xs">
+                              {step.period}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleStepExpand(idx);
+                              }}
+                              className="px-2.5 py-1 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1 shadow-2xs cursor-pointer"
+                            >
+                              <span>{isStepExpanded ? 'ซ่อน' : 'ขยาย'}</span>
+                              {isStepExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                            </button>
+                          </div>
                         </div>
 
-                        {/* Dual Role Focus Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
-                          <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 space-y-1.5 shadow-2xs">
-                            <div className="font-extrabold text-blue-700 flex items-center gap-1.5">
-                              <GraduationCap className="w-4 h-4" />
-                              <span>สำหรับน้อง ๆ นักเรียน:</span>
+                        {/* Collapsible Content */}
+                        {isStepExpanded && (
+                          <div className="space-y-4 animate-in slide-in-from-top-1 duration-200">
+                            {/* Dual Role Focus Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
+                              <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 space-y-1.5 shadow-2xs">
+                                <div className="font-extrabold text-blue-700 flex items-center gap-1.5">
+                                  <GraduationCap className="w-4 h-4" />
+                                  <span>สำหรับน้อง ๆ นักเรียน:</span>
+                                </div>
+                                <p className="text-slate-700 leading-relaxed">{step.studentFocus}</p>
+                              </div>
+
+                              <div className="p-3.5 rounded-xl bg-white border border-slate-200/80 space-y-1.5 shadow-2xs">
+                                <div className="font-extrabold text-purple-700 flex items-center gap-1.5">
+                                  <HeartHandshake className="w-4 h-4" />
+                                  <span>สำหรับผู้ปกครอง:</span>
+                                </div>
+                                <p className="text-slate-700 leading-relaxed">{step.parentFocus}</p>
+                              </div>
                             </div>
-                            <p className="text-slate-700 leading-relaxed">{step.studentFocus}</p>
-                          </div>
 
-                          <div className="p-3.5 rounded-xl bg-white border border-slate-200/80 space-y-1.5 shadow-2xs">
-                            <div className="font-extrabold text-purple-700 flex items-center gap-1.5">
-                              <HeartHandshake className="w-4 h-4" />
-                              <span>สำหรับผู้ปกครอง:</span>
+                            {/* Interactive Granular Checklist */}
+                            <div className="space-y-2 pt-1">
+                              <div className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                <CheckSquare className="w-3.5 h-3.5 text-blue-600" />
+                                <span>Checklist รายวิชา & กิจกรรมที่ต้องทำให้สำเร็จ (คลิกเพื่อเช็คถูก):</span>
+                              </div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                {step.checklist.map((chk, cIdx) => {
+                                  const taskId = `step-${idx}-task-${cIdx}`;
+                                  const isChecked = Boolean(checkedItems[taskId]);
+
+                                  return (
+                                    <button
+                                      key={cIdx}
+                                      type="button"
+                                      onClick={() => toggleCheckItem(taskId)}
+                                      className={`w-full text-left p-2.5 rounded-xl border text-xs flex items-start gap-2.5 transition-all cursor-pointer ${
+                                        isChecked
+                                          ? 'bg-emerald-50/80 border-emerald-300 text-emerald-950 font-semibold line-through decoration-emerald-600/40'
+                                          : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50'
+                                      }`}
+                                    >
+                                      <div className="mt-0.5 shrink-0">
+                                        {isChecked ? (
+                                          <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-100" />
+                                        ) : (
+                                          <Square className="w-4 h-4 text-slate-400" />
+                                        )}
+                                      </div>
+                                      <span className="leading-snug">{chk}</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
                             </div>
-                            <p className="text-slate-700 leading-relaxed">{step.parentFocus}</p>
                           </div>
-                        </div>
-
-                        {/* Interactive Checklist */}
-                        <div className="space-y-2 pt-1">
-                          <div className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                            <CheckSquare className="w-3.5 h-3.5 text-blue-600" />
-                            <span>Checklist กิจกรรมที่ต้องทำให้สำเร็จ (คลิกเพื่อเช็คถูก):</span>
-                          </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {step.checklist.map((chk, cIdx) => {
-                              const taskId = `step-${idx}-task-${cIdx}`;
-                              const isChecked = Boolean(checkedItems[taskId]);
-
-                              return (
-                                <button
-                                  key={cIdx}
-                                  type="button"
-                                  onClick={() => toggleCheckItem(taskId)}
-                                  className={`w-full text-left p-2.5 rounded-xl border text-xs flex items-start gap-2.5 transition-all cursor-pointer ${
-                                    isChecked
-                                      ? 'bg-emerald-50/80 border-emerald-300 text-emerald-950 font-semibold line-through decoration-emerald-600/40'
-                                      : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50'
-                                  }`}
-                                >
-                                  <div className="mt-0.5 shrink-0">
-                                    {isChecked ? (
-                                      <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-100" />
-                                    ) : (
-                                      <Square className="w-4 h-4 text-slate-400" />
-                                    )}
-                                  </div>
-                                  <span className="leading-snug">{chk}</span>
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
+                        )}
                       </div>
                     </div>
                   );

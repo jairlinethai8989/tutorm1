@@ -7,11 +7,11 @@ import { ExamStrategicGuide } from '@/components/guide/ExamStrategicGuide';
 
 export default function HomePage() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       {/* Hero Welcome Banner */}
       <HeroSection />
 
-      {/* Gamification Hub: Level, Daily Quests & Check-in */}
+      {/* Sleek Vibrant Gamification Bar: Level, Streak Check-in, Quests & Badges */}
       <GamificationHub />
 
       {/* Main 3 Categories Interactive Hub (5 วิชาหลัก, จำลองสอบจริง, AI Practice) */}

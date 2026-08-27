@@ -21,6 +21,8 @@ const sarabun = Sarabun({
 
 import { APP_CONFIG } from '@/lib/constants/app';
 
+import { SupportCoffeeWidget } from '@/components/shared/SupportCoffeeWidget';
+
 export const metadata: Metadata = {
   title: APP_CONFIG.titleFull,
   description: APP_CONFIG.description,
@@ -40,6 +42,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <MobileNav />
+        <SupportCoffeeWidget />
       </body>
     </html>
   );
