@@ -86,15 +86,22 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
   return (
     <>
       {triggerButton && (
-        <button
-          onClick={() => openModal('whatsNew')}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-800 text-xs font-bold transition-all shadow-2xs group cursor-pointer"
-          title="คำแนะนำ & มีอะไรใหม่ในเวอร์ชันล่าสุด"
-        >
-          <Bell className="w-3.5 h-3.5 text-amber-600 animate-bounce" />
-          <span>คำแนะนำ & มีอะไรใหม่</span>
-          <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping ml-0.5" />
-        </button>
+        <div className="relative group">
+          <button
+            type="button"
+            onClick={() => openModal('whatsNew')}
+            className="w-9 h-9 rounded-2xl bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-800 flex items-center justify-center transition-all shadow-2xs hover:shadow-md hover:scale-105 cursor-pointer relative"
+            aria-label="คำแนะนำ & มีอะไรใหม่"
+          >
+            <Bell className="w-4 h-4 text-amber-600 group-hover:rotate-12 transition-transform" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white" />
+          </button>
+          {/* Tooltip on hover */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 rounded-xl bg-slate-900 text-white text-[11px] font-bold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 shadow-xl z-50">
+            คำแนะนำ & มีอะไรใหม่
+            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
+          </div>
+        </div>
       )}
 
       {isModalOpen &&

@@ -9,6 +9,7 @@ import {
   getResolvedMistakeIds,
   getAllMistakeRecords,
   getUserStats,
+  getActiveStudentProfile,
 } from '@/lib/storage';
 
 const STORAGE_KEYS = {
@@ -117,28 +118,23 @@ export const getGamificationState = (): GamificationState => {
     };
   }
 
-  try {
-    const raw = localStorage.getItem(STORAGE_KEYS.GAMIFICATION);
-    if (!raw) {
-      // Calculate initial base EXP from existing attempts
-      const attempts = getStoredAttempts();
-      const resolved = getResolvedMistakeIds();
-      let initialExp = 0;
-      attempts.forEach((a) => {
-        initialExp += (a.totalQuestions || 0) * 10;
-        if ((a.score || 0) >= 70) initialExp += 50;
-      });
-      initialExp += resolved.length * 25;
+  const active = getActiveStudentProfile();
+  const storageKey = active
+    ? `${STORAGE_KEYS.GAMIFICATION}_${active.id}`
+    : STORAGE_KEYS.GAMIFICATION;
 
+  try {
+    const raw = localStorage.getItem(storageKey);
+    if (!raw) {
       const state: GamificationState = {
-        totalExp: initialExp,
+        totalExp: 0,
         claimedQuestIds: [],
         claimedCheckInDates: [],
         unlockedBadgeIds: [],
         lastActiveDate: new Date().toISOString().slice(0, 10),
         streakDays: 1,
       };
-      localStorage.setItem(STORAGE_KEYS.GAMIFICATION, JSON.stringify(state));
+      localStorage.setItem(storageKey, JSON.stringify(state));
       return state;
     }
     return JSON.parse(raw);
@@ -157,8 +153,12 @@ export const getGamificationState = (): GamificationState => {
 
 export const saveGamificationState = (state: GamificationState): void => {
   if (typeof window === 'undefined') return;
+  const active = getActiveStudentProfile();
+  const storageKey = active
+    ? `${STORAGE_KEYS.GAMIFICATION}_${active.id}`
+    : STORAGE_KEYS.GAMIFICATION;
   try {
-    localStorage.setItem(STORAGE_KEYS.GAMIFICATION, JSON.stringify(state));
+    localStorage.setItem(storageKey, JSON.stringify(state));
   } catch (e) {
     console.error('Error saving gamification state', e);
   }

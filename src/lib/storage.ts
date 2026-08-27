@@ -466,20 +466,142 @@ export const getUserStats = (): UserOverallStats => {
 };
 
 export const getUserProfileName = (): string => {
-  if (typeof window === 'undefined') return 'ผู้เรียน';
+  const profile = getActiveStudentProfile();
+  if (profile) return profile.name;
+  if (typeof window === 'undefined') return '';
   try {
-    return localStorage.getItem('tutor_m1_user_name') || 'ผู้เรียน';
+    return localStorage.getItem('tutor_m1_user_name') || '';
   } catch {
-    return 'ผู้เรียน';
+    return '';
   }
 };
 
 export const saveUserProfileName = (name: string): void => {
   if (typeof window === 'undefined') return;
   try {
-    localStorage.setItem('tutor_m1_user_name', name.trim() || 'ผู้เรียน');
+    localStorage.setItem('tutor_m1_user_name', name.trim());
+    const current = getActiveStudentProfile();
+    if (current) {
+      saveStudentProfile({
+        ...current,
+        name: name.trim(),
+      });
+    }
   } catch (e) {
     console.error('Error saving user profile name', e);
+  }
+};
+
+import { StudentProfile } from '@/types/student';
+
+const STUDENT_STORAGE_KEYS = {
+  ACTIVE_PROFILE_ID: 'tutor_m1_active_student_id',
+  PROFILES_LIST: 'tutor_m1_student_profiles_list',
+};
+
+export const getAllStudentProfiles = (): StudentProfile[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(STUDENT_STORAGE_KEYS.PROFILES_LIST);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    console.error('Error getting student profiles list', e);
+    return [];
+  }
+};
+
+export const getActiveStudentProfile = (): StudentProfile | null => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const activeId = localStorage.getItem(STUDENT_STORAGE_KEYS.ACTIVE_PROFILE_ID);
+    const profiles = getAllStudentProfiles();
+    if (!profiles.length) return null;
+    if (activeId) {
+      const found = profiles.find((p) => p.id === activeId);
+      if (found) return found;
+    }
+    return profiles[0] || null;
+  } catch (e) {
+    console.error('Error getting active student profile', e);
+    return null;
+  }
+};
+
+export const hasStudentProfile = (): boolean => {
+  return getActiveStudentProfile() !== null;
+};
+
+export const saveStudentProfile = (
+  profileData: Omit<StudentProfile, 'id' | 'createdAt'> & { id?: string }
+): StudentProfile => {
+  const profiles = getAllStudentProfiles();
+  const id = profileData.id || `student-${Date.now()}`;
+  const now = new Date().toISOString();
+
+  const newProfile: StudentProfile = {
+    id,
+    name: profileData.name.trim(),
+    targetSchool: profileData.targetSchool,
+    targetSchoolShort: profileData.targetSchoolShort || profileData.targetSchool,
+    avatar: profileData.avatar || '🎓',
+    grade: profileData.grade || 'ป.6',
+    createdAt: now,
+  };
+
+  const existingIndex = profiles.findIndex((p) => p.id === id);
+  let updatedProfiles: StudentProfile[];
+  if (existingIndex >= 0) {
+    updatedProfiles = profiles.map((p) => (p.id === id ? newProfile : p));
+  } else {
+    updatedProfiles = [newProfile, ...profiles];
+  }
+
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(STUDENT_STORAGE_KEYS.PROFILES_LIST, JSON.stringify(updatedProfiles));
+      localStorage.setItem(STUDENT_STORAGE_KEYS.ACTIVE_PROFILE_ID, id);
+      localStorage.setItem('tutor_m1_user_name', newProfile.name);
+      window.dispatchEvent(new Event('tutor_m1_student_profile_changed'));
+    } catch (e) {
+      console.error('Error saving student profile', e);
+    }
+  }
+
+  return newProfile;
+};
+
+export const setActiveStudentProfileId = (profileId: string): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(STUDENT_STORAGE_KEYS.ACTIVE_PROFILE_ID, profileId);
+    const profiles = getAllStudentProfiles();
+    const active = profiles.find((p) => p.id === profileId);
+    if (active) {
+      localStorage.setItem('tutor_m1_user_name', active.name);
+    }
+    window.dispatchEvent(new Event('tutor_m1_student_profile_changed'));
+  } catch (e) {
+    console.error('Error setting active student profile id', e);
+  }
+};
+
+export const deleteStudentProfile = (profileId: string): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    const profiles = getAllStudentProfiles().filter((p) => p.id !== profileId);
+    localStorage.setItem(STUDENT_STORAGE_KEYS.PROFILES_LIST, JSON.stringify(profiles));
+    const activeId = localStorage.getItem(STUDENT_STORAGE_KEYS.ACTIVE_PROFILE_ID);
+    if (activeId === profileId) {
+      if (profiles.length > 0) {
+        setActiveStudentProfileId(profiles[0].id);
+      } else {
+        localStorage.removeItem(STUDENT_STORAGE_KEYS.ACTIVE_PROFILE_ID);
+        localStorage.removeItem('tutor_m1_user_name');
+        window.dispatchEvent(new Event('tutor_m1_student_profile_changed'));
+      }
+    }
+  } catch (e) {
+    console.error('Error deleting student profile', e);
   }
 };
 
@@ -492,6 +614,11 @@ export const clearAllUserData = (): void => {
     localStorage.removeItem(STORAGE_KEYS.USER_STATS);
     localStorage.removeItem('tutor_m1_practice_attempts');
     localStorage.removeItem('tutor_m1_user_name');
+    localStorage.removeItem(STUDENT_STORAGE_KEYS.ACTIVE_PROFILE_ID);
+    localStorage.removeItem(STUDENT_STORAGE_KEYS.PROFILES_LIST);
+    localStorage.removeItem('tutor_m1_gamification_state');
+    localStorage.removeItem('tutor_m1_roadmap_checklist_v1');
+    window.dispatchEvent(new Event('tutor_m1_student_profile_changed'));
   } catch (e) {
     console.error('Error clearing user data', e);
   }

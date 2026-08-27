@@ -26,6 +26,10 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
+import Image from 'next/image';
+import { StudentProfile } from '@/types/student';
+import { getActiveStudentProfile } from '@/lib/storage';
+
 export const GamificationHub: React.FC = () => {
   const [levelInfo, setLevelInfo] = useState<UserLevelInfo | null>(null);
   const [quests, setQuests] = useState<DailyQuest[]>([]);
@@ -33,6 +37,7 @@ export const GamificationHub: React.FC = () => {
   const [streakDays, setStreakDays] = useState<number>(1);
   const [isQuestsExpanded, setIsQuestsExpanded] = useState<boolean>(false);
   const [isBadgesModalOpen, setIsBadgesModalOpen] = useState<boolean>(false);
+  const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null);
 
   const refreshState = () => {
     const state = getGamificationState();
@@ -40,10 +45,16 @@ export const GamificationHub: React.FC = () => {
     setQuests(getDailyQuests());
     setCheckedIn(isCheckedInToday());
     setStreakDays(state.streakDays || 1);
+    setStudentProfile(getActiveStudentProfile());
   };
 
   useEffect(() => {
     refreshState();
+    const handleProfileChange = () => refreshState();
+    window.addEventListener('tutor_m1_student_profile_changed', handleProfileChange);
+    return () => {
+      window.removeEventListener('tutor_m1_student_profile_changed', handleProfileChange);
+    };
   }, []);
 
   if (!levelInfo) return null;
@@ -97,6 +108,29 @@ export const GamificationHub: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
+              {studentProfile && (
+                <div className="inline-flex items-center gap-1.5 bg-black/25 px-2.5 py-1 rounded-xl text-white border border-white/20 shadow-2xs">
+                  <div className="w-5 h-5 rounded-full overflow-hidden relative bg-white/20 shrink-0">
+                    {studentProfile.avatar?.startsWith('/avatars/') ? (
+                      <Image
+                        src={studentProfile.avatar}
+                        alt={studentProfile.name}
+                        fill
+                        className="object-cover"
+                        sizes="20px"
+                      />
+                    ) : (
+                      <span className="text-xs flex items-center justify-center h-full">
+                        {studentProfile.avatar || '🎓'}
+                      </span>
+                    )}
+                  </div>
+                  <span className="font-black text-xs">{studentProfile.name}</span>
+                  <span className="text-[10px] text-amber-200 font-medium">
+                    ({studentProfile.targetSchoolShort})
+                  </span>
+                </div>
+              )}
               <h3 className="text-sm sm:text-base font-black text-white drop-shadow-xs">
                 {levelInfo.title}
               </h3>

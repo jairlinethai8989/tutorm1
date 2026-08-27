@@ -9,6 +9,7 @@ import { UserOverallStats } from '@/types/analytics';
 
 import { APP_CONFIG } from '@/lib/constants/app';
 import { UserNoticeModal } from '@/components/home/UserNoticeModal';
+import { StudentOnboardingModal } from '@/components/profile/StudentOnboardingModal';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -79,21 +80,25 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* User Streak, Readiness & Notice Widget */}
+          {/* Streak, Readiness, Notice & Far-Right User Profile Avatar */}
           <div className="flex items-center space-x-2">
-            <UserNoticeModal triggerButton={true} />
-
             {/* Streak */}
-            <div className="flex items-center space-x-1 bg-orange-50 border border-orange-200/80 px-2.5 py-1 rounded-full text-orange-600 text-xs font-bold shadow-2xs">
+            <div className="flex items-center space-x-1 bg-orange-50 border border-orange-200/80 px-2.5 py-1.5 rounded-full text-orange-600 text-xs font-bold shadow-2xs">
               <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500 animate-pulse" />
               <span>{stats?.streakDays || 1} วัน</span>
             </div>
 
             {/* Readiness */}
-            <div className="hidden lg:flex items-center space-x-1.5 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-full text-emerald-700 text-xs font-bold">
+            <div className="hidden lg:flex items-center space-x-1.5 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1.5 rounded-full text-emerald-700 text-xs font-bold">
               <Award className="w-3.5 h-3.5 text-emerald-600" />
               <span>พร้อม {stats?.examReadinessScore || 0}%</span>
             </div>
+
+            {/* Compact Notice / Help Icon Button */}
+            <UserNoticeModal triggerButton={true} />
+
+            {/* Far-Right Circular Student Profile Avatar */}
+            <StudentOnboardingModal triggerButton={true} />
           </div>
         </div>
       </div>

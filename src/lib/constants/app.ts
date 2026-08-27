@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.16.0',
-  versionLabel: 'Version 2.16.0 (UX/UI Polish, Compact Hub, Granular Roadmap & Support Coffee Widget)',
+  version: 'v2.17.0',
+  versionLabel: 'Version 2.17.0 (Multi-Student Onboarding, 31 Avatar Drawer, Custom School & Circular Nav UI)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,50 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.17.0',
+    date: '27 สิงหาคม 2026',
+    title: 'เปิดตัวระบบต้อนรับผู้เรียน, ลิ้นชัก Avatar 31 แบบ & ปรับ Navbar ขวาสุด',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'ระบบต้อนรับผู้เรียน & สมุดโปรไฟล์ประจำเครื่อง (Multi-Student Onboarding)',
+        description:
+          'หน้าต่างเด้งต้อนรับผู้เรียนใหม่ พร้อมบันทึกชื่อ, โรงเรียนเป้าหมาย, เลเวล และแยกระบบผู้เรียนในเครื่องเดียวกันได้อิสระ',
+      },
+      {
+        type: 'feature',
+        title: 'ลิ้นชักเลือก Avatar 31 แบบ (Expandable Avatar Drawer & Filter Tabs)',
+        description:
+          'คัดสรร 31 รูปนักเรียน & สัตว์เลี้ยงน่ารัก พร้อมแท็บคัดกรองหมวดหมู่ และลิ้นชักเปิด/ย่อ',
+      },
+      {
+        type: 'feature',
+        title: 'รองรับการพิมพ์ระบุชื่อโรงเรียนเป้าหมายเอง (Custom Target School Input)',
+        description:
+          'เลือก "โรงเรียนอื่น ๆ" เพื่อพิมพ์ชื่อโรงเรียนที่ต้องการสอบเข้าได้อิสระทุกแห่งทั่วประเทศ',
+      },
+      {
+        type: 'feature',
+        title: 'ระบบรีเซ็ตภารกิจประจำวันแยกตามโปรไฟล์ (Per-Student Gamification & Quest Reset)',
+        description:
+          'ผู้เรียนที่สร้างใหม่เริ่มต้นที่ 0 EXP และภารกิจสดใหม่ 0/3 ไม่ปะปนกับผู้เรียนอื่น',
+      },
+      {
+        type: 'feature',
+        title: 'ปรับปรุง Navbar UI ไอคอนผู้เรียนวงกลมขวาสุด & ไอคอนแจ้งเตือน Tooltip',
+        description:
+          'ย้ายปุ่มผู้เรียนไปขวาสุดเป็นรูปวงกลม และย่อปุ่มคำแนะนำเป็นไอคอนกระดิ่งพร้อม Hover Tooltip',
+      },
+    ],
+  },
+  {
     version: 'v2.16.0',
     date: '27 สิงหาคม 2026',
     title: 'ปรับปรุง UX/UI เมนูย่อยกระชับ, แถบภารกิจสีเหลืองส้มสดใส & ปุ่มให้กำลังใจผู้พัฒนา',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'เสถียร (Stable)',
+    isLatest: false,
     changes: [
       {
         type: 'feature',
