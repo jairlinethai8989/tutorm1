@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.11.1',
-  versionLabel: 'Version 2.11.1 (Floating Hub UI & Interactive Learning Road Journey)',
+  version: 'v2.15.0',
+  versionLabel: 'Version 2.15.0 (Gamification & Daily Habit, AI Diagnostic & Mistake Book)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,44 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.15.0',
+    date: '27 สิงหาคม 2026',
+    title: 'เปิดตัวระบบสร้างแรงจูงใจ (Gamification, Level & EXP, Daily Quests & 12 Badges)',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'ระบบเลเวลและค่าประสบการณ์ (Level 1-10 & Total EXP)',
+        description:
+          'สะสม EXP จากการทำโจทย์ถูกต้อง, จำลองสอบ, ซ่อมข้อผิด และเช็คอินรายวัน ไต่ระดับจากน้องใหม่ ป.6 สู่มหาเทพพิชิต ม.1',
+      },
+      {
+        type: 'feature',
+        title: 'ภารกิจประจำวัน 3 ข้อ (Daily Quests)',
+        description:
+          'ภารกิจรีเซ็ตทุกวัน: วอร์มอัพสมอง, ซ่อมจุดอ่อน และตะลุยสนามสอบจริง พร้อมปุ่มกดรับรางวัล EXP ทันที',
+      },
+      {
+        type: 'feature',
+        title: 'หอเกียรติยศ 12 เหรียญรางวัล (Achievement Badges)',
+        description:
+          'สะสมเหรียญรางวัลเกียรติยศทั้งสายวิชาการ (คณิต, วิทย์, อังกฤษ), สาย รร.ดัง (สามเสน, สวนกุหลาบ, จุฬาภรณ์), และสายวินัยสม่ำเสมอ (Streak 3 & 7 วัน)',
+      },
+      {
+        type: 'feature',
+        title: 'ระบบเช็คอินประจำวัน & รักษาวันต่อเนื่อง (Daily Check-in & Streak)',
+        description:
+          'กดเช็คอินเพื่อรับโบนัส EXP พิเศษและรักษาไฟการเรียนรู้ต่อเนื่อง',
+      },
+    ],
+  },
+  {
     version: 'v2.14.0',
     date: '27 สิงหาคม 2026',
     title: 'เปิดตัวระบบ AI Personal Diagnostic & สมุดบันทึกจุดอ่อน (Mistake Book) เต็มรูปแบบ',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',
