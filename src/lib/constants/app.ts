@@ -25,11 +25,32 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.12.0',
+    date: '27 สิงหาคม 2026',
+    title: 'นำเข้าชุดข้อสอบ SAMSEN Pre-Test 2022 วิทยาศาสตร์ ห้องเรียนพิเศษ (Gifted) 30 ข้อเต็ม',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'บรรจุข้อสอบ SAMSEN Pre-Test 2022 วิชาวิทยาศาสตร์ (30 ข้อ 100 คะแนน)',
+        description:
+          'ครอบคลุม 4 สาระวิทย์: ชีววิทยา (พันธุศาสตร์/การย่อย/พืชดอก), เคมี (การแยกสาร/ความแข็ง/สถานะ), ฟิสิกส์ (วงจรไฟฟ้า/แรงลอยตัว/อุณหภูมิ/เสียง), และโลก-ดาราศาสตร์ พร้อมโหมดจำลองสอบจับเวลา 70 นาที',
+      },
+      {
+        type: 'feature',
+        title: 'เฉลยละเอียดทุกขั้นตอน (Step-by-Step) & เทคนิคคิดเร็ว (Fast Trick)',
+        description:
+          'ทุกข้อมีคำอธิบายแนวคิดหลัก ขั้นตอนการวิเคราะห์อย่างเป็นระบบ และสูตรลัดเทคนิคคิดเร็วมาตรฐาน KaTeX 100%',
+      },
+    ],
+  },
+  {
     version: 'v2.11.1',
     date: '26 สิงหาคม 2026',
     title: 'ปรับปรุง UX/UI หน้าจอหลัก: ปุ่มโหมดหลักลอยได้ & เส้นทางถนน Roadmap แบบ Interactive Checklist',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

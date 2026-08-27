@@ -255,4 +255,26 @@ export const MOCK_EXAMS: MockExam[] = [
     ],
     badgeColor: '#8B5CF6',
   },
+  {
+    id: 'samsen-sci-gifted-65',
+    name: 'SAMSEN Pre-Test 2022 (ห้องเรียนพิเศษ Gifted) — วิทยาศาสตร์ 30 ข้อเต็ม',
+    targetSchool: 'สามเสนวิทยาลัย',
+    targetSchoolEn: 'samsen',
+    subjectId: 'science',
+    subjectName: 'วิทยาศาสตร์',
+    totalQuestions: 30,
+    timeLimitMinutes: 70,
+    passingScorePercent: 70,
+    description: 'แบบทดสอบ SAMSEN Pre-Test 2022 วิทยาศาสตร์ ห้องเรียนพิเศษ ปี 2565 ครบ 30 ข้อ (ปรนัย 20 ข้อ + อัตนัย 10 ข้อ) ครอบคลุมพันธุศาสตร์ การย่อยอาหาร การแยกสาร ไฟฟ้า แรง และดาราศาสตร์',
+    questionIds: [
+      'ss-sci-65-001', 'ss-sci-65-002', 'ss-sci-65-003', 'ss-sci-65-004', 'ss-sci-65-005',
+      'ss-sci-65-006', 'ss-sci-65-007', 'ss-sci-65-008', 'ss-sci-65-009', 'ss-sci-65-010',
+      'ss-sci-65-011', 'ss-sci-65-012', 'ss-sci-65-013', 'ss-sci-65-014', 'ss-sci-65-015',
+      'ss-sci-65-016', 'ss-sci-65-017', 'ss-sci-65-018', 'ss-sci-65-019', 'ss-sci-65-020',
+      'ss-sci-65-021', 'ss-sci-65-022', 'ss-sci-65-023', 'ss-sci-65-024', 'ss-sci-65-025',
+      'ss-sci-65-026', 'ss-sci-65-027', 'ss-sci-65-028', 'ss-sci-65-029', 'ss-sci-65-030'
+    ],
+    badgeColor: '#059669',
+  },
 ];
+

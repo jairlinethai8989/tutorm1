@@ -416,6 +416,13 @@ async function main() {
         return m.SARAWITTAYA_SCIENCE_QUESTIONS;
       },
     },
+    {
+      name: 'samsenScience.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/samsenScience');
+        return m.SAMSEN_SCIENCE_QUESTIONS;
+      },
+    },
   ];
 
   const allIssues: ValidationIssue[] = [];
