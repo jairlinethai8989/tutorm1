@@ -10,6 +10,7 @@ const prompt = Prompt({
   subsets: ['thai', 'latin'],
   variable: '--font-prompt',
   display: 'swap',
+  preload: false,
 });
 
 const sarabun = Sarabun({
@@ -17,10 +18,10 @@ const sarabun = Sarabun({
   subsets: ['thai', 'latin'],
   variable: '--font-sarabun',
   display: 'swap',
+  preload: false,
 });
 
 import { APP_CONFIG } from '@/lib/constants/app';
-
 import { SupportCoffeeWidget } from '@/components/shared/SupportCoffeeWidget';
 
 export const metadata: Metadata = {
