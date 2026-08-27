@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { SubjectCard } from './SubjectCard';
 import { getSubjects, getMockExams } from '@/lib/data-loader';
+import { hasStudentProfile } from '@/lib/storage';
 import { ALL_TEMPLATES } from '@/lib/template-engine';
 import {
   BookOpen,
@@ -30,6 +31,13 @@ type MainCategory = 'subjects' | 'mock-exam' | 'ai-practice';
 
 export const MainCategoryHub: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<MainCategory>('subjects');
+
+  const handleSelectCategory = (category: MainCategory) => {
+    setActiveCategory(category);
+    if (!hasStudentProfile()) {
+      window.dispatchEvent(new CustomEvent('open_student_onboarding'));
+    }
+  };
 
   const subjects = getSubjects();
   const mockExams = getMockExams();
@@ -111,7 +119,7 @@ export const MainCategoryHub: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
           {/* Tab 1: 5 Core Subjects */}
           <button
-            onClick={() => setActiveCategory('subjects')}
+            onClick={() => handleSelectCategory('subjects')}
             className={`group relative p-5 sm:p-6 rounded-3xl text-left border-2 transition-all duration-300 transform flex flex-col justify-between cursor-pointer select-none ${
               activeCategory === 'subjects'
                 ? 'bg-gradient-to-br from-blue-600 to-indigo-700 border-blue-500 text-white shadow-xl shadow-blue-500/25 -translate-y-1.5 ring-4 ring-blue-100'
@@ -160,7 +168,7 @@ export const MainCategoryHub: React.FC = () => {
 
           {/* Tab 2: Mock Exam Simulation */}
           <button
-            onClick={() => setActiveCategory('mock-exam')}
+            onClick={() => handleSelectCategory('mock-exam')}
             className={`group relative p-5 sm:p-6 rounded-3xl text-left border-2 transition-all duration-300 transform flex flex-col justify-between cursor-pointer select-none ${
               activeCategory === 'mock-exam'
                 ? 'bg-gradient-to-br from-violet-700 to-purple-800 border-violet-500 text-white shadow-xl shadow-violet-500/25 -translate-y-1.5 ring-4 ring-violet-100'
@@ -209,7 +217,7 @@ export const MainCategoryHub: React.FC = () => {
 
           {/* Tab 3: AI Practice */}
           <button
-            onClick={() => setActiveCategory('ai-practice')}
+            onClick={() => handleSelectCategory('ai-practice')}
             className={`group relative p-5 sm:p-6 rounded-3xl text-left border-2 transition-all duration-300 transform flex flex-col justify-between cursor-pointer select-none ${
               activeCategory === 'ai-practice'
                 ? 'bg-gradient-to-br from-purple-700 to-fuchsia-800 border-purple-500 text-white shadow-xl shadow-purple-500/25 -translate-y-1.5 ring-4 ring-purple-100'
@@ -423,6 +431,66 @@ export const MainCategoryHub: React.FC = () => {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Dimension 5: Cheat Sheets & Formula Hub Banner */}
+      <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-indigo-900 via-purple-900 to-slate-900 text-white shadow-lg border border-indigo-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5 text-center sm:text-left">
+          <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-yellow-300 border border-white/20 shrink-0 shadow-inner">
+            <Sparkles className="w-6 h-6 animate-pulse" />
+          </div>
+          <div>
+            <div className="flex items-center justify-center sm:justify-start gap-2">
+              <h3 className="text-base sm:text-lg font-black tracking-tight text-white">
+                คลังสรุปสูตร & หัวใจสำคัญ 5 วิชาหลัก
+              </h3>
+              <span className="text-[10px] font-extrabold bg-yellow-400 text-slate-950 px-2 py-0.5 rounded-full shadow-xs">
+                มิติที่ 5 ใหม่!
+              </span>
+            </div>
+            <p className="text-xs text-indigo-200 mt-0.5">
+              รวมสูตรเรขาคณิต, สมการ, เทคนิคลัดฟิสิกส์-เคมี-ชีวะ, 12 Tenses, สมาส-สนธิ และพิกัดภูมิศาสตร์ พร้อมโหมดพิมพ์ PDF
+            </p>
+          </div>
+        </div>
+
+        <Link
+          href="/cheat-sheets"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 text-xs font-black shadow-md transition-all hover:scale-105 shrink-0 cursor-pointer"
+        >
+          <span>เปิดคลังสรุปสูตร</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+
+      {/* Dimension 7: Speed Run & Time-Attack Challenge Banner */}
+      <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-amber-700 via-orange-600 to-red-700 text-white shadow-lg border border-amber-400/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5 text-center sm:text-left">
+          <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center text-yellow-200 border border-white/20 shrink-0 shadow-inner">
+            <Zap className="w-6 h-6 animate-bounce" />
+          </div>
+          <div>
+            <div className="flex items-center justify-center sm:justify-start gap-2">
+              <h3 className="text-base sm:text-lg font-black tracking-tight text-white">
+                โหมดประลองจับเวลา Speed Run ⚡
+              </h3>
+              <span className="text-[10px] font-extrabold bg-white text-orange-700 px-2 py-0.5 rounded-full shadow-xs">
+                มิติที่ 7 ท้าทายสปีด!
+              </span>
+            </div>
+            <p className="text-xs text-orange-100 mt-0.5">
+              3 โหมดสุดมันส์: Blitz 60s, 10-Streak Marathon และ Boss Rush 5 โรงเรียนดัง สะสมคอมโบไฟลุก 🔥 ไต่กระดาน Hall of Fame
+            </p>
+          </div>
+        </div>
+
+        <Link
+          href="/speed-run"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-white hover:bg-yellow-300 text-slate-950 text-xs font-black shadow-md transition-all hover:scale-105 shrink-0 cursor-pointer"
+        >
+          <span>เริ่มประลอง Speed Run</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
     </section>
   );

@@ -18,18 +18,20 @@ function preprocessMathText(text: string): string {
 }
 
 interface MathTextProps {
-  content: string;
+  content?: string;
+  text?: string;
   className?: string;
   inline?: boolean;
 }
 
-export const MathText: React.FC<MathTextProps> = ({ content, className = '', inline = false }) => {
-  if (content === undefined || content === null || content === '') return null;
+export const MathText: React.FC<MathTextProps> = ({ content, text, className = '', inline = false }) => {
+  const actualContent = content !== undefined && content !== null ? content : text;
+  if (actualContent === undefined || actualContent === null || actualContent === '') return null;
 
   // Split by $$...$$ (display math) and $...$ (inline math)
-  const renderFormattedText = (text: string) => {
+  const renderFormattedText = (textToRender: string) => {
     // Preprocess math text
-    const processedText = preprocessMathText(text);
+    const processedText = preprocessMathText(textToRender);
     // Split by block math $$...$$
     const blockParts = processedText.split(/(\$\$[\s\S]*?\$\$)/g);
 
@@ -126,14 +128,14 @@ export const MathText: React.FC<MathTextProps> = ({ content, className = '', inl
   if (inline) {
     return (
       <span className={`leading-relaxed text-slate-700 text-base ${className}`}>
-        {renderFormattedText(String(content))}
+        {renderFormattedText(String(actualContent))}
       </span>
     );
   }
 
   return (
     <div className={`leading-relaxed text-slate-700 text-base ${className}`}>
-      {renderFormattedText(String(content))}
+      {renderFormattedText(String(actualContent))}
     </div>
   );
 };

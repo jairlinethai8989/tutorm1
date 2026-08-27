@@ -26,6 +26,16 @@ import { SupportCoffeeWidget } from '@/components/shared/SupportCoffeeWidget';
 export const metadata: Metadata = {
   title: APP_CONFIG.titleFull,
   description: APP_CONFIG.description,
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '512x512' },
+      { url: '/favicon.png', type: 'image/png', sizes: '64x64' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '192x192', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({

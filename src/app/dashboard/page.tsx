@@ -27,6 +27,7 @@ import {
   Edit3,
   BookMarked,
   Zap,
+  Printer,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -70,7 +71,15 @@ export default function DashboardPage() {
           </h1>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <Link
+            href="/parent-report"
+            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-xs shadow-md transition-all hover:scale-105 cursor-pointer"
+          >
+            <Printer className="w-4 h-4" />
+            <span>รายงานผู้ปกครอง (PDF)</span>
+          </Link>
+
           <Link
             href="/mistake-book"
             className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-white border border-rose-200 hover:bg-rose-50 text-rose-700 font-bold text-xs shadow-xs transition-all cursor-pointer"

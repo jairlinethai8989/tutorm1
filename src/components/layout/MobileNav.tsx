@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, Clock, BarChart3, HelpCircle } from 'lucide-react';
+import { BookOpen, Clock, BarChart3, BookmarkCheck } from 'lucide-react';
 
 export const MobileNav: React.FC = () => {
   const pathname = usePathname();
@@ -11,8 +11,8 @@ export const MobileNav: React.FC = () => {
   const navItems = [
     { label: 'เลือกวิชา', href: '/', icon: BookOpen },
     { label: 'จำลองสอบ', href: '/mock-exam', icon: Clock },
-    { label: 'สถิติ/จุดอ่อน', href: '/dashboard', icon: BarChart3 },
-    { label: 'คลังเฉลย', href: '/solutions/math-geo-001', icon: HelpCircle },
+    { label: 'สรุปสูตร', href: '/cheat-sheets', icon: BookmarkCheck },
+    { label: 'แดชบอร์ด', href: '/dashboard', icon: BarChart3 },
   ];
 
   return (

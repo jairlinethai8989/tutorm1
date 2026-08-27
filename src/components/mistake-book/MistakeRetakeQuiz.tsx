@@ -5,6 +5,8 @@ import { Question } from '@/types/question';
 import { toggleResolvedMistake } from '@/lib/storage';
 import { MathText } from '@/components/shared/MathText';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
+import { AITutorDrawer } from '@/components/quiz/AITutorDrawer';
+import { CuteAIBotIcon } from '@/components/shared/CuteAIBotIcon';
 import {
   RotateCcw,
   CheckCircle2,
@@ -37,6 +39,7 @@ export const MistakeRetakeQuiz: React.FC<MistakeRetakeQuizProps> = ({
   const [submittedQuestions, setSubmittedQuestions] = useState<Record<string, boolean>>({});
   const [results, setResults] = useState<Record<string, boolean>>({});
   const [isFinished, setIsFinished] = useState<boolean>(false);
+  const [isAITutorOpen, setIsAITutorOpen] = useState<boolean>(false);
 
   if (questions.length === 0) {
     return (
@@ -213,13 +216,24 @@ export const MistakeRetakeQuiz: React.FC<MistakeRetakeQuizProps> = ({
 
       {/* Question Card */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-6">
-        <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3 text-xs">
-          <span className="bg-purple-100 text-purple-800 font-bold px-2.5 py-1 rounded-xl">
-            {currentQ.topicName || currentQ.subjectId}
-          </span>
-          {currentQ.school && (
-            <span className="text-slate-500 font-semibold">{currentQ.school}</span>
-          )}
+        <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3 text-xs flex-wrap">
+          <div className="flex items-center gap-2">
+            <span className="bg-purple-100 text-purple-800 font-bold px-2.5 py-1 rounded-xl">
+              {currentQ.topicName || currentQ.subjectId}
+            </span>
+            {currentQ.school && (
+              <span className="text-slate-500 font-semibold">{currentQ.school}</span>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsAITutorOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white text-xs font-black transition-all shadow-xs hover:scale-105 cursor-pointer"
+          >
+            <CuteAIBotIcon size={18} animated={true} />
+            <span>ครู AI ช่วยใบ้</span>
+          </button>
         </div>
 
         <div className="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
@@ -372,6 +386,16 @@ export const MistakeRetakeQuiz: React.FC<MistakeRetakeQuizProps> = ({
           )}
         </div>
       </div>
+
+      {/* AI Tutor Assistant Drawer */}
+      {currentQ && (
+        <AITutorDrawer
+          question={currentQ}
+          questionNumber={currentIndex + 1}
+          isOpen={isAITutorOpen}
+          onClose={() => setIsAITutorOpen(false)}
+        />
+      )}
     </div>
   );
 };

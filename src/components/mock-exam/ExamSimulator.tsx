@@ -12,6 +12,8 @@ import { MathText } from '@/components/shared/MathText';
 import { Illustration } from '@/components/shared/Illustration';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
 import { StudentNameModal } from '@/components/shared/StudentNameModal';
+import { AITutorDrawer } from '@/components/quiz/AITutorDrawer';
+import { CuteAIBotIcon } from '@/components/shared/CuteAIBotIcon';
 import { calculateAttemptSummary } from '@/lib/scoring';
 import { saveAttempt, getUserProfileName, getAdmissionChanceTier, calculatePaceAnalysis } from '@/lib/storage';
 import { formatTime } from '@/lib/utils';
@@ -59,6 +61,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
   const [hasSavedSession, setHasSavedSession] = useState<boolean>(false);
   const [savedSessionInfo, setSavedSessionInfo] = useState<{ answeredCount: number; remainingTime: number } | null>(null);
+  const [isAITutorOpen, setIsAITutorOpen] = useState<boolean>(false);
 
   // User answers state
   const [answers, setAnswers] = useState<
@@ -836,20 +839,32 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
                   </span>
                 </div>
 
-                {!isFinished && (
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={handleToggleFlag}
-                    className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
-                      isFlagged
-                        ? 'bg-amber-100 text-amber-800 border border-amber-300'
-                        : 'text-slate-500 hover:bg-slate-100'
-                    }`}
+                    onClick={() => setIsAITutorOpen(true)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white text-xs font-black transition-all hover:scale-105 cursor-pointer shadow-xs"
+                    title="ขอคำใบ้และสูตรลัดจากครู AI"
                   >
-                    <Flag className={`w-3.5 h-3.5 ${isFlagged ? 'fill-amber-500 text-amber-500' : ''}`} />
-                    <span>{isFlagged ? 'ปักหมุดแล้ว' : 'ปักหมุดทบทวน'}</span>
+                    <CuteAIBotIcon size={18} animated={true} />
+                    <span>ครู AI ช่วยใบ้</span>
                   </button>
-                )}
+
+                  {!isFinished && (
+                    <button
+                      type="button"
+                      onClick={handleToggleFlag}
+                      className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
+                        isFlagged
+                          ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                          : 'text-slate-500 hover:bg-slate-100'
+                      }`}
+                    >
+                      <Flag className={`w-3.5 h-3.5 ${isFlagged ? 'fill-amber-500 text-amber-500' : ''}`} />
+                      <span>{isFlagged ? 'ปักหมุดแล้ว' : 'ปักหมุดทบทวน'}</span>
+                    </button>
+                  )}
+                </div>
               </div>
 
               {/* Question Text */}
@@ -1044,6 +1059,16 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* AI Tutor Assistant Drawer */}
+      {currentQuestion && (
+        <AITutorDrawer
+          question={currentQuestion}
+          questionNumber={currentIndex + 1}
+          isOpen={isAITutorOpen}
+          onClose={() => setIsAITutorOpen(false)}
+        />
       )}
     </div>
   );

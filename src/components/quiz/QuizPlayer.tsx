@@ -10,6 +10,8 @@ import { MathText } from '@/components/shared/MathText';
 import { Illustration } from '@/components/shared/Illustration';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
 import { StudentNameModal } from '@/components/shared/StudentNameModal';
+import { AITutorDrawer } from '@/components/quiz/AITutorDrawer';
+import { CuteAIBotIcon } from '@/components/shared/CuteAIBotIcon';
 import { evaluateAnswer } from '@/lib/scoring';
 import { saveAttempt, isBookmarked, toggleBookmark, getUserProfileName } from '@/lib/storage';
 import {
@@ -39,6 +41,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
   const [bookmarked, setBookmarked] = useState<boolean>(false);
   const [studentName, setStudentName] = useState<string>('ผู้เรียน');
   const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
+  const [isAITutorOpen, setIsAITutorOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setStudentName(getUserProfileName());
@@ -206,9 +209,20 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-            <Award className="w-4 h-4 text-amber-500" />
-            <span>{question.points} คะแนน</span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              type="button"
+              onClick={() => setIsAITutorOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white text-xs font-black transition-all shadow-sm hover:scale-105 cursor-pointer"
+            >
+              <CuteAIBotIcon size={18} animated={true} />
+              <span>ครู AI ช่วยใบ้ & สูตรลัด</span>
+            </button>
+
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-50 px-2.5 py-1.5 rounded-2xl border border-slate-200">
+              <Award className="w-3.5 h-3.5 text-amber-500" />
+              <span>{question.points} คะแนน</span>
+            </div>
           </div>
         </div>
 
@@ -309,6 +323,14 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
           <SolutionViewer question={question} />
         </div>
       )}
+
+      {/* AI Tutor Assistant Drawer */}
+      <AITutorDrawer
+        question={question}
+        questionNumber={currentPos}
+        isOpen={isAITutorOpen}
+        onClose={() => setIsAITutorOpen(false)}
+      />
 
       {/* Student Name Modal */}
       <StudentNameModal

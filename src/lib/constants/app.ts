@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.17.0',
-  versionLabel: 'Version 2.17.0 (Multi-Student Onboarding, 31 Avatar Drawer, Custom School & Circular Nav UI)',
+  version: 'v2.18.0',
+  versionLabel: 'Version 2.18.0 (Brand Identity, Mascot Footer, Capsule Profile & Topbar UI)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,50 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.18.0',
+    date: '27 สิงหาคม 2026',
+    title: 'เปิดตัว Brand Identity ไอคอนโปรแกรมทางการ, มาสคอตท้ายเว็บ & แคปซูลโปรไฟล์ผู้เรียน',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'ไอคอนโปรแกรมทางการ & Favicon (Official App Icon & Favicon)',
+        description:
+          'ติดตั้งไอคอนทางการ M.1 สีน้ำเงินทองระดับพรีเมียมบน Navbar, Favicon และไอคอนเบราว์เซอร์ทุกขนาด',
+      },
+      {
+        type: 'feature',
+        title: 'มาสคอตการ์ตูน Tutor M.1 ประจำแถบท้ายเว็บ (Cartoon Mascot Footer Banner)',
+        description:
+          'เพิ่มภาพมาสคอตคู่หูนักเรียน ป.6 หมวกปริญญา พร้อมสโลแกน "ติวครบ จบมั่นใจ สอบติด ม.1" บริเวณ Footer',
+      },
+      {
+        type: 'feature',
+        title: 'ขยายปุ่มโปรไฟล์ผู้เรียนเป็นแบบแคปซูลการ์ด (Student Capsule Badge)',
+        description:
+          'แสดงรูป Avatar, ชื่อผู้เรียน, โรงเรียนเป้าหมาย และระดับชั้นอย่างสง่างามบน Topbar',
+      },
+      {
+        type: 'feature',
+        title: 'ขยายปุ่มคำแนะนำ & มีอะไรใหม่ (Expanded Advice & Updates Button)',
+        description:
+          'ปรับปุ่มกระดิ่งแจ้งเตือนให้เป็นปุ่มแคปซูลสวยเด่น พร้อมไฟกระพริบเมื่อมีการอัปเดตใหม่',
+      },
+      {
+        type: 'feature',
+        title: 'ปรับสัดส่วนเมนู Navbar ให้พอดีกับหน้าจออย่างลงตัว (Balanced Segmented Navigation)',
+        description:
+          'จัดวาง 7 เมนูหลักเต็มพื้นที่อย่างสมดุล ไม่เบียดเสียด และไม่เหลือช่องว่างโหวง',
+      },
+    ],
+  },
+  {
     version: 'v2.17.0',
     date: '27 สิงหาคม 2026',
     title: 'เปิดตัวระบบต้อนรับผู้เรียน, ลิ้นชัก Avatar 31 แบบ & ปรับ Navbar ขวาสุด',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'เสถียร (Stable)',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

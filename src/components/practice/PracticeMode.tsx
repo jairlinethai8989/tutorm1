@@ -8,6 +8,8 @@ import { QuestionTemplate } from '@/lib/template-engine/types';
 import { MathText } from '@/components/shared/MathText';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
 import { StudentNameModal } from '@/components/shared/StudentNameModal';
+import { AITutorDrawer } from '@/components/quiz/AITutorDrawer';
+import { CuteAIBotIcon } from '@/components/shared/CuteAIBotIcon';
 import { saveAttempt, getUserProfileName } from '@/lib/storage';
 import { ExamAttempt, UserAnswer } from '@/types/exam';
 import {
@@ -46,6 +48,7 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [showSolution, setShowSolution] = useState<boolean>(false);
+  const [isAITutorOpen, setIsAITutorOpen] = useState<boolean>(false);
 
   // Student Profile
   const [studentName, setStudentName] = useState<string>('ผู้เรียน');
@@ -377,14 +380,25 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
             </span>
           </div>
 
-          <button
-            onClick={regenerateSameTemplate}
-            title="สุ่มเปลี่ยนเฉพาะตัวเลขในข้อนี้"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors"
-          >
-            <RotateCcw className="w-3.5 h-3.5 text-blue-600" />
-            <span>สุ่มตัวเลขใหม่</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsAITutorOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white text-xs font-black transition-all shadow-xs hover:scale-105 cursor-pointer"
+            >
+              <CuteAIBotIcon size={18} animated={true} />
+              <span>ครู AI ช่วยใบ้</span>
+            </button>
+
+            <button
+              onClick={regenerateSameTemplate}
+              title="สุ่มเปลี่ยนเฉพาะตัวเลขในข้อนี้"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-blue-600" />
+              <span>สุ่มตัวเลขใหม่</span>
+            </button>
+          </div>
         </div>
 
         {/* Content */}
@@ -484,6 +498,15 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-300">
           <SolutionViewer question={currentQuestion} />
         </div>
+      )}
+
+      {/* AI Tutor Assistant Drawer */}
+      {currentQuestion && (
+        <AITutorDrawer
+          question={currentQuestion}
+          isOpen={isAITutorOpen}
+          onClose={() => setIsAITutorOpen(false)}
+        />
       )}
 
       {/* Student Name Modal */}

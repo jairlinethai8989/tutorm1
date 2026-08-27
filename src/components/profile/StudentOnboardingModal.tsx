@@ -88,21 +88,20 @@ export const StudentOnboardingModal: React.FC<StudentOnboardingModalProps> = ({
     setMounted(true);
     refreshProfiles();
 
-    // Auto-popup on first visit if no profile exists yet
-    if (!hasStudentProfile()) {
-      const timer = setTimeout(() => {
-        setInternalIsOpen(true);
-      }, 700);
-      return () => clearTimeout(timer);
-    }
-
     const handleProfileChange = () => {
       refreshProfiles();
     };
 
+    const handleOpenTrigger = () => {
+      refreshProfiles();
+      setInternalIsOpen(true);
+    };
+
     window.addEventListener('tutor_m1_student_profile_changed', handleProfileChange);
+    window.addEventListener('open_student_onboarding', handleOpenTrigger);
     return () => {
       window.removeEventListener('tutor_m1_student_profile_changed', handleProfileChange);
+      window.removeEventListener('open_student_onboarding', handleOpenTrigger);
     };
   }, []);
 
@@ -183,39 +182,50 @@ export const StudentOnboardingModal: React.FC<StudentOnboardingModalProps> = ({
           <button
             type="button"
             onClick={openModal}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white hover:bg-blue-50 border-2 border-blue-400/90 hover:border-blue-600 flex items-center justify-center transition-all shadow-2xs hover:shadow-md hover:scale-105 cursor-pointer overflow-hidden p-0.5 relative group-hover:ring-2 group-hover:ring-blue-400/30"
+            className="flex items-center gap-2 pl-1 pr-2.5 sm:pr-3 py-1 rounded-full bg-white hover:bg-blue-50/90 border-2 border-blue-400/90 hover:border-blue-600 transition-all shadow-2xs hover:shadow-md hover:scale-102 cursor-pointer relative group-hover:ring-2 group-hover:ring-blue-400/30"
             aria-label={activeProfile ? `โปรไฟล์: ${activeProfile.name}` : 'สร้างโปรไฟล์ผู้เรียน'}
           >
-            {activeProfile ? (
-              activeProfile.avatar?.startsWith('/avatars/') ? (
-                <Image
-                  src={activeProfile.avatar}
-                  alt={activeProfile.name}
-                  width={36}
-                  height={36}
-                  className="w-full h-full rounded-full object-cover"
-                />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-blue-200 bg-white shrink-0 relative flex items-center justify-center">
+              {activeProfile ? (
+                activeProfile.avatar?.startsWith('/avatars/') ? (
+                  <Image
+                    src={activeProfile.avatar}
+                    alt={activeProfile.name}
+                    width={32}
+                    height={32}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-sm">{activeProfile.avatar || '🎓'}</span>
+                )
               ) : (
-                <span className="text-base flex items-center justify-center h-full">
-                  {activeProfile.avatar || '🎓'}
-                </span>
-              )
-            ) : (
-              <div className="w-full h-full rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white">
-                <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
+                <div className="w-full h-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white">
+                  <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-pulse" />
+                </div>
+              )}
+            </div>
+
+            <div className="text-left hidden sm:block">
+              <div className="text-[11px] font-black text-slate-900 leading-tight line-clamp-1">
+                {activeProfile ? activeProfile.name : 'ตั้งค่าผู้เรียน'}
               </div>
-            )}
+              <div className="text-[9px] font-bold text-blue-600 leading-tight line-clamp-1">
+                {activeProfile ? `${activeProfile.targetSchoolShort} (${activeProfile.grade})` : 'คลิกเพื่อเริ่ม'}
+              </div>
+            </div>
+
+            <ChevronDown className="w-3 h-3 text-slate-400 group-hover:text-blue-600 transition-colors hidden sm:block" />
           </button>
 
           {/* Tooltip on hover */}
           <div className="absolute top-full right-0 mt-2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-bold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 shadow-xl z-50 text-right">
             {activeProfile ? (
               <>
-                <span className="block text-amber-200 text-xs">
+                <span className="block text-amber-200 text-xs font-black">
                   {activeProfile.name}
                 </span>
                 <span className="text-[10px] text-slate-300 block font-medium">
-                  {activeProfile.targetSchoolShort} ({activeProfile.grade})
+                  {activeProfile.targetSchool} ({activeProfile.grade})
                 </span>
                 <span className="block text-[9px] text-blue-300 font-normal mt-0.5">
                   คลิกเพื่อสลับ / จัดการโปรไฟล์ 👤
