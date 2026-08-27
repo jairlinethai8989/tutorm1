@@ -34,6 +34,7 @@ import {
   Play,
   Save,
   AlertTriangle,
+  BookMarked,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -632,6 +633,17 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
                 <XCircle className="w-4 h-4" />
                 <span>ทบทวนเฉพาะข้อที่ตอบผิด ({wrongCount} ข้อ)</span>
               </button>
+            )}
+
+            {/* Go to Mistake Book */}
+            {wrongCount > 0 && (
+              <Link
+                href="/mistake-book"
+                className="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-amber-500/20 transition-all flex items-center gap-2 hover:scale-105"
+              >
+                <BookMarked className="w-4 h-4" />
+                <span>เปิดในสมุดจุดอ่อน (Mistake Book)</span>
+              </Link>
             )}
 
             {/* Go to Dashboard */}

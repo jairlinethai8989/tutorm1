@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GraduationCap, Flame, BarChart3, Award, BookOpen, Clock, Sparkles } from 'lucide-react';
-import { getUserStats } from '@/lib/storage';
+import { GraduationCap, Flame, BarChart3, Award, BookOpen, Clock, Sparkles, BookMarked } from 'lucide-react';
+import { getUserStats, getUnresolvedMistakeCount } from '@/lib/storage';
 import { UserOverallStats } from '@/types/analytics';
 
 import { APP_CONFIG } from '@/lib/constants/app';
@@ -13,16 +13,19 @@ import { UserNoticeModal } from '@/components/home/UserNoticeModal';
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [stats, setStats] = useState<UserOverallStats | null>(null);
+  const [mistakeCount, setMistakeCount] = useState<number>(0);
 
   useEffect(() => {
     setStats(getUserStats());
+    setMistakeCount(getUnresolvedMistakeCount());
   }, [pathname]);
 
   const navLinks = [
     { name: '5 วิชาหลัก', href: '/', icon: BookOpen },
     { name: 'จำลองสอบจริง', href: '/mock-exam', icon: Clock },
     { name: 'AI Practice', href: '/practice', icon: Sparkles },
-    { name: 'แดชบอร์ด & จุดอ่อน', href: '/dashboard', icon: BarChart3 },
+    { name: 'สมุดจุดอ่อน', href: '/mistake-book', icon: BookMarked, badge: mistakeCount > 0 ? mistakeCount : undefined },
+    { name: 'แดชบอร์ด AI', href: '/dashboard', icon: BarChart3 },
   ];
 
   return (
@@ -58,7 +61,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                  className={`relative flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-blue-50 text-blue-600 font-bold shadow-xs'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -66,6 +69,11 @@ export const Navbar: React.FC = () => {
                 >
                   <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
                   <span>{link.name}</span>
+                  {link.badge !== undefined && (
+                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-black bg-rose-500 text-white animate-pulse">
+                      {link.badge}
+                    </span>
+                  )}
                 </Link>
               );
             })}

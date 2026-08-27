@@ -10,7 +10,7 @@ import { SchoolBenchmark } from '@/components/dashboard/SchoolBenchmark';
 import { PersonalizedActionPlan } from '@/components/dashboard/PersonalizedActionPlan';
 import { ExamHistoryTable } from '@/components/dashboard/ExamHistoryTable';
 import { StudentNameModal } from '@/components/shared/StudentNameModal';
-import { getUserStats, getStoredAttempts, getUserProfileName } from '@/lib/storage';
+import { getUserStats, getStoredAttempts, getUserProfileName, getUnresolvedMistakeCount } from '@/lib/storage';
 import { UserOverallStats } from '@/types/analytics';
 import { ExamAttempt } from '@/types/exam';
 import {
@@ -25,18 +25,22 @@ import {
   ArrowLeft,
   User,
   Edit3,
+  BookMarked,
+  Zap,
 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<UserOverallStats | null>(null);
   const [attempts, setAttempts] = useState<ExamAttempt[]>([]);
   const [studentName, setStudentName] = useState<string>('ผู้เรียน');
+  const [mistakeCount, setMistakeCount] = useState<number>(0);
   const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
 
   const refreshData = () => {
     setStats(getUserStats());
     setAttempts(getStoredAttempts());
     setStudentName(getUserProfileName());
+    setMistakeCount(getUnresolvedMistakeCount());
   };
 
   useEffect(() => {
@@ -67,6 +71,14 @@ export default function DashboardPage() {
         </div>
 
         <div className="flex items-center gap-2.5">
+          <Link
+            href="/mistake-book"
+            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-white border border-rose-200 hover:bg-rose-50 text-rose-700 font-bold text-xs shadow-xs transition-all cursor-pointer"
+          >
+            <BookMarked className="w-4 h-4 text-rose-600" />
+            <span>สมุดจุดอ่อน {mistakeCount > 0 && `(${mistakeCount})`}</span>
+          </Link>
+
           <button
             type="button"
             onClick={() => setIsNameModalOpen(true)}
@@ -113,6 +125,33 @@ export default function DashboardPage() {
           แก้ไขชื่อ / เปลี่ยนผู้เรียน
         </button>
       </div>
+
+      {/* Smart Mistake Alert Banner (if mistakes exist) */}
+      {mistakeCount > 0 && (
+        <div className="bg-gradient-to-r from-rose-500 via-red-500 to-amber-500 rounded-3xl p-5 sm:p-6 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in slide-in-from-top-4 duration-300">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 text-white shrink-0">
+              <Zap className="w-6 h-6 fill-white" />
+            </div>
+            <div>
+              <h3 className="text-base sm:text-lg font-black flex items-center gap-2">
+                <span>⚠️ ตรวจพบข้อที่คุณเคยทำผิด {mistakeCount} ข้อที่ยังไม่ได้ซ่อม!</span>
+              </h3>
+              <p className="text-xs sm:text-sm text-rose-100 mt-0.5">
+                เปิดสมุดบันทึกจุดอ่อนเพื่อฝึกทำซ้ำเฉพาะข้อที่ผิด ช่วยเปลี่ยนจุดอ่อนให้เป็นคะแนนสอบติด
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/mistake-book"
+            className="self-start sm:self-auto inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-white text-rose-700 hover:bg-rose-50 font-black text-xs shadow-md transition-all hover:scale-105 shrink-0 cursor-pointer"
+          >
+            <span>⚡ เปิดสมุดจุดอ่อน & ซ้อมสอบซ่อม</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      )}
 
       {/* Overview Cards (Questions, Accuracy, Streak, Readiness) */}
       <OverviewCards stats={stats} />

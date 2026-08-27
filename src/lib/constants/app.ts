@@ -25,11 +25,38 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.14.0',
+    date: '27 สิงหาคม 2026',
+    title: 'เปิดตัวระบบ AI Personal Diagnostic & สมุดบันทึกจุดอ่อน (Mistake Book) เต็มรูปแบบ',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'สมุดบันทึกจุดอ่อน (Mistake Book) & ข้อสอบติดดาว (Bookmarks)',
+        description:
+          'รวบรวมข้อที่เคยทำผิดจากทุกการสอบโดยอัตโนมัติ พร้อมระบบตัวกรองวิชาและสถานะ (รอทบทวน / เข้าใจแล้ว)',
+      },
+      {
+        type: 'feature',
+        title: 'ระบบซ้อมสอบซ่อมจุดอ่อน (Re-Take Mistake Quiz)',
+        description:
+          'โหมดสร้างชุดข้อสอบจากข้อที่เคยตอบผิด เพื่อฝึกซ้ำจนเกิดความเข้าใจ 100% พร้อมเปลี่ยนสถานะเป็น Mastered อัตโนมัติเมื่อตอบถูก',
+      },
+      {
+        type: 'feature',
+        title: 'Flashcards สรุปจุดหลอก & หลุมพรางยอดฮิต (Common Pitfalls)',
+        description:
+          'การ์ดสรุปจุดลวงที่เด็ก ป.6 โดนหลอกบ่อยที่สุดในสนามสอบ รร.ดัง ครอบคลุมคณิตศาสตร์ วิทยาศาสตร์ และภาษาอังกฤษ พร้อมสูตรลัดแก้เกม',
+      },
+    ],
+  },
+  {
     version: 'v2.13.0',
     date: '27 สิงหาคม 2026',
     title: 'นำเข้าชุดข้อสอบ SAMSEN Pre-Test 2023 ภาษาอังกฤษ ห้องเรียนพิเศษ (EP/Gifted) 60 ข้อเต็ม',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

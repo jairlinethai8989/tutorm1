@@ -6,7 +6,19 @@ const STORAGE_KEYS = {
   BOOKMARKS: 'tutor_m1_bookmarks',
   USER_STATS: 'tutor_m1_stats',
   ACTIVE_EXAM_PREFIX: 'tutor_m1_active_exam_',
+  RESOLVED_MISTAKES: 'tutor_m1_resolved_mistakes',
 };
+
+export interface MistakeRecord {
+  questionId: string;
+  attemptId: string;
+  examTitle: string;
+  date: string;
+  userSelectedChoiceId?: string;
+  userTextAnswer?: string;
+  timeSpentSeconds?: number;
+  isResolved: boolean;
+}
 
 export const getStoredAttempts = (): ExamAttempt[] => {
   if (typeof window === 'undefined') return [];
@@ -29,6 +41,72 @@ export const saveAttempt = (attempt: ExamAttempt): void => {
   } catch (e) {
     console.error('Error saving attempt to localStorage', e);
   }
+};
+
+export const getResolvedMistakeIds = (): string[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const data = localStorage.getItem(STORAGE_KEYS.RESOLVED_MISTAKES);
+    return data ? JSON.parse(data) : [];
+  } catch (e) {
+    console.error('Error loading resolved mistakes', e);
+    return [];
+  }
+};
+
+export const toggleResolvedMistake = (questionId: string): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const resolved = getResolvedMistakeIds();
+    const exists = resolved.includes(questionId);
+    const updated = exists
+      ? resolved.filter((id) => id !== questionId)
+      : [...resolved, questionId];
+    localStorage.setItem(STORAGE_KEYS.RESOLVED_MISTAKES, JSON.stringify(updated));
+    return !exists;
+  } catch (e) {
+    console.error('Error toggling resolved mistake', e);
+    return false;
+  }
+};
+
+export const isMistakeResolved = (questionId: string): boolean => {
+  const resolved = getResolvedMistakeIds();
+  return resolved.includes(questionId);
+};
+
+export const getAllMistakeRecords = (): MistakeRecord[] => {
+  const attempts = getStoredAttempts();
+  const resolvedIds = new Set(getResolvedMistakeIds());
+  const mistakeMap = new Map<string, MistakeRecord>();
+
+  // Scan attempts from newest to oldest
+  for (const attempt of attempts) {
+    if (!attempt.answers) continue;
+    for (const [qId, ans] of Object.entries(attempt.answers)) {
+      if (ans.isCorrect === false) {
+        if (!mistakeMap.has(qId)) {
+          mistakeMap.set(qId, {
+            questionId: qId,
+            attemptId: attempt.id,
+            examTitle: attempt.examTitle || 'แบบทดสอบจำลอง',
+            date: attempt.completedAt,
+            userSelectedChoiceId: ans.selectedChoiceId,
+            userTextAnswer: ans.textAnswer,
+            timeSpentSeconds: ans.timeSpentSeconds,
+            isResolved: resolvedIds.has(qId),
+          });
+        }
+      }
+    }
+  }
+
+  return Array.from(mistakeMap.values());
+};
+
+export const getUnresolvedMistakeCount = (): number => {
+  const mistakes = getAllMistakeRecords();
+  return mistakes.filter((m) => !m.isResolved).length;
 };
 
 export const getStoredBookmarks = (): string[] => {
@@ -301,8 +379,18 @@ export const calculatePaceAnalysis = (
 
 export const generateActionPlan = (weakestTopics: string[], accuracyRate: number) => {
   const plan = [];
+  const unresolvedMistakes = typeof window !== 'undefined' ? getUnresolvedMistakeCount() : 0;
 
-  if (weakestTopics.length > 0) {
+  if (unresolvedMistakes > 0) {
+    plan.push({
+      step: 1,
+      title: `ทบทวนและซ่อมข้อที่เคยตอบผิด (${unresolvedMistakes} ข้อ)`,
+      description: 'ระบบตรวจพบข้อสอบที่คุณเคยตอบผิดในแบบทดสอบ แนะนำให้เปิดโหมดซ้อมสอบซ่อมจุดอ่อนทันที',
+      actionLabel: 'เปิดสมุดจุดอ่อน (Mistake Book)',
+      actionUrl: '/mistake-book',
+      priority: 'high' as const,
+    });
+  } else if (weakestTopics.length > 0) {
     const rawTopic = weakestTopics[0].split('(')[0].trim();
     plan.push({
       step: 1,
@@ -400,6 +488,7 @@ export const clearAllUserData = (): void => {
   try {
     localStorage.removeItem(STORAGE_KEYS.ATTEMPTS);
     localStorage.removeItem(STORAGE_KEYS.BOOKMARKS);
+    localStorage.removeItem(STORAGE_KEYS.RESOLVED_MISTAKES);
     localStorage.removeItem(STORAGE_KEYS.USER_STATS);
     localStorage.removeItem('tutor_m1_practice_attempts');
     localStorage.removeItem('tutor_m1_user_name');
