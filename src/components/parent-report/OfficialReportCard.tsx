@@ -74,8 +74,16 @@ export const OfficialReportCard: React.FC<OfficialReportCardProps> = ({
         <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
           <div>
             <span className="text-slate-500 font-medium">ชื่อผู้เข้าประเมิน:</span>
-            <p className="font-black text-slate-900 text-sm sm:text-base flex items-center gap-1.5 mt-0.5">
-              <span>{report.studentAvatar}</span>
+            <p className="font-black text-slate-900 text-sm sm:text-base flex items-center gap-2 mt-0.5">
+              {report.studentAvatar && report.studentAvatar.startsWith('/') ? (
+                <img
+                  src={report.studentAvatar}
+                  alt={report.studentName}
+                  className="w-6 h-6 rounded-md object-cover shrink-0"
+                />
+              ) : (
+                <span>{report.studentAvatar || '🎓'}</span>
+              )}
               <span>{report.studentName}</span>
             </p>
           </div>

@@ -82,8 +82,16 @@ export const ParentReportDashboard: React.FC = () => {
       {/* 2. Student Profile Summary Card */}
       <div className="p-5 sm:p-6 bg-white rounded-3xl border border-slate-200/90 shadow-xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <div className="flex items-center gap-3.5">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 text-3xl flex items-center justify-center shadow-xs shrink-0">
-            {report.studentAvatar}
+          <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center shadow-xs shrink-0 overflow-hidden relative">
+            {report.studentAvatar && report.studentAvatar.startsWith('/') ? (
+              <img
+                src={report.studentAvatar}
+                alt={report.studentName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-3xl">{report.studentAvatar || '🎓'}</span>
+            )}
           </div>
           <div>
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">ผู้เข้าประเมิน</span>
