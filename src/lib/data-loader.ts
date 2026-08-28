@@ -50,53 +50,54 @@ export const getQuestionById = (id: string): Question | undefined => {
 };
 
 export const getMockExams = (): MockExam[] => {
-  return MOCK_EXAMS.map((exam) => {
-    let questions: Question[] = [];
-    if (exam.id === 'benchama-math-01') {
-      questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'math');
-    } else if (exam.id === 'benchama-sci-01') {
-      questions = ALL_QUESTIONS.filter((q) => q.subjectId === 'science');
-    } else if (exam.id === 'chulabhorn-combined-01') {
-      questions = [...CHULABHORN_SCIENCE_QUESTIONS, ...CHULABHORN_MATH_QUESTIONS];
-    } else if (exam.id === 'chulabhorn-math-intensive') {
-      questions = CHULABHORN_MATH_QUESTIONS;
-    } else if (exam.id === 'chulabhorn-pretest-sci-62') {
-      questions = CHULABHORN_2562_SCIENCE_QUESTIONS;
-    } else if (exam.id === 'chulabhorn-sci-set1') {
-      questions = CHULABHORN_SET1_SCIENCE_QUESTIONS;
-    } else if (exam.id === 'satriwit-pretest-sci-05') {
-      questions = SATRIWIT_SCIENCE_QUESTIONS;
-    } else if (exam.id === 'suankularb-pretest-sci-64') {
-      questions = SUANKULARB_SCIENCE_QUESTIONS;
-    } else if (exam.id === 'suksanari-pretest-sci-63') {
-      questions = SUKSANARI_SCIENCE_QUESTIONS;
-    } else if (exam.id === 'rittiya-pre-sci-64') {
-      questions = RITTIYA_SCIENCE_QUESTIONS;
-    } else if (exam.id === 'sarawittaya-pretest-sci-63') {
-      questions = SARAWITTAYA_SCIENCE_QUESTIONS;
-    } else if (exam.id === 'samsen-pretest-math-65') {
-      questions = SAMSEN_2565_SPECIAL_MATH_QUESTIONS;
-    } else if (exam.id === 'samsen-sci-gifted-65') {
-      questions = SAMSEN_SCIENCE_QUESTIONS;
-    } else if (exam.id === 'samsen-pretest-eng-66') {
-      questions = SAMSEN_ENGLISH_QUESTIONS;
-    } else if (exam.id === 'suankularb-pretest-math-9') {
-      questions = SUANKULARB_PRETEST_9_MATH_QUESTIONS;
-    } else if (exam.id === 'patumwan-math-60') {
-      questions = PATUMWAN_MATH_QUESTIONS;
-    } else {
-      questions = ALL_QUESTIONS.slice(0, 10);
-    }
-    return {
-      ...exam,
-      totalQuestions: questions.length,
-      questions,
-      questionIds: questions.map((q) => q.id),
-    };
-  });
+  return MOCK_EXAMS;
 };
 
 export const getMockExamById = (id: string): MockExam | undefined => {
-  const exams = getMockExams();
-  return exams.find((e) => e.id === id);
+  const base = MOCK_EXAMS.find((e) => e.id === id);
+  if (!base) return undefined;
+
+  let questions: Question[] = [];
+  if (base.id === 'benchama-math-01') {
+    questions = MATH_QUESTIONS;
+  } else if (base.id === 'benchama-sci-01') {
+    questions = SCIENCE_QUESTIONS;
+  } else if (base.id === 'chulabhorn-combined-01') {
+    questions = [...CHULABHORN_SCIENCE_QUESTIONS, ...CHULABHORN_MATH_QUESTIONS];
+  } else if (base.id === 'chulabhorn-math-intensive') {
+    questions = CHULABHORN_MATH_QUESTIONS;
+  } else if (base.id === 'chulabhorn-pretest-sci-62') {
+    questions = CHULABHORN_2562_SCIENCE_QUESTIONS;
+  } else if (base.id === 'chulabhorn-sci-set1') {
+    questions = CHULABHORN_SET1_SCIENCE_QUESTIONS;
+  } else if (base.id === 'satriwit-pretest-sci-05') {
+    questions = SATRIWIT_SCIENCE_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-sci-64') {
+    questions = SUANKULARB_SCIENCE_QUESTIONS;
+  } else if (base.id === 'suksanari-pretest-sci-63') {
+    questions = SUKSANARI_SCIENCE_QUESTIONS;
+  } else if (base.id === 'rittiya-pre-sci-64') {
+    questions = RITTIYA_SCIENCE_QUESTIONS;
+  } else if (base.id === 'sarawittaya-pretest-sci-63') {
+    questions = SARAWITTAYA_SCIENCE_QUESTIONS;
+  } else if (base.id === 'samsen-pretest-math-65') {
+    questions = SAMSEN_2565_SPECIAL_MATH_QUESTIONS;
+  } else if (base.id === 'samsen-sci-gifted-65') {
+    questions = SAMSEN_SCIENCE_QUESTIONS;
+  } else if (base.id === 'samsen-pretest-eng-66') {
+    questions = SAMSEN_ENGLISH_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-math-9') {
+    questions = SUANKULARB_PRETEST_9_MATH_QUESTIONS;
+  } else if (base.id === 'patumwan-math-60') {
+    questions = PATUMWAN_MATH_QUESTIONS;
+  } else {
+    questions = ALL_QUESTIONS.slice(0, 10);
+  }
+
+  return {
+    ...base,
+    totalQuestions: questions.length || base.totalQuestions,
+    questions,
+    questionIds: questions.map((q) => q.id),
+  };
 };

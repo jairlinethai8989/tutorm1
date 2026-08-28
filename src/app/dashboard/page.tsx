@@ -2,15 +2,42 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { OverviewCards } from '@/components/dashboard/OverviewCards';
-import { RadarCompetency } from '@/components/dashboard/RadarCompetency';
 import { WeaknessStrengthList } from '@/components/dashboard/WeaknessStrengthList';
-import { ScoreHistoryChart } from '@/components/dashboard/ScoreHistoryChart';
 import { SchoolBenchmark } from '@/components/dashboard/SchoolBenchmark';
 import { PersonalizedActionPlan } from '@/components/dashboard/PersonalizedActionPlan';
 import { ExamHistoryTable } from '@/components/dashboard/ExamHistoryTable';
-import { StudentNameModal } from '@/components/shared/StudentNameModal';
 import { getUserStats, getStoredAttempts, getUserProfileName, getUnresolvedMistakeCount } from '@/lib/storage';
+
+const RadarCompetency = dynamic(
+  () => import('@/components/dashboard/RadarCompetency').then((mod) => mod.RadarCompetency),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs h-[360px] animate-pulse flex items-center justify-center text-slate-400 text-sm">
+        กำลังโหลดการวิเคราะห์ Radar Chart...
+      </div>
+    ),
+  }
+);
+
+const ScoreHistoryChart = dynamic(
+  () => import('@/components/dashboard/ScoreHistoryChart').then((mod) => mod.ScoreHistoryChart),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs h-[300px] animate-pulse flex items-center justify-center text-slate-400 text-sm">
+        กำลังโหลดกราฟสถิติ...
+      </div>
+    ),
+  }
+);
+
+const StudentNameModal = dynamic(
+  () => import('@/components/shared/StudentNameModal').then((mod) => mod.StudentNameModal),
+  { ssr: false }
+);
 import { UserOverallStats } from '@/types/analytics';
 import { ExamAttempt } from '@/types/exam';
 import {

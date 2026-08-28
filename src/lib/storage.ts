@@ -20,11 +20,30 @@ export interface MistakeRecord {
   isResolved: boolean;
 }
 
+// In-memory caches to prevent repetitive JSON parsing and heavy calculations on route change
+let cachedAttemptsRaw: string | null = null;
+let cachedAttemptsParsed: ExamAttempt[] = [];
+let cachedStatsAttemptsRef: ExamAttempt[] | null = null;
+let cachedStats: UserOverallStats | null = null;
+let cachedMistakeAttemptsRef: ExamAttempt[] | null = null;
+let cachedResolvedMistakesRaw: string | null = null;
+let cachedMistakes: MistakeRecord[] | null = null;
+
 export const getStoredAttempts = (): ExamAttempt[] => {
   if (typeof window === 'undefined') return [];
   try {
-    const data = localStorage.getItem(STORAGE_KEYS.ATTEMPTS);
-    return data ? JSON.parse(data) : [];
+    const raw = localStorage.getItem(STORAGE_KEYS.ATTEMPTS);
+    if (!raw) {
+      cachedAttemptsRaw = null;
+      cachedAttemptsParsed = [];
+      return [];
+    }
+    if (raw === cachedAttemptsRaw) {
+      return cachedAttemptsParsed;
+    }
+    cachedAttemptsRaw = raw;
+    cachedAttemptsParsed = JSON.parse(raw);
+    return cachedAttemptsParsed;
   } catch (e) {
     console.error('Error loading attempts from localStorage', e);
     return [];
@@ -36,8 +55,14 @@ export const saveAttempt = (attempt: ExamAttempt): void => {
   try {
     const attempts = getStoredAttempts();
     const updated = [attempt, ...attempts.filter((a) => a.id !== attempt.id)];
-    localStorage.setItem(STORAGE_KEYS.ATTEMPTS, JSON.stringify(updated));
+    const serialized = JSON.stringify(updated);
+    localStorage.setItem(STORAGE_KEYS.ATTEMPTS, serialized);
+    cachedAttemptsRaw = serialized;
+    cachedAttemptsParsed = updated;
+    cachedStatsAttemptsRef = null;
+    cachedMistakeAttemptsRef = null;
     updateUserStats(updated);
+    window.dispatchEvent(new Event('tutor_m1_stats_changed'));
   } catch (e) {
     console.error('Error saving attempt to localStorage', e);
   }
@@ -62,7 +87,11 @@ export const toggleResolvedMistake = (questionId: string): boolean => {
     const updated = exists
       ? resolved.filter((id) => id !== questionId)
       : [...resolved, questionId];
-    localStorage.setItem(STORAGE_KEYS.RESOLVED_MISTAKES, JSON.stringify(updated));
+    const serialized = JSON.stringify(updated);
+    localStorage.setItem(STORAGE_KEYS.RESOLVED_MISTAKES, serialized);
+    cachedResolvedMistakesRaw = serialized;
+    cachedMistakes = null;
+    window.dispatchEvent(new Event('tutor_m1_stats_changed'));
     return !exists;
   } catch (e) {
     console.error('Error toggling resolved mistake', e);
@@ -77,6 +106,12 @@ export const isMistakeResolved = (questionId: string): boolean => {
 
 export const getAllMistakeRecords = (): MistakeRecord[] => {
   const attempts = getStoredAttempts();
+  const rawResolved = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEYS.RESOLVED_MISTAKES) || '' : '';
+
+  if (cachedMistakes && cachedMistakeAttemptsRef === attempts && cachedResolvedMistakesRaw === rawResolved) {
+    return cachedMistakes;
+  }
+
   const resolvedIds = new Set(getResolvedMistakeIds());
   const mistakeMap = new Map<string, MistakeRecord>();
 
@@ -101,7 +136,11 @@ export const getAllMistakeRecords = (): MistakeRecord[] => {
     }
   }
 
-  return Array.from(mistakeMap.values());
+  const result = Array.from(mistakeMap.values());
+  cachedMistakeAttemptsRef = attempts;
+  cachedResolvedMistakesRaw = rawResolved;
+  cachedMistakes = result;
+  return result;
 };
 
 export const getUnresolvedMistakeCount = (): number => {
@@ -446,6 +485,8 @@ export const generateActionPlan = (weakestTopics: string[], accuracyRate: number
 
 const updateUserStats = (attempts: ExamAttempt[]): void => {
   const stats = calculateOverallStats(attempts);
+  cachedStatsAttemptsRef = attempts;
+  cachedStats = stats;
   try {
     localStorage.setItem(STORAGE_KEYS.USER_STATS, JSON.stringify(stats));
   } catch (e) {
@@ -459,7 +500,13 @@ export const getUserStats = (): UserOverallStats => {
   }
   try {
     const attempts = getStoredAttempts();
-    return calculateOverallStats(attempts);
+    if (cachedStats && cachedStatsAttemptsRef === attempts) {
+      return cachedStats;
+    }
+    const computed = calculateOverallStats(attempts);
+    cachedStatsAttemptsRef = attempts;
+    cachedStats = computed;
+    return computed;
   } catch (e) {
     return calculateOverallStats([]);
   }
@@ -608,6 +655,14 @@ export const deleteStudentProfile = (profileId: string): void => {
 export const clearAllUserData = (): void => {
   if (typeof window === 'undefined') return;
   try {
+    cachedAttemptsRaw = null;
+    cachedAttemptsParsed = [];
+    cachedStatsAttemptsRef = null;
+    cachedStats = null;
+    cachedMistakeAttemptsRef = null;
+    cachedResolvedMistakesRaw = null;
+    cachedMistakes = null;
+
     localStorage.removeItem(STORAGE_KEYS.ATTEMPTS);
     localStorage.removeItem(STORAGE_KEYS.BOOKMARKS);
     localStorage.removeItem(STORAGE_KEYS.RESOLVED_MISTAKES);
@@ -619,6 +674,7 @@ export const clearAllUserData = (): void => {
     localStorage.removeItem('tutor_m1_gamification_state');
     localStorage.removeItem('tutor_m1_roadmap_checklist_v1');
     window.dispatchEvent(new Event('tutor_m1_student_profile_changed'));
+    window.dispatchEvent(new Event('tutor_m1_stats_changed'));
   } catch (e) {
     console.error('Error clearing user data', e);
   }

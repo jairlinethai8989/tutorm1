@@ -28,10 +28,12 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     refreshData();
-    const handleProfileChange = () => refreshData();
-    window.addEventListener('tutor_m1_student_profile_changed', handleProfileChange);
+    const handleDataChange = () => refreshData();
+    window.addEventListener('tutor_m1_student_profile_changed', handleDataChange);
+    window.addEventListener('tutor_m1_stats_changed', handleDataChange);
     return () => {
-      window.removeEventListener('tutor_m1_student_profile_changed', handleProfileChange);
+      window.removeEventListener('tutor_m1_student_profile_changed', handleDataChange);
+      window.removeEventListener('tutor_m1_stats_changed', handleDataChange);
     };
   }, [pathname]);
 
