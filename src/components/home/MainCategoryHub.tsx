@@ -49,7 +49,7 @@ export const MainCategoryHub: React.FC = () => {
       icon: Calculator,
       count: '5 รูปแบบ',
       desc: 'ห.ร.ม., ค.ร.น., การบวกเศษส่วน, สัดส่วน, ตัวประกอบเฉพาะ',
-      color: '#3B82F6',
+      color: '#3578F6',
       href: '/practice/math-arithmetic',
     },
     {
@@ -58,7 +58,7 @@ export const MainCategoryHub: React.FC = () => {
       icon: Variable,
       count: '5 รูปแบบ',
       desc: 'สมการเชิงเส้น, ระบบสมการ 2 ตัวแปร, ลำดับเลขคณิต, สมการอายุ',
-      color: '#8B5CF6',
+      color: '#8257F5',
       href: '/practice/math-algebra',
     },
     {
@@ -67,7 +67,7 @@ export const MainCategoryHub: React.FC = () => {
       icon: Shapes,
       count: '8 รูปแบบ',
       desc: 'พื้นที่สามเหลี่ยม/คางหมู, วงกลม, วงแหวน, พีทาโกรัส, ปริมาตร',
-      color: '#EC4899',
+      color: '#3578F6',
       href: '/practice/math-geometry',
     },
     {
@@ -94,7 +94,7 @@ export const MainCategoryHub: React.FC = () => {
       icon: Zap,
       count: '6 รูปแบบ',
       desc: 'กฎของโอห์ม V=IR, วงจรอนุกรม/ขนาน, ค่าไฟ, ความหนาแน่น, งาน W=Fs',
-      color: '#EF4444',
+      color: '#10B981',
       href: '/practice/sci-physics',
     },
   ];

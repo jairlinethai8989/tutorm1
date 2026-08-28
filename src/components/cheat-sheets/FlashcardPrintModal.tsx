@@ -25,14 +25,20 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
     window.print();
   };
 
-  const getSubjectName = (cat: string) => {
+  const getSubjectInfo = (cat: string) => {
     switch (cat) {
-      case 'math': return 'คณิตศาสตร์';
-      case 'science': return 'วิทยาศาสตร์';
-      case 'english': return 'ภาษาอังกฤษ';
-      case 'thai': return 'ภาษาไทย';
-      case 'social': return 'สังคมศึกษา';
-      default: return 'ทบทวน ม.1';
+      case 'math':
+        return { name: 'คณิตศาสตร์', badge: 'bg-blue-600 text-white', formulaBox: 'bg-blue-50/80 border-blue-200 text-blue-950', dot: 'bg-blue-600' };
+      case 'science':
+        return { name: 'วิทยาศาสตร์', badge: 'bg-emerald-600 text-white', formulaBox: 'bg-emerald-50/80 border-emerald-200 text-emerald-950', dot: 'bg-emerald-600' };
+      case 'english':
+        return { name: 'ภาษาอังกฤษ', badge: 'bg-violet-600 text-white', formulaBox: 'bg-violet-50/80 border-violet-200 text-violet-950', dot: 'bg-violet-600' };
+      case 'thai':
+        return { name: 'ภาษาไทย', badge: 'bg-amber-600 text-white', formulaBox: 'bg-amber-50/80 border-amber-200 text-amber-950', dot: 'bg-amber-600' };
+      case 'social':
+        return { name: 'สังคมศึกษา', badge: 'bg-rose-600 text-white', formulaBox: 'bg-rose-50/80 border-rose-200 text-rose-950', dot: 'bg-rose-600' };
+      default:
+        return { name: 'ทบทวน ม.1', badge: 'bg-slate-700 text-white', formulaBox: 'bg-slate-50 border-slate-200 text-slate-900', dot: 'bg-slate-600' };
     }
   };
 
@@ -142,79 +148,82 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
         className="max-w-4xl mx-auto bg-white rounded-3xl p-4 sm:p-8 shadow-2xl print:shadow-none print:p-0 print:m-0 print:max-w-none print:w-full print:rounded-none"
       >
         {/* ================= MODE 1: SINGLE FLASHCARD (3x5 Inch Size) ================= */}
-        {printMode === 'single' && activeSingleItem && (
-          <div className="flex flex-col items-center justify-center py-6 print:py-4 print:h-[95vh] print:justify-start">
-            {/* Single Card Container - Scaled like 3" x 5" Index Card */}
-            <div className="w-full max-w-[480px] min-h-[300px] border-2 border-dashed border-slate-400 rounded-3xl p-5 bg-white relative shadow-lg print:shadow-none print:border-2 print:border-dashed print:border-slate-500 print:m-auto print:max-w-[460px]">
-              {/* Scissor Cut Mark */}
-              <div className="absolute -top-3 left-6 bg-white px-2 text-[10px] text-slate-500 font-bold font-prompt flex items-center gap-1 print:text-slate-700">
-                <Scissors className="w-3 h-3 text-slate-600" />
-                <span>ตัดตามรอยประ (ขนาดการ์ดพกพา 3" x 5")</span>
-              </div>
+        {printMode === 'single' && activeSingleItem && (() => {
+          const sInfo = getSubjectInfo(activeSingleItem.category);
+          return (
+            <div className="flex flex-col items-center justify-center py-6 print:py-4 print:h-[95vh] print:justify-start">
+              {/* Single Card Container - Scaled like 3" x 5" Index Card */}
+              <div className="w-full max-w-[480px] min-h-[300px] border-2 border-dashed border-slate-400 rounded-3xl p-5 bg-white relative shadow-lg print:shadow-none print:border-2 print:border-dashed print:border-slate-500 print:m-auto print:max-w-[460px]">
+                {/* Scissor Cut Mark */}
+                <div className="absolute -top-3 left-6 bg-white px-2 text-[10px] text-slate-500 font-bold font-prompt flex items-center gap-1 print:text-slate-700">
+                  <Scissors className="w-3 h-3 text-slate-600" />
+                  <span>ตัดตามรอยประ (ขนาดการ์ดพกพา 3" x 5")</span>
+                </div>
 
-              {/* Card Header */}
-              <div className="flex items-center justify-between border-b-2 border-slate-100 pb-2.5 mb-3">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-[10px]">
-                    M.1
+                {/* Card Header */}
+                <div className="flex items-center justify-between border-b-2 border-slate-100 pb-2.5 mb-3">
+                  <div className="flex items-center gap-1.5">
+                    <div className={`w-6 h-6 rounded-lg ${sInfo.dot} text-white flex items-center justify-center font-black text-[10px]`}>
+                      M.1
+                    </div>
+                    <div>
+                      <span className="font-prompt font-extrabold text-xs text-slate-800">
+                        Tutor M.1 Flashcard
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="font-prompt font-extrabold text-xs text-slate-800">
-                      Tutor M.1 Flashcard
+
+                  <div className="flex items-center gap-1">
+                    <span className={`text-[10px] font-extrabold font-prompt px-2.5 py-0.5 rounded-full ${sInfo.badge}`}>
+                      {sInfo.name}
+                    </span>
+                    <span className="text-[10px] font-bold font-prompt bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">
+                      {activeSingleItem.subCategory}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1">
-                  <span className="text-[10px] font-bold font-prompt bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
-                    {getSubjectName(activeSingleItem.category)}
-                  </span>
-                  <span className="text-[10px] font-bold font-prompt bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">
-                    {activeSingleItem.subCategory}
-                  </span>
+                {/* Title */}
+                <h3 className="font-prompt font-black text-base text-slate-900 mb-2 leading-tight">
+                  {activeSingleItem.title}
+                </h3>
+
+                {/* Hero Formula Box */}
+                {activeSingleItem.formula && (
+                  <div className={`my-2.5 p-3 rounded-2xl ${sInfo.formulaBox} border-2 font-bold text-center text-sm shadow-2xs overflow-visible`}>
+                    <MathText content={activeSingleItem.formula} plainBlock={true} blockClassName="text-sm sm:text-base font-bold" />
+                  </div>
+                )}
+
+                {/* Description */}
+                <div className="font-sarabun text-xs text-slate-700 leading-relaxed mb-2.5">
+                  <MathText content={activeSingleItem.description} inline={true} />
                 </div>
-              </div>
 
-              {/* Title */}
-              <h3 className="font-prompt font-black text-base text-slate-900 mb-2 leading-tight">
-                {activeSingleItem.title}
-              </h3>
+                {/* Example */}
+                {activeSingleItem.example && (
+                  <div className="mb-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-sarabun text-slate-700 leading-relaxed">
+                    <span className="font-bold font-prompt text-slate-900">ตัวอย่าง: </span>
+                    <MathText content={activeSingleItem.example} inline={true} />
+                  </div>
+                )}
 
-              {/* Hero Formula Box */}
-              {activeSingleItem.formula && (
-                <div className="my-2.5 p-3 rounded-2xl bg-gradient-to-br from-indigo-50/60 to-blue-50/30 border-2 border-indigo-200/70 text-indigo-950 font-bold text-center text-sm shadow-2xs">
-                  <MathText content={activeSingleItem.formula} />
+                {/* Fast Trick / Memory Aid */}
+                {activeSingleItem.fastTrick && (
+                  <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200/90 text-xs font-sarabun font-bold text-amber-900 leading-relaxed">
+                    <MathText content={activeSingleItem.fastTrick} inline={true} />
+                  </div>
+                )}
+
+                {/* Card Footer */}
+                <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[9px] font-prompt text-slate-400">
+                  <span>📚 ติวเข้มเข้า ม.1 • tutorm1.online</span>
+                  <span>ID: {activeSingleItem.id}</span>
                 </div>
-              )}
-
-              {/* Description */}
-              <div className="font-sarabun text-xs text-slate-700 leading-relaxed mb-2.5">
-                <MathText content={activeSingleItem.description} inline={true} />
-              </div>
-
-              {/* Example */}
-              {activeSingleItem.example && (
-                <div className="mb-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-sarabun text-slate-700 leading-relaxed">
-                  <span className="font-bold font-prompt text-slate-900">ตัวอย่าง: </span>
-                  <MathText content={activeSingleItem.example} inline={true} />
-                </div>
-              )}
-
-              {/* Fast Trick / Memory Aid */}
-              {activeSingleItem.fastTrick && (
-                <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200/80 text-xs font-sarabun font-bold text-amber-900 leading-relaxed">
-                  <MathText content={activeSingleItem.fastTrick} inline={true} />
-                </div>
-              )}
-
-              {/* Card Footer */}
-              <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[9px] font-prompt text-slate-400">
-                <span>📚 ติวเข้มเข้า ม.1 • tutorm1.online</span>
-                <span>ID: {activeSingleItem.id}</span>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* ================= MODE 2: DECK (4 FLASHCARDS PER A4 PAGE) ================= */}
         {printMode === 'deck' && (
@@ -230,73 +239,76 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
 
             {/* 2x2 Grid per page */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 print:grid-cols-2 print:gap-3">
-              {items.map((item, idx) => (
-                <div
-                  key={item.id}
-                  className="border-2 border-dashed border-slate-400 rounded-3xl p-4 bg-white relative flex flex-col justify-between break-inside-avoid print:p-3.5 print:rounded-2xl"
-                >
-                  {/* Scissor Marker */}
-                  <div className="absolute -top-2.5 right-4 bg-white px-1.5 text-[8px] text-slate-400 font-prompt flex items-center gap-0.5">
-                    <Scissors className="w-2.5 h-2.5" />
-                    <span>ตัดตามรอยประ</span>
-                  </div>
-
-                  <div>
-                    {/* Header */}
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-1.5 mb-2">
-                      <div className="flex items-center gap-1">
-                        <span className="w-4 h-4 rounded bg-blue-600 text-white flex items-center justify-center font-black text-[8px]">
-                          {idx + 1}
-                        </span>
-                        <span className="font-prompt font-extrabold text-[11px] text-slate-800">
-                          {getSubjectName(item.category)}
-                        </span>
-                      </div>
-                      <span className="text-[9px] font-bold font-prompt bg-slate-100 text-slate-600 px-1.5 py-0.2 rounded">
-                        {item.subCategory}
-                      </span>
+              {items.map((item, idx) => {
+                const sInfo = getSubjectInfo(item.category);
+                return (
+                  <div
+                    key={item.id}
+                    className="border-2 border-dashed border-slate-400 rounded-3xl p-4 bg-white relative flex flex-col justify-between break-inside-avoid print:p-3.5 print:rounded-2xl"
+                  >
+                    {/* Scissor Marker */}
+                    <div className="absolute -top-2.5 right-4 bg-white px-1.5 text-[8px] text-slate-400 font-prompt flex items-center gap-0.5">
+                      <Scissors className="w-2.5 h-2.5" />
+                      <span>ตัดตามรอยประ</span>
                     </div>
 
-                    {/* Title */}
-                    <h4 className="font-prompt font-extrabold text-sm text-slate-900 mb-1.5 leading-snug">
-                      {item.title}
-                    </h4>
-
-                    {/* Formula */}
-                    {item.formula && (
-                      <div className="my-1.5 p-2 rounded-xl bg-indigo-50/50 border border-indigo-100 text-indigo-950 font-bold text-center text-xs">
-                        <MathText content={item.formula} />
+                    <div>
+                      {/* Header */}
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-1.5 mb-2">
+                        <div className="flex items-center gap-1">
+                          <span className={`w-4 h-4 rounded ${sInfo.dot} text-white flex items-center justify-center font-black text-[8px]`}>
+                            {idx + 1}
+                          </span>
+                          <span className="font-prompt font-extrabold text-[11px] text-slate-800">
+                            {sInfo.name}
+                          </span>
+                        </div>
+                        <span className="text-[9px] font-bold font-prompt bg-slate-100 text-slate-600 px-1.5 py-0.2 rounded">
+                          {item.subCategory}
+                        </span>
                       </div>
-                    )}
 
-                    {/* Description */}
-                    <div className="font-sarabun text-[11px] text-slate-700 leading-snug mb-1.5">
-                      <MathText content={item.description} inline={true} />
+                      {/* Title */}
+                      <h4 className="font-prompt font-extrabold text-sm text-slate-900 mb-1.5 leading-snug">
+                        {item.title}
+                      </h4>
+
+                      {/* Formula */}
+                      {item.formula && (
+                        <div className={`my-1.5 p-2 rounded-xl ${sInfo.formulaBox} border font-bold text-center text-xs overflow-visible`}>
+                          <MathText content={item.formula} plainBlock={true} blockClassName="text-xs sm:text-sm font-bold" />
+                        </div>
+                      )}
+
+                      {/* Description */}
+                      <div className="font-sarabun text-[11px] text-slate-700 leading-snug mb-1.5">
+                        <MathText content={item.description} inline={true} />
+                      </div>
+
+                      {/* Example */}
+                      {item.example && (
+                        <div className="mb-1.5 p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] font-sarabun text-slate-600 leading-tight">
+                          <span className="font-bold font-prompt text-slate-800">ตัวอย่าง: </span>
+                          <MathText content={item.example} inline={true} />
+                        </div>
+                      )}
+
+                      {/* Fast Trick */}
+                      {item.fastTrick && (
+                        <div className="p-1.5 rounded-lg bg-amber-50 border border-amber-200/90 text-[10px] font-sarabun font-bold text-amber-900 leading-tight">
+                          <MathText content={item.fastTrick} inline={true} />
+                        </div>
+                      )}
                     </div>
 
-                    {/* Example */}
-                    {item.example && (
-                      <div className="mb-1.5 p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] font-sarabun text-slate-600 leading-tight">
-                        <span className="font-bold font-prompt text-slate-800">ตัวอย่าง: </span>
-                        <MathText content={item.example} inline={true} />
-                      </div>
-                    )}
-
-                    {/* Fast Trick */}
-                    {item.fastTrick && (
-                      <div className="p-1.5 rounded-lg bg-amber-50 border border-amber-200/80 text-[10px] font-sarabun font-bold text-amber-900 leading-tight">
-                        <MathText content={item.fastTrick} inline={true} />
-                      </div>
-                    )}
+                    {/* Card Footer */}
+                    <div className="mt-2 pt-1 border-t border-slate-100 flex items-center justify-between text-[8px] font-prompt text-slate-400">
+                      <span>Tutor M.1 Flashcard</span>
+                      <span>tutorm1.online</span>
+                    </div>
                   </div>
-
-                  {/* Card Footer */}
-                  <div className="mt-2 pt-1 border-t border-slate-100 flex items-center justify-between text-[8px] font-prompt text-slate-400">
-                    <span>Tutor M.1 Flashcard</span>
-                    <span>tutorm1.online</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="text-center text-[10px] font-prompt text-slate-400 pt-4 border-t print:pt-2">

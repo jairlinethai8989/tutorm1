@@ -21,10 +21,19 @@ interface MathTextProps {
   content?: string;
   text?: string;
   className?: string;
+  blockClassName?: string;
   inline?: boolean;
+  plainBlock?: boolean;
 }
 
-export const MathText: React.FC<MathTextProps> = ({ content, text, className = '', inline = false }) => {
+export const MathText: React.FC<MathTextProps> = ({
+  content,
+  text,
+  className = '',
+  blockClassName = '',
+  inline = false,
+  plainBlock = false,
+}) => {
   const actualContent = content !== undefined && content !== null ? content : text;
   if (actualContent === undefined || actualContent === null || actualContent === '') return null;
 
@@ -43,11 +52,11 @@ export const MathText: React.FC<MathTextProps> = ({ content, text, className = '
             displayMode: true,
             throwOnError: false,
           });
-          if (inline) {
+          if (inline || plainBlock) {
             return (
-              <span
+              <div
                 key={blockIdx}
-                className="inline-block my-1 py-1 px-2 bg-slate-50/80 rounded-lg text-slate-800 text-center font-mono border border-slate-100"
+                className={`my-1 py-1 text-center w-full max-w-full overflow-visible ${blockClassName}`}
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             );
@@ -55,13 +64,13 @@ export const MathText: React.FC<MathTextProps> = ({ content, text, className = '
           return (
             <div
               key={blockIdx}
-              className="my-3 py-2 px-3 bg-slate-50/80 rounded-xl overflow-x-auto text-slate-800 text-center font-mono border border-slate-100 shadow-xs"
+              className={`my-2.5 py-2 px-3 bg-slate-50/70 rounded-xl text-slate-800 text-center border border-slate-200/60 overflow-visible ${blockClassName}`}
               dangerouslySetInnerHTML={{ __html: html }}
             />
           );
         } catch {
           return (
-            <span key={blockIdx} className="my-1 p-1 bg-slate-100 font-mono text-center inline-block">
+            <span key={blockIdx} className="my-1 p-1 bg-slate-100 text-center inline-block">
               {math}
             </span>
           );
@@ -84,13 +93,13 @@ export const MathText: React.FC<MathTextProps> = ({ content, text, className = '
                 return (
                   <span
                     key={inlineIdx}
-                    className="inline-block px-1 font-mono text-indigo-700"
+                    className="inline-block px-1 text-indigo-700 font-semibold align-middle"
                     dangerouslySetInnerHTML={{ __html: html }}
                   />
                 );
               } catch {
                 return (
-                  <span key={inlineIdx} className="font-mono text-indigo-600">
+                  <span key={inlineIdx} className="text-indigo-600 font-semibold">
                     {math}
                   </span>
                 );
@@ -127,14 +136,14 @@ export const MathText: React.FC<MathTextProps> = ({ content, text, className = '
 
   if (inline) {
     return (
-      <span className={`leading-relaxed text-slate-700 text-base ${className}`}>
+      <span className={`leading-relaxed text-slate-700 text-sm sm:text-base ${className}`}>
         {renderFormattedText(String(actualContent))}
       </span>
     );
   }
 
   return (
-    <div className={`leading-relaxed text-slate-700 text-base ${className}`}>
+    <div className={`leading-relaxed text-slate-700 text-sm sm:text-base ${className}`}>
       {renderFormattedText(String(actualContent))}
     </div>
   );

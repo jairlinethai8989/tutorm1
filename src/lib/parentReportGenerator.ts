@@ -22,7 +22,7 @@ const SUBJECT_CONFIGS: {
   {
     id: 'math',
     name: 'คณิตศาสตร์ (Math)',
-    color: '#3B82F6',
+    color: '#3578F6',
     defaultStrengths: ['จำนวนและการดำเนินการ', 'การคิดเลขเร็ว'],
     defaultFocus: ['เรขาคณิต 2D/3D', 'โจทย์ปัญหาสมการ'],
     tipsForParents: {
@@ -46,7 +46,7 @@ const SUBJECT_CONFIGS: {
   {
     id: 'english',
     name: 'ภาษาอังกฤษ (English)',
-    color: '#8B5CF6',
+    color: '#8257F5',
     defaultStrengths: ['Vocabulary พื้นฐาน', 'Conversations'],
     defaultFocus: ['12 Tenses & Time Markers', 'Subject-Verb Agreement'],
     tipsForParents: {
@@ -70,7 +70,7 @@ const SUBJECT_CONFIGS: {
   {
     id: 'social',
     name: 'สังคมศึกษา (Social Studies)',
-    color: '#F43F5E',
+    color: '#F05252',
     defaultStrengths: ['ศาสนาและวันสำคัญ', 'หน้าที่พลเมือง'],
     defaultFocus: ['ภูมิศาสตร์ (ละติจูด-ลองจิจูด)', 'เศรษฐศาสตร์ (อุปสงค์-อุปทาน)'],
     tipsForParents: {

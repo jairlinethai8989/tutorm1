@@ -345,7 +345,7 @@ export const MistakeRetakeQuiz: React.FC<MistakeRetakeQuizProps> = ({
                 </>
               )}
             </div>
-            <SolutionViewer solution={currentQ.solution} questionType={currentQ.type} />
+            <SolutionViewer question={currentQ} />
           </div>
         )}
 

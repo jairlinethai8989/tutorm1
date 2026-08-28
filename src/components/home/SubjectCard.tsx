@@ -40,16 +40,19 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({ subject }) => {
   return (
     <Link
       href={`/subjects/${subject.slug}`}
-      className="group relative flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 hover:border-blue-400/80 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden cursor-pointer p-4 text-left"
+      className="group relative flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden cursor-pointer p-4 text-left"
+      style={{
+        borderColor: undefined,
+      }}
     >
-      {/* Top Accent Strip */}
+      {/* Top Accent Strip (10-15% ratio accent) */}
       <div
         className="absolute top-0 left-0 right-0 h-1.5 transition-all group-hover:h-2"
         style={{ backgroundColor: subject.color }}
       />
 
       <div className="space-y-3 pt-1">
-        {/* Header: Icon & Topic Count */}
+        {/* Header: Icon & Topic Count Badge with soft subject tint */}
         <div className="flex items-center justify-between gap-2">
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-xs transition-transform group-hover:scale-105"
@@ -58,12 +61,19 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({ subject }) => {
             <IconComponent className="w-5 h-5" />
           </div>
 
-          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200/60">
+          <span
+            className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border transition-colors"
+            style={{
+              backgroundColor: subject.bgColor,
+              borderColor: subject.borderColor,
+              color: subject.darkColor,
+            }}
+          >
             {subject.topics.length} หมวด
           </span>
         </div>
 
-        {/* Subject Name & English Title */}
+        {/* Subject Name & English Title (Uniform gray text for English) */}
         <div>
           <h3 className="text-base font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
             {subject.name}
@@ -78,18 +88,30 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({ subject }) => {
           {subject.description}
         </p>
 
-        {/* Key Topics Pills */}
+        {/* Key Topics Pills (Subtle soft background tint matching subject) */}
         <div className="flex flex-wrap gap-1 pt-0.5">
           {subject.topics.slice(0, 2).map((topic) => (
             <span
               key={topic.id}
-              className="text-[10px] font-medium px-1.5 py-0.5 rounded-md bg-slate-50 text-slate-600 border border-slate-200/60 line-clamp-1"
+              className="text-[10px] font-medium px-2 py-0.5 rounded-md border line-clamp-1 transition-colors"
+              style={{
+                backgroundColor: subject.bgColor,
+                borderColor: subject.borderColor,
+                color: subject.darkColor,
+              }}
             >
               {topic.name.split(' (')[0]}
             </span>
           ))}
           {subject.topics.length > 2 && (
-            <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-600 border border-blue-100">
+            <span
+              className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-md border"
+              style={{
+                backgroundColor: subject.bgColor,
+                borderColor: subject.borderColor,
+                color: subject.darkColor,
+              }}
+            >
               +{subject.topics.length - 2}
             </span>
           )}

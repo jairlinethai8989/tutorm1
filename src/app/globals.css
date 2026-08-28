@@ -11,7 +11,7 @@
   }
 
   body {
-    background-color: #F8FAFC;
+    background-color: #F6F8FC;
     color: #0F172A;
     font-family: var(--font-sarabun), system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -65,6 +65,47 @@
 }
 
 /* ==========================================================================
+   KaTeX & Math Typography Enhancement
+   ========================================================================== */
+.katex {
+  font-size: 1.05em;
+  text-rendering: auto;
+}
+
+/* Ensure Thai characters and text inside KaTeX use Prompt & Sarabun */
+.katex .text,
+.katex .mathrm,
+.katex .text-normal,
+.katex .textbf,
+.katex .textit {
+  font-family: var(--font-prompt), var(--font-sarabun), system-ui, -apple-system, sans-serif !important;
+}
+
+.katex-display {
+  margin: 0.25em 0 !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  max-width: 100% !important;
+  text-align: center !important;
+}
+
+.katex-display > .katex {
+  max-width: 100% !important;
+  white-space: normal !important;
+  text-align: center !important;
+}
+
+.katex-display > .katex > .katex-html {
+  max-width: 100% !important;
+  white-space: normal !important;
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.2em !important;
+}
+
+/* ==========================================================================
    Global High-Speed Isolated Print Styles for Flashcards
    ========================================================================== */
 @media print {
@@ -102,8 +143,16 @@
     z-index: 9999999 !important;
   }
 
+  .katex,
+  .katex-display,
+  .katex * {
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+
   @page {
     margin: 10mm;
     size: A4 portrait;
   }
 }
+

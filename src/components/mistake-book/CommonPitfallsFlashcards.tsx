@@ -233,27 +233,44 @@ export const CommonPitfallsFlashcards: React.FC = () => {
         {filteredCards.map((card) => {
           const isFlipped = !!flippedCards[card.id];
 
+          const subjectStyle = {
+            math: {
+              badge: 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-xs',
+              bar: 'bg-gradient-to-r from-blue-500 via-sky-400 to-indigo-600',
+              border: 'border-blue-100 hover:border-blue-400 hover:shadow-blue-500/10',
+            },
+            science: {
+              badge: 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xs',
+              bar: 'bg-gradient-to-r from-emerald-500 via-teal-400 to-green-600',
+              border: 'border-emerald-100 hover:border-emerald-400 hover:shadow-emerald-500/10',
+            },
+            english: {
+              badge: 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-xs',
+              bar: 'bg-gradient-to-r from-violet-500 via-purple-400 to-fuchsia-600',
+              border: 'border-violet-100 hover:border-violet-400 hover:shadow-violet-500/10',
+            },
+          }[card.subject] || {
+            badge: 'bg-slate-700 text-white',
+            bar: 'bg-slate-500',
+            border: 'border-slate-200 hover:border-slate-400',
+          };
+
           return (
             <div
               key={card.id}
               onClick={() => toggleFlip(card.id)}
-              className="group bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg transition-all p-5 cursor-pointer flex flex-col justify-between min-h-[300px] hover:border-amber-400 relative overflow-hidden"
+              className={`group bg-white rounded-3xl border-2 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 cursor-pointer flex flex-col justify-between min-h-[300px] relative overflow-hidden ${subjectStyle.border}`}
             >
+              {/* Top Accent Gradient Bar */}
+              <div className={`absolute top-0 left-0 right-0 h-1.5 ${subjectStyle.bar}`} />
+
               {/* Top Meta */}
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span
-                    className={`px-2.5 py-0.5 rounded-lg text-[11px] font-bold ${
-                      card.subject === 'math'
-                        ? 'bg-blue-100 text-blue-700'
-                        : card.subject === 'science'
-                        ? 'bg-emerald-100 text-emerald-700'
-                        : 'bg-purple-100 text-purple-700'
-                    }`}
-                  >
+                  <span className={`px-3 py-0.5 rounded-full text-[11px] font-prompt font-extrabold ${subjectStyle.badge}`}>
                     {card.subjectLabel} • {card.topic}
                   </span>
-                  <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1 group-hover:text-amber-600">
+                  <span className="text-[11px] font-prompt text-slate-400 font-medium flex items-center gap-1 group-hover:text-amber-600 transition-colors">
                     <RotateCw className="w-3 h-3" />
                     คลิกเพื่อพลิก
                   </span>
@@ -264,19 +281,19 @@ export const CommonPitfallsFlashcards: React.FC = () => {
                   <div className="space-y-3">
                     <div className="flex items-start gap-2">
                       <AlertTriangle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
-                      <h3 className="font-extrabold text-slate-900 text-base leading-snug">
+                      <h3 className="font-prompt font-black text-slate-900 text-base leading-snug">
                         {card.trapTitle}
                       </h3>
                     </div>
 
-                    <div className="bg-rose-50 border border-rose-100 rounded-2xl p-3 text-xs text-rose-900">
-                      <strong className="block mb-1 text-rose-700">❌ จุดที่มักเข้าใจผิด/ทำผิด:</strong>
+                    <div className="bg-rose-50/90 border border-rose-200/80 rounded-2xl p-3 text-xs font-sarabun text-rose-900 leading-relaxed">
+                      <strong className="block mb-1 font-prompt font-bold text-rose-700">❌ จุดที่มักเข้าใจผิด/ทำผิด:</strong>
                       <p>{card.commonMistake}</p>
                     </div>
 
-                    <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3 text-xs text-slate-700">
-                      <strong className="block mb-1 text-slate-900">📝 ตัวอย่างโจทย์ลวง:</strong>
-                      <MathText text={card.exampleQuestion} />
+                    <div className="bg-slate-50/90 border border-slate-200/80 rounded-2xl p-3 text-xs font-sarabun text-slate-700 leading-relaxed">
+                      <strong className="block mb-1 font-prompt font-bold text-slate-900">📝 ตัวอย่างโจทย์ลวง:</strong>
+                      <MathText text={card.exampleQuestion} inline={true} />
                     </div>
                   </div>
                 ) : (
@@ -284,32 +301,32 @@ export const CommonPitfallsFlashcards: React.FC = () => {
                   <div className="space-y-3 animate-in fade-in duration-200">
                     <div className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                      <h3 className="font-extrabold text-emerald-900 text-base leading-snug">
+                      <h3 className="font-prompt font-black text-emerald-900 text-base leading-snug">
                         หลักคิดที่ถูกต้อง & เทคนิคแก้เกม
                       </h3>
                     </div>
 
-                    <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 text-xs text-emerald-950">
-                      <strong className="block mb-1 text-emerald-800">✅ Concept ที่ถูกต้อง:</strong>
-                      <MathText text={card.correctConcept} />
+                    <div className="bg-emerald-50/90 border border-emerald-200/80 rounded-2xl p-3 text-xs font-sarabun text-emerald-950 leading-relaxed">
+                      <strong className="block mb-1 font-prompt font-bold text-emerald-800">✅ Concept ที่ถูกต้อง:</strong>
+                      <MathText text={card.correctConcept} inline={true} />
                     </div>
 
-                    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-xs text-amber-950">
-                      <strong className="block mb-1 text-amber-800">⚡ สูตรลัดคิดเร็ว:</strong>
-                      <MathText text={card.fastTrick} />
+                    <div className="bg-amber-50/90 border border-amber-200/80 rounded-2xl p-3 text-xs font-sarabun text-amber-950 leading-relaxed">
+                      <strong className="block mb-1 font-prompt font-bold text-amber-800">⚡ สูตรลัดคิดเร็ว:</strong>
+                      <MathText text={card.fastTrick} inline={true} />
                     </div>
 
-                    <div className="bg-blue-50 border border-blue-200 rounded-2xl p-3 text-xs text-blue-950">
-                      <strong className="block mb-1 text-blue-800">🎯 คำตอบตัวอย่าง:</strong>
-                      <MathText text={card.exampleAnswer} />
+                    <div className="bg-blue-50/90 border border-blue-200/80 rounded-2xl p-3 text-xs font-sarabun text-blue-950 leading-relaxed">
+                      <strong className="block mb-1 font-prompt font-bold text-blue-800">🎯 คำตอบตัวอย่าง:</strong>
+                      <MathText text={card.exampleAnswer} inline={true} />
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Bottom Card Footer */}
-              <div className="pt-4 border-t border-slate-100 mt-4 flex items-center justify-between text-xs">
-                <span className="text-slate-400 font-medium">
+              <div className="pt-3 border-t border-slate-100 mt-4 flex items-center justify-between text-xs font-prompt">
+                <span className="text-slate-400 font-medium text-[11px]">
                   {isFlipped ? 'แตะเพื่อดูโจทย์' : 'แตะเพื่อดูเฉลย & สูตรลัด'}
                 </span>
                 <span className="font-bold text-amber-600 flex items-center gap-1 group-hover:translate-x-1 transition-transform">

@@ -204,7 +204,7 @@ export const MistakeCard: React.FC<MistakeCardProps> = ({
         {/* Expandable Solution Section */}
         {showSolution && question.solution && (
           <div className="pt-2 animate-in fade-in duration-200">
-            <SolutionViewer solution={question.solution} questionType={question.type} />
+            <SolutionViewer question={question} />
           </div>
         )}
       </div>

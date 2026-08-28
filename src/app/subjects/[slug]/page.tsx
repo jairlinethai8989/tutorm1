@@ -72,7 +72,7 @@ export default async function SubjectDetailPage({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
-            <Layers className="w-5 h-5 text-blue-600" />
+            <Layers className="w-5 h-5" style={{ color: subject.color }} />
             <span>เลือกหมวดหมู่ที่ต้องการฝึกฝน</span>
           </h2>
         </div>
@@ -90,7 +90,14 @@ export default async function SubjectDetailPage({
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <div className="flex items-center gap-2.5">
-                      <span className="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 font-extrabold text-xs flex items-center justify-center border border-blue-100">
+                      <span
+                        className="w-7 h-7 rounded-lg font-extrabold text-xs flex items-center justify-center border"
+                        style={{
+                          backgroundColor: subject.bgColor,
+                          borderColor: subject.borderColor,
+                          color: subject.darkColor,
+                        }}
+                      >
                         {index + 1}
                       </span>
                       <h3 className="font-bold text-slate-900 text-base">
@@ -182,7 +189,8 @@ export default async function SubjectDetailPage({
                 </Link>
                 <Link
                   href={`/quiz/${q.id}`}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-xs transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white shadow-xs transition-all hover:opacity-90"
+                  style={{ backgroundColor: subject.color }}
                 >
                   <span>ทำข้อนี้</span>
                   <ArrowRight className="w-3.5 h-3.5" />

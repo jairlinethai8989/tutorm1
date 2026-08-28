@@ -1,5 +1,56 @@
 import { Subject } from '@/types/question';
 
+export interface SubjectThemeToken {
+  primary: string;
+  bgLight: string;
+  border: string;
+  textDark: string;
+}
+
+export const SUBJECT_THEME_TOKENS: Record<string, SubjectThemeToken> = {
+  math: {
+    primary: '#3578F6',
+    bgLight: '#EEF4FF',
+    border: '#D7E5FF',
+    textDark: '#2359B8',
+  },
+  science: {
+    primary: '#10B981',
+    bgLight: '#ECFDF5',
+    border: '#A7F3D0',
+    textDark: '#065F46',
+  },
+  english: {
+    primary: '#8257F5',
+    bgLight: '#F5F3FF',
+    border: '#DDD6FE',
+    textDark: '#5B21B6',
+  },
+  thai: {
+    primary: '#F59E0B',
+    bgLight: '#FFFBEB',
+    border: '#FDE68A',
+    textDark: '#B45309',
+  },
+  social: {
+    primary: '#F05252',
+    bgLight: '#FEF2F2',
+    border: '#FECACA',
+    textDark: '#B91C1C',
+  },
+};
+
+export const getSubjectTheme = (subjectId: string): SubjectThemeToken => {
+  return (
+    SUBJECT_THEME_TOKENS[subjectId] || {
+      primary: '#3578F6',
+      bgLight: '#EEF4FF',
+      border: '#D7E5FF',
+      textDark: '#2359B8',
+    }
+  );
+};
+
 export const SUBJECTS: Subject[] = [
   {
     id: 'math',
@@ -7,9 +58,10 @@ export const SUBJECTS: Subject[] = [
     nameEn: 'Mathematics',
     slug: 'math',
     icon: 'Calculator',
-    color: '#3B82F6', // Blue
-    bgColor: '#EFF6FF',
-    borderColor: '#BFDBFE',
+    color: '#3578F6', // Blue (#3578F6)
+    bgColor: '#EEF4FF',
+    borderColor: '#D7E5FF',
+    darkColor: '#2359B8',
     description: 'เน้นวิเคราะห์โจทย์ปัญหา เรขาคณิต พีชคณิต แบบรูปความสัมพันธ์ และสถิติแนว มศว./สสวท.',
     totalQuestions: 110,
     order: 1,
@@ -72,9 +124,10 @@ export const SUBJECTS: Subject[] = [
     nameEn: 'Science',
     slug: 'science',
     icon: 'Atom',
-    color: '#10B981', // Emerald
+    color: '#10B981', // Emerald (#10B981)
     bgColor: '#ECFDF5',
     borderColor: '#A7F3D0',
+    darkColor: '#065F46',
     description: 'เน้นกระบวนการทดลอง วิเคราะห์ตารางข้อมูล ฟิสิกส์ เคมี ชีววิทยา และดาราศาสตร์',
     totalQuestions: 150,
     order: 2,
@@ -127,9 +180,10 @@ export const SUBJECTS: Subject[] = [
     nameEn: 'English',
     slug: 'english',
     icon: 'Languages',
-    color: '#8B5CF6', // Violet
+    color: '#8257F5', // Violet/Indigo (#8257F5)
     bgColor: '#F5F3FF',
     borderColor: '#DDD6FE',
+    darkColor: '#5B21B6',
     description: 'Grammar in Use, Reading Comprehension, Situational Conversations, and Vocabulary in Context',
     totalQuestions: 100,
     order: 3,
@@ -172,9 +226,10 @@ export const SUBJECTS: Subject[] = [
     nameEn: 'Thai Language',
     slug: 'thai',
     icon: 'BookMarked',
-    color: '#F59E0B', // Amber
+    color: '#F59E0B', // Amber (#F59E0B)
     bgColor: '#FFFBEB',
     borderColor: '#FDE68A',
+    darkColor: '#B45309',
     description: 'การอ่านจับใจความ ตีความสาร หลักภาษา สมาส-สนธิ คำราชาศัพท์ และสำนวนไทย',
     totalQuestions: 100,
     order: 4,
@@ -207,9 +262,10 @@ export const SUBJECTS: Subject[] = [
     nameEn: 'Social Studies',
     slug: 'social',
     icon: 'Compass',
-    color: '#EF4444', // Red
+    color: '#F05252', // Coral Red (#F05252)
     bgColor: '#FEF2F2',
     borderColor: '#FECACA',
+    darkColor: '#B91C1C',
     description: 'ภูมิศาสตร์ แผนที่ เศรษฐศาสตร์ หน้าที่พลเมือง ประวัติศาสตร์ และข่าวสารปัจจุบัน',
     totalQuestions: 100,
     order: 5,

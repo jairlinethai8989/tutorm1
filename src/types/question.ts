@@ -69,6 +69,7 @@ export interface Subject {
   color: string;
   bgColor: string;
   borderColor: string;
+  darkColor: string;
   description: string;
   topics: Topic[];
   totalQuestions: number;
