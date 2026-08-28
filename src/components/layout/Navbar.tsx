@@ -102,9 +102,9 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-2xs w-full">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-2xs w-full">
       <div className="w-full max-w-[1520px] mx-auto px-2 sm:px-4 lg:px-6">
-        {/* Snug & Centered Balanced Row with Enlarged 3D Clay Icons */}
+        {/* Snug & Centered Balanced Row with Transparent 3D Clay Icons */}
         <div className="flex items-center justify-between xl:justify-center gap-2 sm:gap-4 lg:gap-6 h-20">
           {/* 1. Left: Official App Icon & Title */}
           <Link href="/" className="flex items-center space-x-2.5 sm:space-x-3 group shrink-0">
@@ -133,9 +133,9 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
 
-          {/* 2. Center: iPadOS Top Floating Capsule (Enlarged Spacious 3D Clay Icons) */}
+          {/* 2. Center: iPadOS Top Floating Capsule (Light Frosted Glass on all devices) */}
           <nav className="hidden md:flex items-center justify-center shrink-0">
-            <div className="flex items-center gap-2 sm:gap-2.5 lg:gap-3.5 px-3 sm:px-4 py-1.5 rounded-3xl bg-slate-100/90 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/90 shadow-inner ring-1 ring-slate-900/5">
+            <div className="flex items-center gap-2 sm:gap-2.5 lg:gap-3.5 px-3 sm:px-4 py-1.5 rounded-3xl bg-slate-100/90 backdrop-blur-2xl border border-white shadow-inner ring-1 ring-slate-900/5">
               {dockItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
@@ -161,30 +161,30 @@ export const Navbar: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Spacious 3D Claymorphic Squircle Icon Button */}
+                    {/* Transparent 3D Claymorphic Squircle Icon Button */}
                     <Link
                       href={item.href}
-                      className={`relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 lg:w-13 lg:h-13 rounded-2xl overflow-hidden transition-all duration-200 ease-out transform cursor-pointer select-none group-hover:scale-120 group-hover:-translate-y-2 active:scale-95 ${
+                      className={`relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 lg:w-13 lg:h-13 rounded-2xl transition-all duration-200 ease-out transform cursor-pointer select-none group-hover:scale-120 group-hover:-translate-y-2 active:scale-95 ${
                         isActive
-                          ? `ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900 scale-110 -translate-y-1 ${item.activeGlow}`
+                          ? `ring-2 ring-blue-500 ring-offset-2 ring-offset-white scale-110 -translate-y-1 ${item.activeGlow}`
                           : `opacity-90 hover:opacity-100 ${item.glowColor}`
                       }`}
                       aria-label={item.name}
                     >
-                      {/* 3D Clay Icon Image */}
+                      {/* 3D Clay Icon Image with True Transparent Background */}
                       <Image
                         src={item.image}
                         alt={item.name}
                         width={56}
                         height={56}
-                        className="w-full h-full object-contain drop-shadow-xs transition-transform group-hover:scale-105"
+                        className="w-full h-full object-contain drop-shadow-sm transition-transform group-hover:scale-105"
                       />
                     </Link>
 
                     {/* Active Running App Indicator Dot */}
                     <div className="h-1 mt-1 flex items-center justify-center">
                       {isActive && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-slate-900 dark:bg-white shadow-xs" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-900 shadow-xs" />
                       )}
                     </div>
                   </div>
