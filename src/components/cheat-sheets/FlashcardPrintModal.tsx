@@ -1,0 +1,275 @@
+'use client';
+
+import React, { useState } from 'react';
+import { FormulaItem } from '@/types/cheatSheet';
+import { MathText } from '@/components/shared/MathText';
+import { Printer, X, Scissors, Layers, FileText, Sparkles, Check } from 'lucide-react';
+import Image from 'next/image';
+
+interface FlashcardPrintModalProps {
+  items: FormulaItem[];
+  singleItem?: FormulaItem | null;
+  onClose: () => void;
+}
+
+export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
+  items,
+  singleItem,
+  onClose,
+}) => {
+  const [printMode, setPrintMode] = useState<'single' | 'deck'>(singleItem ? 'single' : 'deck');
+  const [selectedSingleId, setSelectedSingleId] = useState<string>(singleItem ? singleItem.id : (items[0]?.id || ''));
+
+  const activeSingleItem = singleItem || items.find((i) => i.id === selectedSingleId) || items[0];
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const getSubjectName = (cat: string) => {
+    switch (cat) {
+      case 'math': return 'คณิตศาสตร์';
+      case 'science': return 'วิทยาศาสตร์';
+      case 'english': return 'ภาษาอังกฤษ';
+      case 'thai': return 'ภาษาไทย';
+      case 'social': return 'สังคมศึกษา';
+      default: return 'ทบทวน ม.1';
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[999999] bg-slate-950/80 backdrop-blur-md overflow-y-auto p-2 sm:p-4 md:p-6 print:p-0 print:bg-white print:static print:overflow-visible">
+      {/* 1. Interactive Toolbar (Hidden on Print) */}
+      <div className="max-w-4xl mx-auto mb-4 bg-white rounded-2xl p-4 shadow-2xl border border-slate-200 print:hidden flex flex-col sm:flex-row items-center justify-between gap-3 sticky top-2 z-50">
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md">
+            <Printer className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="font-prompt font-extrabold text-base text-slate-900">
+              🖨️ พิมพ์การ์ดสรุปสูตร Flashcard
+            </h3>
+            <p className="font-sarabun text-xs text-slate-500">
+              ขนาดเท่าการ์ดคำศัพท์ พกพาทบทวนก่อนสอบ (มีเส้นประสำหรับตัด)
+            </p>
+          </div>
+        </div>
+
+        {/* Mode Selector & Action Buttons */}
+        <div className="flex items-center gap-2 flex-wrap justify-end w-full sm:w-auto">
+          <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-bold font-prompt">
+            <button
+              type="button"
+              onClick={() => setPrintMode('single')}
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
+                printMode === 'single'
+                  ? 'bg-white text-blue-600 shadow-xs font-extrabold'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>พิมพ์ใบเดียว (3"x5")</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPrintMode('deck')}
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
+                printMode === 'deck'
+                  ? 'bg-white text-blue-600 shadow-xs font-extrabold'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>พิมพ์ชุดการ์ด (4 ใบ/แผ่น A4)</span>
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={handlePrint}
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-black font-prompt flex items-center gap-1.5 shadow-md shadow-blue-500/20 hover:scale-105 transition-all cursor-pointer"
+          >
+            <Printer className="w-4 h-4" />
+            <span>สั่งพิมพ์ / PDF</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-rose-100 hover:text-rose-600 text-slate-500 flex items-center justify-center transition-colors cursor-pointer"
+            title="ปิดหน้าต่าง"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Printable Container */}
+      <div className="max-w-4xl mx-auto bg-white rounded-3xl p-4 sm:p-8 shadow-2xl print:shadow-none print:p-0 print:m-0 print:max-w-none print:w-full print:rounded-none">
+        {/* ================= MODE 1: SINGLE FLASHCARD (3x5 Inch Size) ================= */}
+        {printMode === 'single' && activeSingleItem && (
+          <div className="flex flex-col items-center justify-center py-6 print:py-0">
+            {/* Single Card Container - Scaled like 3" x 5" Index Card */}
+            <div className="w-full max-w-[480px] min-h-[300px] border-2 border-dashed border-slate-400 rounded-3xl p-5 bg-white relative shadow-lg print:shadow-none print:border-2 print:border-dashed print:border-slate-500 print:m-auto print:max-w-[440px]">
+              {/* Scissor Cut Mark */}
+              <div className="absolute -top-3 left-6 bg-white px-2 text-[10px] text-slate-500 font-bold font-prompt flex items-center gap-1">
+                <Scissors className="w-3 h-3 text-slate-600" />
+                <span>ตัดตามรอยประ (ขนาดการ์ดพกพา 3" x 5")</span>
+              </div>
+
+              {/* Card Header */}
+              <div className="flex items-center justify-between border-b-2 border-slate-100 pb-2.5 mb-3">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-[10px]">
+                    M.1
+                  </div>
+                  <div>
+                    <span className="font-prompt font-extrabold text-xs text-slate-800">
+                      Tutor M.1 Flashcard
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <span className="text-[10px] font-bold font-prompt bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
+                    {getSubjectName(activeSingleItem.category)}
+                  </span>
+                  <span className="text-[10px] font-bold font-prompt bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">
+                    {activeSingleItem.subCategory}
+                  </span>
+                </div>
+              </div>
+
+              {/* Title */}
+              <h3 className="font-prompt font-black text-base text-slate-900 mb-2 leading-tight">
+                {activeSingleItem.title}
+              </h3>
+
+              {/* Hero Formula Box */}
+              {activeSingleItem.formula && (
+                <div className="my-2.5 p-3 rounded-2xl bg-gradient-to-br from-indigo-50/60 to-blue-50/30 border-2 border-indigo-200/70 text-indigo-950 font-bold text-center text-sm shadow-2xs">
+                  <MathText content={activeSingleItem.formula} />
+                </div>
+              )}
+
+              {/* Description */}
+              <div className="font-sarabun text-xs text-slate-700 leading-relaxed mb-2.5">
+                <MathText content={activeSingleItem.description} inline={true} />
+              </div>
+
+              {/* Example */}
+              {activeSingleItem.example && (
+                <div className="mb-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-sarabun text-slate-700 leading-relaxed">
+                  <span className="font-bold font-prompt text-slate-900">ตัวอย่าง: </span>
+                  <MathText content={activeSingleItem.example} inline={true} />
+                </div>
+              )}
+
+              {/* Fast Trick / Memory Aid */}
+              {activeSingleItem.fastTrick && (
+                <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200/80 text-xs font-sarabun font-bold text-amber-900 leading-relaxed">
+                  <MathText content={activeSingleItem.fastTrick} inline={true} />
+                </div>
+              )}
+
+              {/* Card Footer */}
+              <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[9px] font-prompt text-slate-400">
+                <span>📚 ติวเข้มเข้า ม.1 • tutorm1.online</span>
+                <span>ID: {activeSingleItem.id}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ================= MODE 2: DECK (4 FLASHCARDS PER A4 PAGE) ================= */}
+        {printMode === 'deck' && (
+          <div className="space-y-6">
+            <div className="text-center border-b-2 border-slate-900 pb-3 mb-4 print:mb-2 print:pb-2">
+              <h2 className="font-prompt font-black text-xl text-slate-900">
+                📚 การ์ดสรุปสูตร & หัวใจสำคัญ (Flashcard Deck)
+              </h2>
+              <p className="font-sarabun text-xs text-slate-600 mt-0.5">
+                Tutor M.1 — ตัดตามรอยประเป็นแผ่นพกพาท่องจำ ({items.length} การ์ด • 4 ใบต่อ 1 แผ่น A4)
+              </p>
+            </div>
+
+            {/* 2x2 Grid per page */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 print:grid-cols-2 print:gap-3">
+              {items.map((item, idx) => (
+                <div
+                  key={item.id}
+                  className="border-2 border-dashed border-slate-400 rounded-3xl p-4 bg-white relative flex flex-col justify-between break-inside-avoid print:p-3.5 print:rounded-2xl"
+                >
+                  {/* Scissor Marker */}
+                  <div className="absolute -top-2.5 right-4 bg-white px-1.5 text-[8px] text-slate-400 font-prompt flex items-center gap-0.5">
+                    <Scissors className="w-2.5 h-2.5" />
+                    <span>ตัดตามรอยประ</span>
+                  </div>
+
+                  <div>
+                    {/* Header */}
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-1.5 mb-2">
+                      <div className="flex items-center gap-1">
+                        <span className="w-4 h-4 rounded bg-blue-600 text-white flex items-center justify-center font-black text-[8px]">
+                          {idx + 1}
+                        </span>
+                        <span className="font-prompt font-extrabold text-[11px] text-slate-800">
+                          {getSubjectName(item.category)}
+                        </span>
+                      </div>
+                      <span className="text-[9px] font-bold font-prompt bg-slate-100 text-slate-600 px-1.5 py-0.2 rounded">
+                        {item.subCategory}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h4 className="font-prompt font-extrabold text-sm text-slate-900 mb-1.5 leading-snug">
+                      {item.title}
+                    </h4>
+
+                    {/* Formula */}
+                    {item.formula && (
+                      <div className="my-1.5 p-2 rounded-xl bg-indigo-50/50 border border-indigo-100 text-indigo-950 font-bold text-center text-xs">
+                        <MathText content={item.formula} />
+                      </div>
+                    )}
+
+                    {/* Description */}
+                    <div className="font-sarabun text-[11px] text-slate-700 leading-snug mb-1.5">
+                      <MathText content={item.description} inline={true} />
+                    </div>
+
+                    {/* Example */}
+                    {item.example && (
+                      <div className="mb-1.5 p-1.5 rounded-lg bg-slate-50 border border-slate-200 text-[10px] font-sarabun text-slate-600 leading-tight">
+                        <span className="font-bold font-prompt text-slate-800">ตัวอย่าง: </span>
+                        <MathText content={item.example} inline={true} />
+                      </div>
+                    )}
+
+                    {/* Fast Trick */}
+                    {item.fastTrick && (
+                      <div className="p-1.5 rounded-lg bg-amber-50 border border-amber-200/80 text-[10px] font-sarabun font-bold text-amber-900 leading-tight">
+                        <MathText content={item.fastTrick} inline={true} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card Footer */}
+                  <div className="mt-2 pt-1 border-t border-slate-100 flex items-center justify-between text-[8px] font-prompt text-slate-400">
+                    <span>Tutor M.1 Flashcard</span>
+                    <span>tutorm1.online</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center text-[10px] font-prompt text-slate-400 pt-4 border-t print:pt-2">
+              สร้างโดย Tutor M.1 • ดาวน์โหลดและฝึกทำข้อสอบฟรีที่ tutorm1.online ✨
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

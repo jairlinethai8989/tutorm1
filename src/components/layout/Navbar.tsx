@@ -171,13 +171,13 @@ export const Navbar: React.FC = () => {
                       }`}
                       aria-label={item.name}
                     >
-                      {/* 3D Clay Icon Image with True Transparent Background */}
+                      {/* 3D Clay Icon Image with True Transparent Background (100% Squircle Alpha) */}
                       <Image
                         src={item.image}
                         alt={item.name}
                         width={56}
                         height={56}
-                        className="w-full h-full object-contain drop-shadow-sm transition-transform group-hover:scale-105"
+                        className="w-full h-full object-contain transition-transform group-hover:scale-105"
                       />
                     </Link>
 

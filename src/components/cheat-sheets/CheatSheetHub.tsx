@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { SubjectCategory, FormulaItem } from '@/types/cheatSheet';
 import { ALL_CHEAT_SHEETS, getAllFormulaItems } from '@/data/cheat-sheets';
 import { FormulaCard } from './FormulaCard';
-import { PrintableCheatSheet } from './PrintableCheatSheet';
+import { FlashcardPrintModal } from './FlashcardPrintModal';
 import {
   Search,
   BookOpen,
@@ -18,6 +18,7 @@ import {
   Sparkles,
   Filter,
   X,
+  Layers,
 } from 'lucide-react';
 
 const BOOKMARK_STORAGE_KEY = 'tutor_m1_bookmarked_formulas';
@@ -27,6 +28,7 @@ export const CheatSheetHub: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState<boolean>(false);
+  const [singlePrintItem, setSinglePrintItem] = useState<FormulaItem | null>(null);
 
   // Load bookmarks on mount
   useEffect(() => {
@@ -96,84 +98,69 @@ export const CheatSheetHub: React.FC = () => {
       {/* 1. Header Banner */}
       <div className="rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white p-6 sm:p-8 shadow-xl relative overflow-hidden">
         <div className="relative z-10 max-w-2xl space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-yellow-300 text-xs font-black shadow-xs">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-yellow-300 text-xs font-black font-prompt shadow-xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>มิติที่ 5: Cheat Sheets & Formula Hub</span>
+            <span>คลังการ์ดสรุปสูตร Flashcard 5 วิชาหลัก</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight drop-shadow-xs">
-            คลังสรุปสูตร & หัวใจสำคัญ 5 วิชาหลัก
+          <h1 className="font-prompt font-black text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-tight">
+            📑 สรุปสูตร & หัวใจสำคัญ สอบเข้า ม.1
           </h1>
 
-          <p className="text-xs sm:text-sm text-indigo-100 leading-relaxed">
-            รวบรวมสูตรเรขาคณิต, สมการ, เทคนิคลัดฟิสิกส์-เคมี-ชีวะ, 12 Tenses, สมาส-สนธิ และพิกัดภูมิศาสตร์ อ่านทบทวนฉบับเร่งด่วนก่อนเข้าห้องสอบ!
+          <p className="font-sarabun text-sm sm:text-base text-blue-100 font-medium leading-relaxed">
+            รวบรวมสูตรคณิตศาสตร์, วิทยาศาสตร์, แกรมม่าอังกฤษ, หลักภาษาไทย และสังคมศึกษา พร้อมตัวอย่างและเทคนิคคิดลัดในรูปแบบ Flashcard พกพาง่าย
           </p>
 
-          <div className="pt-2 flex items-center gap-3">
+          {/* Quick Print Banner Action */}
+          <div className="pt-2 flex items-center gap-2.5 flex-wrap">
             <button
               type="button"
-              onClick={() => setIsPrintModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white text-indigo-900 text-xs font-black shadow-md hover:bg-yellow-300 hover:scale-105 transition-all cursor-pointer"
+              onClick={() => {
+                setSinglePrintItem(null);
+                setIsPrintModalOpen(true);
+              }}
+              className="px-4 py-2.5 rounded-2xl bg-white hover:bg-yellow-300 text-blue-900 font-prompt font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg transition-all hover:scale-105 cursor-pointer"
             >
-              <Printer className="w-4 h-4 text-indigo-700" />
-              <span>พิมพ์ชีทสรุป (Print / PDF)</span>
+              <Printer className="w-4 h-4 text-blue-800" />
+              <span>🖨️ พิมพ์การ์ดสรุปสูตรชุดนี้ (4 ใบ/แผ่น A4)</span>
             </button>
-            <span className="text-xs text-indigo-200 font-medium hidden sm:inline">
-              มีทั้งหมด {allItems.length} สูตรและเทคนิคสำคัญ
-            </span>
+            <div className="text-xs font-sarabun text-blue-200">
+              ({filteredItems.length} สูตรในหน้านี้)
+            </div>
           </div>
         </div>
 
-        {/* Decorative background circles */}
-        <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute right-20 top-0 w-32 h-32 bg-yellow-400/20 rounded-full blur-xl pointer-events-none" />
+        {/* Decorative Watermark Icons */}
+        <div className="absolute right-4 -bottom-6 text-white/10 select-none pointer-events-none hidden md:block">
+          <Calculator className="w-48 h-48" />
+        </div>
       </div>
 
-      {/* 2. Controls: Search Bar & Subject Filter Tabs */}
-      <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200/90 shadow-xs space-y-4">
-        {/* Search input */}
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ค้นหาสูตร, เทคนิคลัด, คีย์เวิร์ด (เช่น สามเหลี่ยม, tenses, สมาส, ละติจูด)..."
-            className="w-full pl-11 pr-10 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all font-medium"
-          />
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 cursor-pointer"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-        </div>
-
-        {/* Subject Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+      {/* 2. Filter Tabs & Search Bar */}
+      <div className="space-y-4">
+        {/* Subject Category Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           {subjectTabs.map((tab) => {
             const Icon = tab.icon;
-            const isActive = selectedSubject === tab.id;
+            const isSelected = selectedSubject === tab.id;
+
             return (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => setSelectedSubject(tab.id as any)}
-                className={`px-3.5 py-2 rounded-2xl text-xs font-black flex items-center gap-1.5 shrink-0 transition-all cursor-pointer ${
-                  isActive
-                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20 scale-105'
-                    : 'bg-slate-100 hover:bg-slate-200/80 text-slate-700'
+                className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-2xl font-prompt font-extrabold text-xs sm:text-sm whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  isSelected
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20 scale-105'
+                    : 'bg-white text-slate-700 border border-slate-200/90 hover:bg-slate-50 hover:border-slate-300'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : tab.color || ''}`} />
+                <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : tab.color || 'text-slate-500'}`} />
                 <span>{tab.label}</span>
                 {tab.count !== undefined && (
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                      isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
+                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-black ${
+                      isSelected ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-600'
                     }`}
                   >
                     {tab.count}
@@ -183,51 +170,78 @@ export const CheatSheetHub: React.FC = () => {
             );
           })}
         </div>
+
+        {/* Search Bar */}
+        <div className="relative w-full max-w-xl">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="ค้นหาชื่อสูตร, เนื้อหา, เทคนิคคิดลัด หรือแฮชแท็ก เช่น #สามเหลี่ยม #ร้อยละ..."
+            className="w-full pl-10 pr-10 py-2.5 rounded-2xl bg-white border border-slate-200/90 text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 font-sarabun focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-xs"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* 3. Items Grid */}
+      {/* 3. Formula Flashcards Grid */}
       {filteredItems.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredItems.map((item) => (
             <FormulaCard
               key={item.id}
               item={item}
               isBookmarked={bookmarkedIds.includes(item.id)}
               onToggleBookmark={toggleBookmark}
+              onPrintSingle={(targetItem) => {
+                setSinglePrintItem(targetItem);
+                setIsPrintModalOpen(true);
+              }}
             />
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 px-4 bg-white rounded-3xl border border-dashed border-slate-300 space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
+        <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
             <Search className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-black text-slate-800">
-            {selectedSubject === 'bookmarks' ? 'ยังไม่มีสูตรโปรดที่คุณบันทึกไว้' : 'ไม่พบสูตรหรือเทคนิคที่ตรงกับคำค้นหา'}
+          <h3 className="font-prompt font-extrabold text-base text-slate-900">
+            ไม่พบสูตรที่ตรงกับคำค้นหา
           </h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
-            {selectedSubject === 'bookmarks'
-              ? 'กดที่ไอคอนรูปดาว ⭐ บนการ์ดสูตรใดก็ได้ เพื่อบันทึกไว้ทบทวนก่อนเข้าห้องสอบ!'
-              : 'ลองพิมพ์คำค้นหาอื่น เช่น "พื้นที่", "Tense", "กฎอุปสงค์", หรือเปลี่ยนหมวดวิชาดูนะครับ'}
+          <p className="font-sarabun text-xs text-slate-500">
+            ลองเปลี่ยนคำค้นหา หรือเลือกหมวดหมู่อื่นเพื่อค้นหาสูตรที่ต้องการ
           </p>
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => setSearchQuery('')}
-              className="px-4 py-2 rounded-xl bg-indigo-50 text-indigo-600 text-xs font-bold hover:bg-indigo-100 transition-colors cursor-pointer"
-            >
-              ล้างคำค้นหา
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => {
+              setSearchQuery('');
+              setSelectedSubject('all');
+            }}
+            className="px-4 py-2 rounded-xl bg-blue-600 text-white font-prompt font-bold text-xs hover:bg-blue-700 transition-colors cursor-pointer"
+          >
+            แสดงสูตรทั้งหมด
+          </button>
         </div>
       )}
 
-      {/* 4. Modal Printable Preview */}
+      {/* 4. Flashcard Print Modal */}
       {isPrintModalOpen && (
-        <PrintableCheatSheet
-          items={filteredItems.length > 0 ? filteredItems : allItems}
-          title={`ชีทสรุปสูตร (${selectedSubject === 'all' ? 'ทุกวิชา' : selectedSubject})`}
-          onClose={() => setIsPrintModalOpen(false)}
+        <FlashcardPrintModal
+          items={filteredItems}
+          singleItem={singlePrintItem}
+          onClose={() => {
+            setIsPrintModalOpen(false);
+            setSinglePrintItem(null);
+          }}
         />
       )}
     </div>
