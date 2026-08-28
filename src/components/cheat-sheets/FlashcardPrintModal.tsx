@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { FormulaItem } from '@/types/cheatSheet';
 import { MathText } from '@/components/shared/MathText';
 import { Printer, X, Scissors, Layers, FileText, Sparkles, Check } from 'lucide-react';
-import Image from 'next/image';
 
 interface FlashcardPrintModalProps {
   items: FormulaItem[];
@@ -39,6 +38,37 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-[999999] bg-slate-950/80 backdrop-blur-md overflow-y-auto p-2 sm:p-4 md:p-6 print:p-0 print:bg-white print:static print:overflow-visible">
+      {/* Dynamic Print CSS to isolate ONLY this print container and print instantly in 0.1s */}
+      <style jsx global>{`
+        @media print {
+          /* Hide all main app content outside the flashcard print container */
+          body > * {
+            visibility: hidden !important;
+          }
+          header, footer, nav, aside, .no-print, [data-no-print="true"] {
+            display: none !important;
+          }
+          #flashcard-print-container,
+          #flashcard-print-container * {
+            visibility: visible !important;
+          }
+          #flashcard-print-container {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+            display: block !important;
+          }
+          @page {
+            size: A4 portrait;
+            margin: 8mm;
+          }
+        }
+      `}</style>
+
       {/* 1. Interactive Toolbar (Hidden on Print) */}
       <div className="max-w-4xl mx-auto mb-4 bg-white rounded-2xl p-4 shadow-2xl border border-slate-200 print:hidden flex flex-col sm:flex-row items-center justify-between gap-3 sticky top-2 z-50">
         <div className="flex items-center gap-2.5">
@@ -50,7 +80,9 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
               🖨️ พิมพ์การ์ดสรุปสูตร Flashcard
             </h3>
             <p className="font-sarabun text-xs text-slate-500">
-              ขนาดเท่าการ์ดคำศัพท์ พกพาทบทวนก่อนสอบ (มีเส้นประสำหรับตัด)
+              {printMode === 'single'
+                ? `พิมพ์การ์ดใบเดียว: ${activeSingleItem?.title} (1 แผ่น)`
+                : `พิมพ์ชุดการ์ด 4 ใบ/แผ่น A4 (ทั้งหมด ${items.length} การ์ด)`}
             </p>
           </div>
         </div>
@@ -90,7 +122,7 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
             className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-black font-prompt flex items-center gap-1.5 shadow-md shadow-blue-500/20 hover:scale-105 transition-all cursor-pointer"
           >
             <Printer className="w-4 h-4" />
-            <span>สั่งพิมพ์ / PDF</span>
+            <span>สั่งพิมพ์ / เซฟ PDF</span>
           </button>
 
           <button
@@ -104,15 +136,18 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
         </div>
       </div>
 
-      {/* 2. Printable Container */}
-      <div className="max-w-4xl mx-auto bg-white rounded-3xl p-4 sm:p-8 shadow-2xl print:shadow-none print:p-0 print:m-0 print:max-w-none print:w-full print:rounded-none">
+      {/* 2. Isolated Printable Container (Targeted by ID for instant 1-page printing) */}
+      <div
+        id="flashcard-print-container"
+        className="max-w-4xl mx-auto bg-white rounded-3xl p-4 sm:p-8 shadow-2xl print:shadow-none print:p-0 print:m-0 print:max-w-none print:w-full print:rounded-none"
+      >
         {/* ================= MODE 1: SINGLE FLASHCARD (3x5 Inch Size) ================= */}
         {printMode === 'single' && activeSingleItem && (
-          <div className="flex flex-col items-center justify-center py-6 print:py-0">
+          <div className="flex flex-col items-center justify-center py-6 print:py-4 print:h-[95vh] print:justify-start">
             {/* Single Card Container - Scaled like 3" x 5" Index Card */}
-            <div className="w-full max-w-[480px] min-h-[300px] border-2 border-dashed border-slate-400 rounded-3xl p-5 bg-white relative shadow-lg print:shadow-none print:border-2 print:border-dashed print:border-slate-500 print:m-auto print:max-w-[440px]">
+            <div className="w-full max-w-[480px] min-h-[300px] border-2 border-dashed border-slate-400 rounded-3xl p-5 bg-white relative shadow-lg print:shadow-none print:border-2 print:border-dashed print:border-slate-500 print:m-auto print:max-w-[460px]">
               {/* Scissor Cut Mark */}
-              <div className="absolute -top-3 left-6 bg-white px-2 text-[10px] text-slate-500 font-bold font-prompt flex items-center gap-1">
+              <div className="absolute -top-3 left-6 bg-white px-2 text-[10px] text-slate-500 font-bold font-prompt flex items-center gap-1 print:text-slate-700">
                 <Scissors className="w-3 h-3 text-slate-600" />
                 <span>ตัดตามรอยประ (ขนาดการ์ดพกพา 3" x 5")</span>
               </div>

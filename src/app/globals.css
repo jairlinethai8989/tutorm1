@@ -60,6 +60,50 @@
   }
 }
 
-.pulse-glow {
-  animation: pulseGlow 2.5s infinite ease-in-out;
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   Global High-Speed Isolated Print Styles for Flashcards
+   ========================================================================== */
+@media print {
+  /* Hide the entire web application by default */
+  body {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  header, footer, nav, aside, .no-print, [data-no-print="true"] {
+    display: none !important;
+  }
+
+  /* When printing flashcards, isolate ONLY the flashcard print container */
+  body:has(#flashcard-print-container) * {
+    visibility: hidden !important;
+  }
+
+  body:has(#flashcard-print-container) #flashcard-print-container,
+  body:has(#flashcard-print-container) #flashcard-print-container * {
+    visibility: visible !important;
+  }
+
+  #flashcard-print-container {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    display: block !important;
+    z-index: 9999999 !important;
+  }
+
+  @page {
+    margin: 10mm;
+    size: A4 portrait;
+  }
 }
