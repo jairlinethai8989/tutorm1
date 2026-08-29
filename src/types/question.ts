@@ -39,7 +39,10 @@ export interface Question {
   points: number;
   timeEstimateSeconds: number;
   tags: string[];
-  source: string;
+  source?: string;
+  school?: string;
+  year?: number | string;
+  round?: number | string;
   targetSchool?: 'benchama' | 'chulabhorn' | 'all';
   content: string;
   contentImage?: string;

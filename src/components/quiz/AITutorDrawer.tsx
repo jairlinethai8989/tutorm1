@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Question } from '@/types/exam';
+import { Question } from '@/types/question';
 import { generateAITutorAssistance, AITutorAssistance } from '@/lib/aiTutor';
 import { MathText } from '@/components/shared/MathText';
 import { CuteAIBotIcon } from '@/components/shared/CuteAIBotIcon';

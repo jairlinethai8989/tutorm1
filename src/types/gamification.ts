@@ -42,4 +42,6 @@ export interface GamificationState {
   unlockedBadgeIds: string[];
   lastActiveDate: string;
   streakDays: number;
+  level?: number;
+  currentExp?: number;
 }

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Pencil, CheckCircle2, XCircle } from 'lucide-react';
+import { MathText } from '@/components/shared/MathText';
 
 interface ShortAnswerProps {
   value: string;

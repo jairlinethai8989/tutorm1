@@ -44,7 +44,9 @@ export interface ExamAttempt {
   maxPossibleScore: number;
   scorePercentage: number;
   timeSpentSeconds: number;
-  timeLimitSeconds: number;
+  timeLimitSeconds?: number;
+  score?: number;
+  correctAnswers?: number;
   answers: Record<string, UserAnswer>;
   topicBreakdown: Record<string, { total: number; correct: number; score: number; maxScore: number }>;
 }

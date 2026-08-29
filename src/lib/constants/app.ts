@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.18.0',
-  versionLabel: 'Version 2.18.0 (Brand Identity, Mascot Footer, Capsule Profile & Topbar UI)',
+  version: 'v2.19.0',
+  versionLabel: 'Version 2.19.0 (Math Step-by-Step Solutions & Stability Update)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,32 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.19.0',
+    date: '29 สิงหาคม 2026',
+    title: 'เฉลยวิธีทำคณิตศาสตร์อย่างละเอียด & แก้ไข Client-side ReferenceError',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'เฉลยวิธีทำคณิตศาสตร์อย่างละเอียด (Detailed Math Step-by-Step Solutions)',
+        description:
+          'ปรับปรุงเฉลยวิชาคณิตศาสตร์ครบ 100 ข้อ ให้มีขั้นตอนแสดงวิธีทำอย่างละเอียด 2-3 ขั้นตอนต่อข้อ แปลงสูตรคำนวณและตัวเลขด้วย KaTeX สมบูรณ์แบบ',
+      },
+      {
+        type: 'fix',
+        title: 'แก้ไข Runtime ReferenceError (MathText is not defined)',
+        description:
+          'แก้ไขบัคการเรนเดอร์ในหน้าจำลองสอบ Mock Exam และฝึกทำข้อสอบอัตนัย โดยนำเข้าคอมโพเนนต์ MathText และปรับปรุง Type definitions ทั่วระบบให้ถูกต้อง 100%',
+      },
+    ],
+  },
+  {
     version: 'v2.18.0',
     date: '27 สิงหาคม 2026',
     title: 'เปิดตัว Brand Identity ไอคอนโปรแกรมทางการ, มาสคอตท้ายเว็บ & แคปซูลโปรไฟล์ผู้เรียน',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'เสถียร (Stable)',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

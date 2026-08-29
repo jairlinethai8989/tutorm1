@@ -31,51 +31,7 @@
  * 15. timeEstimateSeconds ต้องเป็นจำนวนเต็มบวก
  */
 
-// ---- Type definitions (duplicated to avoid @/ path alias issues with tsx) ----
-interface Choice {
-  id: string;
-  label: string;
-  content: string;
-  contentImage?: string;
-  isCorrect: boolean;
-}
-
-interface SolutionStep {
-  stepNumber: number;
-  title: string;
-  content: string;
-  imageUrl?: string;
-  imageCaption?: string;
-  formula?: string;
-}
-
-interface Solution {
-  summary: string;
-  steps: SolutionStep[];
-  trickTip?: string;
-  commonMistake?: string;
-  videoUrl?: string;
-}
-
-interface Question {
-  id: string;
-  subjectId: string;
-  topicId: string;
-  topicName: string;
-  type: 'multiple_choice' | 'short_answer' | 'long_answer';
-  difficulty: 'easy' | 'medium' | 'hard' | 'olympiad';
-  points: number;
-  timeEstimateSeconds: number;
-  tags: string[];
-  source: string;
-  targetSchool?: string;
-  content: string;
-  contentImage?: string;
-  choices?: Choice[];
-  correctAnswer?: string;
-  acceptableAnswers?: string[];
-  solution: Solution;
-}
+import { Question, Choice, SolutionStep, Solution } from '../types/question';
 
 // ---- Validation types ----
 type Severity = 'ERROR' | 'WARNING';
@@ -234,8 +190,9 @@ function validateQuestion(q: Question, sourceFile: string): ValidationIssue[] {
     }
     if (q.solution.steps) {
       q.solution.steps.forEach((step, sIdx) => {
-        if (step.content && hasRawLatex(step.content)) {
-          addIssue('ERROR', 9, 'latex-missing-delimiter', `Solution step[${sIdx + 1}] contains raw LaTeX without \$...\$ delimiter: "${step.content}"`, `solution.steps[${sIdx}].content`);
+        const stepContent = typeof step === 'string' ? step : step.content;
+        if (stepContent && hasRawLatex(stepContent)) {
+          addIssue('ERROR', 9, 'latex-missing-delimiter', `Solution step[${sIdx + 1}] contains raw LaTeX without \$...\$ delimiter: "${stepContent}"`, `solution.steps[${sIdx}]`);
         }
       });
     }
@@ -252,7 +209,7 @@ function validateQuestion(q: Question, sourceFile: string): ValidationIssue[] {
     ...(q.choices?.map(c => c.content) || []),
     q.solution?.summary,
     q.solution?.trickTip,
-    ...(q.solution?.steps?.map(s => s.content) || []),
+    ...(q.solution?.steps?.map(s => typeof s === 'string' ? s : s.content) || []),
   ].filter(Boolean) as string[];
 
   allTextFields.forEach((text, i) => {

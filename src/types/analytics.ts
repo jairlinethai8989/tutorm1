@@ -66,5 +66,9 @@ export interface UserOverallStats {
   radarCompetencyData?: RadarCompetencyItem[];
   admissionChanceTier?: AdmissionChanceTier;
   actionPlan?: ActionPlanItem[];
+  totalQuestionsAnswered?: number;
+  overallAccuracy?: number;
+  totalCorrectAnswers?: number;
+  subjectStats?: SubjectAnalytics[];
 }
 

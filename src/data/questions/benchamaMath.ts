@@ -3,7 +3,7 @@ import { Question } from '@/types/question';
 /**
  * คลังข้อสอบคณิตศาสตร์ 100 ข้อ (มศว./เบ็ญจะมะมหาราช)
  * คลังข้อสอบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ รร.เบ็ญจะมะมหาราช (แนว มศว.ประสานมิตร)
- * จำนวน 100 ข้อ ครบทุกหมวดเนื้อหา
+ * จำนวน 100 ข้อ ครบทุกหมวดเนื้อหา พร้อมเฉลยละเอียดและเทคนิคคิดเร็ว
  */
 
 export const BENCHAMA_MATH_QUESTIONS: Question[] = [
@@ -51,13 +51,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ห.ร.ม. คือ 84",
-      "trickTip": "💡 แยกตัวประกอบ: $168 = 84 \\times 2$, $252 = 84 \\times 3 \\implies \\text{ห.ร.ม.} = 84$",
+      "summary": "ห.ร.ม. ของ 168 และ 252 คือ 84",
+      "trickTip": "💡 แยกตัวประกอบหรือตั้งหารสั้น: $168 = 84 \\times 2$, $252 = 84 \\times 3 \\implies \\text{ห.ร.ม.} = 84$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ห.ร.ม. คือ 84"
+          "title": "แยกตัวประกอบของแต่ละจำนวน",
+          "content": "แยกตัวประกอบเฉพาะ:\n- $168 = 2^3 \\times 3 \\times 7$\n- $252 = 2^2 \\times 3^2 \\times 7$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาตัวหารร่วมมาก (ห.ร.ม.)",
+          "content": "เลือกตัวประกอบเฉพาะที่ซ้ำกันโดยใช้เลขชี้กำลังที่น้อยที่สุด:\n$$\\text{ห.ร.ม.} = 2^2 \\times 3^1 \\times 7^1 = 4 \\times 3 \\times 7 = 84$$"
         }
       ]
     }
@@ -106,13 +111,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ค.ร.น. คือ 180",
-      "trickTip": "💡 หา ค.ร.น. จากตัวประกอบ: $2^2 \\times 3^2 \\times 5 = 180$",
+      "summary": "ค.ร.น. ของ 12, 18 และ 30 คือ 180",
+      "trickTip": "💡 หา ค.ร.น. จากตัวประกอบสูงสุด: $2^2 \\times 3^2 \\times 5 = 180$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ค.ร.น. คือ 180"
+          "title": "แยกตัวประกอบของทั้งสามจำนวน",
+          "content": "- $12 = 2^2 \\times 3$\n- $18 = 2 \\times 3^2$\n- $30 = 2 \\times 3 \\times 5$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณหา ค.ร.น.",
+          "content": "นำตัวประกอบเฉพาะทุกตัวมาคูณกันโดยเลือกเลขชี้กำลังที่มากที่สุด:\n$$\\text{ค.ร.น.} = 2^2 \\times 3^2 \\times 5 = 4 \\times 9 \\times 5 = 180$$"
         }
       ]
     }
@@ -161,13 +171,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "จำนวนเฉพาะคือ 23, 29, 31, 37 รวมได้ 120",
+      "summary": "ผลบวกของจำนวนเฉพาะระหว่าง 20 ถึง 40 คือ 120",
       "trickTip": "💡 จำนวนเฉพาะระหว่าง 20 ถึง 40 คือ $23 + 29 + 31 + 37 = 120$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "จำนวนเฉพาะคือ 23, 29, 31, 37 รวมได้ 120"
+          "title": "หาจำนวนเฉพาะที่อยู่ระหว่าง 20 ถึง 40",
+          "content": "จำนวนเฉพาะระหว่าง 20 ถึง 40 ได้แก่: $23, 29, 31, 37$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาผลรวมของจำนวนเฉพาะทั้งหมด",
+          "content": "$$23 + 29 + 31 + 37 = (23 + 37) + (29 + 31) = 60 + 60 = 120$$"
         }
       ]
     }
@@ -216,13 +231,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ผลบวกเท่ากับ 99/100",
-      "trickTip": "💡 สูตรเทเลสโคปิก (Telescoping): $1 - \\frac{1}{100} = \\frac{99}{100}$",
+      "summary": "ผลบวกของอนุกรมเท่ากับ $\\frac{99}{100}$",
+      "trickTip": "💡 สูตรเทเลสโคปิก (Telescoping Series): $1 - \\frac{1}{100} = \\frac{99}{100}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ผลบวกเท่ากับ 99/100"
+          "title": "กระจายพจน์ด้วยหลักการ Telescoping",
+          "content": "ใช้เอกลักษณ์ $\\frac{1}{n(n+1)} = \\frac{1}{n} - \\frac{1}{n+1}$ จะได้:\n$$\\left(1 - \\frac{1}{2}\\right) + \\left(\\frac{1}{2} - \\frac{1}{3}\\right) + \\dots + \\left(\\frac{1}{99} - \\frac{1}{100}\\right)$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หักล้างพจน์ตรงกลางและคำนวณผลลัพธ์",
+          "content": "พจน์ตรงกลางจะหักล้างกันหมด เหลือเฉพาะพจน์แรกและพจน์สุดท้าย:\n$$1 - \\frac{1}{100} = \\frac{99}{100}$$"
         }
       ]
     }
@@ -271,13 +291,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ห.ร.ม. คือ 36",
-      "trickTip": "💡 ค.ร.น. ของ 12 และ 18: $2^2 \\times 3^2 = 36$",
+      "summary": "ห.ร.ม. ของ A และ B เท่ากับ 36",
+      "trickTip": "💡 เลือกตัวประกอบร่วมกำลังน้อยสุด: $2^2 \\times 3^2 = 36$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ห.ร.ม. คือ 36"
+          "title": "พิจารณาตัวประกอบเฉพาะที่โจทย์กำหนด",
+          "content": "- $A = 2^3 \\times 3^2 \\times 5$\n- $B = 2^2 \\times 3^3 \\times 7$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หา ห.ร.ม. จากเลขชี้กำลังที่น้อยที่สุด",
+          "content": "เลือกเฉพาะฐานที่มีร่วมกันทั้งสองจำนวน:\n- สำหรับฐาน 2: $\\min(3, 2) = 2 \\implies 2^2$\n- สำหรับฐาน 3: $\\min(2, 3) = 2 \\implies 3^2$\n$$\\text{ห.ร.ม.} = 2^2 \\times 3^2 = 4 \\times 9 = 36$$"
         }
       ]
     }
@@ -326,13 +351,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "จำนวนนั้นคือ 12",
+      "summary": "จำนวนนับที่มากที่สุดคือ 12",
       "trickTip": "💡 หา ห.ร.ม. ของ $(85 - 1) = 84$ และ $(137 - 5) = 132$ จะได้ $12$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "จำนวนนั้นคือ 12"
+          "title": "ลบเศษออกจากตัวตั้ง",
+          "content": "เพื่อให้หารได้ลงตัว:\n- $85 - 1 = 84$\n- $137 - 5 = 132$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หา ห.ร.ม. ของ 84 และ 132",
+          "content": "- $84 = 12 \\times 7$\n- $132 = 12 \\times 11$\nดังนั้น $\\text{ห.ร.ม.} = 12$"
         }
       ]
     }
@@ -381,13 +411,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "หลักหน่วยคือ 1",
-      "trickTip": "💡 $7^4$ ลงท้ายด้วย $1$, เนื่องจาก $2,024$ หารด้วย $4$ ลงตัว เลขหลักหน่วยจึงเป็น $1$",
+      "summary": "เลขโดดในหลักหน่วยของ $7^{2024}$ คือ 1",
+      "trickTip": "💡 รูปแบบหลักหน่วยของ $7^n$ วนซ้ำทุก 4 รอบ: $7, 9, 3, 1 \\implies 2,024 \\div 4$ ลงตัว ได้ $1$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "หลักหน่วยคือ 1"
+          "title": "สังเกตคาบการวนซ้ำของเลขยกกำลังฐาน 7",
+          "content": "- $7^1 = 7$ (ลงท้ายด้วย 7)\n- $7^2 = 49$ (ลงท้ายด้วย 9)\n- $7^3 = 343$ (ลงท้ายด้วย 3)\n- $7^4 = 2,401$ (ลงท้ายด้วย 1)\nรูปแบบจะวนซ้ำทุก ๆ 4 ลำดับ คือ $(7, 9, 3, 1)$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "นำเลขชี้กำลังมาหารด้วย 4",
+          "content": "$$2,024 \\div 4 = 506 \\text{ เศษ } 0$$\nเมื่อเศษเป็น 0 จะตรงกับตัวสุดท้ายของคาบ คือ $1$"
         }
       ]
     }
@@ -436,13 +471,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "มี 24 จำนวน",
-      "trickTip": "💡 แยกตัวประกอบ $360 = 2^3 \\times 3^2 \\times 5^1 \\implies (3+1)(2+1)(1+1) = 24\\text{ ตัว}$",
+      "summary": "จำนวนตัวประกอบบวกของ 360 มีทั้งหมด 24 จำนวน",
+      "trickTip": "💡 สูตรจำนวนตัวประกอบ: แยก $360 = 2^3 \\times 3^2 \\times 5^1 \\implies (3+1)(2+1)(1+1) = 24$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "มี 24 จำนวน"
+          "title": "แยกตัวประกอบเฉพาะของ 360",
+          "content": "$$360 = 2^3 \\times 3^2 \\times 5^1$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ใช้สูตรคำนวณจำนวนตัวประกอบ",
+          "content": "นำเลขชี้กำลังแต่ละตัวบวก 1 แล้วคูณกัน:\n$$(3 + 1)(2 + 1)(1 + 1) = 4 \\times 3 \\times 2 = 24 \\text{ จำนวน}$$"
         }
       ]
     }
@@ -491,13 +531,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เท่ากับ -50",
-      "trickTip": "💡 จัดกลุ่มคู่ละ $-1$: $(-1) \\times 50 = -50$",
+      "summary": "ผลบวกเท่ากับ -50",
+      "trickTip": "💡 จัดกลุ่มคู่ละ $-1$: มีทั้งหมด 50 คู่ $\\implies (-1) \\times 50 = -50$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "เท่ากับ -50"
+          "title": "จัดกลุ่มจำนวนเป็นคู่ ๆ",
+          "content": "จัดกลุ่มคู่ที่อยู่ติดกัน:\n$$(1 - 2) + (3 - 4) + (5 - 6) + \\dots + (99 - 100)$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณผลรวม",
+          "content": "แต่ละคู่มีผลต่างเป็น $-1$ และมีทั้งหมด $\\frac{100}{2} = 50$ คู่:\n$$(-1) \\times 50 = -50$$"
         }
       ]
     }
@@ -546,13 +591,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "b - a = 24",
-      "trickTip": "💡 $8\\text{ ส่วน} = 96 \\implies 1\\text{ ส่วน} = 12 \\implies 2\\text{ ส่วน} = 24$",
+      "summary": "ค่าของ $b - a = 24$",
+      "trickTip": "💡 คิดแบบสัดส่วน: $8\\text{ ส่วน} = 96 \\implies 1\\text{ ส่วน} = 12 \\implies (5-3)\\text{ ส่วน} = 24$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "b - a = 24"
+          "title": "กำหนดตัวแปรตามอัตราส่วน",
+          "content": "จาก $\\frac{a}{b} = \\frac{3}{5}$ ให้ $a = 3k$ และ $b = 5k$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาค่า k และคำนวณ $b - a$",
+          "content": "$$a + b = 8k = 96 \\implies k = 12$$\n$$b - a = 5k - 3k = 2k = 2(12) = 24$$"
         }
       ]
     }
@@ -601,13 +651,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "0.052",
-      "trickTip": "💡 แปลงเป็นทศนิยม: $\\frac{13 \\times 4}{1,000} = \\frac{52}{1,000} = 0.052$",
+      "summary": "$\\frac{13}{250}$ เขียนเป็นทศนิยมได้ $0.052$",
+      "trickTip": "💡 ปรับตัวส่วนให้เป็น 1,000: $\\frac{13 \\times 4}{250 \\times 4} = \\frac{52}{1,000} = 0.052$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "0.052"
+          "title": "ปรับตัวส่วนเป็น 1,000",
+          "content": "$$\\frac{13}{250} = \\frac{13 \\times 4}{250 \\times 4} = \\frac{52}{1,000}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แปลงเป็นทศนิยม",
+          "content": "$$\\frac{52}{1,000} = 0.052$$"
         }
       ]
     }
@@ -656,13 +711,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เท่ากับ 14",
-      "trickTip": "💡 สูตรเซต: $n(A \\cup B) = 11 + 12 - 9 = 14$",
+      "summary": "$\\sqrt{121} + \\sqrt{144} - \\sqrt{81} = 14$",
+      "trickTip": "💡 ถอดรากที่สอง: $11 + 12 - 9 = 14$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "เท่ากับ 14"
+          "title": "ถอดรากที่สองของแต่ละพจน์",
+          "content": "- $\\sqrt{121} = 11$\n- $\\sqrt{144} = 12$\n- $\\sqrt{81} = 9$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "บวกลบผลลัพธ์",
+          "content": "$$11 + 12 - 9 = 23 - 9 = 14$$"
         }
       ]
     }
@@ -711,13 +771,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เศษ 1",
-      "trickTip": "💡 ทฤษฎีเศษเหลือ: $9 \\equiv 1 \\pmod 8 \\implies 9^{25} \\equiv 1^{25} = 1$",
+      "summary": "เศษที่ได้จากการหาร $3^{50}$ ด้วย 8 เท่ากับ 1",
+      "trickTip": "💡 ทฤษฎีเศษเหลือ: $3^2 = 9 \\equiv 1 \\pmod 8 \\implies 9^{25} \\equiv 1^{25} = 1$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "เศษ 1"
+          "title": "จัดรูปฐานยกกำลังสอง",
+          "content": "$$3^{50} = (3^2)^{25} = 9^{25}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาเศษเมื่อหารด้วย 8",
+          "content": "เนื่องจาก $9 = 8(1) + 1$ (หารด้วย 8 เหลือเศษ 1)\nดังนั้น $9^{25}$ เมื่อหารด้วย 8 จะเหลือเศษ $1^{25} = 1$"
         }
       ]
     }
@@ -766,13 +831,23 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "47 จำนวน",
-      "trickTip": "💡 รวมจำนวนนักเรียน: $33 + 20 - 6 = 47\\text{ คน}$",
+      "summary": "มีจำนวนนับทั้งหมด 47 จำนวน",
+      "trickTip": "💡 กฎรวมเข้าและตัดออก: $n(A \\cup B) = 33 + 20 - 6 = 47$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "47 จำนวน"
+          "title": "หาจำนวนที่หารด้วย 3 และ 5 ลงตัว",
+          "content": "- หารด้วย 3 ลงตัว: $\\lfloor 100 \\div 3 \\rfloor = 33$ จำนวน\n- หารด้วย 5 ลงตัว: $\\lfloor 100 \\div 5 \\rfloor = 20$ จำนวน"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาจำนวนที่หารด้วยทั้ง 3 และ 5 ลงตัว (ค.ร.น. คือ 15)",
+          "content": "- หารด้วย 15 ลงตัว: $\\lfloor 100 \\div 15 \\rfloor = 6$ จำนวน"
+        },
+        {
+          "stepNumber": 3,
+          "title": "คำนวณผลรวม",
+          "content": "$$\\text{จำนวนทั้งหมด} = 33 + 20 - 6 = 47 \\text{ จำนวน}$$"
         }
       ]
     }
@@ -821,13 +896,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "62/99",
-      "trickTip": "💡 ทศนิยมซ้ำ: $\\frac{44}{99} + \\frac{18}{99} = \\frac{62}{99}$",
+      "summary": "ค่าของ $A + B = \\frac{62}{99}$",
+      "trickTip": "💡 แปลงทศนิยมซ้ำ: $0.\\dot{4} = \\frac{4}{9} = \\frac{44}{99}$, $0.\\dot{1}\\dot{8} = \\frac{18}{99} \\implies \\frac{62}{99}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "62/99"
+          "title": "แปลงทศนิยมซ้ำเป็นเศษส่วน",
+          "content": "- $A = 0.\\dot{4} = \\frac{4}{9} = \\frac{44}{99}$\n- $B = 0.\\dot{1}\\dot{8} = \\frac{18}{99}$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "บวกเศษส่วน",
+          "content": "$$A + B = \\frac{44}{99} + \\frac{18}{99} = \\frac{62}{99}$$"
         }
       ]
     }
@@ -876,13 +956,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x = 5",
-      "trickTip": "💡 $720 = 2^4 \\times 3^2 \\times 5^1 \\implies$ ทำให้เป็นกำลังสองสมบูรณ์ต้องคูณด้วย $5$",
+      "summary": "ค่าของ $x$ ที่น้อยที่สุดคือ 5",
+      "trickTip": "💡 แยกตัวประกอบ $720 = 2^4 \\times 3^2 \\times 5^1 \\implies$ คูณด้วย $5$ เพื่อให้เลขชี้กำลังเป็นเลขคู่ทั้งหมด",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "x = 5"
+          "title": "แยกตัวประกอบเฉพาะของ 720",
+          "content": "$$720 = 2^4 \\times 3^2 \\times 5^1$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "พิจารณาเงื่อนไขกำลังสองสมบูรณ์",
+          "content": "กำลังสองสมบูรณ์ต้องมีเลขชี้กำลังเป็นเลขคู่ทั้งหมด\n- ฐาน 2 มีกำลัง 4 (คู่แล้ว)\n- ฐาน 3 มีกำลัง 2 (คู่แล้ว)\n- ฐาน 5 มีกำลัง 1 (เป็นเลขคี่) จึงต้องคูณด้วย $5^1$ เพื่อให้กลายเป็น $5^2$\nดังนั้น $x = 5$"
         }
       ]
     }
@@ -931,13 +1016,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "คือ 72",
-      "trickTip": "💡 คำนวณองศา: $\\frac{12 \\times 360^\\circ}{60} = 72^\\circ$",
+      "summary": "อีกจำนวนหนึ่งคือ 72",
+      "trickTip": "💡 สูตรความสัมพันธ์: $\\text{ห.ร.ม.} \\times \\text{ค.ร.น.} = A \\times B \\implies B = \\frac{12 \\times 360}{60} = 72$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "คือ 72"
+          "title": "ใช้สูตรความสัมพันธ์ ห.ร.ม. และ ค.ร.น.",
+          "content": "$$\\text{ห.ร.ม.} \\times \\text{ค.ร.น.} = A \\times B$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและแก้สมการหาจำนวนที่สอง",
+          "content": "$$12 \\times 360 = 60 \\times B$$\n$$B = \\frac{12 \\times 360}{60} = 12 \\times 6 = 72$$"
         }
       ]
     }
@@ -986,13 +1076,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "63/64",
-      "trickTip": "💡 อนุกรมเศษส่วน: $1 - \\frac{1}{64} = \\frac{63}{64}$",
+      "summary": "ผลบวกเท่ากับ $\\frac{63}{64}$",
+      "trickTip": "💡 อนุกรมเรขาคณิต: $1 - \\frac{1}{64} = \\frac{63}{64}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "63/64"
+          "title": "ปรับตัวส่วนร่วมเป็น 64",
+          "content": "$$\\frac{32}{64} + \\frac{16}{64} + \\frac{8}{64} + \\frac{4}{64} + \\frac{2}{64} + \\frac{1}{64}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "รวมตัวเศษ",
+          "content": "$$\\frac{32 + 16 + 8 + 4 + 2 + 1}{64} = \\frac{63}{64}$$"
         }
       ]
     }
@@ -1041,13 +1136,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "คือ 120",
-      "trickTip": "💡 หาเวลาพร้อมกัน: $\\text{ค.ร.น.}(6, 8, 10) = 120\\text{ นาที} = 2\\text{ ชั่วโมง}$",
+      "summary": "เลขสามหลักที่น้อยที่สุดคือ 120",
+      "trickTip": "💡 หา ค.ร.น. ของ 6, 8, 10 ได้ 120 ซึ่งเป็นเลขสามหลักที่น้อยที่สุดพอดี",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "คือ 120"
+          "title": "หา ค.ร.น. ของ 6, 8 และ 10",
+          "content": "- $6 = 2 \\times 3$\n- $8 = 2^3$\n- $10 = 2 \\times 5$\n$$\\text{ค.ร.น.} = 2^3 \\times 3 \\times 5 = 120$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ตรวจสอบเงื่อนไขเลขสามหลัก",
+          "content": "พหุคูณของ 120 ได้แก่ $120, 240, 360, \\dots$\nจำนวนแรกที่เป็นเลขสามหลักคือ $120$"
         }
       ]
     }
@@ -1096,13 +1196,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เท่ากับ 22",
-      "trickTip": "💡 แทนค่าตัวแปร: $2(4) + 3(5) - 1 = 8 + 15 - 1 = 22$",
+      "summary": "ค่าของ $4 * 5 = 22$",
+      "trickTip": "💡 แทนค่าตามกฎ: $2(4) + 3(5) - 1 = 8 + 15 - 1 = 22$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "เท่ากับ 22"
+          "title": "ดูเงื่อนไขตัวดำเนินการพิเศษ",
+          "content": "โจทย์กำหนด $a * b = 2a + 3b - 1$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่า $a = 4, b = 5$",
+          "content": "$$4 * 5 = 2(4) + 3(5) - 1 = 8 + 15 - 1 = 22$$"
         }
       ]
     }
@@ -1151,13 +1256,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "2x - 3 = 11",
+      "summary": "ค่าของ $2x - 3 = 11$",
       "trickTip": "💡 $3x = 21 \\implies x = 7 \\implies 2(7) - 3 = 11$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "2x - 3 = 11"
+          "title": "แก้สมการหา $x$",
+          "content": "$$3x + 7 = 28$$\n$$3x = 21 \\implies x = 7$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณค่า $2x - 3$",
+          "content": "$$2(7) - 3 = 14 - 3 = 11$$"
         }
       ]
     }
@@ -1206,13 +1316,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x = 11",
-      "trickTip": "💡 $6(x - 3) = 4(x + 1) \\implies 2x = 22 \\implies x = 11$",
+      "summary": "ค่าของ $x = 11$",
+      "trickTip": "💡 คูณไขว้: $6(x - 3) = 4(x + 1) \\implies 2x = 22 \\implies x = 11$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "x = 11"
+          "title": "คูณไขว้กำจัดเศษส่วน",
+          "content": "$$\\frac{x - 3}{4} = \\frac{x + 1}{6}$$\n$$6(x - 3) = 4(x + 1)$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "กระจายและแก้สมการ",
+          "content": "$$6x - 18 = 4x + 4$$\n$$2x = 22 \\implies x = 11$$"
         }
       ]
     }
@@ -1261,13 +1376,23 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x * y = 144",
-      "trickTip": "💡 ผลคูณตัวแปร: $x = 16, y = 9 \\implies 16 \\times 9 = 144$",
+      "summary": "ค่าของ $x \\times y = 144$",
+      "trickTip": "💡 บวกและลบสมการ: $x = 16, y = 9 \\implies 16 \\times 9 = 144$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "x * y = 144"
+          "title": "ตั้งระบบสมการ",
+          "content": "1) $x + y = 25$\n2) $x - y = 7$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แก้หาระบบสมการ",
+          "content": "นำ (1) + (2): $2x = 32 \\implies x = 16$\nแทนใน (1): $16 + y = 25 \\implies y = 9$"
+        },
+        {
+          "stepNumber": 3,
+          "title": "คำนวณผลคูณ",
+          "content": "$$x \\times y = 16 \\times 9 = 144$$"
         }
       ]
     }
@@ -1317,12 +1442,17 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
     ],
     "solution": {
       "summary": "พจน์ที่ 10 คือ 101",
-      "trickTip": "💡 ลำดับรูปทั่วไป $n^2 + 1 \\implies 10^2 + 1 = 101$",
+      "trickTip": "💡 พจน์ทั่วไปคือ $n^2 + 1 \\implies 10^2 + 1 = 101$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "พจน์ที่ 10 คือ 101"
+          "title": "หารูปแบบของลำดับ",
+          "content": "สังเกตรูปแบบ: $1^2+1=2, 2^2+1=5, 3^2+1=10, 4^2+1=17, 5^2+1=26$\nรูปทั่วไปคือ $a_n = n^2 + 1$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่า $n = 10$",
+          "content": "$$a_{10} = 10^2 + 1 = 100 + 1 = 101$$"
         }
       ]
     }
@@ -1371,13 +1501,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "$a^2 + b^2 = 58$",
+      "summary": "ค่าของ $a^2 + b^2 = 58$",
       "trickTip": "💡 กำลังสองสมบูรณ์: $a^2 + b^2 = (a+b)^2 - 2ab = 100 - 42 = 58$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "$a^2 + b^2 = 58$"
+          "title": "ใช้เอกลักษณ์ผลบวกกำลังสอง",
+          "content": "$$(a + b)^2 = a^2 + 2ab + b^2 \\implies a^2 + b^2 = (a + b)^2 - 2ab$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่า $a + b = 10$ และ $ab = 21$",
+          "content": "$$a^2 + b^2 = 10^2 - 2(21) = 100 - 42 = 58$$"
         }
       ]
     }
@@ -1426,13 +1561,23 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "จำนวนมากสุดคือ 25",
-      "trickTip": "💡 ผลรวม 3 จำนวนเรียงกัน: $3x = 72 \\implies x = 24 \\implies$ ตัวมากสุดคือ $25$",
+      "summary": "จำนวนที่มากที่สุดคือ 25",
+      "trickTip": "💡 เฉลี่ย 3 จำนวน $= 24 \\implies 23, 24, 25 \\implies$ มากสุดคือ $25$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "จำนวนมากสุดคือ 25"
+          "title": "ตั้งสมการแทนจำนวนเรียงติดกัน",
+          "content": "ให้สามจำนวนเป็น $x, x + 1, x + 2$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แก้สมการหา $x$",
+          "content": "$$x + (x + 1) + (x + 2) = 72$$\n$$3x + 3 = 72 \\implies 3x = 69 \\implies x = 23$$"
+        },
+        {
+          "stepNumber": 3,
+          "title": "หาจำนวนที่มากที่สุด",
+          "content": "$$\\text{จำนวนมากที่สุด} = x + 2 = 23 + 2 = 25$$"
         }
       ]
     }
@@ -1481,13 +1626,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "$x^2 = 25$",
-      "trickTip": "💡 $x + 1 = 6 \\implies x = 5 \\implies x^2 = 25$",
+      "summary": "ค่าของ $x^2 = 25$",
+      "trickTip": "💡 $2^{x+1} = 64 = 2^6 \\implies x = 5 \\implies x^2 = 25$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "$x^2 = 25$"
+          "title": "แก้สมการเลขยกกำลัง",
+          "content": "$$2^{x+1} = 64 = 2^6$$\n$$x + 1 = 6 \\implies x = 5$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาค่า $x^2$",
+          "content": "$$x^2 = 5^2 = 25$$"
         }
       ]
     }
@@ -1536,13 +1686,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x = 6",
-      "trickTip": "💡 $3x - 6 = 12 \\implies 3x = 18 \\implies x = 6$",
+      "summary": "ค่าของ $x = 6$",
+      "trickTip": "💡 แทน $y = 3$: $3x - 6 = 12 \\implies 3x = 18 \\implies x = 6$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "x = 6"
+          "title": "แทนค่า $y = 3$ ในสมการ",
+          "content": "$$3x - 2(3) = 12$$\n$$3x - 6 = 12$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แก้สมการหา $x$",
+          "content": "$$3x = 18 \\implies x = 6$$"
         }
       ]
     }
@@ -1591,13 +1746,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ผลรวมคือ 400",
-      "trickTip": "💡 ผลบวกเลขคี่ $n$ พจน์แรก: $n = 20 \\implies n^2 = 20^2 = 400$",
+      "summary": "ผลบวกของอนุกรมเท่ากับ 400",
+      "trickTip": "💡 สูตรผลบวกเลขคี่ $n$ พจน์แรก $= n^2$: มี 20 พจน์ $\\implies 20^2 = 400$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ผลรวมคือ 400"
+          "title": "หาจำนวนพจน์ $n$",
+          "content": "$$n = \\frac{39 - 1}{2} + 1 = 19 + 1 = 20$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ใช้สูตรผลบวกเลขคี่",
+          "content": "$$S_{20} = n^2 = 20^2 = 400$$"
         }
       ]
     }
@@ -1646,13 +1806,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x = 0.5",
-      "trickTip": "💡 $\\frac{5}{x} = 10 \\implies x = 0.5$",
+      "summary": "ค่าของ $x = 0.5$",
+      "trickTip": "💡 รวมตัวเศษ: $\\frac{5}{x} = 10 \\implies x = \\frac{5}{10} = 0.5$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "x = 0.5"
+          "title": "รวมพจน์เศษส่วน",
+          "content": "$$\\frac{2 + 3}{x} = 10 \\implies \\frac{5}{x} = 10$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แก้สมการหา $x$",
+          "content": "$$10x = 5 \\implies x = \\frac{5}{10} = 0.5$$"
         }
       ]
     }
@@ -1701,13 +1866,23 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ลูกอายุ 10 ปี",
-      "trickTip": "💡 สมการอายุ: $4x + 5 = 3(x + 5) \\implies x = 10$",
+      "summary": "ปัจจุบันลูกมีอายุ 10 ปี",
+      "trickTip": "💡 สมการอายุ: $4x + 5 = 3(x + 5) \\implies 4x + 5 = 3x + 15 \\implies x = 10$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ลูกอายุ 10 ปี"
+          "title": "กำหนดตัวแปร",
+          "content": "ให้ปัจจุบันลูกอายุ $x$ ปี ดังนั้นพ่อมีอายุ $4x$ ปี"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ตั้งสมการตามเงื่อนไขในอีก 5 ปีข้างหน้า",
+          "content": "- อีก 5 ปี ลูกอายุ $x + 5$ ปี\n- อีก 5 ปี พ่ออายุ $4x + 5$ ปี\n$$4x + 5 = 3(x + 5)$$"
+        },
+        {
+          "stepNumber": 3,
+          "title": "แก้สมการหาอายุของลูก",
+          "content": "$$4x + 5 = 3x + 15$$\n$$4x - 3x = 15 - 5 \\implies x = 10 \\text{ ปี}$$"
         }
       ]
     }
@@ -1756,13 +1931,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x + y = 9",
+      "summary": "ค่าของ $x + y = 9$",
       "trickTip": "💡 ผลต่างกำลังสอง: $(x - y)(x + y) = 45 \\implies 5(x + y) = 45 \\implies x + y = 9$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "x + y = 9"
+          "title": "ใช้เอกลักษณ์ผลต่างกำลังสอง",
+          "content": "$$x^2 - y^2 = (x - y)(x + y)$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าที่โจทย์กำหนด",
+          "content": "$$45 = 5(x + y)$$\n$$x + y = \\frac{45}{5} = 9$$"
         }
       ]
     }
@@ -1811,13 +1991,23 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "c = 25",
-      "trickTip": "💡 อัตราส่วน: $12k = 60 \\implies k = 5 \\implies c = 5 \\times 5 = 25$",
+      "summary": "ค่าของ $c = 25$",
+      "trickTip": "💡 รวมสัดส่วน $3+4+5=12\\text{ ส่วน} = 60 \\implies 1\\text{ ส่วน} = 5 \\implies c = 5 \\times 5 = 25$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "c = 25"
+          "title": "กำหนดตัวแปรร่วม $k$",
+          "content": "ให้ $\\frac{a}{3} = \\frac{b}{4} = \\frac{c}{5} = k$\nจะได้ $a = 3k, b = 4k, c = 5k$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาค่า $k$ จากผลรวม",
+          "content": "$$a + b + c = 3k + 4k + 5k = 12k = 60 \\implies k = 5$$"
+        },
+        {
+          "stepNumber": 3,
+          "title": "คำนวณค่า $c$",
+          "content": "$$c = 5k = 5(5) = 25$$"
         }
       ]
     }
@@ -1866,13 +2056,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x = 4",
-      "trickTip": "💡 แก้สมการ: $10x - 5 - 3x - 6 = 17 \\implies 7x = 28 \\implies x = 4$",
+      "summary": "ค่าของ $x = 4$",
+      "trickTip": "💡 กระจายวงเล็บ: $10x - 5 - 3x - 6 = 17 \\implies 7x = 28 \\implies x = 4$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "x = 4"
+          "title": "กระจายวงเล็บ",
+          "content": "$$5(2x - 1) - 3(x + 2) = 17$$\n$$10x - 5 - 3x - 6 = 17$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "รวมพจน์และแก้สมการ",
+          "content": "$$7x - 11 = 17$$\n$$7x = 28 \\implies x = 4$$"
         }
       ]
     }
@@ -1921,13 +2116,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "พจน์ที่ 15",
-      "trickTip": "💡 พื้นที่จัตุรัส $n^2 = 225 \\implies n = 15$",
+      "summary": "พจน์ที่ 15 มีค่าเท่ากับ 225",
+      "trickTip": "💡 ลำดับกำลังสอง: $n^2 = 225 \\implies n = 15$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "พจน์ที่ 15"
+          "title": "สังเกตรูปแบบของลำดับ",
+          "content": "ลำดับ $1, 4, 9, 16, 25, \\dots$ คือลำดับกำลังสอง $a_n = n^2$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แก้สมการหาพจน์ $n$",
+          "content": "$$n^2 = 225$$\n$$n = \\sqrt{225} = 15$$"
         }
       ]
     }
@@ -1976,13 +2176,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "a + b = 8",
-      "trickTip": "💡 แก้สมการ: $5(a + b) = 40 \\implies a + b = 8$",
+      "summary": "ค่าของ $a + b = 8$",
+      "trickTip": "💡 นำสองสมการมาบวกกัน: $5a + 5b = 40 \\implies a + b = 8$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "a + b = 8"
+          "title": "ตั้งสมการทั้งสอง",
+          "content": "1) $2a + 3b = 19$\n2) $3a + 2b = 21$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "นำสมการ (1) + (2)",
+          "content": "$$(2a + 3a) + (3b + 2b) = 19 + 21$$\n$$5a + 5b = 40$$\n$$5(a + b) = 40 \\implies a + b = 8$$"
         }
       ]
     }
@@ -2031,13 +2236,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x = 3",
-      "trickTip": "💡 คูณตลอดด้วย $4$: $2(3x - 1) + (x + 1) = 20 \\implies 7x - 1 = 20 \\implies x = 3$",
+      "summary": "ค่าของ $x = 3$",
+      "trickTip": "💡 คูณ 4 ตลอดสมการ: $2(3x - 1) + (x + 1) = 20 \\implies 7x = 21 \\implies x = 3$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "คูณสมการตลอดด้วย ค.ร.น. ของ 2 และ 4 คือ 4: 2(3x-1) + (x+1) = 20 จะได้ 6x - 2 + x + 1 = 20 ดังนั้น 7x - 1 = 20 จะได้ 7x = 21 ดังนั้น x = 3"
+          "title": "คูณสมการด้วย ค.ร.น. ของตัวส่วน (4)",
+          "content": "$$4 \\times \\left(\\frac{3x - 1}{2}\\right) + 4 \\times \\left(\\frac{x + 1}{4}\\right) = 4 \\times 5$$\n$$2(3x - 1) + (x + 1) = 20$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "กระจายและแก้สมการ",
+          "content": "$$6x - 2 + x + 1 = 20$$\n$$7x - 1 = 20$$\n$$7x = 21 \\implies x = 3$$"
         }
       ]
     }
@@ -2086,13 +2296,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เท่ากับ 14",
-      "trickTip": "💡 $x^2 + \\frac{1}{x^2} = \\left(x + \\frac{1}{x}\\right)^2 - 2 = 4^2 - 2 = 14$",
+      "summary": "ค่าของ $x^2 + \\frac{1}{x^2} = 14$",
+      "trickTip": "💡 ยกกำลังสองทั้งสองข้าง: $\\left(x + \\frac{1}{x}\\right)^2 - 2 = 16 - 2 = 14$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "เท่ากับ 14"
+          "title": "ยกกำลังสองทั้งสองข้าง",
+          "content": "$$\\left(x + \\frac{1}{x}\\right)^2 = 4^2$$\n$$x^2 + 2(x)\\left(\\frac{1}{x}\\right) + \\frac{1}{x^2} = 16$$\n$$x^2 + 2 + \\frac{1}{x^2} = 16$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ย้ายข้างคำนวณผลลัพธ์",
+          "content": "$$x^2 + \\frac{1}{x^2} = 16 - 2 = 14$$"
         }
       ]
     }
@@ -2141,13 +2356,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ผลต่างคือ 7",
-      "trickTip": "💡 ตัวประกอบ: $15$ และ $8 \\implies 15 - 8 = 7$",
+      "summary": "ผลต่างของเลขสองจำนวนนี้คือ 7",
+      "trickTip": "💡 หาคู่คูณ 120 ที่บวกกันได้ 23: คือ 15 และ 8 $\\implies 15 - 8 = 7$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ผลต่างคือ 7"
+          "title": "วิเคราะห์คู่ตัวเลข",
+          "content": "หาเลขสองจำนวน $x$ และ $y$ ที่ $x + y = 23$ และ $xy = 120$\nคู่ตัวคูณของ 120 ได้แก่ $(1, 120), (2, 60), (3, 40), (4, 30), (5, 24), (6, 20), (8, 15)$\nคู่ที่บวกกันได้ 23 คือ $15$ และ $8$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาผลต่าง",
+          "content": "$$\\text{ผลต่าง} = 15 - 8 = 7$$"
         }
       ]
     }
@@ -2196,13 +2416,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ผลรวมคือ 35",
-      "trickTip": "💡 ผลรวม 5 พจน์แรก: $1 + 4 + 7 + 10 + 13 = 35$",
+      "summary": "ผลรวมเท่ากับ 35",
+      "trickTip": "💡 คำนวณแต่ละพจน์: $1 + 4 + 7 + 10 + 13 = 35$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ผลรวมคือ 35"
+          "title": "หาค่าของฟังก์ชันในแต่ละพจน์",
+          "content": "- $f(1) = 3(1) - 2 = 1$\n- $f(2) = 3(2) - 2 = 4$\n- $f(3) = 3(3) - 2 = 7$\n- $f(4) = 3(4) - 2 = 10$\n- $f(5) = 3(5) - 2 = 13$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาผลรวมทั้งหมด",
+          "content": "$$1 + 4 + 7 + 10 + 13 = 35$$"
         }
       ]
     }
@@ -2251,13 +2476,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ยาว 10 ซม.",
-      "trickTip": "💡 พีทาโกรัส: $\\sqrt{6^2 + 8^2} = \\sqrt{100} = 10\\text{ ซม.}$",
+      "summary": "ด้านตรงข้ามมุมฉากยาว 10 ซม.",
+      "trickTip": "💡 ทฤษฎีบทพีทาโกรัส: $c = \\sqrt{6^2 + 8^2} = \\sqrt{100} = 10\\text{ ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ยาว 10 ซม."
+          "title": "ใช้ทฤษฎีบทพีทาโกรัส",
+          "content": "$$c^2 = a^2 + b^2$$\n$$c^2 = 6^2 + 8^2 = 36 + 64 = 100$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ถอดรากที่สอง",
+          "content": "$$c = \\sqrt{100} = 10 \\text{ ซม.}$$"
         }
       ]
     }
@@ -2306,13 +2536,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "พื้นที่ 100 ตร.ซม.",
-      "trickTip": "💡 ด้านยาว $10\\text{ ซม.} \\implies \\text{พื้นที่} = 10 \\times 10 = 100\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่รูปสี่เหลี่ยมจัตุรัสเท่ากับ 100 ตารางซม.",
+      "trickTip": "💡 สูตรพื้นที่จากเส้นทแยงมุม: $\\frac{1}{2} \\times d^2 = \\frac{1}{2} \\times (10\\sqrt{2})^2 = 100\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "พื้นที่ 100 ตร.ซม."
+          "title": "หาความยาวด้านของสี่เหลี่ยมจัตุรัส",
+          "content": "จากเส้นทแยงมุม $d = a\\sqrt{2} = 10\\sqrt{2}$ จะได้ความยาวด้าน $a = 10$ ซม."
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณพื้นที่",
+          "content": "$$\\text{พื้นที่} = a^2 = 10^2 = 100 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -2361,13 +2596,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "พื้นที่ 154 ตร.ซม.",
-      "trickTip": "💡 พื้นที่วงกลม: $\\pi r^2 = \\frac{22}{7} \\times 7 \\times 7 = 154\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่วงกลมเท่ากับ 154 ตารางซม.",
+      "trickTip": "💡 พื้นที่วงกลม: $\\pi r^2 = \\frac{22}{7} \\times 7^2 = 154\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "พื้นที่ 154 ตร.ซม."
+          "title": "หารัศมีของวงกลม",
+          "content": "$$r = \\frac{\\text{เส้นผ่านศูนย์กลาง}}{2} = \\frac{14}{2} = 7 \\text{ ซม.}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ใช้สูตรพื้นที่วงกลม",
+          "content": "$$\\text{พื้นที่} = \\pi r^2 = \\frac{22}{7} \\times 7 \\times 7 = 22 \\times 7 = 154 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -2416,13 +2656,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "120 องศา",
-      "trickTip": "💡 มุมภายในรูป 6 เหลี่ยม: $\\frac{(6 - 2) \\times 180^\\circ}{6} = \\frac{720^\\circ}{6} = 120^\\circ$",
+      "summary": "มุมภายในแต่ละมุมมีขนาด 120 องศา",
+      "trickTip": "💡 ขนาดแต่ละมุม: $\\frac{(6 - 2) \\times 180^\\circ}{6} = 120^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "120 องศา"
+          "title": "หาผลรวมมุมภายในรูปหกเหลี่ยม",
+          "content": "$$\\text{ผลรวมมุมภายใน} = (n - 2) \\times 180^\\circ = (6 - 2) \\times 180^\\circ = 4 \\times 180^\\circ = 720^\\circ$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หามุมภายในแต่ละมุม",
+          "content": "$$\\text{ขนาดแต่ละมุม} = \\frac{720^\\circ}{6} = 120^\\circ$$"
         }
       ]
     }
@@ -2471,13 +2716,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ปริมาตร 400 ลบ.ซม.",
-      "trickTip": "💡 ปริมาตรทรงสี่เหลี่ยม: $5 \\times 8 \\times 10 = 400\\text{ ลบ.ซม.}$",
+      "summary": "ปริมาตรกล่องเท่ากับ 400 ลูกบาศก์ซม.",
+      "trickTip": "💡 ปริมาตรทรงสี่เหลี่ยมมุมฉาก: $5 \\times 8 \\times 10 = 400\\text{ ลบ.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ปริมาตร 400 ลบ.ซม."
+          "title": "ใช้สูตรปริมาตรทรงสี่เหลี่ยมมุมฉาก",
+          "content": "$$\\text{ปริมาตร} = \\text{กว้าง} \\times \\text{ยาว} \\times \\text{สูง}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและคำนวณ",
+          "content": "$$\\text{ปริมาตร} = 5 \\times 8 \\times 10 = 40 \\times 10 = 400 \\text{ ลูกบาศก์ซม.}$$"
         }
       ]
     }
@@ -2526,13 +2776,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "พื้นที่ผิว 96 ตร.ซม.",
-      "trickTip": "💡 ด้านยาว $4\\text{ ซม.} \\implies \\text{พื้นที่ผิว } 6 \\times 4^2 = 96\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่ผิวทั้งหมดเท่ากับ 96 ตารางซม.",
+      "trickTip": "💡 ด้าน $a = \\sqrt[3]{64} = 4 \\implies \\text{พื้นที่ผิว} = 6a^2 = 6(16) = 96\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "พื้นที่ผิว 96 ตร.ซม."
+          "title": "หาความยาวด้านของลูกบาศก์",
+          "content": "$$\\text{ปริมาตร} = a^3 = 64 \\implies a = \\sqrt[3]{64} = 4 \\text{ ซม.}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณพื้นที่ผิวทั้งหมด 6 ด้าน",
+          "content": "$$\\text{พื้นที่ผิวทั้งหมด} = 6 \\times a^2 = 6 \\times 4^2 = 6 \\times 16 = 96 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -2581,13 +2836,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "100 องศา",
-      "trickTip": "💡 มุมในสามเหลี่ยม: $9\\text{ ส่วน} = 180^\\circ \\implies 1\\text{ ส่วน} = 20^\\circ \\implies 5\\text{ ส่วน} = 100^\\circ$",
+      "summary": "มุมที่มีขนาดใหญ่กว่ามีขนาด 100 องศา",
+      "trickTip": "💡 สัดส่วน: $4+5=9\\text{ ส่วน} = 180^\\circ \\implies 1\\text{ ส่วน} = 20^\\circ \\implies 5\\text{ ส่วน} = 100^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "100 องศา"
+          "title": "กำหนดสัดส่วนของสองมุม",
+          "content": "อัตราส่วน $4 : 5$ รวมกันได้ $4 + 5 = 9$ ส่วน เท่ากับ $180^\\circ$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณขนาดของมุมที่ใหญ่กว่า (5 ส่วน)",
+          "content": "$$\\text{ขนาดของมุม} = \\frac{5}{9} \\times 180^\\circ = 5 \\times 20^\\circ = 100^\\circ$$"
         }
       ]
     }
@@ -2636,13 +2896,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "พื้นที่ 96 ตร.ซม.",
-      "trickTip": "💡 พื้นที่สี่เหลี่ยมขนมเปียกปูน: $\\frac{1}{2} \\times 12 \\times 16 = 96\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่รูปสี่เหลี่ยมขนมเปียกปูนเท่ากับ 96 ตารางซม.",
+      "trickTip": "💡 พื้นที่สี่เหลี่ยมขนมเปียกปูน: $\\frac{1}{2} \\times d_1 \\times d_2 = \\frac{1}{2} \\times 12 \\times 16 = 96\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "พื้นที่ 96 ตร.ซม."
+          "title": "ใช้สูตรพื้นที่จากเส้นทแยงมุม",
+          "content": "$$\\text{พื้นที่} = \\frac{1}{2} \\times \\text{ผลคูณของความยาวเส้นทแยงมุม}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและคำนวณ",
+          "content": "$$\\text{พื้นที่} = \\frac{1}{2} \\times 12 \\times 16 = 6 \\times 16 = 96 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -2691,13 +2956,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "45 องศา",
-      "trickTip": "💡 มุมภายนอกรูป 8 เหลี่ยม: $\\frac{360^\\circ}{8} = 45^\\circ$",
+      "summary": "มุมภายนอกของรูปแปดเหลี่ยมมีขนาด 45 องศา",
+      "trickTip": "💡 มุมภายนอกรูปหลายเหลี่ยม: $\\frac{360^\\circ}{8} = 45^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "45 องศา"
+          "title": "ใช้สมบัติผลรวมมุมภายนอก",
+          "content": "ผลรวมมุมภายนอกของรูปหลายเหลี่ยมทุกรูปมีขนาดเท่ากับ $360^\\circ$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หามุมภายนอกแต่ละมุมของรูปแปดเหลี่ยมด้านเท่ามุมเท่า",
+          "content": "$$\\text{ขนาดมุมภายนอก} = \\frac{360^\\circ}{8} = 45^\\circ$$"
         }
       ]
     }
@@ -2746,13 +3016,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "1540 ลบ.ซม.",
-      "trickTip": "💡 ปริมาตรทรงกระบอก: $\\pi r^2 h = 154 \\times 10 = 1,540\\text{ ลบ.ซม.}$",
+      "summary": "ปริมาตรทรงกระบอกเท่ากับ 1,540 ลูกบาศก์ซม.",
+      "trickTip": "💡 ปริมาตรทรงกระบอก: $\\pi r^2 h = \\frac{22}{7} \\times 7^2 \\times 10 = 1,540\\text{ ลบ.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "1540 ลบ.ซม."
+          "title": "ใช้สูตรปริมาตรทรงกระบอก",
+          "content": "$$\\text{ปริมาตร} = \\pi r^2 h$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่า $r = 7, h = 10, \\pi = \\frac{22}{7}$",
+          "content": "$$\\text{ปริมาตร} = \\frac{22}{7} \\times 7 \\times 7 \\times 10 = 22 \\times 7 \\times 10 = 1,540 \\text{ ลูกบาศก์ซม.}$$"
         }
       ]
     }
@@ -2801,13 +3076,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "63 ตร.ซม.",
-      "trickTip": "💡 พื้นที่สามเหลี่ยม: $\\frac{1}{2} \\times 14 \\times 9 = 63\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่รูปสามเหลี่ยมเท่ากับ 63 ตารางซม.",
+      "trickTip": "💡 พื้นที่สามเหลี่ยม: $\\frac{1}{2} \\times \\text{ฐาน} \\times \\text{สูง} = \\frac{1}{2} \\times 14 \\times 9 = 63\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "63 ตร.ซม."
+          "title": "ใช้สูตรพื้นที่รูปสามเหลี่ยม",
+          "content": "$$\\text{พื้นที่} = \\frac{1}{2} \\times \\text{ฐาน} \\times \\text{สูง}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและคำนวณ",
+          "content": "$$\\text{พื้นที่} = \\frac{1}{2} \\times 14 \\times 9 = 7 \\times 9 = 63 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -2856,13 +3136,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "66 ตร.ซม.",
+      "summary": "พื้นที่รูปสี่เหลี่ยมคางหมูเท่ากับ 66 ตารางซม.",
       "trickTip": "💡 พื้นที่สี่เหลี่ยมคางหมู: $\\frac{1}{2} \\times (8 + 14) \\times 6 = 66\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "66 ตร.ซม."
+          "title": "ใช้สูตรพื้นที่รูปสี่เหลี่ยมคางหมู",
+          "content": "$$\\text{พื้นที่} = \\frac{1}{2} \\times (\\text{ผลบวกด้านคู่ขนาน}) \\times \\text{สูง}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและคำนวณ",
+          "content": "$$\\text{พื้นที่} = \\frac{1}{2} \\times (8 + 14) \\times 6 = \\frac{1}{2} \\times 22 \\times 6 = 11 \\times 6 = 66 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -2911,13 +3196,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ประมาณ 160.3 ตร.ซม.",
-      "trickTip": "💡 พื้นที่วงแหวน: $\\pi(R^2 - r^2) = \\frac{22}{7} \\times (100 - 49) = 160.28\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่วงแหวนประมาณ 160.3 ตารางซม.",
+      "trickTip": "💡 พื้นที่วงแหวน: $\\pi(R^2 - r^2) = \\frac{22}{7} \\times (10^2 - 7^2) = \\frac{22 \\times 51}{7} \\approx 160.3\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ประมาณ 160.3 ตร.ซม."
+          "title": "ใช้สูตรพื้นที่วงแหวน",
+          "content": "$$\\text{พื้นที่วงแหวน} = \\pi R^2 - \\pi r^2 = \\pi (R^2 - r^2)$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่ารัศมีวงนอก $R = 10$ และวงใน $r = 7$",
+          "content": "$$\\text{พื้นที่} = \\frac{22}{7} \\times (10^2 - 7^2) = \\frac{22}{7} \\times (100 - 49) = \\frac{22}{7} \\times 51 = \\frac{1,122}{7} \\approx 160.3 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -2966,13 +3256,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "96 ตร.ซม.",
-      "trickTip": "💡 พื้นที่ผืนผ้า: $8 \\times 12 = 96\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่รูปสี่เหลี่ยมผืนผ้าเท่ากับ 96 ตารางซม.",
+      "trickTip": "💡 กว้าง $= 8$, ยาว $= 12 \\implies \\text{พื้นที่} = 8 \\times 12 = 96\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "96 ตร.ซม."
+          "title": "ตั้งสมการหาความกว้างและความยาว",
+          "content": "ให้ด้านกว้างยาว $x$ ซม. ดังนั้นด้านยาวยาว $x + 4$ ซม.\nเส้นรอบรูป $= 2(\\text{กว้าง} + \\text{ยาว}) = 40$\n$$2(x + x + 4) = 40$$\n$$2x + 4 = 20 \\implies 2x = 16 \\implies x = 8 \\text{ ซม.}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณพื้นที่",
+          "content": "ด้านกว้าง $= 8$ ซม. และด้านยาว $= 8 + 4 = 12$ ซม.\n$$\\text{พื้นที่} = 8 \\times 12 = 96 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -3021,13 +3316,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "4 เท่า",
-      "trickTip": "💡 เมื่อรัศมีเพิ่ม $2$ เท่า พื้นที่จะเพิ่ม $2^2 = 4$ เท่า",
+      "summary": "พื้นที่วงกลมจะเพิ่มขึ้นเป็น 4 เท่าของเดิม",
+      "trickTip": "💡 อัตราส่วนพื้นที่: พื้นที่แปรผันตรงกับกำลังสองของรัศมี $\\implies 2^2 = 4\\text{ เท่า}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "4 เท่า"
+          "title": "พิจารณาพื้นที่วงกลมเดิมและวงกลมใหม่",
+          "content": "- พื้นที่เดิม: $A_1 = \\pi r^2$\n- เมื่อรัศมีเพิ่มเป็น 2 เท่า รัศมีใหม่คือ $2r$\n- พื้นที่ใหม่: $A_2 = \\pi (2r)^2 = \\pi (4r^2) = 4\\pi r^2$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "เปรียบเทียบสัดส่วนพื้นที่",
+          "content": "$$\\frac{A_2}{A_1} = \\frac{4\\pi r^2}{\\pi r^2} = 4$$\nดังนั้น พื้นที่จะเพิ่มขึ้นเป็น $4$ เท่าของเดิม"
         }
       ]
     }
@@ -3076,13 +3376,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "60 ลบ.ซม.",
-      "trickTip": "💡 ปริมาตรปริซึม: $\\text{พื้นที่ฐาน} \\times \\text{สูง} = 6 \\times 10 = 60\\text{ ลบ.ซม.}$",
+      "summary": "ปริมาตรของปริซึมเท่ากับ 60 ลูกบาศก์ซม.",
+      "trickTip": "💡 ปริมาตรปริซึม: $\\text{พื้นที่ฐาน} \\times \\text{สูง} = \\left(\\frac{1}{2} \\times 3 \\times 4\\right) \\times 10 = 60\\text{ ลบ.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "60 ลบ.ซม."
+          "title": "หาพื้นที่ฐานสามเหลี่ยมมุมฉาก",
+          "content": "$$\\text{พื้นที่ฐาน} = \\frac{1}{2} \\times 3 \\times 4 = 6 \\text{ ตารางซม.}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณปริมาตรปริซึม",
+          "content": "$$\\text{ปริมาตร} = \\text{พื้นที่ฐาน} \\times \\text{ความยาว} = 6 \\times 10 = 60 \\text{ ลูกบาศก์ซม.}$$"
         }
       ]
     }
@@ -3131,13 +3436,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เท่ากันเสมอ",
-      "trickTip": "💡 สมบัติเส้นตรงตัดกัน: มุมตรงข้ามมีขนาดเท่ากันเสมอ",
+      "summary": "มุมตรงข้ามจะมีขนาดเท่ากันเสมอ",
+      "trickTip": "💡 สมบัติมุมตรงข้าม: เมื่อเส้นตรงสองเส้นตัดกัน มุมตรงข้ามจะมีขนาดเท่ากันเสมอ",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "เท่ากันเสมอ"
+          "title": "พิจารณาทฤษฎีบทเส้นตัด",
+          "content": "เมื่อเส้นตรงสองเส้นตัดกัน จะเกิดมุมประชิด 2 มุมที่รวมกันได้ $180^\\circ$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "สรุปสมบัติของมุมตรงข้าม",
+          "content": "มุมตรงข้ามกับมุมใด ๆ จะมีขนาดเท่ากันเสมอตามหลักเรขาคณิตพื้นฐาน"
         }
       ]
     }
@@ -3186,13 +3496,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "แบ่งครึ่งซึ่งกันและกัน",
-      "trickTip": "💡 สมบัติสี่เหลี่ยมด้านขนาน: มุมตรงข้ามกางเท่ากัน และมุมประชิดรวมกันได้ $180^\\circ$",
+      "summary": "เส้นทแยงมุมของรูปสี่เหลี่ยมด้านขนานแบ่งครึ่งซึ่งกันและกัน",
+      "trickTip": "💡 สมบัติสี่เหลี่ยมด้านขนาน: เส้นทแยงมุมจะตัดกันและแบ่งครึ่งซึ่งกันและกัน",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "แบ่งครึ่งซึ่งกันและกัน"
+          "title": "พิจารณารูปสี่เหลี่ยมด้านขนาน",
+          "content": "รูปสี่เหลี่ยมด้านขนานมีด้านตรงข้ามขนานกันและยาวเท่ากัน"
+        },
+        {
+          "stepNumber": 2,
+          "title": "สรุปสมบัติของเส้นทแยงมุม",
+          "content": "จุดตัดของเส้นทแยงมุมทั้งสองเส้นจะเป็นจุดกึ่งกลางของเส้นทแยงมุมทั้งสอง นั่นคือ \"แบ่งครึ่งซึ่งกันและกัน\""
         }
       ]
     }
@@ -3241,13 +3556,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "$3\\sqrt{3}$ ซม.",
-      "trickTip": "💡 ความสูงสามเหลี่ยมด้านเท่า: $h = \\frac{\\sqrt{3}}{2} \\times \\text{ด้าน} = 3\\sqrt{3}\\text{ ซม.}$",
+      "summary": "ความสูงของรูปสามเหลี่ยมด้านเท่าคือ $3\\sqrt{3}$ ซม.",
+      "trickTip": "💡 สูตรความสูงสามเหลี่ยมด้านเท่า: $h = \\frac{\\sqrt{3}}{2}a = \\frac{\\sqrt{3}}{2}(6) = 3\\sqrt{3}\\text{ ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "$3\\sqrt{3}$ ซม."
+          "title": "ใช้ทฤษฎีบทพีทาโกรัสแบ่งครึ่งฐาน",
+          "content": "ลากเส้นความสูงลงมาตั้งฉาก จะแบ่งครึ่งฐานออกเป็นข้างละ $\\frac{6}{2} = 3$ ซม.\nเกิดเป็นรูปสามเหลี่ยมมุมฉากที่มีด้านตรงข้ามมุมฉากยาว $6$ ซม. และฐานยาว $3$ ซม."
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณหาความสูง $h$",
+          "content": "$$h^2 + 3^2 = 6^2$$\n$$h^2 + 9 = 36$$\n$$h^2 = 27 \\implies h = \\sqrt{27} = 3\\sqrt{3} \\text{ ซม.}$$"
         }
       ]
     }
@@ -3296,13 +3616,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "สูง 10 ซม.",
-      "trickTip": "💡 พื้นที่ผิวข้างทรงกระบอก: $2\\pi rh = 440 \\implies 44 \\times h = 440 \\implies h = 10\\text{ ซม.}$",
+      "summary": "ทรงกระบอกนี้สูง 10 ซม.",
+      "trickTip": "💡 พื้นที่ผิวข้างทรงกระบอก: $2\\pi rh = 440 \\implies 2 \\times \\frac{22}{7} \\times 7 \\times h = 440 \\implies 44h = 440 \\implies h = 10$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "สูง 10 ซม."
+          "title": "ใช้สูตรพื้นที่ผิวข้างของทรงกระบอก",
+          "content": "$$\\text{พื้นที่ผิวข้าง} = 2\\pi rh$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและแก้สมการหาความสูง $h$",
+          "content": "$$440 = 2 \\times \\frac{22}{7} \\times 7 \\times h$$\n$$440 = 44 \\times h$$\n$$h = \\frac{440}{44} = 10 \\text{ ซม.}$$"
         }
       ]
     }
@@ -3351,13 +3676,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "75 ตร.ซม.",
-      "trickTip": "💡 พื้นที่รูปว่าว: $\\frac{1}{2} \\times 10 \\times 15 = 75\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่รูปสี่เหลี่ยมรูปว่าวเท่ากับ 75 ตารางซม.",
+      "trickTip": "💡 พื้นที่รูปว่าว: $\\frac{1}{2} \\times d_1 \\times d_2 = \\frac{1}{2} \\times 10 \\times 15 = 75\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "75 ตร.ซม."
+          "title": "ใช้สูตรพื้นที่รูปสี่เหลี่ยมรูปว่าว",
+          "content": "$$\\text{พื้นที่} = \\frac{1}{2} \\times \\text{ผลคูณของเส้นทแยงมุม}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและคำนวณ",
+          "content": "$$\\text{พื้นที่} = \\frac{1}{2} \\times 10 \\times 15 = 5 \\times 15 = 75 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -3406,13 +3736,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "5 ซม.",
-      "trickTip": "💡 เส้นทแยงมุม: $\\sqrt{3^2 + 4^2} = \\sqrt{25} = 5\\text{ ซม.}$",
+      "summary": "ความสูงเอียงของกรวยเท่ากับ 5 ซม.",
+      "trickTip": "💡 พีทาโกรัสความสูงเอียง: $l = \\sqrt{r^2 + h^2} = \\sqrt{3^2 + 4^2} = 5\\text{ ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "5 ซม."
+          "title": "ใช้ความสัมพันธ์ในรูปสามเหลี่ยมมุมฉากของกรวย",
+          "content": "รัศมีฐาน ($r$), ความสูงตรง ($h$) และความสูงเอียง ($l$) สัมพันธ์กันด้วยทฤษฎีบทพีทาโกรัส:\n$$l^2 = r^2 + h^2$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและหาความสูงเอียง",
+          "content": "$$l^2 = 3^2 + 4^2 = 9 + 16 = 25$$\n$$l = \\sqrt{25} = 5 \\text{ ซม.}$$"
         }
       ]
     }
@@ -3461,13 +3796,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "$36\\pi$",
+      "summary": "ปริมาตรทรงกลมเท่ากับ $36\\pi$ ลูกบาศก์ซม.",
       "trickTip": "💡 ปริมาตรทรงกลม: $\\frac{4}{3}\\pi r^3 = \\frac{4}{3}\\pi (3^3) = 36\\pi\\text{ ลบ.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "$36\\pi$"
+          "title": "ใช้สูตรปริมาตรทรงกลม",
+          "content": "$$\\text{ปริมาตร} = \\frac{4}{3}\\pi r^3$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่ารัศมี $r = 3$",
+          "content": "$$\\text{ปริมาตร} = \\frac{4}{3}\\pi (3)^3 = \\frac{4}{3}\\pi (27) = 4 \\times 9\\pi = 36\\pi \\text{ ลูกบาศก์ซม.}$$"
         }
       ]
     }
@@ -3516,13 +3856,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "900 องศา",
-      "trickTip": "💡 ผลรวมมุมภายในรูป 7 เหลี่ยม: $(7 - 2) \\times 180^\\circ = 900^\\circ$",
+      "summary": "ผลรวมมุมภายในรูปเจ็ดเหลี่ยมเท่ากับ 900 องศา",
+      "trickTip": "💡 ผลรวมมุมภายใน: $(n - 2) \\times 180^\\circ = (7 - 2) \\times 180^\\circ = 5 \\times 180^\\circ = 900^\\circ$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "900 องศา"
+          "title": "ใช้สูตรผลรวมมุมภายในรูป $n$ เหลี่ยม",
+          "content": "$$\\text{ผลรวมมุมภายใน} = (n - 2) \\times 180^\\circ$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าจำนวนด้าน $n = 7$",
+          "content": "$$\\text{ผลรวม} = (7 - 2) \\times 180^\\circ = 5 \\times 180^\\circ = 900^\\circ$$"
         }
       ]
     }
@@ -3571,13 +3916,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "60 ตร.ซม.",
-      "trickTip": "💡 ด้านยาว $= 12\\text{ ซม.} \\implies \\text{พื้นที่} = 5 \\times 12 = 60\\text{ ตร.ซม.}$",
+      "summary": "พื้นที่รูปสี่เหลี่ยมผืนผ้าเท่ากับ 60 ตารางซม.",
+      "trickTip": "💡 หาด้านยาวด้วยพีทาโกรัส: $\\sqrt{13^2 - 5^2} = 12 \\implies \\text{พื้นที่} = 5 \\times 12 = 60\\text{ ตร.ซม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "60 ตร.ซม."
+          "title": "หาความยาวของสี่เหลี่ยมผืนผ้าด้วยพีทาโกรัส",
+          "content": "จากรูปสามเหลี่ยมมุมฉากที่มีเส้นทแยงมุมเป็นด้านตรงข้ามมุมฉาก:\n$$\\text{ยาว} = \\sqrt{13^2 - 5^2} = \\sqrt{169 - 25} = \\sqrt{144} = 12 \\text{ ซม.}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณพื้นที่",
+          "content": "$$\\text{พื้นที่} = \\text{กว้าง} \\times \\text{ยาว} = 5 \\times 12 = 60 \\text{ ตารางซม.}$$"
         }
       ]
     }
@@ -3626,13 +3976,23 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "กำไร 50 บาท",
-      "trickTip": "💡 ติดป้าย $500$ ลด $10\\%$ ขาย $450$ บาท $\\implies$ กำไร $450 - 400 = 50$ บาท",
+      "summary": "จะได้กำไรทั้งหมด 50 บาท",
+      "trickTip": "💡 คิดราคาขาย: ติดป้าย $400 \\times 1.25 = 500$, ขายจริง $500 \\times 0.90 = 450 \\implies$ กำไร $450 - 400 = 50$ บาท",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "กำไร 50 บาท"
+          "title": "คำนวณราคาป้ายที่ติดขาย (กำไร 25%)",
+          "content": "ทุน 400 บาท กำไร 25%:\n$$\\text{ราคาป้าย} = 400 + \\left(\\frac{25}{100} \\times 400\\right) = 400 + 100 = 500 \\text{ บาท}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณราคาขายจริงหลังลด 10%",
+          "content": "ลดราคา 10% จากราคาป้าย 500 บาท:\n$$\\text{ราคาขายจริง} = 500 - \\left(\\frac{10}{100} \\times 500\\right) = 500 - 50 = 450 \\text{ บาท}$$"
+        },
+        {
+          "stepNumber": 3,
+          "title": "หากำไรสุทธิ",
+          "content": "$$\\text{กำไร} = \\text{ราคาขายจริง} - \\text{ราคาทุน} = 450 - 400 = 50 \\text{ บาท}$$"
         }
       ]
     }
@@ -3681,13 +4041,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "180 กิโลเมตร",
-      "trickTip": "💡 ระยะทาง $= 80 \\times 2.25 = 180\\text{ กม.}$",
+      "summary": "จะได้ระยะทางทั้งหมด 180 กิโลเมตร",
+      "trickTip": "💡 ระยะทาง $= \\text{อัตราเร็ว} \\times \\text{เวลา} = 80 \\times 2.25 = 180\\text{ กม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "180 กิโลเมตร"
+          "title": "แปลงหน่วยเวลาเป็นชั่วโมง",
+          "content": "เวลา 2 ชั่วโมง 15 นาที\nเนื่องจาก 1 ชั่วโมง มี 60 นาที ดังนั้น 15 นาทีคิดเป็น:\n$$\\frac{15}{60} = 0.25 \\text{ ชั่วโมง}$$\nเวลารวมทั้งหมดคือ $2 + 0.25 = 2.25$ ชั่วโมง"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณระยะทางจากสูตร",
+          "content": "ใช้สูตร $\\text{ระยะทาง} = \\text{อัตราเร็ว} \\times \\text{เวลา}$\n$$\\text{ระยะทาง} = 80 \\text{ กม./ชม.} \\times 2.25 \\text{ ชม.} = 180 \\text{ กิโลเมตร}$$"
         }
       ]
     }
@@ -3736,13 +4101,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เสร็จใน 4 วัน",
-      "trickTip": "💡 ทำงานร่วมกัน: $\\frac{1}{6} + \\frac{1}{12} = \\frac{3}{12} = \\frac{1}{4} \\implies 4\\text{ วัน}$",
+      "summary": "ถ้าทั้งสองคนช่วยกันทำจะเสร็จใน 4 วัน",
+      "trickTip": "💡 อัตราการทำงานรวม: $\\frac{1}{6} + \\frac{1}{12} = \\frac{3}{12} = \\frac{1}{4} \\implies 4\\text{ วัน}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "เสร็จใน 4 วัน"
+          "title": "หาอัตราการทำงานใน 1 วันของแต่ละคน",
+          "content": "- นายเอ ทำงาน 1 วันได้ $\\frac{1}{6}$ ของงาน\n- นายบี ทำงาน 1 วันได้ $\\frac{1}{12}$ ของงาน"
+        },
+        {
+          "stepNumber": 2,
+          "title": "รวมอัตราการทำงานและหาจำนวนวัน",
+          "content": "ใน 1 วัน ทั้งสองคนช่วยกันทำงานได้:\n$$\\frac{1}{6} + \\frac{1}{12} = \\frac{2}{12} + \\frac{1}{12} = \\frac{3}{12} = \\frac{1}{4} \\text{ ของงาน}$$\nดังนั้น งานจะเสร็จสมบูรณ์ใน $\\frac{1}{1/4} = 4$ วัน"
         }
       ]
     }
@@ -3791,13 +4161,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "16%",
-      "trickTip": "💡 ความเข้มข้น: $\\frac{20 + 60}{500} = \\frac{80}{500} = 16\\%$",
+      "summary": "จะได้น้ำเกลือเข้มข้น 16%",
+      "trickTip": "💡 ความเข้มข้นรวม: $\\frac{\\text{เนื้อเกลือรวม}}{\\text{น้ำหนักรวม}} = \\frac{20 + 60}{500} = \\frac{80}{500} = 16\\%$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "16%"
+          "title": "หาปริมาณเกลือบริสุทธิ์ในแต่ละส่วนผสม",
+          "content": "- น้ำเกลือชุดแรก 200 กรัม เข้มข้น 10%: มีเกลือ $\\frac{10}{100} \\times 200 = 20$ กรัม\n- น้ำเกลือชุดสอง 300 กรัม เข้มข้น 20%: มีเกลือ $\\frac{20}{100} \\times 300 = 60$ กรัม"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณความเข้มข้นของน้ำเกลือผสม",
+          "content": "- เกลือรวม $= 20 + 60 = 80$ กรัม\n- น้ำเกลือรวม $= 200 + 300 = 500$ กรัม\n$$\\text{ความเข้มข้น} = \\left(\\frac{80}{500}\\right) \\times 100\\% = 16\\%$$"
         }
       ]
     }
@@ -3846,13 +4221,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "1,000 บาท",
-      "trickTip": "💡 ดอกเบี้ยธรรมดา: $I = P \\times r \\times t = 20,000 \\times 0.025 \\times 2 = 1,000\\text{ บาท}$",
+      "summary": "จะได้รับดอกเบี้ยเชิงเดี่ยวรวม 1,000 บาท",
+      "trickTip": "💡 สูตรดอกเบี้ยเชิงเดี่ยว: $I = P \\times r \\times t = 20,000 \\times 0.025 \\times 2 = 1,000\\text{ บาท}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "1,000 บาท"
+          "title": "ใช้สูตรคำนวณดอกเบี้ยเชิงเดี่ยว",
+          "content": "$$I = P \\times r \\times t$$\nโดยที่ $P = 20,000$ บาท, $r = 2.5\\% = 0.025$, $t = 2$ ปี"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แทนค่าและคำนวณ",
+          "content": "$$I = 20,000 \\times 0.025 \\times 2 = 500 \\times 2 = 1,000 \\text{ บาท}$$"
         }
       ]
     }
@@ -3901,13 +4281,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "14 เหรียญ",
-      "trickTip": "💡 สมการเหรียญ: $5(30 - x) + 10x = 220 \\implies 5x = 70 \\implies x = 14\\text{ เหรียญ}$",
+      "summary": "มีเหรียญ 10 บาททั้งหมด 14 เหรียญ",
+      "trickTip": "💡 สมการเหรียญ: $10x + 5(30 - x) = 220 \\implies 5x = 70 \\implies x = 14\\text{ เหรียญ}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "14 เหรียญ"
+          "title": "กำหนดตัวแปรแทนจำนวนเหรียญ",
+          "content": "ให้มีเหรียญ 10 บาทจำนวน $x$ เหรียญ\nดังนั้นจะมีเหรียญ 5 บาทจำนวน $30 - x$ เหรียญ"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ตั้งสมการตามมูลค่าเงินรวม",
+          "content": "$$10(x) + 5(30 - x) = 220$$\n$$10x + 150 - 5x = 220$$\n$$5x = 220 - 150 = 70$$\n$$x = \\frac{70}{5} = 14 \\text{ เหรียญ}$$"
         }
       ]
     }
@@ -3956,13 +4341,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "7.5 วินาที",
-      "trickTip": "💡 $72\\text{ กม./ชม.} = 20\\text{ ม./วินาที} \\implies \\frac{150}{20} = 7.5\\text{ วินาที}$",
+      "summary": "รถไฟแล่นผ่านเสาไฟฟ้าในเวลา 7.5 วินาที",
+      "trickTip": "💡 แปลงความเร็วเป็น ม./วิ: $72 \\times \\frac{5}{18} = 20\\text{ ม./วิ} \\implies \\text{เวลา} = \\frac{150}{20} = 7.5\\text{ วินาที}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "7.5 วินาที"
+          "title": "แปลงหน่วยอัตราเร็วจาก กม./ชม. เป็น เมตร/วินาที",
+          "content": "$$72 \\text{ กม./ชม.} = 72 \\times \\frac{5}{18} = 4 \\times 5 = 20 \\text{ เมตร/วินาที}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณเวลาที่ใช้แล่นผ่านความยาวขบวน",
+          "content": "การแล่นผ่านเสาไฟฟ้า ระยะทางที่เคลื่อนที่ได้เท่ากับความยาวของขบวนรถไฟ ($150$ เมตร)\n$$\\text{เวลา} = \\frac{\\text{ระยะทาง}}{\\text{อัตราเร็ว}} = \\frac{150}{20} = 7.5 \\text{ วินาที}$$"
         }
       ]
     }
@@ -4011,13 +4401,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "48%",
-      "trickTip": "💡 ชาย $24$ คน จากทั้งหมด $50$ คน $\\implies \\frac{24}{50} = 48\\%$",
+      "summary": "สัดส่วนนักเรียนชายคิดเป็น 48%",
+      "trickTip": "💡 ชาย 24 คน จากทั้งหมด 50 คน $\\implies \\frac{24}{50} \\times 100\\% = 48\\%$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "48%"
+          "title": "หาจำนวนนักเรียนชายและหญิงเดิม",
+          "content": "เดิมมีนักเรียน 40 คน:\n- นักเรียนชาย $60\\% = \\frac{60}{100} \\times 40 = 24$ คน\n- นักเรียนหญิง $= 40 - 24 = 16$ คน"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณร้อยละของนักเรียนชายหลังหญิงย้ายเข้า",
+          "content": "มีนักเรียนหญิงย้ายเข้า 10 คน ทำให้จำนวนนักเรียนทั้งหมดเป็น $40 + 10 = 50$ คน\n$$\\text{ร้อยละของนักเรียนชาย} = \\left(\\frac{24}{50}\\right) \\times 100\\% = 48\\%$$"
         }
       ]
     }
@@ -4066,13 +4461,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "12 ชั่วโมง",
+      "summary": "น้ำจะเต็มถังในเวลา 12 ชั่วโมง",
       "trickTip": "💡 อัตราไหลสุทธิ: $\\frac{1}{4} - \\frac{1}{6} = \\frac{1}{12} \\implies 12\\text{ ชั่วโมง}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "12 ชั่วโมง"
+          "title": "หาอัตราการไหลใน 1 ชั่วโมงของแต่ละท่อ",
+          "content": "- ท่อ A เปิดเข้าได้ $\\frac{1}{4}$ ถัง/ชั่วโมง\n- ท่อ B ไขออกได้ $\\frac{1}{6}$ ถัง/ชั่วโมง"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณอัตราการเพิ่มของน้ำต่อชั่วโมง",
+          "content": "$$\\text{อัตราไหลสุทธิ} = \\frac{1}{4} - \\frac{1}{6} = \\frac{3}{12} - \\frac{2}{12} = \\frac{1}{12} \\text{ ถัง/ชั่วโมง}$$\nดังนั้น จะใช้น้ำเต็มถังในเวลา $12$ ชั่วโมง"
         }
       ]
     }
@@ -4121,13 +4521,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "2,000 บาท",
-      "trickTip": "💡 ราคาขาย $85\\% = 1,700 \\implies 100\\% = \\frac{1,700 \\times 100}{85} = 2,000\\text{ บาท}$",
+      "summary": "สินค้านี้มีราคาทุน 2,000 บาท",
+      "trickTip": "💡 ขายขาดทุน 15% คือราคาขาย 85%: $\\text{ทุน} = \\frac{1,700 \\times 100}{85} = 2,000\\text{ บาท}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "2,000 บาท"
+          "title": "เทียบสัดส่วนเปอร์เซ็นต์ราคาขาย",
+          "content": "ขายขาดทุน 15% แสดงว่าราคาขายคิดเป็น $100\\% - 15\\% = 85\\%$ ของราคาทุน"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณหาราคาทุน",
+          "content": "$$\\text{ราคาทุน} = \\frac{1,700}{85} \\times 100 = 20 \\times 100 = 2,000 \\text{ บาท}$$"
         }
       ]
     }
@@ -4176,13 +4581,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "36,000 บาท",
-      "trickTip": "💡 อัตราส่วน $3:4:6 \\implies \\text{ก} = 18,000 \\implies \\text{ค} = 6 \\times 6,000 = 36,000\\text{ บาท}$",
+      "summary": "ค มีเงินเดือน 36,000 บาท",
+      "trickTip": "💡 เชื่อมโยงอัตราส่วน ก:ข:ค $= 3:4:6 \\implies$ ก มี 3 ส่วน $= 18,000 \\implies$ ค มี 6 ส่วน $= 36,000\\text{ บาท}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "36,000 บาท"
+          "title": "รวมอัตราส่วนต่อเนื่อง ก : ข : ค",
+          "content": "- ก : ข $= 3 : 4$\n- ข : ค $= 2 : 3 = 4 : 6$\nดังนั้น ก : ข : ค $= 3 : 4 : 6$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาเงินเดือนของ ค",
+          "content": "ก มี 3 ส่วน คิดเป็น $18,000$ บาท $\\implies 1 \\text{ ส่วน} = \\frac{18,000}{3} = 6,000$ บาท\nค มี 6 ส่วน คิดเป็น:\n$$\\text{เงินเดือน ค} = 6 \\times 6,000 = 36,000 \\text{ บาท}$$"
         }
       ]
     }
@@ -4231,13 +4641,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "10 ตัว",
-      "trickTip": "💡 ขาของสัตว์: $2(25 - x) + 4x = 70 \\implies 2x = 20 \\implies x = 10\\text{ ตัว}$",
+      "summary": "มีวัวทั้งหมด 10 ตัว",
+      "trickTip": "💡 เป็ด 2 ขา, วัว 4 ขา: $2(25 - x) + 4x = 70 \\implies 2x = 20 \\implies x = 10\\text{ ตัว}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "10 ตัว"
+          "title": "กำหนดตัวแปรแทนจำนวนสัตว์",
+          "content": "ให้มีวัว $x$ ตัว (วัวมี 4 ขา)\nมีเป็ด $25 - x$ ตัว (เป็ดมี 2 ขา)"
+        },
+        {
+          "stepNumber": 2,
+          "title": "ตั้งสมการตามจำนวนขารวม",
+          "content": "$$4x + 2(25 - x) = 70$$\n$$4x + 50 - 2x = 70$$\n$$2x = 20 \\implies x = 10 \\text{ ตัว}$$"
         }
       ]
     }
@@ -4286,13 +4701,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "12:06 น.",
-      "trickTip": "💡 เวลาเดินเร็ว: $3\\text{ วัน} \\times 2\\text{ นาที/วัน} = 6\\text{ นาที} \\implies 12:06\\text{ น.}$",
+      "summary": "อีก 3 วันต่อมาเวลาเที่ยงวันจะบอกเวลา 12:06 น.",
+      "trickTip": "💡 เดินเร็ววันละ 2 นาที $\\times 3\\text{ วัน} = 6\\text{ นาที} \\implies 12:06\\text{ น.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "12:06 น."
+          "title": "คำนวณเวลาที่นาฬิกาเดินเร็วไปทั้งหมด",
+          "content": "$$\\text{เวลาที่เดินเร็ว} = 3 \\text{ วัน} \\times 2 \\text{ นาที/วัน} = 6 \\text{ นาที}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาเวลาที่นาฬิกาบอกจริง",
+          "content": "เวลาจริงคือ 12:00 น. แต่นาฬิกาเดินเร็วไป 6 นาที จึงบอกเวลา $12:06$ น."
         }
       ]
     }
@@ -4341,13 +4761,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "25 คน",
-      "trickTip": "💡 งานเท่าเดิม: $15 \\times 10 = 6 \\times N \\implies N = 25\\text{ วัน}$",
+      "summary": "ต้องใช้คนทำงานทั้งหมด 25 คน",
+      "trickTip": "💡 บัญญัติไตรยางค์แปรผกผัน: $15 \\times 10 = N \\times 6 \\implies N = \\frac{150}{6} = 25\\text{ คน}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "25 คน"
+          "title": "หาปริมาณงานทั้งหมด (คน-วัน)",
+          "content": "$$\\text{ปริมาณงาน} = 15 \\text{ คน} \\times 10 \\text{ วัน} = 150 \\text{ คน-วัน}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาจำนวนคนที่ต้องใช้เมื่อต้องการให้เสร็จใน 6 วัน",
+          "content": "$$\\text{จำนวนคน} = \\frac{150 \\text{ คน-วัน}}{6 \\text{ วัน}} = 25 \\text{ คน}$$"
         }
       ]
     }
@@ -4396,13 +4821,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "48 กม./ชม.",
-      "trickTip": "💡 อัตราเร็วเฉลี่ย: $\\frac{\\text{ระยะทางรวม}}{\\text{เวลารวม}} = \\frac{240}{2 + 3} = \\frac{240}{5} = 48\\text{ กม./ชม.}$",
+      "summary": "อัตราเร็วเฉลี่ยตลอดการเดินทางคือ 48 กม./ชม.",
+      "trickTip": "💡 อัตราเร็วเฉลี่ย: $\\frac{\\text{ระยะทางรวม}}{\\text{เวลารวม}} = \\frac{240}{\\frac{120}{60} + \\frac{120}{40}} = \\frac{240}{2 + 3} = 48\\text{ กม./ชม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "48 กม./ชม."
+          "title": "หาเวลาที่ใช้เดินทางขาไปและขากลับ",
+          "content": "- เวลาขาไป: $t_1 = \\frac{120}{60} = 2$ ชั่วโมง\n- เวลาขากลับ: $t_2 = \\frac{120}{40} = 3$ ชั่วโมง\n- เวลารวม $= 2 + 3 = 5$ ชั่วโมง"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณอัตราเร็วเฉลี่ย",
+          "content": "ระยะทางรวม $= 120 + 120 = 240$ กิโลเมตร\n$$\\text{อัตราเร็วเฉลี่ย} = \\frac{\\text{ระยะทางรวม}}{\\text{เวลารวม}} = \\frac{240}{5} = 48 \\text{ กม./ชม.}$$"
         }
       ]
     }
@@ -4451,13 +4881,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "30 บาท",
-      "trickTip": "💡 ต้นทุนรวม $= \\frac{1,800}{1.2} = 1,500\\text{ บาท} \\implies \\frac{1,500}{50} = 30\\text{ บาท/กก.}$",
+      "summary": "เดิมซื้อส้มมากิโลกรัมละ 30 บาท",
+      "trickTip": "💡 ต้นทุนรวม $= \\frac{1,800}{1.20} = 1,500 \\implies \\frac{1,500}{50} = 30\\text{ บาท/กก.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "30 บาท"
+          "title": "หาต้นทุนรวมจากกำไร 20%",
+          "content": "ขายได้เงิน 1,800 บาท ได้กำไร 20%:\n$$\\text{ต้นทุนรวม} = \\frac{1,800}{1.20} = 1,500 \\text{ บาท}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาราคาทุนต่อกิโลกรัมเดิม (50 กก.)",
+          "content": "$$\\text{ราคาทุนต่อ กก.} = \\frac{1,500 \\text{ บาท}}{50 \\text{ กก.}} = 30 \\text{ บาท/กก.}$$"
         }
       ]
     }
@@ -4506,13 +4941,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "10 กิโลกรัม",
-      "trickTip": "💡 ผสมสินค้า: $50x + 80(30 - x) = 2,100 \\implies 30x = 300 \\implies x = 10\\text{ กก.}$",
+      "summary": "ต้องใช้ถั่วชนิดแรกจำนวน 10 กิโลกรัม",
+      "trickTip": "💡 สมการผสมสินค้า: $50x + 80(30 - x) = 70(30) = 2,100 \\implies 30x = 300 \\implies x = 10\\text{ กก.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "10 กิโลกรัม"
+          "title": "กำหนดตัวแปรแทนน้ำหนักถั่วแต่ละชนิด",
+          "content": "ให้ใช้ถั่วชนิดแรก (กก.ละ 50 บาท) จำนวน $x$ กก.\nดังนั้นใช้ถั่วชนิดที่สอง (กก.ละ 80 บาท) จำนวน $30 - x$ กก."
+        },
+        {
+          "stepNumber": 2,
+          "title": "ตั้งสมการตามมูลค่ารวมของถั่วผสม",
+          "content": "$$50x + 80(30 - x) = 70 \\times 30$$\n$$50x + 2,400 - 80x = 2,100$$\n$$30x = 300 \\implies x = 10 \\text{ กก.}$$"
         }
       ]
     }
@@ -4561,13 +5001,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "3.0 กิโลเมตร",
-      "trickTip": "💡 ระยะทางจริง: $6 \\times 50,000 = 300,000\\text{ ซม.} = 3,000\\text{ ม.} = 3\\text{ กม.}$",
+      "summary": "แทนระยะทางจริง 3.0 กิโลเมตร",
+      "trickTip": "💡 มาตราส่วน: $6 \\times 50,000 = 300,000\\text{ ซม.} = 3,000\\text{ ม.} = 3\\text{ กม.}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "3.0 กิโลเมตร"
+          "title": "คำนวณระยะทางจริงในหน่วยเซนติเมตร",
+          "content": "$$\\text{ระยะจริง} = 6 \\text{ ซม.} \\times 50,000 = 300,000 \\text{ ซม.}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แปลงเซนติเมตรเป็นกิโลเมตร",
+          "content": "- $300,000 \\text{ ซม.} \\div 100 = 3,000 \\text{ เมตร}$\n- $3,000 \\text{ เมตร} \\div 1,000 = 3.0 \\text{ กิโลเมตร}$"
         }
       ]
     }
@@ -4616,13 +5061,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "12,100 บาท",
-      "trickTip": "💡 ดอกเบี้ยทบต้น: $10,000 \\times 1.1 \\times 1.1 = 12,100\\text{ บาท}$",
+      "summary": "สิ้นปีที่ 2 จะมีเงินรวม 12,100 บาท",
+      "trickTip": "💡 สูตรดอกเบี้ยทบต้น: $10,000 \\times (1.10)^2 = 10,000 \\times 1.21 = 12,100\\text{ บาท}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "12,100 บาท"
+          "title": "หาเงินรวมเมื่อสิ้นปีที่ 1",
+          "content": "$$\\text{สิ้นปีที่ 1} = 10,000 + (10\\% \\times 10,000) = 10,000 + 1,000 = 11,000 \\text{ บาท}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาเงินรวมเมื่อสิ้นปีที่ 2",
+          "content": "$$\\text{สิ้นปีที่ 2} = 11,000 + (10\\% \\times 11,000) = 11,000 + 1,100 = 12,100 \\text{ บาท}$$"
         }
       ]
     }
@@ -4671,13 +5121,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "600 แผ่น",
-      "trickTip": "💡 จำนวนกระเบื้อง: $\\frac{54\\text{ ตร.ม.}}{0.09\\text{ ตร.ม./แผ่น}} = 600\\text{ แผ่น}$",
+      "summary": "ต้องใช้กระเบื้องทั้งหมด 600 แผ่น",
+      "trickTip": "💡 หาพื้นที่ห้อง $\\div$ พื้นที่กระเบื้อง: $\\frac{6 \\times 9}{0.3 \\times 0.3} = \\frac{54}{0.09} = 600\\text{ แผ่น}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "600 แผ่น"
+          "title": "คำนวณพื้นที่ห้องและพื้นที่กระเบื้อง 1 แผ่น",
+          "content": "- พื้นที่ห้อง $= 6 \\text{ ม.} \\times 9 \\text{ ม.} = 54 \\text{ ตารางเมตร}$\n- กระเบื้องกว้าง $30 \\text{ ซม.} = 0.3 \\text{ ม.}$ พื้นที่ $= 0.3 \\times 0.3 = 0.09 \\text{ ตารางเมตร}$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณจำนวนแผ่นกระเบื้อง",
+          "content": "$$\\text{จำนวนแผ่น} = \\frac{54}{0.09} = 600 \\text{ แผ่น}$$"
         }
       ]
     }
@@ -4726,13 +5181,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "x = 15",
-      "trickTip": "💡 ผลรวมข้อมูล: $14 \\times 5 = 70 \\implies x = 70 - 55 = 15$",
+      "summary": "ค่าของ $x = 15$",
+      "trickTip": "💡 ผลรวมข้อมูล $= 5 \\times 14 = 70 \\implies x = 70 - (8+12+15+20) = 15$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "x = 15"
+          "title": "ใช้สูตรค่าเฉลี่ยเลขคณิต",
+          "content": "$$\\bar{x} = \\frac{\\sum x}{N} = \\frac{8 + 12 + 15 + x + 20}{5} = 14$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แก้สมการหา $x$",
+          "content": "$$\\frac{55 + x}{5} = 14$$\n$$55 + x = 70 \\implies x = 70 - 55 = 15$$"
         }
       ]
     }
@@ -4781,13 +5241,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "มัธยฐานคือ 12",
-      "trickTip": "💡 มัธยฐาน: เรียง $7, 8, 10, \\mathbf{12}, 15, 19, 22 \\implies$ ค่ากึ่งกลางคือ $12$",
+      "summary": "มัธยฐานของข้อมูลชุดนี้คือ 12",
+      "trickTip": "💡 เรียงลำดับจากน้อยไปมาก: $7, 8, 10, \\mathbf{12}, 15, 19, 22 \\implies$ ค่ากึ่งกลางคือ $12$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "มัธยฐานคือ 12"
+          "title": "เรียงลำดับข้อมูลจากน้อยไปมาก",
+          "content": "ข้อมูลมี 7 จำนวน เรียงได้ดังนี้:\n$$7, 8, 10, 12, 15, 19, 22$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาตำแหน่งกึ่งกลาง (มัธยฐาน)",
+          "content": "ตำแหน่งมัธยฐาน $= \\frac{N + 1}{2} = \\frac{7 + 1}{2} = 4$\nข้อมูลตัวที่ 4 คือ $12$"
         }
       ]
     }
@@ -4836,13 +5301,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "ฐานนิยมคือ 6",
-      "trickTip": "💡 ฐานนิยม: ค่า $6$ มีความถี่สูงสุด ($3$ ครั้ง)",
+      "summary": "ฐานนิยมของข้อมูลคือ 6",
+      "trickTip": "💡 ฐานนิยมคือข้อมูลที่มีความถี่มากที่สุด: เลข $6$ ซ้ำกัน 3 ครั้ง",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "ฐานนิยมคือ 6"
+          "title": "นับความถี่ของข้อมูลแต่ละจำนวน",
+          "content": "- 4 ปรากฏ 1 ครั้ง\n- 5 ปรากฏ 1 ครั้ง\n- 6 ปรากฏ 3 ครั้ง\n- 7 ปรากฏ 1 ครั้ง\n- 8 ปรากฏ 2 ครั้ง\n- 9 ปรากฏ 1 ครั้ง"
+        },
+        {
+          "stepNumber": 2,
+          "title": "สรุปค่าฐานนิยม",
+          "content": "เลข $6$ มีความถี่สูงสุด ($3$ ครั้ง) ดังนั้น ฐานนิยมคือ $6$"
         }
       ]
     }
@@ -4891,13 +5361,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "3/4",
-      "trickTip": "💡 ผลลัพธ์ $\\{\\text{HH, HT, TH, TT}\\} \\implies$ ออกหัวอย่างน้อย $1$ เหรียญมี $3$ แบบ $= \\frac{3}{4}$",
+      "summary": "ความน่าจะเป็นที่จะออกหัวอย่างน้อย 1 เหรียญเท่ากับ $\\frac{3}{4}$",
+      "trickTip": "💡 ผลลัพธ์ทั้งหมด $\\{HH, HT, TH, TT\\} \\implies$ มีหัวอย่างน้อย 1 เหรียญ 3 แบบ $\\implies \\frac{3}{4}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "3/4"
+          "title": "หาแซมเปิลสเปซ ($S$) ทั้งหมดของการโยนเหรียญ 2 เหรียญ",
+          "content": "$$S = \\{HH, HT, TH, TT\\} \\implies n(S) = 4$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาเหตุการณ์ ($E$) ที่ออกหัวอย่างน้อย 1 เหรียญ",
+          "content": "$$E = \\{HH, HT, TH\\} \\implies n(E) = 3$$\n$$P(E) = \\frac{n(E)}{n(S)} = \\frac{3}{4}$$"
         }
       ]
     }
@@ -4946,13 +5421,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "1/2",
-      "trickTip": "💡 แต้มเฉพาะ $\\{2, 3, 5\\} \\implies \\frac{3}{6} = \\frac{1}{2}$",
+      "summary": "ความน่าจะเป็นที่จะได้แต้มจำนวนเฉพาะเท่ากับ $\\frac{1}{2}$",
+      "trickTip": "💡 แต้มจำนวนเฉพาะบนลูกเต๋าคือ $\\{2, 3, 5\\} \\implies \\frac{3}{6} = \\frac{1}{2}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "1/2"
+          "title": "หาผลลัพธ์ทั้งหมดของการทอยลูกเต๋า 1 ลูก",
+          "content": "$$S = \\{1, 2, 3, 4, 5, 6\\} \\implies n(S) = 6$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาแต้มที่เป็นจำนวนเฉพาะ",
+          "content": "แต้มเฉพาะได้แก่ $\\{2, 3, 5\\} \\implies n(E) = 3$\n$$P(E) = \\frac{3}{6} = \\frac{1}{2}$$"
         }
       ]
     }
@@ -5001,13 +5481,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "1/4",
+      "summary": "ความน่าจะเป็นที่จะได้ลูกแก้วสีเขียวคือ $\\frac{1}{4}$",
       "trickTip": "💡 ความน่าจะเป็น: $\\frac{3}{4 + 3 + 5} = \\frac{3}{12} = \\frac{1}{4}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "1/4"
+          "title": "หาจำนวนลูกแก้วทั้งหมด",
+          "content": "$$\\text{จำนวนลูกแก้วรวม} = 4 + 3 + 5 = 12 \\text{ ลูก}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณความน่าจะเป็น",
+          "content": "ลูกแก้วสีเขียวมี 3 ลูก:\n$$P(\\text{เขียว}) = \\frac{3}{12} = \\frac{1}{4}$$"
         }
       ]
     }
@@ -5056,13 +5541,23 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "90 คะแนน",
-      "trickTip": "💡 ผลรวม 5 คน $= 390$, ผลรวม 4 คน $= 300 \\implies$ คนที่ 5 ได้ $390 - 300 = 90\\text{ คะแนน}$",
+      "summary": "นักเรียนคนที่ 5 ได้ 90 คะแนน",
+      "trickTip": "💡 ผลรวม 5 คน $- $ ผลรวม 4 คน: $5(78) - 4(75) = 390 - 300 = 90\\text{ คะแนน}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "90 คะแนน"
+          "title": "หาผลรวมคะแนนเดิมของนักเรียน 4 คน",
+          "content": "$$\\text{ผลรวมคะแนน 4 คน} = 4 \\times 75 = 300 \\text{ คะแนน}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาผลรวมคะแนนใหม่ของนักเรียน 5 คน",
+          "content": "$$\\text{ผลรวมคะแนน 5 คน} = 5 \\times 78 = 390 \\text{ คะแนน}$$"
+        },
+        {
+          "stepNumber": 3,
+          "title": "หาคะแนนของนักเรียนคนที่ 5",
+          "content": "$$\\text{คะแนนคนที่ 5} = 390 - 300 = 90 \\text{ คะแนน}$$"
         }
       ]
     }
@@ -5111,13 +5606,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "40%",
-      "trickTip": "💡 สัดส่วนแผนภูมิรูปวงกลม: $\\frac{144^\\circ}{360^\\circ} \\times 100\\% = 40\\%$",
+      "summary": "ค่าอาหารคิดเป็น 40% ของค่าใช้จ่ายทั้งหมด",
+      "trickTip": "💡 สัดส่วนวงกลม: $\\frac{144^\\circ}{360^\\circ} \\times 100\\% = 40\\%$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "40%"
+          "title": "เทียบสัดส่วนมุมกับวงกลมเต็มวง ($360^\\circ$)",
+          "content": "$$\\text{สัดส่วน} = \\frac{144^\\circ}{360^\\circ} = \\frac{2}{5}$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "แปลงเป็นเปอร์เซ็นต์",
+          "content": "$$\\text{ร้อยละ} = \\frac{2}{5} \\times 100\\% = 40\\%$$"
         }
       ]
     }
@@ -5166,13 +5666,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "2/13",
-      "trickTip": "💡 ไพ่ $\\text{King } 4\\text{ ใบ} + \\text{Queen } 4\\text{ ใบ} = 8\\text{ ใบ} \\implies \\frac{8}{52} = \\frac{2}{13}$",
+      "summary": "ความน่าจะเป็นที่จะได้ไพ่ King หรือ Queen คือ $\\frac{2}{13}$",
+      "trickTip": "💡 King 4 ใบ + Queen 4 ใบ $= 8$ ใบ $\\implies \\frac{8}{52} = \\frac{2}{13}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "2/13"
+          "title": "หาจำนวนไพ่ที่ต้องการในสำรับ",
+          "content": "- ไพ่ King มี 4 ใบ\n- ไพ่ Queen มี 4 ใบ\nรวมไพ่ที่ต้องการ $= 4 + 4 = 8$ ใบ"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณความน่าจะเป็นจากไพ่ทั้งหมด 52 ใบ",
+          "content": "$$P(E) = \\frac{8}{52} = \\frac{2}{13}$$"
         }
       ]
     }
@@ -5221,13 +5726,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "18",
-      "trickTip": "💡 ผลรวมเดิม $120 \\implies$ นำข้อมูล $30$ ออก เหลือ $\\frac{90}{5} = 18$",
+      "summary": "ค่าเฉลี่ยของ 5 จำนวนที่เหลือคือ 18",
+      "trickTip": "💡 ผลรวมใหม่: $6(20) - 30 = 90 \\implies \\text{ค่าเฉลี่ยใหม่} = \\frac{90}{5} = 18$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "18"
+          "title": "หาผลรวมเดิมของเลข 6 จำนวน",
+          "content": "$$\\text{ผลรวมเดิม} = 6 \\times 20 = 120$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาผลรวมและค่าเฉลี่ยใหม่หลังตัด 30 ออก",
+          "content": "$$\\text{ผลรวมใหม่} = 120 - 30 = 90$$\n$$\\text{ค่าเฉลี่ยใหม่} = \\frac{90}{5} = 18$$"
         }
       ]
     }
@@ -5276,13 +5786,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "1/2",
-      "trickTip": "💡 เลขคู่ $10$ ตัว จาก $20$ ตัว $\\implies \\frac{10}{20} = \\frac{1}{2}$",
+      "summary": "ความน่าจะเป็นที่สุ่มได้เลขคู่คือ $\\frac{1}{2}$",
+      "trickTip": "💡 บัตร 1 ถึง 20 มีเลขคู่ 10 ใบ $\\implies \\frac{10}{20} = \\frac{1}{2}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "1/2"
+          "title": "หาจำนวนเลขคู่ตั้งแต่ 1 ถึง 20",
+          "content": "เลขคู่ได้แก่: $2, 4, 6, 8, 10, 12, 14, 16, 18, 20$ (รวม 10 จำนวน)"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณความน่าจะเป็น",
+          "content": "$$P(E) = \\frac{10}{20} = \\frac{1}{2}$$"
         }
       ]
     }
@@ -5331,13 +5846,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "77",
-      "trickTip": "💡 $\\text{พิสัย} = \\text{ค่าสูงสุด} - \\text{ค่าต่ำสุด} = 89 - 12 = 77$",
+      "summary": "พิสัยของข้อมูลชุดนี้เท่ากับ 77",
+      "trickTip": "💡 พิสัย $= \\text{ค่าสูงสุด} - \\text{ค่าต่ำสุด} = 89 - 12 = 77$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "77"
+          "title": "หาค่าสูงสุดและค่าต่ำสุดของข้อมูล",
+          "content": "- ค่าสูงสุด ($x_{\\max}$) คือ $89$\n- ค่าต่ำสุด ($x_{\\min}$) คือ $12$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณหาพิสัย",
+          "content": "$$\\text{พิสัย} = x_{\\max} - x_{\\min} = 89 - 12 = 77$$"
         }
       ]
     }
@@ -5386,13 +5906,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "2/5",
-      "trickTip": "💡 ความน่าจะเป็นลูกบอลสีขาว: $\\frac{4}{10} = \\frac{2}{5}$",
+      "summary": "ความน่าจะเป็นที่จะไม่ได้ลูกบอลสีดำคือ $\\frac{2}{5}$",
+      "trickTip": "💡 ไม่ได้สีดำ = ได้สีขาว: $\\frac{4}{6 + 4} = \\frac{4}{10} = \\frac{2}{5}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "2/5"
+          "title": "วิเคราะห์เหตุการณ์",
+          "content": "การ \"ไม่ได้ลูกบอลสีดำ\" มีค่าเท่ากับ \"ได้ลูกบอลสีขาว\"\n- ลูกบอลสีขาวมี 4 ลูก\n- ลูกบอลทั้งหมดมี $6 + 4 = 10$ ลูก"
+        },
+        {
+          "stepNumber": 2,
+          "title": "คำนวณความน่าจะเป็น",
+          "content": "$$P(\\text{ขาว}) = \\frac{4}{10} = \\frac{2}{5}$$"
         }
       ]
     }
@@ -5441,13 +5966,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "1/6",
-      "trickTip": "💡 ผลรวมแต้มได้ $7$ มี $6$ แบบ จาก $36$ แบบ $\\implies \\frac{6}{36} = \\frac{1}{6}$",
+      "summary": "ความน่าจะเป็นที่ผลรวมแต้มเท่ากับ 7 คือ $\\frac{1}{6}$",
+      "trickTip": "💡 ผลรวมได้ 7 มี 6 แบบ: $(1,6),(2,5),(3,4),(4,3),(5,2),(6,1) \\implies \\frac{6}{36} = \\frac{1}{6}$",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "1/6"
+          "title": "หาจำนวนผลลัพธ์ทั้งหมด ($n(S)$)",
+          "content": "$$n(S) = 6 \\times 6 = 36$$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "หาเหตุการณ์ที่ผลรวมแต้มเป็น 7",
+          "content": "$$E = \\{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)\\} \\implies n(E) = 6$$\n$$P(E) = \\frac{6}{36} = \\frac{1}{6}$$"
         }
       ]
     }
@@ -5496,13 +6026,18 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       }
     ],
     "solution": {
-      "summary": "เบ้ขวา (เบ้บวก)",
-      "trickTip": "💡 $\\text{ฐานนิยม}(12) < \\text{มัธยฐาน}(15) < \\text{ค่าเฉลี่ย}(16) \\implies$ การกระจายแบบเบ้ขวา (Right-skewed)",
+      "summary": "ข้อมูลชุดนี้มีการกระจายแบบเบ้ขวา (เบ้บวก)",
+      "trickTip": "💡 ความสัมพันธ์: $\\text{ฐานนิยม}(12) < \\text{มัธยฐาน}(15) < \\text{ค่าเฉลี่ย}(16) \\implies$ การแจกแจงแบบเบ้ขวา (Right-skewed)",
       "steps": [
         {
           "stepNumber": 1,
-          "title": "วิธีทำ",
-          "content": "เบ้ขวา (เบ้บวก)"
+          "title": "เปรียบเทียบค่ากลางทั้ง 3 ค่า",
+          "content": "- ฐานนิยม (Mode) $= 12$\n- มัธยฐาน (Median) $= 15$\n- ค่าเฉลี่ยเลขคณิต (Mean) $= 16$\nจะเห็นว่า $\\text{Mode} < \\text{Median} < \\text{Mean}$"
+        },
+        {
+          "stepNumber": 2,
+          "title": "สรุปลักษณะรูปทรงการกระจาย",
+          "content": "เมื่อค่าเฉลี่ยมีค่ามากกว่ามัธยฐานและฐานนิยม ข้อมูลจะมีหางยาวลาดไปทางด้านขวา เรียกว่า \"การกระจายแบบเบ้ขวา\" หรือ \"เบ้บวก\" (Positively Skewed)"
         }
       ]
     }
