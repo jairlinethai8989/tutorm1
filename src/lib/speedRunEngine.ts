@@ -63,7 +63,7 @@ export const saveHighScore = (record: HighScoreRecord): boolean => {
   try {
     const current = getHighScores();
     const existing = current[record.mode];
-    if (!existing || record.score > existing.score) {
+    if (record.score > 0 && (!existing || record.score > existing.score)) {
       current[record.mode] = record;
       localStorage.setItem(HIGH_SCORE_STORAGE_KEY, JSON.stringify(current));
       return true; // New High Score!

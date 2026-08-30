@@ -46,46 +46,80 @@ export const SpeedRunGame: React.FC<SpeedRunGameProps> = ({
   const questionStartTimeRef = useRef<number>(Date.now());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Single source of truth Ref to eliminate stale closures in timers and callbacks
+  const latestStateRef = useRef<SpeedRunGameState>({
+    mode,
+    timeRemaining: modeConfig.initialTimeSeconds,
+    lives: modeConfig.initialLives || 3,
+    score: 0,
+    currentCombo: 0,
+    maxCombo: 0,
+    correctCount: 0,
+    totalAnswered: 0,
+    isGameOver: false,
+    history: [],
+  });
+
   // Initialize questions on mount
   useEffect(() => {
     const qList = generateQuestionsForMode(mode);
     setQuestions(qList);
     questionStartTimeRef.current = Date.now();
-  }, [mode]);
+    latestStateRef.current = {
+      mode,
+      timeRemaining: modeConfig.initialTimeSeconds,
+      lives: modeConfig.initialLives || 3,
+      score: 0,
+      currentCombo: 0,
+      maxCombo: 0,
+      correctCount: 0,
+      totalAnswered: 0,
+      isGameOver: false,
+      history: [],
+    };
+  }, [mode, modeConfig]);
+
+  const finishGame = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    const final = {
+      ...latestStateRef.current,
+      timeRemaining: 0,
+      isGameOver: true,
+    };
+    onEndGame(final);
+  };
 
   // Main countdown timer loop
   useEffect(() => {
+    if (questions.length === 0) return;
+
     timerRef.current = setInterval(() => {
       setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current!);
+        const next = prev - 1;
+        latestStateRef.current.timeRemaining = Math.max(0, next);
+
+        if (next <= 0) {
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
           finishGame();
           return 0;
         }
-        return prev - 1;
+        return next;
       });
     }, 1000);
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     };
   }, [questions]);
-
-  const finishGame = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    onEndGame({
-      mode,
-      timeRemaining: 0,
-      lives,
-      score,
-      currentCombo,
-      maxCombo,
-      correctCount,
-      totalAnswered,
-      isGameOver: true,
-      history,
-    });
-  };
 
   const handleSelectChoice = (choiceId: string) => {
     if (feedback !== null || !questions[currentIndex]) return;
@@ -95,35 +129,31 @@ export const SpeedRunGame: React.FC<SpeedRunGameProps> = ({
     const isCorrect = currentQ.choices?.find((c) => c.id === choiceId)?.isCorrect || false;
     const timeSpent = (Date.now() - questionStartTimeRef.current) / 1000;
 
-    let newCombo = isCorrect ? currentCombo + 1 : 0;
-    let newMaxCombo = Math.max(maxCombo, newCombo);
-    let newLives = lives;
-    let addedScore = 0;
+    const prev = latestStateRef.current;
+    const newCombo = isCorrect ? prev.currentCombo + 1 : 0;
+    const newMaxCombo = Math.max(prev.maxCombo, newCombo);
+    const addedScore = isCorrect ? calculateQuestionScore(true, newCombo, timeSpent) : 0;
+    const newScore = prev.score + addedScore;
+    const newCorrectCount = prev.correctCount + (isCorrect ? 1 : 0);
+    const newTotalAnswered = prev.totalAnswered + 1;
+    let newLives = prev.lives;
+    let newTimeRemaining = prev.timeRemaining;
 
     if (isCorrect) {
       setFeedback('correct');
-      addedScore = calculateQuestionScore(true, newCombo, timeSpent);
-      setScore((prev) => prev + addedScore);
-      setCorrectCount((prev) => prev + 1);
-
       if (mode === 'blitz') {
-        setTimeRemaining((t) => Math.min(99, t + 5));
+        newTimeRemaining = Math.min(99, newTimeRemaining + 5);
         setTimeDeltaText('+5s ⚡');
       }
     } else {
       setFeedback('wrong');
       if (mode === 'blitz') {
-        setTimeRemaining((t) => Math.max(1, t - 3));
+        newTimeRemaining = Math.max(1, newTimeRemaining - 3);
         setTimeDeltaText('-3s ⚠️');
       } else if (mode === 'marathon') {
-        newLives = lives - 1;
-        setLives(newLives);
+        newLives = Math.max(0, prev.lives - 1);
       }
     }
-
-    setCurrentCombo(newCombo);
-    setMaxCombo(newMaxCombo);
-    setTotalAnswered((prev) => prev + 1);
 
     const record: SpeedRunQuestionAnswer = {
       question: currentQ,
@@ -131,7 +161,30 @@ export const SpeedRunGame: React.FC<SpeedRunGameProps> = ({
       isCorrect,
       timeSpentSeconds: timeSpent,
     };
-    const updatedHistory = [...history, record];
+    const updatedHistory = [...prev.history, record];
+
+    // Atomically sync Ref immediately
+    latestStateRef.current = {
+      mode,
+      timeRemaining: newTimeRemaining,
+      lives: newLives,
+      score: newScore,
+      currentCombo: newCombo,
+      maxCombo: newMaxCombo,
+      correctCount: newCorrectCount,
+      totalAnswered: newTotalAnswered,
+      isGameOver: false,
+      history: updatedHistory,
+    };
+
+    // Update React UI states
+    setScore(newScore);
+    setCurrentCombo(newCombo);
+    setMaxCombo(newMaxCombo);
+    setCorrectCount(newCorrectCount);
+    setTotalAnswered(newTotalAnswered);
+    setLives(newLives);
+    setTimeRemaining(newTimeRemaining);
     setHistory(updatedHistory);
 
     // Short transition before moving to next question (350ms for lightning speed)
@@ -140,20 +193,13 @@ export const SpeedRunGame: React.FC<SpeedRunGameProps> = ({
       setSelectedChoiceId(null);
       setTimeDeltaText(null);
 
-      // Check if Game Over conditions met
+      // Check if Marathon lives run out
       if (mode === 'marathon' && newLives <= 0) {
         if (timerRef.current) clearInterval(timerRef.current);
         onEndGame({
-          mode,
-          timeRemaining,
+          ...latestStateRef.current,
           lives: 0,
-          score: score + addedScore,
-          currentCombo: newCombo,
-          maxCombo: newMaxCombo,
-          correctCount: correctCount + (isCorrect ? 1 : 0),
-          totalAnswered: totalAnswered + 1,
           isGameOver: true,
-          history: updatedHistory,
         });
         return;
       }
@@ -164,23 +210,15 @@ export const SpeedRunGame: React.FC<SpeedRunGameProps> = ({
       if (nextIndex >= targetCount || nextIndex >= questions.length) {
         if (timerRef.current) clearInterval(timerRef.current);
         onEndGame({
-          mode,
-          timeRemaining,
-          lives: newLives,
-          score: score + addedScore,
-          currentCombo: newCombo,
-          maxCombo: newMaxCombo,
-          correctCount: correctCount + (isCorrect ? 1 : 0),
-          totalAnswered: totalAnswered + 1,
+          ...latestStateRef.current,
           isGameOver: true,
-          history: updatedHistory,
         });
         return;
       }
 
       setCurrentIndex(nextIndex);
       questionStartTimeRef.current = Date.now();
-    }, 400);
+    }, 350);
   };
 
   const currentQ = questions[currentIndex];
