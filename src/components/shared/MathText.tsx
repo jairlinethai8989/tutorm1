@@ -1,20 +1,47 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
+
+// Global In-Memory LRU/Map Cache for compiled KaTeX HTML
+const katexBlockCache = new Map<string, string>();
+const katexInlineCache = new Map<string, string>();
+const MAX_CACHE_SIZE = 1000;
+
+function renderCachedKatex(math: string, displayMode: boolean): string {
+  const cache = displayMode ? katexBlockCache : katexInlineCache;
+  const cached = cache.get(math);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  try {
+    const html = katex.renderToString(math, {
+      displayMode,
+      throwOnError: false,
+    });
+    if (cache.size > MAX_CACHE_SIZE) {
+      // Clear oldest entries if exceeding limit
+      const firstKey = cache.keys().next().value;
+      if (firstKey) cache.delete(firstKey);
+    }
+    cache.set(math, html);
+    return html;
+  } catch {
+    return '';
+  }
+}
 
 // Auto-detect raw LaTeX commands and math formatting that aren't wrapped in $...$ delimiters
 const LATEX_COMMAND_RE = /^\\(frac|dfrac|cfrac|sqrt|binom|sum|prod|int|lim|vec|hat|bar|dot|ddot|overline|underline|mathbb|mathcal|mathrm)\{/;
 
 function preprocessMathText(text: string): string {
-  let processed = text;
-  const trimmed = processed.trim();
-  // If the entire content is a single raw LaTeX command without any $ delimiters, wrap it
+  const trimmed = text.trim();
   if (!trimmed.includes('$') && LATEX_COMMAND_RE.test(trimmed)) {
     return `$${trimmed}$`;
   }
-  return processed;
+  return text;
 }
 
 interface MathTextProps {
@@ -26,7 +53,7 @@ interface MathTextProps {
   plainBlock?: boolean;
 }
 
-export const MathText: React.FC<MathTextProps> = ({
+const MathTextComponent: React.FC<MathTextProps> = ({
   content,
   text,
   className = '',
@@ -37,21 +64,18 @@ export const MathText: React.FC<MathTextProps> = ({
   const actualContent = content !== undefined && content !== null ? content : text;
   if (actualContent === undefined || actualContent === null || actualContent === '') return null;
 
-  // Split by $$...$$ (display math) and $...$ (inline math)
-  const renderFormattedText = (textToRender: string) => {
-    // Preprocess math text
-    const processedText = preprocessMathText(textToRender);
-    // Split by block math $$...$$
+  const stringContent = String(actualContent);
+
+  const renderedElements = useMemo(() => {
+    const processedText = preprocessMathText(stringContent);
     const blockParts = processedText.split(/(\$\$[\s\S]*?\$\$)/g);
 
     return blockParts.map((blockPart, blockIdx) => {
       if (blockPart.startsWith('$$') && blockPart.endsWith('$$')) {
         const math = blockPart.slice(2, -2).trim();
-        try {
-          const html = katex.renderToString(math, {
-            displayMode: true,
-            throwOnError: false,
-          });
+        const html = renderCachedKatex(math, true);
+
+        if (html) {
           if (inline || plainBlock) {
             return (
               <div
@@ -68,13 +92,13 @@ export const MathText: React.FC<MathTextProps> = ({
               dangerouslySetInnerHTML={{ __html: html }}
             />
           );
-        } catch {
-          return (
-            <span key={blockIdx} className="my-1 p-1 bg-slate-100 text-center inline-block">
-              {math}
-            </span>
-          );
         }
+
+        return (
+          <span key={blockIdx} className="my-1 p-1 bg-slate-100 text-center inline-block">
+            {math}
+          </span>
+        );
       }
 
       // Inside normal text, look for inline math $...$ and bold markdown **...**
@@ -85,11 +109,9 @@ export const MathText: React.FC<MathTextProps> = ({
           {inlineParts.map((inlinePart, inlineIdx) => {
             if (inlinePart.startsWith('$') && inlinePart.endsWith('$') && inlinePart.length > 2) {
               const math = inlinePart.slice(1, -1).trim();
-              try {
-                const html = katex.renderToString(math, {
-                  displayMode: false,
-                  throwOnError: false,
-                });
+              const html = renderCachedKatex(math, false);
+
+              if (html) {
                 return (
                   <span
                     key={inlineIdx}
@@ -97,19 +119,18 @@ export const MathText: React.FC<MathTextProps> = ({
                     dangerouslySetInnerHTML={{ __html: html }}
                   />
                 );
-              } catch {
-                return (
-                  <span key={inlineIdx} className="text-indigo-600 font-semibold">
-                    {math}
-                  </span>
-                );
               }
+
+              return (
+                <span key={inlineIdx} className="text-indigo-600 font-semibold">
+                  {math}
+                </span>
+              );
             }
 
             // Handle line breaks and markdown bold
             const lines = inlinePart.split('\n');
             return lines.map((line, lineIdx) => {
-              // Convert **bold** to <strong>
               const boldParts = line.split(/(\*\*[^*]+?\*\*)/g);
 
               return (
@@ -132,19 +153,21 @@ export const MathText: React.FC<MathTextProps> = ({
         </span>
       );
     });
-  };
+  }, [stringContent, inline, plainBlock, blockClassName]);
 
   if (inline) {
     return (
       <span className={`leading-relaxed text-slate-700 text-sm sm:text-base ${className}`}>
-        {renderFormattedText(String(actualContent))}
+        {renderedElements}
       </span>
     );
   }
 
   return (
     <div className={`leading-relaxed text-slate-700 text-sm sm:text-base ${className}`}>
-      {renderFormattedText(String(actualContent))}
+      {renderedElements}
     </div>
   );
 };
+
+export const MathText = React.memo(MathTextComponent);

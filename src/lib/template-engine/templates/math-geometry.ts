@@ -30,8 +30,8 @@ export const MATH_GEOMETRY_TEMPLATES: QuestionTemplate[] = [
       },
       {
         stepNumber: 2,
-        title: 'แทนค่าและคำนวณ',
-        content: `$\\text{พื้นที่} = \\frac{1}{2} \\times ${p.b} \\times ${p.h} = ${p.b / 2} \\times ${p.h} = **${ans}**$ ตร.ซม.`,
+        title: `แทนค่า ฐาน = ${p.b} ซม., สูง = ${p.h} ซม.`,
+        content: `$\\text{พื้นที่} = \\frac{1}{2} \\times ${p.b} \\times ${p.h} = ${p.b / 2} \\times ${p.h} = ${ans}$ ตร.ซม.`,
       },
     ],
     trickTip: () => '💡 พื้นที่สามเหลี่ยม = (ฐาน × สูง) ÷ 2 อย่าลืมหาร 2 เสมอ',
@@ -68,8 +68,8 @@ export const MATH_GEOMETRY_TEMPLATES: QuestionTemplate[] = [
       },
       {
         stepNumber: 2,
-        title: 'แทนค่า',
-        content: `$\\text{พื้นที่} = \\frac{1}{2} \\times (${p.a} + ${p.b}) \\times ${p.h} = \\frac{1}{2} \\times ${p.a + p.b} \\times ${p.h} = **${ans}**$ ตร.ซม.`,
+        title: `แทนค่า ด้านคู่ขนาน = ${p.a}, ${p.b} ซม., สูง = ${p.h} ซม.`,
+        content: `$\\text{พื้นที่} = \\frac{1}{2} \\times (${p.a} + ${p.b}) \\times ${p.h} = \\frac{1}{2} \\times ${p.a + p.b} \\times ${p.h} = ${ans}$ ตร.ซม.`,
       },
     ],
     trickTip: () => '💡 จำง่าย: (ผลบวกคู่ขนาน × สูง) ÷ 2',
@@ -105,8 +105,8 @@ export const MATH_GEOMETRY_TEMPLATES: QuestionTemplate[] = [
         },
         {
           stepNumber: 2,
-          title: 'แทนค่ารัศมี $r = ${r}$ ซม.',
-          content: `$\\text{พื้นที่} = \\frac{22}{7} \\times ${r} \\times ${r} = 22 \\times ${p.m} \\times ${r} = **${ans}**$ ตร.ซม.`,
+          title: `แทนค่ารัศมี $r = ${r}$ ซม.`,
+          content: `$\\text{พื้นที่} = \\frac{22}{7} \\times ${r} \\times ${r} = 22 \\times ${p.m} \\times ${r} = ${ans}$ ตร.ซม.`,
         },
       ];
     },
@@ -142,8 +142,8 @@ export const MATH_GEOMETRY_TEMPLATES: QuestionTemplate[] = [
       },
       {
         stepNumber: 2,
-        title: 'แทนค่าผลต่างกำลังสอง',
-        content: `$R - r = ${p.rBig} - ${p.rSmall} = ${p.rBig - p.rSmall}$\n$R + r = ${p.rBig} + ${p.rSmall} = ${p.rBig + p.rSmall}$\n$\\text{พื้นที่} = \\frac{22}{7} \\times (${p.rBig - p.rSmall}) \\times (${p.rBig + p.rSmall}) = **${ans}**$ ตร.ซม.`,
+        title: `แทนค่าผลต่างกำลังสอง $R = ${p.rBig}, r = ${p.rSmall}$`,
+        content: `$R - r = ${p.rBig} - ${p.rSmall} = ${p.rBig - p.rSmall}$\n$R + r = ${p.rBig} + ${p.rSmall} = ${p.rBig + p.rSmall}$\n$\\text{พื้นที่} = \\frac{22}{7} \\times (${p.rBig - p.rSmall}) \\times (${p.rBig + p.rSmall}) = ${ans}$ ตร.ซม.`,
       },
     ],
     trickTip: () => '💡 ใช้สูตรแยกตัวประกอบ: $R^2 - r^2 = (R - r)(R + r)$ จะช่วยให้ตัดทอนตัวเลขได้เร็วมาก!',
@@ -180,8 +180,8 @@ export const MATH_GEOMETRY_TEMPLATES: QuestionTemplate[] = [
         },
         {
           stepNumber: 2,
-          title: 'ถอดรากที่สองหาค่า c',
-          content: `$c = \\sqrt{${a * a + b * b}} = **${ans}**$ ซม.`,
+          title: 'ถอดรากที่สองหาค่า $c$',
+          content: `$c = \\sqrt{${a * a + b * b}} = ${ans}$ ซม.`,
         },
       ];
     },
@@ -219,8 +219,8 @@ export const MATH_GEOMETRY_TEMPLATES: QuestionTemplate[] = [
         },
         {
           stepNumber: 2,
-          title: 'แทนค่า $r = ${r}$, $h = ${p.h}$',
-          content: `$\\text{ปริมาตร} = \\frac{22}{7} \\times ${r} \\times ${r} \\times ${p.h} = 22 \\times ${p.m} \\times ${r} \\times ${p.h} = **${ans}**$ ลบ.ซม.`,
+          title: `แทนค่า $r = ${r}$ ซม., $h = ${p.h}$ ซม.`,
+          content: `$\\text{ปริมาตร} = \\frac{22}{7} \\times ${r} \\times ${r} \\times ${p.h} = 22 \\times ${p.m} \\times ${r} \\times ${p.h} = ${ans}$ ลบ.ซม.`,
         },
       ];
     },
@@ -255,8 +255,8 @@ export const MATH_GEOMETRY_TEMPLATES: QuestionTemplate[] = [
       },
       {
         stepNumber: 2,
-        title: 'แทนค่า $s = ${p.s}$ ซม.',
-        content: `$\\text{พื้นที่ผิว} = 6 \\times ${p.s}^2 = 6 \\times ${p.s * p.s} = **${ans}**$ ตร.ซม.`,
+        title: `แทนค่าความยาวด้าน $s = ${p.s}$ ซม.`,
+        content: `$\\text{พื้นที่ผิว} = 6 \\times ${p.s}^2 = 6 \\times ${p.s * p.s} = ${ans}$ ตร.ซม.`,
       },
     ],
     trickTip: () => '💡 ระวัง: พื้นที่ผิวรวม = $6s^2$ ส่วนปริมาตร = $s^3$',
@@ -293,8 +293,8 @@ export const MATH_GEOMETRY_TEMPLATES: QuestionTemplate[] = [
         },
         {
           stepNumber: 2,
-          title: 'แทนค่าคำนวณ',
-          content: `$\\text{ปริมาตร} = \\frac{1}{3} \\times \\frac{22}{7} \\times ${r} \\times ${r} \\times ${p.h} = \\frac{1}{3} \\times ${(22 / 7) * r * r * p.h} = **${ans}**$ ลบ.ซม.`,
+          title: `แทนค่ารัศมี $r = ${r}$ ซม., สูง $h = ${p.h}$ ซม.`,
+          content: `$\\text{ปริมาตร} = \\frac{1}{3} \\times \\frac{22}{7} \\times ${r} \\times ${r} \\times ${p.h} = \\frac{1}{3} \\times ${(22 / 7) * r * r * p.h} = ${ans}$ ลบ.ซม.`,
         },
       ];
     },

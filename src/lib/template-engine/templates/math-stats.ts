@@ -45,7 +45,7 @@ export const MATH_STATS_TEMPLATES: QuestionTemplate[] = [
         {
           stepNumber: 2,
           title: 'หารด้วยจำนวนคน (4 คน)',
-          content: `$\\text{ค่าเฉลี่ย} = \\frac{\\text{ผลรวม}}{\\text{จำนวนข้อมูล}} = \\frac{${sum}}{4} = **${ans}**$ คะแนน`,
+          content: `$\\text{ค่าเฉลี่ย} = \\frac{\\text{ผลรวม}}{\\text{จำนวนข้อมูล}} = \\frac{${sum}}{4} = ${ans}$ คะแนน`,
         },
       ];
     },
@@ -159,7 +159,7 @@ export const MATH_STATS_TEMPLATES: QuestionTemplate[] = [
         {
           stepNumber: 2,
           title: 'คำนวณความน่าจะเป็นและแปลงเป็นเปอร์เซ็นต์',
-          content: `$P(E) = \\frac{n(E)}{n(S)} = \\frac{${p.red}}{${total}}$\nคิดเป็นร้อยละ: $\\frac{${p.red}}{${total}} \\times 100 = **${ans}\\%**$`,
+          content: `$P(E) = \\frac{n(E)}{n(S)} = \\frac{${p.red}}{${total}}$\nคิดเป็นร้อยละ: $\\frac{${p.red}}{${total}} \\times 100 = ${ans}\\%$`,
         },
       ];
     },
@@ -204,7 +204,7 @@ export const MATH_STATS_TEMPLATES: QuestionTemplate[] = [
       return [
         {
           stepNumber: 1,
-          title: 'แจกแจงคู่แต้มที่ผลรวมได้ ' + p.targetSum,
+          title: `แจกแจงคู่แต้มที่ผลรวมได้ ${p.targetSum}`,
           content: `คู่แต้มที่เป็นไปได้คือ: $${pairs.join(', ')}$`,
         },
         {

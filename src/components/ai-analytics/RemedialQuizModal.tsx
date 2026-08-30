@@ -291,6 +291,8 @@ export const RemedialQuizModal: React.FC<RemedialQuizModalProps> = ({
                       <img
                         src={currentQ.contentImage}
                         alt="โจทย์รูปภาพ"
+                        loading="lazy"
+                        decoding="async"
                         className="max-h-60 object-contain"
                       />
                     </div>

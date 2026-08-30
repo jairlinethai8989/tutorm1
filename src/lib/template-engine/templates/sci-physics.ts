@@ -30,8 +30,8 @@ export const SCI_PHYSICS_TEMPLATES: QuestionTemplate[] = [
       },
       {
         stepNumber: 2,
-        title: 'แทนค่า $I = ${p.I}$ A, $R = ${p.R}$ $\\Omega$',
-        content: `$V = ${p.I} \\times ${p.R} = **${ans}**$ โวลต์`,
+        title: `แทนค่า $I = ${p.I}\\text{ A}, R = ${p.R}\\ \\Omega$`,
+        content: `$V = ${p.I} \\times ${p.R} = ${ans}$ โวลต์ (V)`,
       },
     ],
     trickTip: () => '💡 จำสามเหลี่ยม VIR: $V$ อยู่บนยอด, $I$ และ $R$ อยู่ข้างล่าง ($V=IR$, $I=V/R$, $R=V/I$)',
@@ -66,12 +66,12 @@ export const SCI_PHYSICS_TEMPLATES: QuestionTemplate[] = [
         {
           stepNumber: 1,
           title: 'หาความต้านทานรวมแบบอนุกรม ($R_{\\text{รวม}}$)',
-          content: `$R_{\\text{รวม}} = R_1 + R_2 = ${p.r1} + ${p.r2} = ${rTotal}$ $\\Omega$`,
+          content: `$R_{\\text{รวม}} = R_1 + R_2 = ${p.r1} + ${p.r2} = ${rTotal}\\ \\Omega$`,
         },
         {
           stepNumber: 2,
           title: 'หากระแสไฟฟ้ารวม ($I = V / R_{\\text{รวม}}$)',
-          content: `$I = \\frac{${p.V}}{${rTotal}} = **${ans}**$ แอมแปร์`,
+          content: `$I = \\frac{${p.V}}{${rTotal}} = ${ans}$ แอมแปร์ (A)`,
         },
       ];
     },
@@ -108,7 +108,7 @@ export const SCI_PHYSICS_TEMPLATES: QuestionTemplate[] = [
       {
         stepNumber: 2,
         title: 'แทนค่าคำนวณ',
-        content: `$R_{\\text{รวม}} = \\frac{${p.r1} \\times ${p.r2}}{${p.r1} + ${p.r2}} = \\frac{${p.r1 * p.r2}}{${p.r1 + p.r2}} = **${ans}**$ $\\Omega$`,
+        content: `$R_{\\text{รวม}} = \\frac{${p.r1} \\times ${p.r2}}{${p.r1} + ${p.r2}} = \\frac{${p.r1 * p.r2}}{${p.r1 + p.r2}} = ${ans}\\ \\Omega$`,
       },
     ],
     trickTip: () => '💡 ข้อสังเกต: ในวงจรขนาน ความต้านทานรวมจะ "น้อยกว่า" ตัวต้านทานที่น้อยที่สุดเสมอ!',
@@ -146,8 +146,8 @@ export const SCI_PHYSICS_TEMPLATES: QuestionTemplate[] = [
         },
         {
           stepNumber: 2,
-          title: 'แทนค่า $W = ${p.watts}$, $t = ${p.hours} \\times ${p.days} = ${p.hours * p.days}$ ชม.',
-          content: `$\\text{จำนวนยูนิต} = \\frac{${p.watts} \\times ${p.hours * p.days}}{1,000} = \\frac{${totalWattHours}}{1,000} = **${ans}**$ หน่วย`,
+          title: `แทนค่ากำลังไฟฟ้า = ${p.watts} W, เวลา = ${p.hours * p.days} ชม.`,
+          content: `$\\text{จำนวนยูนิต} = \\frac{${p.watts} \\times ${p.hours * p.days}}{1,000} = \\frac{${totalWattHours}}{1,000} = ${ans}$ หน่วย (kWh)`,
         },
       ];
     },
@@ -184,7 +184,7 @@ export const SCI_PHYSICS_TEMPLATES: QuestionTemplate[] = [
       {
         stepNumber: 2,
         title: 'แทนค่าคำนวณ',
-        content: `$D = \\frac{${p.density * p.V}}{${p.V}} = **${ans}**$ $\\text{g/cm}^3$`,
+        content: `$D = \\frac{${p.density * p.V}}{${p.V}} = ${ans}\\text{ g/cm}^3$`,
       },
     ],
     trickTip: () => '💡 วัตถุจะลอยน้ำเมื่อความหนาแน่นน้อยกว่าน้ำ ($D_{\\text{น้ำ}} = 1\\text{ g/cm}^3$)',
@@ -219,8 +219,8 @@ export const SCI_PHYSICS_TEMPLATES: QuestionTemplate[] = [
       },
       {
         stepNumber: 2,
-        title: 'แทนค่า $F = ${p.F}$ N, $s = ${p.s}$ m',
-        content: `$W = ${p.F} \\times ${p.s} = **${ans}**$ จูล (J)`,
+        title: `แทนค่า $F = ${p.F}\\text{ N}, s = ${p.s}\\text{ m}$`,
+        content: `$W = ${p.F} \\times ${p.s} = ${ans}$ จูล (J)`,
       },
     ],
     trickTip: () => '💡 งานจะเกิดเมื่อ "มีแรงกระทำ" และ "วัตถุเคลื่อนที่ตามแนวแรง" (ถ้าแบกของเดินพื้นราบ งาน = 0 เพราะแรงตั้งฉากกับการเคลื่อนที่)',

@@ -32,8 +32,8 @@ export const MATH_ALGEBRA_TEMPLATES: QuestionTemplate[] = [
         },
         {
           stepNumber: 2,
-          title: 'หาค่าสิ่งที่โจทย์ถาม (x + 5)',
-          content: `$x + 5 = ${p.x} + 5 = **${ans}**$`,
+          title: 'หาค่าสิ่งที่โจทย์ถาม ($x + 5$)',
+          content: `$x + 5 = ${p.x} + 5 = ${ans}$`,
         },
       ];
     },
@@ -76,7 +76,7 @@ export const MATH_ALGEBRA_TEMPLATES: QuestionTemplate[] = [
       {
         stepNumber: 3,
         title: 'หาผลคูณของทั้งสองจำนวน',
-        content: `$x \\times y = ${p.x} \\times ${p.y} = **${ans}**$`,
+        content: `$x \\times y = ${p.x} \\times ${p.y} = ${ans}$`,
       },
     ],
     trickTip: () => '💡 สูตรลัด: ตัวมาก = (ผลบวก + ผลต่าง) ÷ 2, ตัวน้อย = (ผลบวก - ผลต่าง) ÷ 2',
@@ -112,13 +112,13 @@ export const MATH_ALGEBRA_TEMPLATES: QuestionTemplate[] = [
     solutionSteps: (p, ans) => [
       {
         stepNumber: 1,
-        title: 'วิเคราะห์ผลต่างร่วม (d) และพจน์แรก (a1)',
+        title: 'วิเคราะห์ผลต่างร่วม ($d$) และพจน์แรก ($a_1$)',
         content: `พจน์แรก ($a_1$) = $${p.a1}$\nผลต่างร่วม ($d$) = $${p.a1 + p.d} - ${p.a1} = ${p.d}$`,
       },
       {
         stepNumber: 2,
         title: 'ใช้สูตรพจน์ทั่วไป $a_n = a_1 + (n - 1)d$',
-        content: `$a_{${p.n}} = ${p.a1} + (${p.n} - 1)(${p.d}) = ${p.a1} + (${p.n - 1})(${p.d}) = ${p.a1} + ${(p.n - 1) * p.d} = **${ans}**$`,
+        content: `$a_{${p.n}} = ${p.a1} + (${p.n} - 1)(${p.d}) = ${p.a1} + (${p.n - 1})(${p.d}) = ${p.a1} + ${(p.n - 1) * p.d} = ${ans}$`,
       },
     ],
     trickTip: () => '💡 สูตรพจน์ทั่วไปของลำดับเลขคณิต: $a_n = a_1 + (n-1)d$',
@@ -159,8 +159,8 @@ export const MATH_ALGEBRA_TEMPLATES: QuestionTemplate[] = [
         },
         {
           stepNumber: 2,
-          title: 'ตั้งสมการในอีก ' + p.futureYears + ' ปีข้างหน้า',
-          content: `ลูกอายุ $x + ${p.futureYears}$ ปี และพ่ออายุ $(x + ${p.diff}) + ${p.futureYears} = x + ${p.diff + p.futureYears}$ ปี\nผลรวมอายุ: $(x + ${p.futureYears}) + (x + ${p.diff + p.futureYears}) = ${totalFuture}$\n$2x + ${2 * p.futureYears + p.diff} = ${totalFuture}$\n$2x = ${totalFuture - (2 * p.futureYears + p.diff)}$\n$x = **${ans}**$ ปี`,
+          title: `ตั้งสมการในอีก ${p.futureYears} ปีข้างหน้า`,
+          content: `ลูกอายุ $x + ${p.futureYears}$ ปี และพ่ออายุ $(x + ${p.diff}) + ${p.futureYears} = x + ${p.diff + p.futureYears}$ ปี\nผลรวมอายุ: $(x + ${p.futureYears}) + (x + ${p.diff + p.futureYears}) = ${totalFuture}$\n$2x + ${2 * p.futureYears + p.diff} = ${totalFuture}$\n$2x = ${totalFuture - (2 * p.futureYears + p.diff)}$\n$x = ${ans}$ ปี`,
         },
       ];
     },

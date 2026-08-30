@@ -31,7 +31,7 @@ export const MATH_WORD_TEMPLATES: QuestionTemplate[] = [
       {
         stepNumber: 2,
         title: 'คำนวณจำนวนคน',
-        content: `$\\text{จำนวนนักเรียนที่มาเรียน} = \\frac{${p.percent}}{100} \\times ${p.total} = **${ans}**$ คน`,
+        content: `$\\text{จำนวนนักเรียนที่มาเรียน} = \\frac{${p.percent}}{100} \\times ${p.total} = ${ans}$ คน`,
       },
     ],
     trickTip: () => '💡 ร้อยละ $P$ ของ $X$ = $(P \\times X) \\div 100$',
@@ -69,7 +69,7 @@ export const MATH_WORD_TEMPLATES: QuestionTemplate[] = [
         {
           stepNumber: 2,
           title: 'หาราคาขาย (ทุน + กำไร)',
-          content: `$\\text{ราคาขาย} = \\text{ต้นทุน} + \\text{กำไร} = ${p.cost} + ${profitBaht} = **${ans}**$ บาท`,
+          content: `$\\text{ราคาขาย} = \\text{ต้นทุน} + \\text{กำไร} = ${p.cost} + ${profitBaht} = ${ans}$ บาท`,
         },
       ];
     },
@@ -108,7 +108,7 @@ export const MATH_WORD_TEMPLATES: QuestionTemplate[] = [
         {
           stepNumber: 2,
           title: 'คำนวณเงินที่ต้องจ่าย',
-          content: `$\\text{ราคาที่ต้องจ่าย} = \\frac{${100 - p.discountPercent}}{100} \\times ${p.price} = **${ans}**$ บาท (หรือลดไป ${discountBaht} บาท)`,
+          content: `$\\text{ราคาที่ต้องจ่าย} = \\frac{${100 - p.discountPercent}}{100} \\times ${p.price} = ${ans}$ บาท (หรือลดไป ${discountBaht} บาท)`,
         },
       ];
     },
@@ -144,8 +144,8 @@ export const MATH_WORD_TEMPLATES: QuestionTemplate[] = [
       },
       {
         stepNumber: 2,
-        title: 'แทนค่า $v = ${p.v}$ และ $t = ${p.tHours}$',
-        content: `$\\text{ระยะทาง} = ${p.v} \\times ${p.tHours} = **${ans}**$ กิโลเมตร`,
+        title: `แทนค่า $v = ${p.v}\\text{ กม./ชม.}, t = ${p.tHours}\\text{ ชม.}$`,
+        content: `$\\text{ระยะทาง} = ${p.v} \\times ${p.tHours} = ${ans}$ กิโลเมตร`,
       },
     ],
     trickTip: () => '💡 จำสามเหลี่ยม $s-v-t$: ระยะทาง ($s$) อยู่บน, อัตราเร็ว ($v$) และเวลา ($t$) อยู่ล่าง',
@@ -161,8 +161,8 @@ export const MATH_WORD_TEMPLATES: QuestionTemplate[] = [
     difficulty: 'hard',
     tags: ['โจทย์ปัญหา', 'การทำงานร่วมกัน'],
     params: [
-      { name: 'a', min: 6, max: 12, step: 6 },  // 6 or 12
-      { name: 'b', min: 12, max: 24, step: 12 }, // 12 or 24
+      { name: 'a', min: 6, max: 12, step: 6 },
+      { name: 'b', min: 12, max: 24, step: 12 },
     ],
     questionText: (p) => `แดงทำงานชิ้นหนึ่งเสร็จคนเดียวในเวลา ${p.a} วัน ดำทำงานชิ้นเดียวกันเสร็จคนเดียวในเวลา ${p.b} วัน ถ้าทั้งสองคนช่วยกันทำงานนี้พร้อมกัน จะทำงานเสร็จในเวลากี่วัน`,
     correctAnswer: (p) => (p.a * p.b) / (p.a + p.b),

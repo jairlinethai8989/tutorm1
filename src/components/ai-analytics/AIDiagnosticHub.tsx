@@ -1,14 +1,30 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { generateAIDiagnosticReport } from '@/lib/aiDiagnosticEngine';
 import { AIDiagnosticResult } from '@/types/analytics';
 import { DiagnosticSummaryBanner } from './DiagnosticSummaryBanner';
-import { SubjectRadarChart } from './SubjectRadarChart';
 import { WeaknessPriorityBoard } from './WeaknessPriorityBoard';
 import { SubTopicDrilldown } from './SubTopicDrilldown';
-import { RemedialQuizModal } from './RemedialQuizModal';
 import { Sparkles, Brain, Award, AlertCircle } from 'lucide-react';
+
+const SubjectRadarChart = dynamic(
+  () => import('./SubjectRadarChart').then((mod) => mod.SubjectRadarChart),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm h-[400px] animate-pulse flex items-center justify-center text-slate-400 text-sm">
+        กำลังโหลดกราฟ Radar...
+      </div>
+    ),
+  }
+);
+
+const RemedialQuizModal = dynamic(
+  () => import('./RemedialQuizModal').then((mod) => mod.RemedialQuizModal),
+  { ssr: false }
+);
 
 export const AIDiagnosticHub: React.FC = () => {
   const [report, setReport] = useState<AIDiagnosticResult | null>(null);

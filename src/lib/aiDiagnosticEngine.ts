@@ -135,8 +135,17 @@ function findMatchingTopic(key: string, subjectIdHint?: string) {
 /**
  * AI Diagnostic Engine: ประมวลผลและวิเคราะห์จุดอ่อนจุดแข็งรายบทย่อย 5 วิชา
  */
+// In-memory cache for diagnostic reports to avoid re-aggregating thousands of answers repeatedly
+let cachedReportAttemptsRef: ExamAttempt[] | null = null;
+let cachedReportResult: AIDiagnosticResult | null = null;
+
 export function generateAIDiagnosticReport(): AIDiagnosticResult {
-  const attempts: ExamAttempt[] = getStoredAttempts();
+  const attempts = getStoredAttempts();
+
+  if (attempts === cachedReportAttemptsRef && cachedReportResult !== null) {
+    return cachedReportResult;
+  }
+
   const overallStats = getUserStats();
   const activeProfile = getActiveStudentProfile();
 
@@ -285,7 +294,7 @@ export function generateAIDiagnosticReport(): AIDiagnosticResult {
   const overallAccuracy = overallStats.accuracyRate;
   const overallReadiness = overallStats.examReadinessScore;
 
-  return {
+  const result: AIDiagnosticResult = {
     studentName,
     targetSchool,
     assessmentDate: formatThaiDate(new Date()),
@@ -299,4 +308,9 @@ export function generateAIDiagnosticReport(): AIDiagnosticResult {
     rankedWeaknesses,
     rankedStrengths,
   };
+
+  cachedReportAttemptsRef = attempts;
+  cachedReportResult = result;
+
+  return result;
 }

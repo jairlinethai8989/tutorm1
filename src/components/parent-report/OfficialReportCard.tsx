@@ -55,6 +55,9 @@ export const OfficialReportCard: React.FC<OfficialReportCardProps> = ({
               <img
                 src="/images/logom1-2.png"
                 alt="Tutor M.1 Logo"
+                width={180}
+                height={64}
+                decoding="async"
                 className="h-16 w-auto object-contain drop-shadow-sm"
               />
             </div>

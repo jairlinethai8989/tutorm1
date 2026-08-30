@@ -40,7 +40,7 @@ export const StepByStep: React.FC<StepByStepProps> = ({ steps }) => {
                   {stepNumber}
                 </span>
                 <h4 className="font-bold text-slate-900 text-sm sm:text-base">
-                  {title}
+                  <MathText content={title} inline={true} />
                 </h4>
               </div>
 

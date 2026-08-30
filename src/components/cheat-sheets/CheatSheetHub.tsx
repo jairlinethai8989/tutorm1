@@ -1,10 +1,15 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import { SubjectCategory, FormulaItem } from '@/types/cheatSheet';
 import { ALL_CHEAT_SHEETS, getAllFormulaItems } from '@/data/cheat-sheets';
 import { FormulaCard } from './FormulaCard';
-import { FlashcardPrintModal } from './FlashcardPrintModal';
+
+const FlashcardPrintModal = dynamic(
+  () => import('./FlashcardPrintModal').then((mod) => mod.FlashcardPrintModal),
+  { ssr: false }
+);
 import {
   Search,
   BookOpen,

@@ -4,10 +4,6 @@ function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b);
 }
 
-function lcm(a: number, b: number): number {
-  return (a * b) / gcd(a, b);
-}
-
 export const MATH_ARITHMETIC_TEMPLATES: QuestionTemplate[] = [
   // 1. ห.ร.ม. 2 จำนวน
   {
@@ -43,7 +39,7 @@ export const MATH_ARITHMETIC_TEMPLATES: QuestionTemplate[] = [
         content: `เนื่องจาก ${p.m1} และ ${p.m2} เป็นจำนวนเฉพาะสัมพัทธ์ (ไม่มีตัวหารร่วมอื่นนอกจาก 1)\nดังนั้น ห.ร.ม. คือ **$${ans}$**`,
       },
     ],
-    trickTip: (p) => `💡 หา ห.ร.ม. โดยการตั้งหารสั้น หรือแยกตัวประกอบร่วมที่ดึงออกมาได้มากที่สุด`,
+    trickTip: () => `💡 หา ห.ร.ม. โดยการตั้งหารสั้น หรือแยกตัวประกอบร่วมที่ดึงออกมาได้มากที่สุด`,
     commonMistake: 'ระวังจำสลับระหว่าง ห.ร.ม. (ตัวหารร่วมมาก) และ ค.ร.น. (ตัวคูณร่วมน้อย)',
   },
 
@@ -78,7 +74,7 @@ export const MATH_ARITHMETIC_TEMPLATES: QuestionTemplate[] = [
       {
         stepNumber: 2,
         title: 'คำนวณผลลัพธ์',
-        content: `$\\text{ค.ร.น.} = ${p.g} \\times ${p.m1} \\times ${p.m2} = **${ans}**$`,
+        content: `$\\text{ค.ร.น.} = ${p.g} \\times ${p.m1} \\times ${p.m2} = ${ans}$`,
       },
     ],
     trickTip: () => '💡 ความสัมพันธ์สำคัญ: $A \\times B = \\text{ห.ร.ม.} \\times \\text{ค.ร.น.}$',
@@ -165,7 +161,7 @@ export const MATH_ARITHMETIC_TEMPLATES: QuestionTemplate[] = [
       {
         stepNumber: 2,
         title: 'คำนวณจำนวนคน',
-        content: `$\\text{จำนวนนักเรียนหญิง} = \\frac{${p.den - p.num}}{${p.den}} \\times ${p.den * p.k} = (${p.den - p.num}) \\times ${p.k} = **${ans}**$ คน`,
+        content: `$\\text{จำนวนนักเรียนหญิง} = \\frac{${p.den - p.num}}{${p.den}} \\times ${p.den * p.k} = (${p.den - p.num}) \\times ${p.k} = ${ans}$ คน`,
       },
     ],
     answerUnit: 'คน',
@@ -207,7 +203,7 @@ export const MATH_ARITHMETIC_TEMPLATES: QuestionTemplate[] = [
         {
           stepNumber: 2,
           title: 'ใช้สูตรจำนวนตัวประกอบ',
-          content: `สูตร: นำเลขชี้กำลังแต่ละตัวมาบวก 1 แล้วนำมาคูณกัน\n$\\text{จำนวนตัวประกอบ} = (${p.a} + 1)(${p.b} + 1)(${p.c} + 1) = ${p.a + 1} \\times ${p.b + 1} \\times ${p.c + 1} = **${ans}**$ จำนวน`,
+          content: `สูตร: นำเลขชี้กำลังแต่ละตัวมาบวก 1 แล้วนำมาคูณกัน\n$\\text{จำนวนตัวประกอบ} = (${p.a} + 1)(${p.b} + 1)(${p.c} + 1) = ${p.a + 1} \\times ${p.b + 1} \\times ${p.c + 1} = ${ans}$ จำนวน`,
         },
       ];
     },

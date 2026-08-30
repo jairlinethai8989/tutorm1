@@ -2,9 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { generateParentDiagnosticReport } from '@/lib/parentReportGenerator';
 import { ParentDiagnosticReport } from '@/types/parentReport';
-import { OfficialReportCard } from './OfficialReportCard';
+
+const OfficialReportCard = dynamic(
+  () => import('./OfficialReportCard').then((mod) => mod.OfficialReportCard),
+  { ssr: false }
+);
 import {
   Printer,
   Sparkles,

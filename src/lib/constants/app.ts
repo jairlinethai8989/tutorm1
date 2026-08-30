@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.20.0',
-  versionLabel: 'Version 2.20.0 (AI Exam Analytics & Weakness Diagnostic)',
+  version: 'v2.21.0',
+  versionLabel: 'Version 2.21.0 (End-to-End Performance Optimization & Math Formatting Fixes)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,38 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.21.0',
+    date: '30 สิงหาคม 2026',
+    title: '🚀 ปรับปรุงประสิทธิภาพทั้งระบบ (End-to-End Optimization) & แก้ไขการแสดงผลสัญลักษณ์คณิต-วิทย์',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'system',
+        title: 'KaTeX In-Memory LRU Cache & Memoization',
+        description:
+          'เพิ่ม Global LRU Cache สำหรับประมวลผลสมการคณิตศาสตร์และสูตรวิทย์ เร่งความเร็วการเรนเดอร์ขึ้น 5-10 เท่า และตอบสนองระดับ 60 FPS',
+      },
+      {
+        type: 'system',
+        title: 'Dynamic Code Splitting & Bundle Optimization',
+        description:
+          'แยกโมดอลขนาดใหญ่และกราฟ Recharts ออกจาก Main Bundle ลดขนาด First Load JS Bundle เหลือเพียง 103 kB',
+      },
+      {
+        type: 'fix',
+        title: 'แก้ไขการแสดงผลสัญลักษณ์คณิตศาสตร์และวิทยาศาสตร์ในเฉลย AI',
+        description:
+          'ปรับปรุงการแทนค่าตัวแปรสุ่มในแม่แบบโจทย์คณิตและฟิสิกส์ให้แสดงผล LaTeX KaTeX ถูกต้อง คมชัด สวยงาม ไม่มีตัวแปรตกค้าง',
+      },
+    ],
+  },
+  {
     version: 'v2.20.0',
     date: '30 สิงหาคม 2026',
     title: 'เปิดตัวระบบ AI Exam Analytics & Weakness Diagnostic วินิจฉัยจุดอ่อน 16 บทย่อย 5 วิชา',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',
