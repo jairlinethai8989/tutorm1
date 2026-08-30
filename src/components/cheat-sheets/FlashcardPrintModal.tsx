@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FormulaItem } from '@/types/cheatSheet';
 import { MathText } from '@/components/shared/MathText';
+import { FormulaDiagram } from './FormulaDiagram';
 import { Printer, X, Scissors, Layers, FileText, Sparkles, Check } from 'lucide-react';
 
 interface FlashcardPrintModalProps {
@@ -99,53 +100,72 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
             <button
               type="button"
               onClick={() => setPrintMode('single')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
                 printMode === 'single'
-                  ? 'bg-white text-blue-600 shadow-xs font-extrabold'
+                  ? 'bg-white text-blue-600 shadow-xs font-black'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <FileText className="w-3.5 h-3.5" />
-              <span>พิมพ์ใบเดียว (3"x5")</span>
+              <span>การ์ดใบเดียว (3"x5")</span>
             </button>
             <button
               type="button"
               onClick={() => setPrintMode('deck')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
                 printMode === 'deck'
-                  ? 'bg-white text-blue-600 shadow-xs font-extrabold'
+                  ? 'bg-white text-blue-600 shadow-xs font-black'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Layers className="w-3.5 h-3.5" />
-              <span>พิมพ์ชุดการ์ด (4 ใบ/แผ่น A4)</span>
+              <span>พิมพ์ทั้งชุด ({items.length} ใบ)</span>
             </button>
           </div>
 
           <button
             type="button"
             onClick={handlePrint}
-            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-black font-prompt flex items-center gap-1.5 shadow-md shadow-blue-500/20 hover:scale-105 transition-all cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-prompt font-black text-xs shadow-md transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
           >
             <Printer className="w-4 h-4" />
-            <span>สั่งพิมพ์ / เซฟ PDF</span>
+            <span>สั่งพิมพ์เลย (Ctrl + P)</span>
           </button>
 
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-rose-100 hover:text-rose-600 text-slate-500 flex items-center justify-center transition-colors cursor-pointer"
-            title="ปิดหน้าต่าง"
+            className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* 2. Isolated Printable Container (Targeted by ID for instant 1-page printing) */}
+      {/* Selector dropdown if in single mode and not locked to 1 item */}
+      {printMode === 'single' && !singleItem && (
+        <div className="max-w-4xl mx-auto mb-4 bg-white/90 backdrop-blur-md rounded-2xl p-3 shadow-md border border-slate-200 print:hidden flex items-center justify-between gap-3">
+          <span className="font-prompt text-xs font-bold text-slate-700">
+            เลือกการ์ดที่ต้องการพิมพ์:
+          </span>
+          <select
+            value={selectedSingleId}
+            onChange={(e) => setSelectedSingleId(e.target.value)}
+            className="flex-1 max-w-md p-2 rounded-xl border border-slate-300 text-xs font-prompt font-semibold text-slate-800 bg-white"
+          >
+            {items.map((i) => (
+              <option key={i.id} value={i.id}>
+                [{i.subCategory}] {i.title}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {/* 2. Print Container (What actually gets printed) */}
       <div
         id="flashcard-print-container"
-        className="max-w-4xl mx-auto bg-white rounded-3xl p-4 sm:p-8 shadow-2xl print:shadow-none print:p-0 print:m-0 print:max-w-none print:w-full print:rounded-none"
+        className="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 print:shadow-none print:border-none print:p-0 print:max-w-none print:w-full"
       >
         {/* ================= MODE 1: SINGLE FLASHCARD (3x5 Inch Size) ================= */}
         {printMode === 'single' && activeSingleItem && (() => {
@@ -194,6 +214,9 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
                     <MathText content={activeSingleItem.formula} plainBlock={true} blockClassName="text-sm sm:text-base font-bold" />
                   </div>
                 )}
+
+                {/* Visual Diagram */}
+                <FormulaDiagram item={activeSingleItem} />
 
                 {/* Description */}
                 <div className="font-sarabun text-xs text-slate-700 leading-relaxed mb-2.5">
@@ -279,6 +302,9 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
                           <MathText content={item.formula} plainBlock={true} blockClassName="text-xs sm:text-sm font-bold" />
                         </div>
                       )}
+
+                      {/* Visual Diagram */}
+                      <FormulaDiagram item={item} />
 
                       {/* Description */}
                       <div className="font-sarabun text-[11px] text-slate-700 leading-snug mb-1.5">

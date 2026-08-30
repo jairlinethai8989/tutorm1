@@ -40,10 +40,7 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({ subject }) => {
   return (
     <Link
       href={`/subjects/${subject.slug}`}
-      className="group relative flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-200 overflow-hidden cursor-pointer p-4 text-left"
-      style={{
-        borderColor: undefined,
-      }}
+      className="group relative flex flex-col justify-between bg-white rounded-3xl border-2 border-slate-200/90 shadow-xs hover:shadow-xl hover:-translate-y-1.5 active:scale-95 transition-all duration-200 overflow-hidden cursor-pointer p-4 sm:p-5 text-left select-none"
     >
       {/* Top Accent Strip (10-15% ratio accent) */}
       <div

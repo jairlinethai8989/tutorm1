@@ -669,10 +669,10 @@ export const CHULABHORN_SET1_SCIENCE_QUESTIONS: Question[] = [
     targetSchool: 'chulabhorn',
     content: 'เมื่อนำก้อนหินไปชั่งด้วยเครื่องชั่งสปริงในอากาศได้น้ำหนัก 10 นิวตัน แต่เมื่อนำไปจุ่มในน้ำแล้วชั่งได้ 7 นิวตัน น้ำหนักที่หายไป 3 นิวตัน เกิดจากสิ่งใด?',
     choices: [
-      { id: 'c1', label: '1', content: 'แรงเสียดทานของผิวน้ำ', isCorrect: false },
-      { id: 'c2', label: '2', content: 'แรงพยุง (Buoyant force) ของน้ำที่กระทำต่อวัตถุในทิศทางพุ่งขึ้น', isCorrect: true },
-      { id: 'c3', label: '3', content: 'มวลของก้อนหินละลายไปในน้ำ', isCorrect: false },
-      { id: 'c4', label: '4', content: 'แรงดึงดูดของโลกใต้ผิวน้ำลดลง', isCorrect: false },
+      { id: 'c1', label: '1', content: 'แรงเสียดทานของโมเลกุลน้ำที่ต้านการเคลื่อนที่', isCorrect: false },
+      { id: 'c2', label: '2', content: 'แรงพยุงของน้ำที่กระทำต่อวัตถุในทิศทางพุ่งขึ้น', isCorrect: true },
+      { id: 'c3', label: '3', content: 'แรงตึงผิวของน้ำที่ช่วยพยุงวัตถุให้ลอยตัว', isCorrect: false },
+      { id: 'c4', label: '4', content: 'แรงดึงดูดของโลกใต้ผิวน้ำที่ลดลงตามระดับความลึก', isCorrect: false },
     ],
     solution: {
       summary: 'หลักการของอาร์คิมีดิส: น้ำหนักที่ชั่งได้ในของเหลวจะลดลงเท่ากับขนาดของแรงพยุง (F_B = W_อากาศ - W_ในน้ำ = 10 - 7 = 3 N)',

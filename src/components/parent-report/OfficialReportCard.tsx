@@ -51,8 +51,12 @@ export const OfficialReportCard: React.FC<OfficialReportCardProps> = ({
         {/* 1. Official Header */}
         <div className="border-b-2 border-slate-900 pb-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center font-black shadow-md shrink-0">
-              <GraduationCap className="w-8 h-8" />
+            <div className="h-16 w-auto shrink-0 relative flex items-center">
+              <img
+                src="/images/logom1-2.png"
+                alt="Tutor M.1 Logo"
+                className="h-16 w-auto object-contain drop-shadow-sm"
+              />
             </div>
             <div className="text-center sm:text-left">
               <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
@@ -173,20 +177,32 @@ export const OfficialReportCard: React.FC<OfficialReportCardProps> = ({
           </div>
         </div>
 
-        {/* 5. Signatures Footer */}
-        <div className="pt-8 border-t grid grid-cols-2 gap-8 text-center text-xs text-slate-600">
-          <div className="space-y-12">
-            <div className="border-b border-dashed border-slate-400 w-48 mx-auto" />
+        {/* 5. Signatures & Official Stamp Footer */}
+        <div className="pt-6 border-t grid grid-cols-2 gap-8 text-center text-xs text-slate-600 items-end">
+          {/* Left: Parent Signature */}
+          <div className="space-y-4 pb-2">
+            <div className="h-16 flex items-end justify-center">
+              <div className="border-b border-dashed border-slate-400 w-48 mx-auto" />
+            </div>
             <p className="font-bold text-slate-800">
               ( .................................................... )<br />
               <span className="text-[11px] text-slate-500 font-normal">ลายมือชื่อผู้ปกครอง / ผู้ดูแล</span>
             </p>
           </div>
-          <div className="space-y-12">
+
+          {/* Right: Official Mascot Stamp & AI Verification Seal */}
+          <div className="space-y-2 flex flex-col items-center">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 relative flex items-center justify-center">
+              <img
+                src="/images/tutor-m1-official-seal.png"
+                alt="Tutor M.1 Official Seal"
+                className="w-full h-full object-contain drop-shadow-sm"
+              />
+            </div>
             <div className="border-b border-dashed border-slate-400 w-48 mx-auto" />
             <p className="font-bold text-slate-800">
               ระบบประเมินผลอัจฉริยะ Tutor M.1<br />
-              <span className="text-[11px] text-slate-500 font-normal">AI Learning Diagnostic Engine</span>
+              <span className="text-[11px] text-slate-500 font-normal">AI Learning Diagnostic Engine • ตรวจสอบความถูกต้องแล้ว</span>
             </p>
           </div>
         </div>

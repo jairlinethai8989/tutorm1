@@ -72,3 +72,61 @@ export interface UserOverallStats {
   subjectStats?: SubjectAnalytics[];
 }
 
+/** ผลวิเคราะห์รายบทย่อยของแต่ละวิชา */
+export interface SubTopicDiagnostic {
+  topicId: string;           // เช่น 'math-algebra', 'sci-physics'
+  topicName: string;         // ชื่อบทย่อย
+  subjectId: string;         // วิชาแม่
+  totalAttempted: number;
+  totalCorrect: number;
+  accuracyPercent: number;   // 0–100
+  status: 'excellent' | 'good' | 'warning' | 'critical' | 'no_data';
+  // excellent ≥ 80%, good ≥ 65%, warning ≥ 50%, critical < 50%
+  avgTimePerQuestion: number; // วินาที
+  trend: 'improving' | 'stable' | 'declining' | 'unknown';
+}
+
+/** ผลวิเคราะห์รายวิชา พร้อมข้อมูลบทย่อย */
+export interface SubjectDiagnosticResult {
+  subjectId: string;
+  subjectName: string;
+  subjectNameEn: string;
+  color: string;             // Hex theme color
+  bgColor: string;
+  borderColor: string;
+  icon: string;              // Lucide icon name
+  overallAccuracy: number;
+  totalAttempted: number;
+  totalCorrect: number;
+  status: 'excellent' | 'good' | 'warning' | 'critical' | 'no_data';
+  subTopics: SubTopicDiagnostic[];
+  weakestTopic: SubTopicDiagnostic | null;  // บทที่อ่อนที่สุดเพื่อเสนอซ่อม
+}
+
+/** ข้อมูลสำหรับ 5-Subject Radar Chart */
+export interface SubjectRadarPoint {
+  subject: string;           // ชื่อวิชา
+  subjectId: string;
+  score: number;             // 0–100 accuracy
+  fullMark: number;          // 100
+  questionsCount: number;
+  color: string;             // Theme color
+}
+
+/** ผลลัพธ์รวมจาก AI Diagnostic Engine */
+export interface AIDiagnosticResult {
+  studentName: string;
+  targetSchool: string;
+  assessmentDate: string;
+  overallAccuracy: number;
+  overallReadiness: number;
+  totalQuestionsAnalyzed: number;
+  totalMockExamsDone: number;
+  streakDays: number;
+  subjectResults: SubjectDiagnosticResult[];
+  subjectRadarData: SubjectRadarPoint[];
+  rankedWeaknesses: SubTopicDiagnostic[];
+  rankedStrengths: SubTopicDiagnostic[];
+}
+
+

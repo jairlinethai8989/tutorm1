@@ -93,6 +93,15 @@ export const Navbar: React.FC = () => {
       activeGlow: 'drop-shadow-[0_8px_16px_rgba(249,115,22,0.55)]',
     },
     {
+      id: 'ai-analytics',
+      name: 'วิเคราะห์จุดอ่อน AI',
+      fullName: 'AI Analytics วินิจฉัย 16 บทย่อย 5 วิชา',
+      href: '/ai-analytics',
+      image: '/images/nav-icons/icon-ai-analytics.png',
+      glowColor: 'group-hover:drop-shadow-[0_8px_16px_rgba(99,102,241,0.55)]',
+      activeGlow: 'drop-shadow-[0_8px_16px_rgba(99,102,241,0.55)]',
+    },
+    {
       id: 'dashboard',
       name: 'แดชบอร์ด AI',
       fullName: 'แดชบอร์ดสถิติ & รายงานผู้ปกครอง',
@@ -112,7 +121,7 @@ export const Navbar: React.FC = () => {
           <Link href="/" className="flex items-center space-x-2.5 sm:space-x-3 group shrink-0">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl overflow-hidden shadow-sm shadow-blue-500/20 group-hover:scale-105 transition-transform bg-blue-600 relative border border-blue-200/50">
               <Image
-                src="/images/logo-icon.png"
+                src="/images/logom1.png"
                 alt="Tutor M.1 Logo"
                 width={44}
                 height={44}

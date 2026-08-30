@@ -14,6 +14,7 @@ import { AITutorDrawer } from '@/components/quiz/AITutorDrawer';
 import { CuteAIBotIcon } from '@/components/shared/CuteAIBotIcon';
 import { evaluateAnswer } from '@/lib/scoring';
 import { saveAttempt, isBookmarked, toggleBookmark, getUserProfileName } from '@/lib/storage';
+import { shuffleQuestionChoices } from '@/lib/utils';
 import {
   ArrowLeft,
   ArrowRight,
@@ -33,6 +34,7 @@ interface QuizPlayerProps {
 }
 
 export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions = [] }) => {
+  const [activeQuestion, setActiveQuestion] = useState<Question>(() => shuffleQuestionChoices(question));
   const [selectedChoiceId, setSelectedChoiceId] = useState<string | undefined>();
   const [textAnswer, setTextAnswer] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -48,6 +50,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
   }, []);
 
   useEffect(() => {
+    setActiveQuestion(shuffleQuestionChoices(question));
     setSelectedChoiceId(undefined);
     setTextAnswer('');
     setIsSubmitted(false);
@@ -64,7 +67,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
   const handleSubmit = () => {
     if (isSubmitted) return;
 
-    const evalResult = evaluateAnswer(question, {
+    const evalResult = evaluateAnswer(activeQuestion, {
       selectedChoiceId,
       textAnswer,
       timeSpentSeconds: 30,
@@ -238,9 +241,9 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({ question, allQuestions =
 
         {/* Input Types */}
         <div className="pt-2">
-          {question.type === 'multiple_choice' && question.choices && (
+          {activeQuestion.type === 'multiple_choice' && activeQuestion.choices && (
             <MultipleChoice
-              choices={question.choices}
+              choices={activeQuestion.choices}
               selectedChoiceId={selectedChoiceId}
               onSelectChoice={(id) => {
                 if (!isSubmitted) setSelectedChoiceId(id);

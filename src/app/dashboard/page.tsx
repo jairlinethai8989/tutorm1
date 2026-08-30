@@ -79,58 +79,78 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8 pb-16">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors mb-2"
-          >
+      {/* Top Navigation & Profile Status Bar */}
+      <div className="flex items-center justify-between gap-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors group"
+        >
+          <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 group-hover:text-blue-600 group-hover:border-blue-300 shadow-2xs transition-all">
             <ArrowLeft className="w-4 h-4" />
-            <span>กลับหน้าหลัก</span>
-          </Link>
-          <div className="flex items-center gap-2 text-blue-600 font-bold text-xs uppercase tracking-wider mb-1">
-            <BarChart3 className="w-4 h-4" />
+          </div>
+          <span>กลับหน้าหลัก</span>
+        </Link>
+
+        <button
+          type="button"
+          onClick={() => setIsNameModalOpen(true)}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-slate-200/90 hover:border-blue-300 hover:bg-blue-50/50 text-slate-700 font-bold text-xs shadow-2xs transition-all cursor-pointer"
+        >
+          <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-black text-[10px]">
+            {studentName.charAt(0) || 'ผ'}
+          </div>
+          <span>ผู้เรียน: <strong className="text-blue-700 font-black">{studentName}</strong></span>
+          <Edit3 className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600" />
+        </button>
+      </div>
+
+      {/* Main Title & Action Bar */}
+      <div className="bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-3xl p-5 sm:p-6 shadow-xs flex flex-col xl:flex-row xl:items-center justify-between gap-5">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200/60 text-blue-700 font-black text-[11px] uppercase tracking-wide">
+            <BarChart3 className="w-3.5 h-3.5" />
             <span>Smart Performance Analytics</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             ประเมินผลความพร้อม & วิเคราะห์จุดอ่อน
           </h1>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium">
+            ระบบวิเคราะห์สถิติความแม่นยำรายวิชา พร้อมระบบวินิจฉัยจุดอ่อน AI อัตโนมัติ
+          </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
+        {/* Action Button Group */}
+        <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap shrink-0">
+          <Link
+            href="/ai-analytics"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-extrabold text-xs shadow-sm transition-all hover:shadow-md cursor-pointer whitespace-nowrap"
+          >
+            <Sparkles className="w-4 h-4 text-cyan-300" />
+            <span>AI วินิจฉัย 16 บทย่อย</span>
+          </Link>
+
           <Link
             href="/parent-report"
-            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-xs shadow-md transition-all hover:scale-105 cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100/80 border border-purple-200 text-purple-700 font-extrabold text-xs transition-all cursor-pointer whitespace-nowrap"
           >
-            <Printer className="w-4 h-4" />
+            <Printer className="w-4 h-4 text-purple-600" />
             <span>รายงานผู้ปกครอง (PDF)</span>
           </Link>
 
           <Link
             href="/mistake-book"
-            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-white border border-rose-200 hover:bg-rose-50 text-rose-700 font-bold text-xs shadow-xs transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100/80 border border-rose-200 text-rose-700 font-extrabold text-xs transition-all cursor-pointer whitespace-nowrap"
           >
             <BookMarked className="w-4 h-4 text-rose-600" />
             <span>สมุดจุดอ่อน {mistakeCount > 0 && `(${mistakeCount})`}</span>
           </Link>
 
-          <button
-            type="button"
-            onClick={() => setIsNameModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs shadow-xs transition-all cursor-pointer"
-          >
-            <User className="w-4 h-4 text-blue-600" />
-            <span>ผู้เรียน: <strong className="text-blue-700">{studentName}</strong></span>
-            <Edit3 className="w-3.5 h-3.5 text-slate-400 ml-1" />
-          </button>
-
           <Link
             href="/mock-exam"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition-all hover:scale-105"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-sm transition-all hover:shadow-md whitespace-nowrap"
           >
             <Clock className="w-4 h-4" />
-            <span>เริ่มสอบจำลองเพิ่มสถิติ</span>
+            <span>เริ่มสอบจำลอง</span>
           </Link>
         </div>
       </div>
@@ -230,10 +250,19 @@ export default function DashboardPage() {
               สำหรับข้อสอบแนว มศว. และ จภ. คะแนนตัดตัวมักอยู่ที่ <strong>วิชาคณิตศาสตร์ (โจทย์ประยุกต์และเรขาคณิต)</strong> และ <strong>วิทยาศาสตร์ (การวิเคราะห์ตารางทดลองและวงจรไฟฟ้า)</strong> แนะนำให้เน้นทำข้อสอบอัตนัยแสดงวิธีทำเพิ่มเติมเพื่อฝึกการเขียนคำอธิบายอย่างเป็นระบบ
             </p>
 
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap gap-2.5">
+              <Link
+                href="/ai-analytics"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white font-extrabold text-xs shadow-md transition-all"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>🔬 เจาะลึก AI วิเคราะห์จุดอ่อน 16 บท</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+
               <Link
                 href="/subjects/math"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-slate-900 font-extrabold text-xs shadow-md hover:bg-slate-100 transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-extrabold text-xs border border-white/20 transition-colors"
               >
                 <span>ฝึกทำโจทย์คณิตศาสตร์เพิ่มเติม</span>
                 <ArrowRight className="w-3.5 h-3.5" />

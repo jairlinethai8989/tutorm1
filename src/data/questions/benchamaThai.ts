@@ -2443,19 +2443,19 @@ export const BENCHAMA_THAI_QUESTIONS: Question[] = [
       {
         "id": "c2",
         "label": "2",
-        "content": "ตำนานพื้นบ้าน",
+        "content": "เรื่องเล่าตำนานพื้นบ้านที่สืบทอดกันมาแต่โบราณ",
         "isCorrect": false
       },
       {
         "id": "c3",
         "label": "3",
-        "content": "นิทานชาดก",
+        "content": "เรื่องราวนิทานชาดกเกี่ยวกับอดีตชาติของพระพุทธเจ้า",
         "isCorrect": false
       },
       {
         "id": "c4",
         "label": "4",
-        "content": "บันทึกรายรับรายจ่าย",
+        "content": "บันทึกจดหมายเหตุรายวันของข้าราชบริพารในราชสำนัก",
         "isCorrect": false
       }
     ],

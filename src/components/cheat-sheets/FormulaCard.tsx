@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FormulaItem } from '@/types/cheatSheet';
 import { MathText } from '@/components/shared/MathText';
+import { FormulaDiagram } from './FormulaDiagram';
 import { Star, Copy, Check, Printer, Tag, Sparkles, Lightbulb, Zap } from 'lucide-react';
 
 interface FormulaCardProps {
@@ -128,18 +129,8 @@ export const FormulaCard: React.FC<FormulaCardProps> = ({
             </span>
           </div>
 
-          {/* Action buttons on top right */}
+          {/* Action buttons on top right: Clean Copy & Bookmark (No Duplicate Print Button) */}
           <div className="flex items-center gap-1 shrink-0">
-            {onPrintSingle && (
-              <button
-                type="button"
-                onClick={() => onPrintSingle(item)}
-                title="พิมพ์การ์ดใบนี้ (Flashcard ขนาด 3x5 นิ้ว)"
-                className="w-8 h-8 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <Printer className="w-4 h-4" />
-              </button>
-            )}
             <button
               type="button"
               onClick={handleCopy}
@@ -170,6 +161,9 @@ export const FormulaCard: React.FC<FormulaCardProps> = ({
             <MathText content={item.formula} plainBlock={true} blockClassName="text-sm sm:text-base md:text-lg font-bold" />
           </div>
         )}
+
+        {/* 🎨 Visual Educational Diagram for each subject */}
+        <FormulaDiagram item={item} />
 
         {/* Description */}
         <div className="font-sarabun text-xs sm:text-sm text-slate-700 leading-relaxed mb-2.5">

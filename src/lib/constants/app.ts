@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.19.0',
-  versionLabel: 'Version 2.19.0 (Math Step-by-Step Solutions & Stability Update)',
+  version: 'v2.20.0',
+  versionLabel: 'Version 2.20.0 (AI Exam Analytics & Weakness Diagnostic)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,38 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.20.0',
+    date: '30 สิงหาคม 2026',
+    title: 'เปิดตัวระบบ AI Exam Analytics & Weakness Diagnostic วินิจฉัยจุดอ่อน 16 บทย่อย 5 วิชา',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'ระบบ AI Deep Diagnostic วินิจฉัยจุดอ่อน 16 บทย่อย 5 วิชา',
+        description:
+          'วิเคราะห์ความแม่นยำรายบทย่อย พร้อมระบบจำแนกสถานะ 🟢 ยอดเยี่ยม 🟡 ควรทบทวน 🔴 จุดอ่อนวิกฤต และแนวโน้มพัฒนาการ',
+      },
+      {
+        type: 'feature',
+        title: 'Interactive 5-Subject Radar Chart & Weakness Priority Board',
+        description:
+          'กราฟ Radar SVG 5 แกนวิชาหลัก พร้อมเส้นเกณฑ์ตัดตัวสอบติด 70% และบอร์ดจัดอันดับ 5 จุดอ่อนที่ต้องเร่งซ่อม',
+      },
+      {
+        type: 'feature',
+        title: 'One-Click Smart Remedial Quiz',
+        description:
+          'ปุ่มสร้างชุดข้อสอบซ่อมจุดอ่อน 5 ข้อจากคลังข้อสอบจริงทันที พร้อมเฉลยละเอียดและบันทึกผลอัปเดตสถิติ Real-time',
+      },
+    ],
+  },
+  {
     version: 'v2.19.0',
     date: '29 สิงหาคม 2026',
     title: 'เฉลยวิธีทำคณิตศาสตร์อย่างละเอียด & แก้ไข Client-side ReferenceError',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'เสถียร (Stable)',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

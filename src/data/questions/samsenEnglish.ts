@@ -1330,7 +1330,7 @@ Item 41: What is the purpose of the text?`,
     choices: [
       { id: '1', label: '1', content: 'To explain the benefits of having breakfast', isCorrect: true },
       { id: '2', label: '2', content: 'To answer questions about skipping breakfast', isCorrect: false },
-      { id: '3', label: '3', content: 'To inform about what people breakfast habits', isCorrect: false },
+      { id: '3', label: '3', content: 'To inform about common breakfast habits', isCorrect: false },
       { id: '4', label: '4', content: 'To convince children to have a light breakfast', isCorrect: false },
     ],
     solution: {

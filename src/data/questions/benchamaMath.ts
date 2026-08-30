@@ -226,7 +226,7 @@ export const BENCHAMA_MATH_QUESTIONS: Question[] = [
       {
         "id": "c4",
         "label": "4",
-        "content": "1",
+        "content": "$\\frac{1}{99}$",
         "isCorrect": false
       }
     ],

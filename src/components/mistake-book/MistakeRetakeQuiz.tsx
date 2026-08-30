@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Question } from '@/types/question';
 import { toggleResolvedMistake } from '@/lib/storage';
+import { shuffleQuestionsChoices } from '@/lib/utils';
 import { MathText } from '@/components/shared/MathText';
 import { SolutionViewer } from '@/components/solution/SolutionViewer';
 import { AITutorDrawer } from '@/components/quiz/AITutorDrawer';
@@ -29,10 +30,11 @@ interface MistakeRetakeQuizProps {
 }
 
 export const MistakeRetakeQuiz: React.FC<MistakeRetakeQuizProps> = ({
-  questions,
+  questions: rawQuestions,
   onFinish,
   onExit,
 }) => {
+  const questions = useMemo(() => shuffleQuestionsChoices(rawQuestions), [rawQuestions]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});

@@ -23,6 +23,8 @@ import {
   History,
   Coffee,
   Heart,
+  Award,
+  Zap,
 } from 'lucide-react';
 import { APP_CONFIG, APP_CHANGELOG } from '@/lib/constants/app';
 import {
@@ -150,42 +152,44 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
               </div>
 
               {/* Tab Navigation */}
-              <div className="shrink-0 px-4 sm:px-6 pt-3 pb-2 bg-slate-100/80 border-b border-slate-200 flex gap-2 overflow-x-auto">
+              <div className="shrink-0 px-4 sm:px-6 pt-3.5 pb-2.5 bg-slate-200/90 border-b border-slate-300 flex gap-2.5 overflow-x-auto">
                 <button
                   type="button"
                   onClick={() => setActiveTab('whatsNew')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer shadow-2xs ${
                     activeTab === 'whatsNew'
-                      ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                      ? 'bg-blue-600 text-white shadow-md ring-2 ring-blue-400/40 border border-blue-700'
+                      : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-300 font-bold'
                   }`}
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <Sparkles className={`w-3.5 h-3.5 ${activeTab === 'whatsNew' ? 'text-yellow-300' : 'text-amber-500'}`} />
                   <span>มีอะไรใหม่ ({APP_CONFIG.version})</span>
-                  <span className="px-1.5 py-0.2 text-[9px] bg-rose-500 text-white rounded-full font-bold">NEW</span>
+                  <span className={`px-1.5 py-0.2 text-[9px] rounded-full font-black ${
+                    activeTab === 'whatsNew' ? 'bg-white text-blue-700' : 'bg-rose-500 text-white'
+                  }`}>NEW</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab('guide')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer shadow-2xs ${
                     activeTab === 'guide'
-                      ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                      ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-400/40 border border-indigo-700'
+                      : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-300 font-bold'
                   }`}
                 >
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
+                  <BookOpen className={`w-3.5 h-3.5 ${activeTab === 'guide' ? 'text-cyan-300' : 'text-indigo-600'}`} />
                   <span>คู่มือการใช้งาน & ผู้เรียน</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab('support')}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer shadow-2xs ${
                     activeTab === 'support'
-                      ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 text-white shadow-xs'
-                      : 'text-amber-800 hover:text-amber-900 hover:bg-amber-100/60 bg-amber-50/70 border border-amber-200/60'
+                      ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 text-white shadow-md ring-2 ring-orange-400/40'
+                      : 'bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold'
                   }`}
                 >
-                  <Coffee className="w-3.5 h-3.5" />
+                  <Coffee className={`w-3.5 h-3.5 ${activeTab === 'support' ? 'text-white' : 'text-amber-600'}`} />
                   <span>สนับสนุนผู้พัฒนา (Donate) 💖</span>
                 </button>
               </div>
@@ -338,41 +342,104 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                   </div>
                 </div>
 
-                {/* 3 Core Modes Overview */}
+                {/* 8 Core Modes & Features Overview */}
                 <div className="space-y-3">
-                  <h3 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-                    <Lightbulb className="w-4 h-4 text-amber-500" />
-                    <span>3 โหมดหลักในการฝึกฝน</span>
-                  </h3>
+                  <div className="flex items-center justify-between gap-2 border-b border-slate-200 pb-2">
+                    <h3 className="font-black text-slate-900 text-sm flex items-center gap-2">
+                      <Lightbulb className="w-4 h-4 text-amber-500" />
+                      <span>8 โหมด & เครื่องมือหลักในการฝึกฝนเพื่อสอบติด ม.1</span>
+                    </h3>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
+                      อัปเดตล่าสุด v2.20.0
+                    </span>
+                  </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div className="bg-blue-50/60 border border-blue-200/60 p-3.5 rounded-2xl space-y-1.5">
-                      <div className="flex items-center gap-1.5 text-blue-700 font-bold text-xs">
-                        <BookOpen className="w-4 h-4" />
-                        <span>1. ฝึก 5 วิชาหลัก</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {/* 1. 5 วิชาหลัก */}
+                    <div className="bg-blue-50/70 border border-blue-200/80 p-3.5 rounded-2xl space-y-1.5 hover:shadow-2xs transition-shadow">
+                      <div className="flex items-center gap-1.5 text-blue-700 font-extrabold text-xs">
+                        <BookOpen className="w-4 h-4 text-blue-600" />
+                        <span>1. 5 วิชาหลัก (ข้อสอบจริง)</span>
                       </div>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        คลังข้อสอบจริง 500+ ข้อ พร้อมระบบเฉลยละเอียดภาษาไทย Step-by-Step และสูตรลัด
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        คลังข้อสอบจริง 500+ ข้อ รร.ดัง พร้อมเฉลยละเอียดภาษาไทยทีละขั้นตอนและสูตรลัด
                       </p>
                     </div>
 
-                    <div className="bg-violet-50/60 border border-violet-200/60 p-3.5 rounded-2xl space-y-1.5">
-                      <div className="flex items-center gap-1.5 text-violet-700 font-bold text-xs">
-                        <Clock className="w-4 h-4" />
-                        <span>2. จำลองสอบจริง</span>
+                    {/* 2. จำลองสอบจริง */}
+                    <div className="bg-violet-50/70 border border-violet-200/80 p-3.5 rounded-2xl space-y-1.5 hover:shadow-2xs transition-shadow">
+                      <div className="flex items-center gap-1.5 text-violet-700 font-extrabold text-xs">
+                        <Clock className="w-4 h-4 text-violet-600" />
+                        <span>2. จำลองสอบจริง 60 นาที</span>
                       </div>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        จับเวลาจริง มีกระดาษคำตอบดิจิทัล และเกณฑ์ผ่านของโรงเรียนดัง
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        จับเวลาเสมือนจริง กระดาษคำตอบดิจิทัล และเกณฑ์ผ่านตัดตัวห้องพิเศษ
                       </p>
                     </div>
 
-                    <div className="bg-purple-50/60 border border-purple-200/60 p-3.5 rounded-2xl space-y-1.5">
-                      <div className="flex items-center gap-1.5 text-purple-700 font-bold text-xs">
-                        <Sparkles className="w-4 h-4" />
-                        <span>3. AI Practice</span>
+                    {/* 3. AI Practice */}
+                    <div className="bg-fuchsia-50/70 border border-fuchsia-200/80 p-3.5 rounded-2xl space-y-1.5 hover:shadow-2xs transition-shadow">
+                      <div className="flex items-center gap-1.5 text-fuchsia-700 font-extrabold text-xs">
+                        <Sparkles className="w-4 h-4 text-fuchsia-600" />
+                        <span>3. AI Practice 33 รูปแบบ</span>
                       </div>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        สุ่มตัวเลขและโจทย์ใหม่ 33 รูปแบบ ฝึกคิดคำนวณซ้ำไม่จำกัดชุด
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        สุ่มตัวเลขและเงื่อนไขโจทย์ใหม่ไม่จำกัดชุด ฝึกคิดคำนวณซ้ำจนชำนาญ
+                      </p>
+                    </div>
+
+                    {/* 4. สมุดจุดอ่อน */}
+                    <div className="bg-rose-50/70 border border-rose-200/80 p-3.5 rounded-2xl space-y-1.5 hover:shadow-2xs transition-shadow">
+                      <div className="flex items-center gap-1.5 text-rose-700 font-extrabold text-xs">
+                        <AlertTriangle className="w-4 h-4 text-rose-600" />
+                        <span>4. สมุดจุดอ่อน (Mistake Book)</span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        บันทึกข้อที่เคยทำผิดอัตโนมัติ พร้อมระบบสอบซ่อมปลดล็อกข้อผิด (Retake Quiz)
+                      </p>
+                    </div>
+
+                    {/* 5. คลังสรุปสูตร */}
+                    <div className="bg-amber-50/70 border border-amber-200/80 p-3.5 rounded-2xl space-y-1.5 hover:shadow-2xs transition-shadow">
+                      <div className="flex items-center gap-1.5 text-amber-800 font-extrabold text-xs">
+                        <Award className="w-4 h-4 text-amber-600" />
+                        <span>5. คลังสรุปสูตร & แฟลชการ์ด</span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        รวมสูตรลับและหัวใจสำคัญ 5 วิชา พร้อมโหมดพิมพ์การ์ดท่องจำก่อนสอบ
+                      </p>
+                    </div>
+
+                    {/* 6. Speed Run */}
+                    <div className="bg-orange-50/70 border border-orange-200/80 p-3.5 rounded-2xl space-y-1.5 hover:shadow-2xs transition-shadow">
+                      <div className="flex items-center gap-1.5 text-orange-700 font-extrabold text-xs">
+                        <Zap className="w-4 h-4 text-orange-600" />
+                        <span>6. Speed Run ⚡ ประลองความเร็ว</span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        โหมดจับเวลาข้อต่อข้อ ฝึกความไว ความแม่นยำ ปั๊ม Streak และคอมโบ EXP
+                      </p>
+                    </div>
+
+                    {/* 7. AI Analytics & Weakness Diagnostic */}
+                    <div className="bg-indigo-50/70 border border-indigo-200/80 p-3.5 rounded-2xl space-y-1.5 hover:shadow-2xs transition-shadow">
+                      <div className="flex items-center gap-1.5 text-indigo-700 font-extrabold text-xs">
+                        <Sparkles className="w-4 h-4 text-indigo-600" />
+                        <span>7. วินิจฉัยจุดอ่อน 16 บทย่อย</span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        วิเคราะห์ความแม่นยำ กราฟ Radar 5 แกน และชุดฝึกซ่อมจุดอ่อน One-Click 10 ข้อ
+                      </p>
+                    </div>
+
+                    {/* 8. รายงานผู้ปกครอง */}
+                    <div className="bg-emerald-50/70 border border-emerald-200/80 p-3.5 rounded-2xl space-y-1.5 hover:shadow-2xs transition-shadow">
+                      <div className="flex items-center gap-1.5 text-emerald-700 font-extrabold text-xs">
+                        <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                        <span>8. รายงานผู้ปกครอง (PDF A4)</span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        พิมพ์ใบสรุปผลประเมินทักษะทางการ ตราประทับรับรอง AI และคำแนะนำเฉพาะบุคคล
                       </p>
                     </div>
                   </div>

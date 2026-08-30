@@ -1068,13 +1068,13 @@ export const BENCHAMA_SOCIAL_QUESTIONS: Question[] = [
       {
         "id": "c3",
         "label": "3",
-        "content": "ภูมิอากาศแบบทะเลทราย",
+        "content": "ภูมิอากาศแบบทะเลทราย (BWh)",
         "isCorrect": false
       },
       {
         "id": "c4",
         "label": "4",
-        "content": "ภูมิอากาศแบบอบอุ่นชื้น",
+        "content": "ภูมิอากาศแบบอบอุ่นชื้น (Cfa)",
         "isCorrect": false
       }
     ],
