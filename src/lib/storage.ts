@@ -54,7 +54,8 @@ export const saveAttempt = (attempt: ExamAttempt): void => {
   if (typeof window === 'undefined') return;
   try {
     const attempts = getStoredAttempts();
-    const updated = [attempt, ...attempts.filter((a) => a.id !== attempt.id)];
+    const existingWithoutCurrent = attempts.filter((a) => a.id !== attempt.id);
+    const updated = [attempt, ...existingWithoutCurrent];
     const serialized = JSON.stringify(updated);
     localStorage.setItem(STORAGE_KEYS.ATTEMPTS, serialized);
     cachedAttemptsRaw = serialized;
@@ -66,8 +67,9 @@ export const saveAttempt = (attempt: ExamAttempt): void => {
     // Telemetry: Idempotent attempt_completed & milestones (Non-blocking)
     try {
       const { trackAttemptCompleted, trackMilestone } = require('@/lib/analytics');
-      const prevTotalQuestions = attempts.reduce((sum, a) => sum + (a.totalQuestions || 0), 0);
-      const newTotalQuestions = prevTotalQuestions + (attempt.totalQuestions || 0);
+      // Calculate canonical deduplicated totals (excluding current attempt for prev, using updated for new)
+      const prevTotalQuestions = existingWithoutCurrent.reduce((sum, a) => sum + (a.totalQuestions || 0), 0);
+      const newTotalQuestions = updated.reduce((sum, a) => sum + (a.totalQuestions || 0), 0);
 
       trackAttemptCompleted({
         attemptId: attempt.id,
@@ -84,6 +86,9 @@ export const saveAttempt = (attempt: ExamAttempt): void => {
       }
       if (prevTotalQuestions < 50 && newTotalQuestions >= 50) {
         trackMilestone(50, newTotalQuestions);
+      }
+      if (prevTotalQuestions < 100 && newTotalQuestions >= 100) {
+        trackMilestone(100, newTotalQuestions);
       }
     } catch (telemetryErr) {
       console.debug('Telemetry tracking in saveAttempt bypassed', telemetryErr);

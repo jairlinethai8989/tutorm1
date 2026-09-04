@@ -41,6 +41,7 @@ export type AnalyticsEventName =
   | 'question_answered'
   | 'questions_10_milestone'
   | 'questions_50_milestone'
+  | 'questions_100_milestone'
   
   // 5. Central Completed Boundary (Authoritative Product Metric)
   | 'attempt_completed'

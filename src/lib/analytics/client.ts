@@ -48,32 +48,106 @@ export function getTelemetryContext(): BaseTelemetryContext {
 }
 
 /**
- * Sanitize payload to strictly guarantee Zero-PII
+ * Strict Event-Specific Allowlist Schemas for Authoritative Events
+ * Guarantees that only explicitly permitted, non-PII metrics and dimensions can leave the browser.
  */
-function sanitizePayload(payload: any): any {
-  if (!payload || typeof payload !== 'object') return payload;
-  const clone = { ...payload };
+const EVENT_ALLOWLISTS: Partial<Record<AnalyticsEventName, string[]>> = {
+  attempt_completed: [
+    'attemptId',
+    'mode',
+    'subject',
+    'topicId',
+    'questionsAnswered',
+    'correctCount',
+    'durationSeconds',
+    'scorePercentage',
+  ],
+  questions_10_milestone: ['milestone', 'totalQuestionsAnswered', 'achievedAt'],
+  questions_50_milestone: ['milestone', 'totalQuestionsAnswered', 'achievedAt'],
+  questions_100_milestone: ['milestone', 'totalQuestionsAnswered', 'achievedAt'],
+  rum_performance_sample: ['metricName', 'value', 'unit', 'rating', 'targetType'],
+  parent_report_viewed: ['examCount', 'hasEnoughData'],
+  question_answered: [
+    'questionId',
+    'subject',
+    'topicId',
+    'isCorrect',
+    'timeSpentSeconds',
+    'questionIndex',
+  ],
+  page_view: ['page_location', 'traffic_category', 'device_type'],
+  session_started: [],
+  ai_diagnostic_viewed: ['totalAttemptsAnalyzed', 'gradeFilter'],
+  ai_practice_viewed: ['activeTab', 'category'],
+  ai_practice_started: ['topicId', 'subject', 'templateCount'],
+  ai_practice_completed: ['topicId', 'totalAttempted', 'correctCount'],
+  mock_exam_hub_viewed: ['schoolFilter', 'totalExamsVisible'],
+  mock_exam_started: ['examId', 'examTitle', 'timeLimitMinutes'],
+  mock_exam_completed: ['examId', 'score', 'durationSeconds', 'totalQuestions'],
+  speed_run_lobby_viewed: ['defaultMode'],
+  speed_run_started: ['mode'],
+  speed_run_completed: ['mode', 'score', 'maxCombo', 'correctCount'],
+  client_runtime_error: ['message', 'source', 'lineno', 'colno'],
+};
 
-  // Strip potential PII keys
-  const piiKeys = [
-    'studentName',
-    'studentNameHash',
-    'name',
-    'realName',
-    'email',
-    'phone',
-    'telephone',
-    'schoolName',
-    'targetSchoolSpecific',
-  ];
+// Regex matching potential PII keys at any nesting depth
+const PII_KEY_REGEX = /^(student|name|realname|firstname|lastname|email|phone|tel|school|avatar|profile|hash|text|freetext|prompt|content|questiontext)$/i;
 
-  for (const key of piiKeys) {
-    if (key in clone) {
-      delete clone[key];
+/**
+ * Recursively sanitize objects and arrays against PII patterns
+ */
+function recursiveSanitize(value: any, depth = 0): any {
+  if (depth > 4) return undefined; // Guard against circular/deep structures
+  if (!value || typeof value !== 'object') return value;
+
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => recursiveSanitize(item, depth + 1))
+      .filter((v) => v !== undefined);
+  }
+
+  const clean: Record<string, any> = {};
+  for (const [k, v] of Object.entries(value)) {
+    const normalizedKey = k.replace(/[-_]/g, '');
+    if (PII_KEY_REGEX.test(normalizedKey)) {
+      continue; // Drop PII key completely
+    }
+
+    if (typeof v === 'object' && v !== null) {
+      const nested = recursiveSanitize(v, depth + 1);
+      if (nested !== undefined && Object.keys(nested).length > 0) {
+        clean[k] = nested;
+      }
+    } else if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+      clean[k] = v;
     }
   }
 
-  return clone;
+  return clean;
+}
+
+/**
+ * Sanitize payload using event-specific allowlist and deep recursive PII removal
+ */
+function sanitizePayload(eventName: AnalyticsEventName, payload: any): any {
+  if (!payload || typeof payload !== 'object') return {};
+
+  const allowlist = EVENT_ALLOWLISTS[eventName];
+  let candidate: Record<string, any> = {};
+
+  if (allowlist && allowlist.length > 0) {
+    for (const key of allowlist) {
+      if (key in payload && payload[key] !== undefined) {
+        candidate[key] = payload[key];
+      }
+    }
+  } else if (allowlist && allowlist.length === 0) {
+    return {};
+  } else {
+    candidate = { ...payload };
+  }
+
+  return recursiveSanitize(candidate);
 }
 
 /**
@@ -95,7 +169,7 @@ export function track<T = Record<string, unknown>>(eventName: AnalyticsEventName
 
   try {
     const context = getTelemetryContext();
-    const cleanPayload = sanitizePayload(payload || {});
+    const cleanPayload = sanitizePayload(eventName, payload || {});
 
     for (const provider of PROVIDERS) {
       provider.track(eventName, cleanPayload, context);
@@ -147,10 +221,16 @@ export function trackQuestionAnswered(payload: QuestionAnsweredPayload): void {
 }
 
 /**
- * Track milestone achievement (e.g. 10 or 50 questions answered)
+ * Track milestone achievement (10, 50, or 100 questions answered)
  */
 export function trackMilestone(milestone: 10 | 50 | 100, totalQuestionsAnswered: number): void {
-  const eventName = milestone === 10 ? 'questions_10_milestone' : 'questions_50_milestone';
+  const eventName: AnalyticsEventName =
+    milestone === 10
+      ? 'questions_10_milestone'
+      : milestone === 50
+      ? 'questions_50_milestone'
+      : 'questions_100_milestone';
+
   track<MilestonePayload>(eventName, {
     milestone,
     totalQuestionsAnswered,
