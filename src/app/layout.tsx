@@ -23,6 +23,7 @@ const sarabun = Sarabun({
 
 import { APP_CONFIG } from '@/lib/constants/app';
 import { SupportCoffeeWidget } from '@/components/shared/SupportCoffeeWidget';
+import { AnalyticsProvider } from '@/components/shared/AnalyticsProvider';
 
 export const metadata: Metadata = {
   title: APP_CONFIG.titleFull,
@@ -47,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="th" className={`${prompt.variable} ${sarabun.variable}`}>
       <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 pb-16 md:pb-0 selection:bg-blue-500 selection:text-white">
+        <AnalyticsProvider />
         <Navbar />
         <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {children}

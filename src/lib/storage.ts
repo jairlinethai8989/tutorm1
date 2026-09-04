@@ -60,9 +60,34 @@ export const saveAttempt = (attempt: ExamAttempt): void => {
     cachedAttemptsRaw = serialized;
     cachedAttemptsParsed = updated;
     cachedStatsAttemptsRef = null;
-    cachedMistakeAttemptsRef = null;
     updateUserStats(updated);
     window.dispatchEvent(new Event('tutor_m1_stats_changed'));
+
+    // Telemetry: Idempotent attempt_completed & milestones (Non-blocking)
+    try {
+      const { trackAttemptCompleted, trackMilestone } = require('@/lib/analytics');
+      const prevTotalQuestions = attempts.reduce((sum, a) => sum + (a.totalQuestions || 0), 0);
+      const newTotalQuestions = prevTotalQuestions + (attempt.totalQuestions || 0);
+
+      trackAttemptCompleted({
+        attemptId: attempt.id,
+        mode: attempt.mode,
+        subject: attempt.subjectId,
+        questionsAnswered: attempt.totalQuestions || 0,
+        correctCount: attempt.correctCount || 0,
+        durationSeconds: attempt.timeSpentSeconds || 0,
+        scorePercentage: attempt.scorePercentage || 0,
+      });
+
+      if (prevTotalQuestions < 10 && newTotalQuestions >= 10) {
+        trackMilestone(10, newTotalQuestions);
+      }
+      if (prevTotalQuestions < 50 && newTotalQuestions >= 50) {
+        trackMilestone(50, newTotalQuestions);
+      }
+    } catch (telemetryErr) {
+      console.debug('Telemetry tracking in saveAttempt bypassed', telemetryErr);
+    }
   } catch (e) {
     console.error('Error saving attempt to localStorage', e);
   }
