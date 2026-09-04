@@ -67,8 +67,8 @@ export const saveAttempt = (attempt: ExamAttempt): void => {
     // Telemetry: Idempotent attempt_completed & milestones (Non-blocking)
     try {
       const { trackAttemptCompleted, trackMilestone } = require('@/lib/analytics');
-      // Calculate canonical deduplicated totals (excluding current attempt for prev, using updated for new)
-      const prevTotalQuestions = existingWithoutCurrent.reduce((sum, a) => sum + (a.totalQuestions || 0), 0);
+      // Calculate canonical before/after totals from actual states
+      const prevTotalQuestions = attempts.reduce((sum, a) => sum + (a.totalQuestions || 0), 0);
       const newTotalQuestions = updated.reduce((sum, a) => sum + (a.totalQuestions || 0), 0);
 
       trackAttemptCompleted({

@@ -99,11 +99,10 @@ export interface ClientPerformancePayload {
 }
 
 export interface ClientRuntimeErrorPayload {
-  message: string;
-  source?: string;
+  errorType: string;
+  route: string;
   lineno?: number;
   colno?: number;
-  componentStack?: string;
 }
 
 export interface AnalyticsEvent<T = Record<string, unknown>> {

@@ -81,13 +81,13 @@ const EVENT_ALLOWLISTS: Partial<Record<AnalyticsEventName, string[]>> = {
   ai_practice_viewed: ['activeTab', 'category'],
   ai_practice_started: ['topicId', 'subject', 'templateCount'],
   ai_practice_completed: ['topicId', 'totalAttempted', 'correctCount'],
-  mock_exam_hub_viewed: ['schoolFilter', 'totalExamsVisible'],
-  mock_exam_started: ['examId', 'examTitle', 'timeLimitMinutes'],
+  mock_exam_hub_viewed: ['hasSchoolFilter', 'examCategory', 'totalExamsVisible'],
+  mock_exam_started: ['examId', 'examCategory', 'examType', 'timeLimitMinutes'],
   mock_exam_completed: ['examId', 'score', 'durationSeconds', 'totalQuestions'],
   speed_run_lobby_viewed: ['defaultMode'],
   speed_run_started: ['mode'],
   speed_run_completed: ['mode', 'score', 'maxCombo', 'correctCount'],
-  client_runtime_error: ['message', 'source', 'lineno', 'colno'],
+  client_runtime_error: ['errorType', 'route', 'lineno', 'colno'],
 };
 
 // Regex matching potential PII keys at any nesting depth
@@ -275,11 +275,14 @@ export function initAnalytics(): () => void {
     });
   }
 
-  // 5. Global Error Listener
+  // 5. Global Error Listener (Zero-PII: extracts normalized errorType & pathname only)
   const handleError = (event: ErrorEvent) => {
+    const errorType = (event.error && event.error.name) || (event.message ? event.message.split(':')[0].slice(0, 50) : 'UnknownError');
+    const route = typeof window !== 'undefined' ? window.location.pathname : '/';
+
     track('client_runtime_error', {
-      message: event.message,
-      source: event.filename,
+      errorType,
+      route,
       lineno: event.lineno,
       colno: event.colno,
     });
