@@ -10,10 +10,12 @@ export default async function ControlCenterCockpitPage() {
     fetchVercelWebMetrics('7d'),
   ]);
 
-  const mockExamCompletionRate =
-    ga4Data.examStarts > 0
-      ? Math.round((ga4Data.examCompletes / ga4Data.examStarts) * 100)
-      : 0;
+  const isAnyUnavailable =
+    ga4Data.status === 'DATA_SOURCE_UNAVAILABLE' ||
+    vercelData.status === 'DATA_SOURCE_UNAVAILABLE';
+  const isSynthetic =
+    ga4Data.source === 'synthetic_fallback' ||
+    vercelData.source === 'synthetic_fallback';
 
   return (
     <div className="space-y-8">
@@ -24,200 +26,246 @@ export default async function ControlCenterCockpitPage() {
             Executive Growth &amp; Telemetry Cockpit
           </h1>
           <p className="text-sm text-slate-400 mt-1">
-            Real-time curriculum progression, conversion funnels, and habit telemetry (Last 7 Days)
+            Real-time event progression, lifetime milestones, and habit telemetry (Last 7 Days)
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-emerald-400">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            GA4 Progression Stream: Active
-          </div>
-          <div className="flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-cyan-400">
-            <span className="h-2 w-2 rounded-full bg-cyan-400"></span>
-            Vercel Analytics: Active
-          </div>
+          {isAnyUnavailable ? (
+            <div className="flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-3 py-1 text-rose-400">
+              <span className="h-2 w-2 rounded-full bg-rose-500"></span>
+              Production Telemetry Offline (DATA_SOURCE_UNAVAILABLE)
+            </div>
+          ) : isSynthetic ? (
+            <div className="flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-amber-400">
+              <span className="h-2 w-2 rounded-full bg-amber-400"></span>
+              Demo / Sandbox Mode (Calibrated Baseline)
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-emerald-400">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Live Telemetry: GA4 batchRunReports &amp; Vercel visits/aggregate
+            </div>
+          )}
         </div>
       </div>
 
+      {isAnyUnavailable && (
+        <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-xs text-rose-300 space-y-1">
+          <div className="font-semibold text-rose-200">
+            ⚠️ Production Telemetry Data Source Unavailable
+          </div>
+          <p>
+            One or more telemetry credentials are not configured or upstream reporting endpoints are unreachable.
+            Artificial numbers are strictly suppressed in production mode.
+          </p>
+          {ga4Data.error && <p className="font-mono text-[11px] text-rose-400">GA4: {ga4Data.error}</p>}
+          {vercelData.error && <p className="font-mono text-[11px] text-rose-400">Vercel: {vercelData.error}</p>}
+        </div>
+      )}
+
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Mock Exam Card */}
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Mock Exam Starts
+              Mock Exams
             </span>
             <span className="rounded-md bg-indigo-500/10 px-2 py-0.5 text-[11px] font-medium text-indigo-400">
               Diagnostic
             </span>
           </div>
           <div className="mt-3 text-3xl font-extrabold text-white">
-            {ga4Data.examStarts.toLocaleString()}
+            {ga4Data.progression.mockExam.started.toLocaleString()}
           </div>
-          <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
-            <span>Completed: {ga4Data.examCompletes.toLocaleString()}</span>
-            <span className="font-semibold text-emerald-400">{mockExamCompletionRate}% rate</span>
+          <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
+            <div className="flex justify-between">
+              <span>Completed: {ga4Data.progression.mockExam.completed.toLocaleString()}</span>
+              <span className="font-semibold text-emerald-400">
+                {ga4Data.progression.mockExam.completionEventRatio}% ratio
+              </span>
+            </div>
+            <span className="text-[10px] text-slate-500">
+              Event progression ratio in window
+            </span>
           </div>
         </div>
 
+        {/* AI Practice Card */}
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Diagnostic Views
-            </span>
-            <span className="rounded-md bg-violet-500/10 px-2 py-0.5 text-[11px] font-medium text-violet-400">
-              Reports
-            </span>
-          </div>
-          <div className="mt-3 text-3xl font-extrabold text-white">
-            {ga4Data.diagnosticViews.toLocaleString()}
-          </div>
-          <div className="mt-2 text-xs text-slate-400">
-            {Math.round((ga4Data.diagnosticViews / ga4Data.examCompletes) * 100)}% of exam completers
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-lg">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-              AI Practice Starts
+              AI Practice
             </span>
             <span className="rounded-md bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-400">
-              Daily Habit
+              Adaptive
             </span>
           </div>
           <div className="mt-3 text-3xl font-extrabold text-white">
-            {ga4Data.practiceStarts.toLocaleString()}
+            {ga4Data.progression.aiPractice.started.toLocaleString()}
           </div>
-          <div className="mt-2 text-xs text-slate-400">
-            {ga4Data.practiceMilestones.toLocaleString()} milestones reached
+          <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
+            <div className="flex justify-between">
+              <span>Completed: {ga4Data.progression.aiPractice.completed.toLocaleString()}</span>
+              <span className="font-semibold text-amber-400">
+                {ga4Data.progression.aiPractice.completionEventRatio}% ratio
+              </span>
+            </div>
+            <span className="text-[10px] text-slate-500">
+              Event progression ratio in window
+            </span>
           </div>
         </div>
 
+        {/* Vercel Visitors Card */}
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-              Unique Visitors
+              Summed Visitors
             </span>
             <span className="rounded-md bg-cyan-500/10 px-2 py-0.5 text-[11px] font-medium text-cyan-400">
               Vercel Web
             </span>
           </div>
           <div className="mt-3 text-3xl font-extrabold text-white">
-            {vercelData.uniqueVisitors.toLocaleString()}
+            {vercelData.summedDailyVisitors.toLocaleString()}
           </div>
-          <div className="mt-2 text-xs text-slate-400">
-            {vercelData.pageViews.toLocaleString()} total pageviews
+          <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
+            <span>{vercelData.pageViews.toLocaleString()} total pageviews</span>
+            <span className="text-[10px] text-slate-500">
+              Sum of daily occurrences (daily hash rotation)
+            </span>
+          </div>
+        </div>
+
+        {/* Sampled Activity Card */}
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              Sampled Interactions
+            </span>
+            <span className="rounded-md bg-violet-500/10 px-2 py-0.5 text-[11px] font-medium text-violet-400">
+              Activity
+            </span>
+          </div>
+          <div className="mt-3 text-3xl font-extrabold text-white">
+            {ga4Data.progression.activity.sampledQuestionsAnswered.toLocaleString()}
+          </div>
+          <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
+            <span>{ga4Data.progression.activity.diagnosticViews.toLocaleString()} diagnostic views</span>
+            <span className="text-[10px] text-violet-400">
+              {ga4Data.progression.activity.samplingStatus === 'enabled_5_percent'
+                ? '5% Client-Sampled Telemetry'
+                : ga4Data.progression.activity.samplingStatus === 'custom'
+                  ? `${((ga4Data.progression.activity.samplingRate ?? 0.05) * 100).toFixed(1)}% Custom Sampled Stream`
+                  : 'Sampling Inactive'}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Progression Funnels Overview */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Mock Exam Funnel */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-white">Mock Exam Progression Funnel</h2>
-            <span className="text-xs font-mono text-slate-400">Zero-PII Aggregation</span>
+      {/* Lifetime Student Achievement Milestones */}
+      <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-white">Lifetime Student Achievement Milestones</h2>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Cumulative mastery milestones reached by students (independent of single-session drop-offs)
+            </p>
           </div>
-          <div className="space-y-4">
-            {ga4Data.funnels.mockExamFunnel.map((step, idx) => (
-              <div key={idx} className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-slate-300">{step.stepName}</span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-slate-400">{step.count.toLocaleString()}</span>
-                    <span className="font-semibold text-indigo-400 w-12 text-right">
-                      {step.stepConversionRate}%
-                    </span>
-                  </div>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-500"
-                    style={{ width: `${Math.max(5, step.stepConversionRate)}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+          <span className="text-xs font-mono text-amber-400">Authoritative Milestone Events</span>
         </div>
 
-        {/* AI Practice Funnel */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-white">AI Practice Habit Progression</h2>
-            <span className="text-xs font-mono text-slate-400">Milestone Ladder</span>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
+            <span className="text-xs font-medium text-slate-400">10 Questions Milestone</span>
+            <div className="text-2xl font-extrabold text-amber-400">
+              {ga4Data.progression.milestones.questions10.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-slate-500">Early practice habit formed</span>
           </div>
-          <div className="space-y-4">
-            {ga4Data.funnels.aiPracticeFunnel.map((step, idx) => (
-              <div key={idx} className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-slate-300">{step.stepName}</span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-slate-400">{step.count.toLocaleString()}</span>
-                    <span className="font-semibold text-amber-400 w-12 text-right">
-                      {step.stepConversionRate}%
-                    </span>
-                  </div>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500"
-                    style={{ width: `${Math.max(5, step.stepConversionRate)}%` }}
-                  />
-                </div>
-              </div>
-            ))}
+          <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
+            <span className="text-xs font-medium text-slate-400">50 Questions Milestone</span>
+            <div className="text-2xl font-extrabold text-amber-500">
+              {ga4Data.progression.milestones.questions50.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-slate-500">Dedicated curriculum study</span>
+          </div>
+          <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
+            <span className="text-xs font-medium text-slate-400">100 Questions Milestone</span>
+            <div className="text-2xl font-extrabold text-orange-400">
+              {ga4Data.progression.milestones.questions100.toLocaleString()}
+            </div>
+            <span className="text-[11px] text-slate-500">Mastery scholar achievement</span>
           </div>
         </div>
       </div>
 
-      {/* Traffic Channels & Subject Performance Breakdown */}
+      {/* Traffic Acquisition & Authoritative Subject Attempts */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Traffic Channels */}
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg lg:col-span-1">
           <h2 className="text-lg font-bold text-white mb-4">Traffic Acquisition</h2>
           <div className="space-y-4">
-            {ga4Data.trafficChannels.map((tc, idx) => (
-              <div key={idx} className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-300">{tc.channel}</span>
-                  <span className="font-semibold text-slate-200">{tc.percentage}%</span>
+            {ga4Data.trafficChannels.length === 0 ? (
+              <p className="text-xs text-slate-500">No channel data available for this timeframe.</p>
+            ) : (
+              ga4Data.trafficChannels.map((tc, idx) => (
+                <div key={idx} className="space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-300">{tc.channel}</span>
+                    <span className="font-semibold text-slate-200">{tc.percentage}%</span>
+                  </div>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
+                    <div
+                      className="h-full rounded-full bg-cyan-500"
+                      style={{ width: `${tc.percentage}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
-                  <div
-                    className="h-full rounded-full bg-cyan-500"
-                    style={{ width: `${tc.percentage}%` }}
-                  />
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
-        {/* Subject Breakdown Table */}
+        {/* Authoritative Subject Breakdown Table */}
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg lg:col-span-2">
-          <h2 className="text-lg font-bold text-white mb-4">Subject Diagnostic Performance</h2>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-lg font-bold text-white">Subject Completed Attempts</h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Authoritative attempt_completed events (filtered to prevent answer-click inflation)
+              </p>
+            </div>
+            <span className="text-xs font-mono text-emerald-400">Zero-Fabrication Metric</span>
+          </div>
+
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
                 <tr>
                   <th className="pb-3 font-semibold">Subject</th>
-                  <th className="pb-3 font-semibold text-right">Attempts</th>
-                  <th className="pb-3 font-semibold text-right">Avg Score</th>
-                  <th className="pb-3 font-semibold text-right">Completion Rate</th>
+                  <th className="pb-3 font-semibold text-right">Completed Attempts</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60">
-                {ga4Data.subjectBreakdown.map((sb, idx) => (
-                  <tr key={idx} className="hover:bg-slate-800/30 transition">
-                    <td className="py-3 font-medium text-slate-200">{sb.subject}</td>
-                    <td className="py-3 text-right text-slate-300">{sb.attempts.toLocaleString()}</td>
-                    <td className="py-3 text-right font-semibold text-indigo-400">{sb.averageScore}%</td>
-                    <td className="py-3 text-right font-semibold text-emerald-400">{sb.completionRate}%</td>
+                {ga4Data.subjectBreakdown.length === 0 ? (
+                  <tr>
+                    <td colSpan={2} className="py-4 text-center text-slate-500">
+                      No completed subject attempts recorded in this timeframe.
+                    </td>
                   </tr>
-                ))}
+                ) : (
+                  ga4Data.subjectBreakdown.map((sb, idx) => (
+                    <tr key={idx} className="hover:bg-slate-800/30 transition">
+                      <td className="py-3 font-medium text-slate-200">{sb.subject}</td>
+                      <td className="py-3 text-right font-semibold text-indigo-400">
+                        {sb.completedAttempts.toLocaleString()}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

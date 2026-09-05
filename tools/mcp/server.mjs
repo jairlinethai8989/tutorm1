@@ -94,4 +94,3 @@ process.stdin.on('data', chunk => {
     if (response) process.stdout.write(JSON.stringify(response) + '\n');
   }
 });
-

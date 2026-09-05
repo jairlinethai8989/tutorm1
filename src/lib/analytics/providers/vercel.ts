@@ -27,4 +27,3 @@ export const vercelProvider: AnalyticsProvider = {
   // No-op: Vercel pageviews are handled natively by <VercelAnalytics /> in root layout
   trackPageView: () => {},
 };
-

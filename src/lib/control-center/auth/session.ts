@@ -1,4 +1,5 @@
-﻿import { ServerSessionRecord } from './types';
+import crypto from 'crypto';
+import { ServerSessionRecord } from './types';
 import { getSessionStore } from './sessionStore';
 
 const IDLE_TIMEOUT_MS = 15 * 60 * 1000;          // 15 minutes sliding idle
@@ -27,7 +28,7 @@ export async function createServerSession(
 ): Promise<ServerSessionRecord> {
   const store = getSessionStore();
   const now = Date.now();
-  const sessionId = 'cc_sess_' + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+  const sessionId = 'cc_sess_' + crypto.randomBytes(32).toString('base64url');
 
   const session: ServerSessionRecord = {
     sessionId,

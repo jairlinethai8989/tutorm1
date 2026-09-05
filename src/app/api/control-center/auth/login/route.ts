@@ -15,7 +15,7 @@ function generatePkce() {
   return { codeVerifier, codeChallenge };
 }
 
-export function buildGoogleAuthUrl(state: string, nonce: string, codeChallenge: string): string {
+function buildGoogleAuthUrl(state: string, nonce: string, codeChallenge: string): string {
   const { clientId, redirectUri } = getGoogleOidcConfig();
 
   const claimsParam = JSON.stringify({

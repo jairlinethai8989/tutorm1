@@ -18,6 +18,10 @@ export interface SessionStore {
   // Daily Partitioned Audit Sink
   appendAuditRecord(record: ControlCenterAuditRecord): Promise<void>;
   getRecentAuditRecords(days: number): Promise<ControlCenterAuditRecord[]>;
+
+  // Server-Side Telemetry Cache
+  getCachedTelemetry(key: string): Promise<string | null>;
+  setCachedTelemetry(key: string, data: string, ttlSeconds: number): Promise<void>;
 }
 
 // In-Memory store strictly for local offline development
@@ -25,6 +29,7 @@ class LocalDevMemoryStore implements SessionStore {
   private sessions = new Map<string, ServerSessionRecord>();
   private handshakes = new Map<string, OIDCHandshakeState>();
   private auditRecords: ControlCenterAuditRecord[] = [];
+  private telemetryCache = new Map<string, { data: string; expiresAt: number }>();
 
   async createSession(session: ServerSessionRecord): Promise<void> {
     this.sessions.set(session.sessionId, session);
@@ -68,7 +73,39 @@ class LocalDevMemoryStore implements SessionStore {
   async getRecentAuditRecords(_days: number): Promise<ControlCenterAuditRecord[]> {
     return this.auditRecords;
   }
+
+  async getCachedTelemetry(key: string): Promise<string | null> {
+    const item = this.telemetryCache.get(key);
+    if (!item) return null;
+    if (Date.now() > item.expiresAt) {
+      this.telemetryCache.delete(key);
+      return null;
+    }
+    return item.data;
+  }
+
+  async setCachedTelemetry(key: string, data: string, ttlSeconds: number): Promise<void> {
+    this.telemetryCache.set(key, {
+      data,
+      expiresAt: Date.now() + ttlSeconds * 1000,
+    });
+  }
 }
+
+const TOUCH_SESSION_LUA = `
+local key = KEYS[1]
+local now = tonumber(ARGV[1])
+if redis.call('EXISTS', key) == 1 then
+    local raw = redis.call('GET', key)
+    if raw then
+        local data = cjson.decode(raw)
+        data.lastActiveAt = now
+        redis.call('SET', key, cjson.encode(data), 'KEEPTTL')
+        return 1
+    end
+end
+return 0
+`;
 
 // Redis / Vercel KV store (Fail-closed on production/preview)
 class UpstashRedisStore implements SessionStore {
@@ -94,17 +131,8 @@ class UpstashRedisStore implements SessionStore {
   }
 
   async touchSession(sessionId: string): Promise<void> {
-    const session = await this.getSession(sessionId);
-    if (session) {
-      session.lastActiveAt = Date.now();
-      const remainingSeconds = Math.max(
-        60,
-        Math.floor((session.expiresAt - Date.now()) / 1000)
-      );
-      await this.redis.set(`tutor_m1_cc_sess:${sessionId}`, JSON.stringify(session), {
-        ex: remainingSeconds,
-      });
-    }
+    const key = `tutor_m1_cc_sess:${sessionId}`;
+    await this.redis.eval(TOUCH_SESSION_LUA, [key], [Date.now().toString()]);
   }
 
   async revokeSession(sessionId: string): Promise<void> {
@@ -150,6 +178,14 @@ class UpstashRedisStore implements SessionStore {
       }
     }
     return results;
+  }
+
+  async getCachedTelemetry(key: string): Promise<string | null> {
+    return await this.redis.get<string>(key);
+  }
+
+  async setCachedTelemetry(key: string, data: string, ttlSeconds: number): Promise<void> {
+    await this.redis.set(key, data, { ex: ttlSeconds });
   }
 }
 

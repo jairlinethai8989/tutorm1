@@ -1,24 +1,30 @@
-export interface ExecutiveKpis {
-  totalMockExamStarts: number;
-  totalMockExamCompletes: number;
-  mockExamCompletionRate: number; // Percentage 0-100
-  totalDiagnosticViews: number;
-  totalPracticeStarts: number;
-  totalPracticeMilestones: number;
-  totalUniqueVisitors: number;
-  totalPageViews: number;
+export interface ProgressionSemantics {
+  mockExam: {
+    started: number;
+    completed: number;
+    completionEventRatio: number; // Ratio of completed to started events in window (can exceed 100%)
+  };
+  aiPractice: {
+    started: number;
+    completed: number;
+    completionEventRatio: number; // Ratio of completed to started events in window (can exceed 100%)
+  };
+  milestones: {
+    questions10: number;
+    questions50: number;
+    questions100: number;
+  };
+  activity: {
+    sampledQuestionsAnswered: number;
+    samplingStatus: 'disabled' | 'enabled_5_percent' | 'custom';
+    samplingRate: number | null; // e.g. 0.05 or custom rate; null when disabled
+    diagnosticViews: number;
+  };
 }
 
-export interface FunnelStep {
-  stepName: string;
-  count: number;
-  dropoffRate: number; // Percentage 0-100 compared to step 0
-  stepConversionRate: number; // Percentage 0-100 compared to previous step
-}
-
-export interface FunnelProgression {
-  mockExamFunnel: FunnelStep[];
-  aiPracticeFunnel: FunnelStep[];
+export interface SubjectBreakdown {
+  subject: string;
+  completedAttempts: number;
 }
 
 export interface TrafficChannel {
@@ -27,22 +33,18 @@ export interface TrafficChannel {
   percentage: number;
 }
 
-export interface SubjectBreakdown {
-  subject: string;
-  attempts: number;
-  averageScore: number;
-  completionRate: number;
-}
-
 export interface AggregateTelemetryResponse {
   timeframe: '7d' | '30d' | '90d';
   generatedAt: string;
   dataSources: {
-    ga4: 'live' | 'synthetic_fallback';
-    vercel: 'live' | 'synthetic_fallback';
+    ga4: 'live' | 'synthetic_fallback' | 'unavailable';
+    vercel: 'live' | 'synthetic_fallback' | 'unavailable';
   };
-  kpis: ExecutiveKpis;
-  funnels: FunnelProgression;
+  progression: ProgressionSemantics;
+  webMetrics: {
+    summedDailyVisitors: number; // Sum of daily visitor counts (Vercel daily hash rotation)
+    pageViews: number;
+  };
   trafficChannels: TrafficChannel[];
   subjectBreakdown: SubjectBreakdown[];
 }

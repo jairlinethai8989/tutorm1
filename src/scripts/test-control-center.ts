@@ -1,23 +1,45 @@
 /**
- * Comprehensive Automated Test Suite for Tutor M.1 Control Center (Phase C)
+ * Comprehensive Automated Verification Test Suite for Tutor M.1 Control Center (Phase C v3.16)
  * Covers:
  * 1. Fail-closed configuration validation
- * 2. Audit key canonical round-trip, alphabet & minimum 32-byte strength
- * 3. NIST AAL2 AMR multi-factor policy
- * 4. Dual session lifetime enforcement (15m idle / 8h hard ceiling)
- * 5. Compound identity allowlist resolution (default deny)
- * 6. Atomic single-use handshake consumption (CSRF/replay defense)
- * 7. Zero-PII telemetry aggregation schema compliance
+ * 2. Audit Key canonical round-trip, alphabet & minimum 32-byte strength
+ * 3. Dedicated AUDIT_IP_SALT_KEY validation, daily rotation & URL query-string stripping
+ * 4. Cryptographically secure session IDs (crypto.randomBytes(32)) & event IDs
+ * 5. Google NIST AAL2 AMR multi-factor policy
+ * 6. Dual session lifetime enforcement (15m idle / 8h hard ceiling)
+ * 7. Compound identity allowlist resolution (default deny)
+ * 8. Atomic single-use handshake consumption (replay defense)
+ * 9. Official Vercel /v1/query/web-analytics/visits/aggregate parsing & live execution
+ * 10. Official GA4 batchRunReports real event mapping & authoritative subject filtering
+ * 11. Client-exact sampling metadata contract & unclamped completion ratios
+ * 12. Production fail-closed DATA_SOURCE_UNAVAILABLE policy
+ * 13. Server-side cache key scoping (VERCEL_ENV) & dual-READY policy
+ * 14. Zero-PII telemetry payload verification
  */
 
 import { requireEnv, getGoogleOidcConfig } from '../lib/control-center/auth/config';
-import { getValidatedAuditKey, derivePseudonymousActorId } from '../lib/control-center/auth/audit';
+import {
+  getValidatedAuditKey,
+  getValidatedIpSaltKey,
+  derivePseudonymousActorId,
+  generateCoarseIpHash,
+  sanitizeAuditResource,
+  createAuditRecord,
+} from '../lib/control-center/auth/audit';
 import { verifyGoogleMFA } from '../lib/control-center/auth/googlePolicy';
-import { isSessionValid } from '../lib/control-center/auth/session';
+import { isSessionValid, createServerSession } from '../lib/control-center/auth/session';
 import { resolveIdentityPermissions } from '../lib/control-center/auth/identity';
 import { getSessionStore } from '../lib/control-center/auth/sessionStore';
-import { fetchGA4TelemetryMetrics } from '../lib/control-center/aggregation/ga4-adapter';
-import { fetchVercelWebMetrics } from '../lib/control-center/aggregation/vercel-adapter';
+import {
+  fetchGA4TelemetryMetrics,
+  parseGA4BatchReports,
+  getZeroProgression,
+  GA4BatchResponse,
+} from '../lib/control-center/aggregation/ga4-adapter';
+import {
+  fetchVercelWebMetrics,
+  parseVercelAggregate,
+} from '../lib/control-center/aggregation/vercel-adapter';
 import { ServerSessionRecord } from '../lib/control-center/auth/types';
 import crypto from 'crypto';
 
@@ -51,12 +73,12 @@ function assertThrows(fn: () => void, testName: string, expectedSnippet?: string
 }
 
 async function runTests() {
-  console.log('=== Tutor M.1 Control Center Automated Verification ===\n');
+  console.log('=== Tutor M.1 Control Center Automated Verification (v3.16) ===\n');
+
+  const origEnv = { ...process.env };
 
   // --- Suite 1: Fail-Closed Configuration Validator ---
   console.log('--- 1. Configuration Fail-Closed Tests ---');
-  const origEnv = { ...process.env };
-
   delete process.env.GOOGLE_OIDC_CLIENT_ID;
   delete process.env.GOOGLE_OIDC_CLIENT_SECRET;
   delete process.env.GOOGLE_OIDC_REDIRECT_URI;
@@ -76,7 +98,7 @@ async function runTests() {
   assert(cfg.clientSecret === 'GOCSPX-confidential_secret_value', 'getGoogleOidcConfig retrieves confidential clientSecret');
   assert(cfg.redirectUri === 'https://tutorm1.com/api/control-center/auth/callback', 'getGoogleOidcConfig retrieves redirectUri');
 
-  // --- Suite 2: Audit Key Canonical Round-Trip & Minimum Strength ---
+  // --- Suite 2: Audit Key Strict Validation & Round-Trip Tests ---
   console.log('\n--- 2. Audit Key Strict Validation & Round-Trip Tests ---');
   delete process.env.AUDIT_PSEUDONYM_KEY;
   assertThrows(() => getValidatedAuditKey(), 'getValidatedAuditKey throws when key is missing');
@@ -89,7 +111,7 @@ async function runTests() {
   process.env.AUDIT_PSEUDONYM_KEY = 'Invalid!Alphabet#Key$With%Symbols&*()';
   assertThrows(() => getValidatedAuditKey(), 'getValidatedAuditKey rejects invalid alphabet characters');
 
-  // Trailing garbage / non-canonical padding (32 bytes followed by extra char)
+  // Trailing garbage / non-canonical round-trip
   const valid32Raw = crypto.randomBytes(32).toString('base64');
   process.env.AUDIT_PSEUDONYM_KEY = valid32Raw + 'A';
   assertThrows(() => getValidatedAuditKey(), 'getValidatedAuditKey rejects trailing garbage or non-canonical round-trip');
@@ -99,7 +121,6 @@ async function runTests() {
   const keyBuf = getValidatedAuditKey();
   assert(keyBuf.length >= 32, 'Valid 32-byte Base64 key accepted');
 
-  // Derive pseudonymous actor ID
   const actorId1 = derivePseudonymousActorId('https://accounts.google.com', 'google_sub_1092837465');
   const actorId2 = derivePseudonymousActorId('https://accounts.google.com', 'google_sub_1092837465');
   const actorId3 = derivePseudonymousActorId('https://accounts.google.com', 'google_sub_different');
@@ -109,8 +130,43 @@ async function runTests() {
   assert(actorId1 === actorId2, 'Actor ID derivation is deterministic for same issuer/subject');
   assert(actorId1 !== actorId3, 'Actor ID differs for different subjects');
 
-  // --- Suite 3: NIST AAL2 AMR Multi-Factor Verification ---
-  console.log('\n--- 3. Google NIST AAL2 Multi-Factor Policy Tests ---');
+  // --- Suite 3: Dedicated AUDIT_IP_SALT_KEY, Daily Rotation & URL Sanitization ---
+  console.log('\n--- 3. Dedicated AUDIT_IP_SALT_KEY, Daily Rotation & URL Sanitization Tests ---');
+  delete process.env.AUDIT_IP_SALT_KEY;
+  assertThrows(() => getValidatedIpSaltKey(), 'getValidatedIpSaltKey throws when key is missing');
+
+  const validIpSaltKey = crypto.randomBytes(32).toString('base64');
+  process.env.AUDIT_IP_SALT_KEY = validIpSaltKey;
+  assert(getValidatedIpSaltKey().length >= 32, 'Valid 32-byte AUDIT_IP_SALT_KEY accepted');
+
+  const ipHash = generateCoarseIpHash('203.0.113.195');
+  assert(ipHash.startsWith('ip_'), 'Coarse IP hash has ip_ prefix');
+  assert(ipHash.length === 19, 'Coarse IP hash has exact prefix (3) + hex (16) = 19 chars');
+
+  // URL Sanitization: strip query parameters containing PII
+  const dirtyUrl = 'https://tutorm1.com/api/control-center/something?student_email=test@school.edu&phone=0812345678';
+  const cleanResource = sanitizeAuditResource(dirtyUrl);
+  assert(cleanResource === '/api/control-center/something', 'sanitizeAuditResource strips all query params and credentials');
+
+  const auditRec = createAuditRecord({
+    pseudonymousActorId: 'usr_abc123',
+    permissionTested: 'aggregate:read',
+    decision: 'ALLOW',
+    resource: dirtyUrl,
+    ip: '198.51.100.42',
+  });
+  assert(auditRec.eventId.startsWith('evt_'), 'Audit eventId starts with evt_');
+  assert(auditRec.eventId.length === 36, 'Audit eventId has prefix (4) + 32 hex chars = 36 chars');
+  assert(auditRec.resource === '/api/control-center/something', 'Audit record resource is cleanly sanitized');
+
+  // --- Suite 4: Cryptographically Secure Session ID ---
+  console.log('\n--- 4. Cryptographically Secure Session ID Tests ---');
+  const session = await createServerSession('usr_test123', 'telemetry_viewer', ['aggregate:read']);
+  assert(session.sessionId.startsWith('cc_sess_'), 'Session ID starts with cc_sess_');
+  assert(session.sessionId.length >= 48, 'Session ID has 256-bit entropy (> 48 base64url chars)');
+
+  // --- Suite 5: NIST AAL2 AMR Multi-Factor Verification ---
+  console.log('\n--- 5. Google NIST AAL2 Multi-Factor Policy Tests ---');
   assert(!verifyGoogleMFA({}).isValid, 'Empty claims rejected (no AMR)');
   assert(!verifyGoogleMFA({ amr: [] }).isValid, 'Empty AMR array rejected');
   assert(!verifyGoogleMFA({ amr: ['pwd'] }).isValid, 'Single factor password rejected');
@@ -120,23 +176,23 @@ async function runTests() {
   assert(verifyGoogleMFA({ amr: ['pin', 'fido'] }).isValid, 'Knowledge + Possession (pin + fido) accepted');
   assert(verifyGoogleMFA({ amr: ['pwd', 'hwk'] }).isValid, 'Knowledge + Possession (pwd + hwk) accepted');
 
-  // --- Suite 4: Dual Session Lifetime Enforcement ---
-  console.log('\n--- 4. Dual Session Lifetime Tests ---');
+  // --- Suite 6: Dual Session Lifetime Enforcement ---
+  console.log('\n--- 6. Dual Session Lifetime Tests ---');
   const now = Date.now();
   const validSession: ServerSessionRecord = {
     sessionId: 'sess_valid',
     actorId: 'usr_abc123',
     role: 'telemetry_viewer',
     permissions: ['aggregate:read'],
-    createdAt: now - 5 * 60 * 1000,     // 5 minutes old
-    lastActiveAt: now - 2 * 60 * 1000,  // 2 minutes idle
+    createdAt: now - 5 * 60 * 1000,
+    lastActiveAt: now - 2 * 60 * 1000,
     expiresAt: now + 7 * 3600 * 1000,
   };
   assert(isSessionValid(validSession).valid, 'Fresh session within idle and absolute limit is valid');
 
   const idleSession: ServerSessionRecord = {
     ...validSession,
-    lastActiveAt: now - 16 * 60 * 1000, // 16 minutes idle (> 15m)
+    lastActiveAt: now - 16 * 60 * 1000,
   };
   const idleCheck = isSessionValid(idleSession);
   assert(!idleCheck.valid, 'Session idle > 15 minutes is invalid');
@@ -144,7 +200,7 @@ async function runTests() {
 
   const expiredSession: ServerSessionRecord = {
     ...validSession,
-    createdAt: now - (8 * 3600 * 1000 + 1000), // > 8 hours
+    createdAt: now - (8 * 3600 * 1000 + 1000),
     lastActiveAt: now - 1 * 60 * 1000,
     expiresAt: now - 1000,
   };
@@ -152,8 +208,8 @@ async function runTests() {
   assert(!expiredCheck.valid, 'Session older than 8 hours is invalid even if recently active');
   assert(expiredCheck.reason?.includes('8-hour absolute maximum lifetime') ?? false, '8-hour ceiling reason reported');
 
-  // --- Suite 5: Compound Identity Allowlist Resolution ---
-  console.log('\n--- 5. Compound Identity Allowlist Tests ---');
+  // --- Suite 7: Compound Identity Allowlist Resolution ---
+  console.log('\n--- 7. Compound Identity Allowlist Tests ---');
   delete process.env.CONTROL_CENTER_USER_MAPPINGS;
   assert(resolveIdentityPermissions('https://accounts.google.com', '123') === null, 'Default deny when mappings empty');
 
@@ -183,8 +239,8 @@ async function runTests() {
   assert(resolveIdentityPermissions('https://accounts.google.com', 'sub_unknown') === null, 'Unknown subject denied');
   assert(resolveIdentityPermissions('https://other-issuer.com', 'sub_admin_001') === null, 'Wrong issuer denied');
 
-  // --- Suite 6: Atomic Handshake Consumption (CSRF / Replay defense) ---
-  console.log('\n--- 6. Atomic Single-Use Handshake Consumption Tests ---');
+  // --- Suite 8: Atomic Handshake Consumption ---
+  console.log('\n--- 8. Atomic Handshake Consumption Tests ---');
   const store = getSessionStore();
   const testTxn = 'txn_unit_test_' + Date.now();
   await store.saveHandshake(testTxn, {
@@ -201,18 +257,166 @@ async function runTests() {
   const secondConsume = await store.getdelHandshake(testTxn);
   assert(secondConsume === null, 'Second handshake consumption returns null (replay prevented)');
 
-  // --- Suite 7: Telemetry Aggregation & Zero-PII Compliance ---
-  console.log('\n--- 7. Telemetry Aggregation & Zero-PII Tests ---');
-  const ga4Res = await fetchGA4TelemetryMetrics('7d');
-  const vercelRes = await fetchVercelWebMetrics('7d');
+  // --- Suite 9: Vercel /v1/query/web-analytics/visits/aggregate Contract & Parsing ---
+  console.log('\n--- 9. Vercel Web Analytics visits/aggregate Parsing Tests ---');
+  const vercelFixture = {
+    data: [
+      { date: '2026-08-30', pageviews: 250, visitors: 180 },
+      { date: '2026-08-31', pageviews: 310, visitors: 220 },
+      { date: '2026-09-01', pageviews: 400, visitors: 290 },
+    ],
+  };
+  const parsedVercel = parseVercelAggregate(vercelFixture);
+  assert(parsedVercel.pageViews === 960, 'Summed pageviews calculated correctly (250+310+400 = 960)');
+  assert(parsedVercel.summedDailyVisitors === 690, 'Summed daily visitors calculated correctly (180+220+290 = 690)');
 
-  assert(ga4Res.examStarts > 0, 'GA4 starts count is positive');
-  assert(ga4Res.funnels.mockExamFunnel.length === 4, 'Mock exam funnel has 4 progression steps');
-  assert(ga4Res.funnels.aiPracticeFunnel.length === 5, 'AI practice funnel has 5 milestone steps');
-  assert(vercelRes.uniqueVisitors > 0, 'Vercel unique visitors is positive');
+  // Malformed Vercel schema
+  assertThrows(() => parseVercelAggregate({ invalid: true }), 'parseVercelAggregate rejects invalid response schema');
 
-  // Zero-PII Invariant: verify no PII fields in aggregated payload
-  const jsonStr = JSON.stringify({ ga4Res, vercelRes });
+  // --- Suite 10: GA4 batchRunReports & Real Dispatched Events Mapping ---
+  console.log('\n--- 10. GA4 batchRunReports Real Event Mapping & Subject Filter Tests ---');
+  const ga4BatchFixture: GA4BatchResponse = {
+    reports: [
+      // Report 0: Progression & Milestone Events
+      {
+        rows: [
+          { dimensionValues: [{ value: 'mock_exam_started' }], metricValues: [{ value: '100' }] },
+          { dimensionValues: [{ value: 'mock_exam_completed' }], metricValues: [{ value: '75' }] },
+          { dimensionValues: [{ value: 'ai_practice_started' }], metricValues: [{ value: '150' }] },
+          { dimensionValues: [{ value: 'ai_practice_completed' }], metricValues: [{ value: '120' }] },
+          { dimensionValues: [{ value: 'question_answered' }], metricValues: [{ value: '1200' }] },
+          { dimensionValues: [{ value: 'questions_10_milestone' }], metricValues: [{ value: '80' }] },
+          { dimensionValues: [{ value: 'questions_50_milestone' }], metricValues: [{ value: '45' }] },
+          { dimensionValues: [{ value: 'questions_100_milestone' }], metricValues: [{ value: '20' }] },
+          { dimensionValues: [{ value: 'ai_diagnostic_viewed' }], metricValues: [{ value: '65' }] },
+        ],
+      },
+      // Report 1: Acquisition Channels
+      {
+        rows: [
+          { dimensionValues: [{ value: 'Direct' }], metricValues: [{ value: '250' }] },
+          { dimensionValues: [{ value: 'Organic Search' }], metricValues: [{ value: '150' }] },
+          { dimensionValues: [{ value: 'Referral' }], metricValues: [{ value: '100' }] },
+        ],
+      },
+      // Report 2: Authoritative Subject Attempts (Filtered strictly by attempt_completed)
+      {
+        rows: [
+          { dimensionValues: [{ value: 'Mathematics' }], metricValues: [{ value: '85' }] },
+          { dimensionValues: [{ value: 'Science' }], metricValues: [{ value: '65' }] },
+        ],
+      },
+    ],
+  };
+
+  const parsedGA4 = parseGA4BatchReports(ga4BatchFixture);
+  assert(parsedGA4.progression.mockExam.started === 100, 'Mock exam started mapped to 100');
+  assert(parsedGA4.progression.mockExam.completed === 75, 'Mock exam completed mapped to 75');
+  assert(parsedGA4.progression.mockExam.completionEventRatio === 75, 'Mock exam completionEventRatio is 75%');
+
+  assert(parsedGA4.progression.aiPractice.started === 150, 'AI practice started mapped to 150');
+  assert(parsedGA4.progression.aiPractice.completed === 120, 'AI practice completed mapped to 120');
+  assert(parsedGA4.progression.aiPractice.completionEventRatio === 80, 'AI practice completionEventRatio is 80%');
+
+  assert(parsedGA4.progression.milestones.questions10 === 80, 'Milestone 10 mapped to 80');
+  assert(parsedGA4.progression.milestones.questions50 === 45, 'Milestone 50 mapped to 45');
+  assert(parsedGA4.progression.milestones.questions100 === 20, 'Milestone 100 mapped to 20');
+  assert(parsedGA4.progression.activity.sampledQuestionsAnswered === 1200, 'Sampled questions mapped to 1200');
+  assert(parsedGA4.progression.activity.diagnosticViews === 65, 'Diagnostic views mapped to 65');
+
+  assert(parsedGA4.trafficChannels.length === 3, 'Traffic channels parsed 3 channels');
+  assert(parsedGA4.trafficChannels[0].percentage === 50, 'Direct channel has 50% share (250/500)');
+
+  assert(parsedGA4.subjectBreakdown.length === 2, 'Subject breakdown parsed 2 subjects');
+  assert(parsedGA4.subjectBreakdown[0].subject === 'Mathematics', 'First subject is Mathematics');
+  assert(parsedGA4.subjectBreakdown[0].completedAttempts === 85, 'Authoritative completed attempts is 85');
+
+  // --- Suite 11: Client-Exact Sampling Contract & Unclamped Ratio Tests ---
+  console.log('\n--- 11. Sampling Contract & Unclamped Ratio Tests ---');
+  // Unclamped ratio test (> 100%)
+  const unclampedFixture: GA4BatchResponse = {
+    reports: [
+      {
+        rows: [
+          { dimensionValues: [{ value: 'mock_exam_started' }], metricValues: [{ value: '50' }] },
+          { dimensionValues: [{ value: 'mock_exam_completed' }], metricValues: [{ value: '60' }] }, // 60/50 = 120%
+        ],
+      },
+      { rows: [] },
+      { rows: [] },
+    ],
+  };
+  const unclampedResult = parseGA4BatchReports(unclampedFixture);
+  assert(unclampedResult.progression.mockExam.completionEventRatio === 120, 'completionEventRatio correctly exceeds 100% (120%) without clamping');
+
+  // Sampling contract tests
+  delete process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING;
+  const zeroProgDefault = getZeroProgression();
+  assert(zeroProgDefault.activity.samplingStatus === 'disabled', 'Sampling is disabled when env is unset');
+  assert(zeroProgDefault.activity.samplingRate === null, 'Sampling rate is null when disabled');
+
+  process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING = 'false';
+  const zeroProgFalse = getZeroProgression();
+  assert(zeroProgFalse.activity.samplingStatus === 'disabled', 'Sampling is disabled when env is false');
+
+  process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING = 'true';
+  delete process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE;
+  const zeroProgEnabled = getZeroProgression();
+  assert(zeroProgEnabled.activity.samplingStatus === 'enabled_5_percent', 'Sampling status is enabled_5_percent on default');
+  assert(zeroProgEnabled.activity.samplingRate === 0.05, 'Sampling rate is 0.05 on default');
+
+  process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE = '0.10';
+  const zeroProgCustom = getZeroProgression();
+  assert(zeroProgCustom.activity.samplingStatus === 'custom', 'Sampling status is custom when custom rate specified');
+  assert(zeroProgCustom.activity.samplingRate === 0.1, 'Custom sampling rate parsed to 0.1');
+
+  // Invalid sampling rate fallback
+  process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE = '1.5';
+  const zeroProgInvalid = getZeroProgression();
+  assert(zeroProgInvalid.activity.samplingRate === 0.05, 'Out-of-bounds sampling rate defaults safely to 0.05');
+
+  // --- Suite 12: Production Fail-Closed DATA_SOURCE_UNAVAILABLE Policy ---
+  console.log('\n--- 12. Production Fail-Closed Policy Tests ---');
+  (process.env as any).NODE_ENV = 'production';
+  delete process.env.DEMO_MODE;
+  delete process.env.GA4_PROPERTY_ID;
+  delete process.env.GA4_SERVICE_ACCOUNT_KEY;
+  delete process.env.VERCEL_AUTH_BEARER_TOKEN;
+  delete process.env.VERCEL_PROJECT_ID;
+
+  const prodGA4 = await fetchGA4TelemetryMetrics('7d');
+  assert(prodGA4.source === 'unavailable', 'Production GA4 source is marked unavailable');
+  assert(prodGA4.status === 'DATA_SOURCE_UNAVAILABLE', 'Production GA4 status is DATA_SOURCE_UNAVAILABLE');
+  assert(prodGA4.progression.mockExam.started === 0, 'Production GA4 returns 0 instead of fake numbers');
+
+  const prodVercel = await fetchVercelWebMetrics('7d');
+  assert(prodVercel.source === 'unavailable', 'Production Vercel source is marked unavailable');
+  assert(prodVercel.status === 'DATA_SOURCE_UNAVAILABLE', 'Production Vercel status is DATA_SOURCE_UNAVAILABLE');
+  assert(prodVercel.summedDailyVisitors === 0, 'Production Vercel returns 0 instead of fake numbers');
+
+  // --- Suite 13: Server-Side Cache Scoping (VERCEL_ENV) & Dual-READY Cache Tests ---
+  console.log('\n--- 13. Server-Side Cache Scoping & Dual-READY Cache Tests ---');
+  process.env.VERCEL_ENV = 'preview';
+  const previewKey = `tutor_m1_telemetry_cache:${process.env.VERCEL_ENV}:prop123:proj456:7d`;
+  await store.setCachedTelemetry(previewKey, '{"cached":true}', 300);
+
+  const cachedResult = await store.getCachedTelemetry(previewKey);
+  assert(cachedResult === '{"cached":true}', 'Telemetry cache stores and retrieves by scoped key');
+
+  process.env.VERCEL_ENV = 'production';
+  const prodKey = `tutor_m1_telemetry_cache:${process.env.VERCEL_ENV}:prop123:proj456:7d`;
+  const prodCacheResult = await store.getCachedTelemetry(prodKey);
+  assert(prodCacheResult === null, 'Cache is strictly isolated between VERCEL_ENV preview and production');
+
+  // --- Suite 14: Zero-PII Telemetry Aggregate Verification ---
+  console.log('\n--- 14. Zero-PII Aggregate Schema Compliance Tests ---');
+  const samplePayload = {
+    progression: parsedGA4.progression,
+    trafficChannels: parsedGA4.trafficChannels,
+    subjectBreakdown: parsedGA4.subjectBreakdown,
+    webMetrics: parsedVercel,
+  };
+  const jsonStr = JSON.stringify(samplePayload);
   const forbiddenPatterns = [
     'email',
     'phone',
@@ -234,7 +438,7 @@ async function runTests() {
   // Restore env
   process.env = origEnv;
 
-  console.log(`\n=== Test Results: ${passed} passed, ${failed} failed ===`);
+  console.log(`\n=== Final Test Results: ${passed} passed, ${failed} failed ===`);
   if (failed > 0) {
     process.exit(1);
   }

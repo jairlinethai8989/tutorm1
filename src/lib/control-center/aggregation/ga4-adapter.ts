@@ -1,133 +1,321 @@
-import { ExecutiveKpis, FunnelProgression, SubjectBreakdown, TrafficChannel } from './types';
+import * as jose from 'jose';
+import { ProgressionSemantics, SubjectBreakdown, TrafficChannel } from './types';
 
-interface GA4FetchResult {
-  source: 'live' | 'synthetic_fallback';
-  examStarts: number;
-  examCompletes: number;
-  diagnosticViews: number;
-  practiceStarts: number;
-  practiceMilestones: number;
-  trafficChannels: TrafficChannel[];
-  subjectBreakdown: SubjectBreakdown[];
-  funnels: FunnelProgression;
+export interface GA4BatchResponse {
+  reports?: Array<{
+    dimensionHeaders?: Array<{ name: string }>;
+    metricHeaders?: Array<{ name: string }>;
+    rows?: Array<{
+      dimensionValues?: Array<{ value: string }>;
+      metricValues?: Array<{ value: string }>;
+    }>;
+  }>;
 }
 
-export async function fetchGA4TelemetryMetrics(timeframe: '7d' | '30d' | '90d'): Promise<GA4FetchResult> {
-  const propertyId = process.env.GA4_PROPERTY_ID;
-  const gaCredentials = process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GA4_SERVICE_ACCOUNT_KEY;
+export interface GA4FetchResult {
+  source: 'live' | 'synthetic_fallback' | 'unavailable';
+  status: 'READY' | 'DATA_SOURCE_UNAVAILABLE';
+  progression: ProgressionSemantics;
+  trafficChannels: TrafficChannel[];
+  subjectBreakdown: SubjectBreakdown[];
+  error?: string;
+}
 
-  // If live GA4 credentials exist, query the GA4 RunReport API
-  if (propertyId && gaCredentials) {
-    try {
-      // In production with service account credentials, an authenticated REST call to:
-      // https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport
-      // can be executed here. If access token setup fails, fall through safely.
-    } catch (err) {
-      console.warn('[GA4 Adapter] Live query failed, falling back to synthetic metrics', err);
-    }
+export function getZeroProgression(): ProgressionSemantics {
+  const enabled = process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING === 'true';
+  const parsedRate = Number(process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE ?? '0.05');
+  const rate = Number.isFinite(parsedRate) && parsedRate >= 0 && parsedRate <= 1 ? parsedRate : 0.05;
+  const samplingStatus = !enabled ? 'disabled' : rate === 0.05 ? 'enabled_5_percent' : 'custom';
+  const samplingRate = enabled ? rate : null;
+
+  return {
+    mockExam: { started: 0, completed: 0, completionEventRatio: 0 },
+    aiPractice: { started: 0, completed: 0, completionEventRatio: 0 },
+    milestones: { questions10: 0, questions50: 0, questions100: 0 },
+    activity: {
+      sampledQuestionsAnswered: 0,
+      samplingStatus,
+      samplingRate,
+      diagnosticViews: 0,
+    },
+  };
+}
+
+export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResult, 'source' | 'status'> {
+  if (!data.reports || !Array.isArray(data.reports) || data.reports.length < 3) {
+    throw new Error('GA4 batchRunReports returned invalid schema: minimum 3 reports expected');
   }
 
-  // Graceful high-fidelity synthetic baseline representing Tutor M.1 curriculum structure
+  const [progressionReport, channelsReport, topicsReport] = data.reports;
+
+  // 1. Parse Event Progression using ACTUAL dispatched event names
+  const eventCounts: Record<string, number> = {};
+  for (const row of progressionReport.rows || []) {
+    const eventName = row.dimensionValues?.[0]?.value;
+    const count = parseInt(row.metricValues?.[0]?.value || '0', 10);
+    if (eventName) eventCounts[eventName] = count;
+  }
+
+  const mockExamStarted = eventCounts['mock_exam_started'] || 0;
+  const mockExamCompleted = eventCounts['mock_exam_completed'] || 0;
+  // True unclamped event ratio (can exceed 100%)
+  const mockExamRatio =
+    mockExamStarted > 0 ? Math.round((mockExamCompleted / mockExamStarted) * 100) : 0;
+
+  const aiPracticeStarted = eventCounts['ai_practice_started'] || 0;
+  const aiPracticeCompleted = eventCounts['ai_practice_completed'] || 0;
+  // True unclamped event ratio (can exceed 100%)
+  const aiPracticeRatio =
+    aiPracticeStarted > 0 ? Math.round((aiPracticeCompleted / aiPracticeStarted) * 100) : 0;
+
+  // Client-identical sampling contract
+  const enabled = process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING === 'true';
+  const parsedRate = Number(process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE ?? '0.05');
+  const rate = Number.isFinite(parsedRate) && parsedRate >= 0 && parsedRate <= 1 ? parsedRate : 0.05;
+
+  const samplingStatus: 'disabled' | 'enabled_5_percent' | 'custom' = !enabled
+    ? 'disabled'
+    : rate === 0.05
+      ? 'enabled_5_percent'
+      : 'custom';
+
+  const samplingRate: number | null = enabled ? rate : null;
+
+  const progression: ProgressionSemantics = {
+    mockExam: {
+      started: mockExamStarted,
+      completed: mockExamCompleted,
+      completionEventRatio: mockExamRatio,
+    },
+    aiPractice: {
+      started: aiPracticeStarted,
+      completed: aiPracticeCompleted,
+      completionEventRatio: aiPracticeRatio,
+    },
+    milestones: {
+      questions10: eventCounts['questions_10_milestone'] || 0,
+      questions50: eventCounts['questions_50_milestone'] || 0,
+      questions100: eventCounts['questions_100_milestone'] || 0,
+    },
+    activity: {
+      sampledQuestionsAnswered: eventCounts['question_answered'] || 0,
+      samplingStatus,
+      samplingRate,
+      diagnosticViews: eventCounts['ai_diagnostic_viewed'] || 0,
+    },
+  };
+
+  // 2. Parse Traffic Channels
+  let totalSessions = 0;
+  const channelRows = channelsReport.rows || [];
+  for (const row of channelRows) {
+    totalSessions += parseInt(row.metricValues?.[0]?.value || '0', 10);
+  }
+
+  const trafficChannels: TrafficChannel[] = channelRows.map((row) => {
+    const channel = row.dimensionValues?.[0]?.value || 'Unassigned';
+    const sessions = parseInt(row.metricValues?.[0]?.value || '0', 10);
+    return {
+      channel,
+      sessions,
+      percentage: totalSessions > 0 ? Math.round((sessions / totalSessions) * 100) : 0,
+    };
+  });
+
+  // 3. Parse Authoritative Subject Attempts (Filtered strictly by attempt_completed)
+  const subjectBreakdown: SubjectBreakdown[] = (topicsReport.rows || []).map((row) => {
+    const subject = row.dimensionValues?.[0]?.value || 'General';
+    const completedAttempts = parseInt(row.metricValues?.[0]?.value || '0', 10);
+    return {
+      subject,
+      completedAttempts,
+    };
+  });
+
+  return {
+    progression,
+    trafficChannels,
+    subjectBreakdown,
+  };
+}
+
+async function getGoogleAnalyticsAccessToken(serviceAccountJson: string): Promise<string> {
+  const sa = JSON.parse(serviceAccountJson);
+  const privateKey = await jose.importPKCS8(sa.private_key, 'RS256');
+  const jwt = await new jose.SignJWT({
+    scope: 'https://www.googleapis.com/auth/analytics.readonly',
+  })
+    .setProtectedHeader({ alg: 'RS256' })
+    .setIssuer(sa.client_email)
+    .setSubject(sa.client_email)
+    .setAudience('https://oauth2.googleapis.com/token')
+    .setExpirationTime('1h')
+    .setIssuedAt()
+    .sign(privateKey);
+
+  const res = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      assertion: jwt,
+    }).toString(),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Google OAuth token request failed with status ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.access_token;
+}
+
+function getSyntheticGA4Metrics(timeframe: '7d' | '30d' | '90d'): GA4FetchResult {
   const multiplier = timeframe === '90d' ? 12 : timeframe === '30d' ? 4 : 1;
 
-  const examStarts = 485 * multiplier;
-  const examMidpoint = Math.round(examStarts * 0.88);
-  const examCompletes = Math.round(examStarts * 0.74);
-  const diagnosticViews = Math.round(examCompletes * 0.92);
+  const mockExamStarted = 485 * multiplier;
+  const mockExamCompleted = Math.round(mockExamStarted * 0.74);
+  const aiPracticeStarted = 620 * multiplier;
+  const aiPracticeCompleted = Math.round(aiPracticeStarted * 0.68);
 
-  const practiceStarts = 620 * multiplier;
-  const milestone1 = Math.round(practiceStarts * 0.85);
-  const milestone5 = Math.round(practiceStarts * 0.62);
-  const milestone10 = Math.round(practiceStarts * 0.44);
-  const milestone20 = Math.round(practiceStarts * 0.28);
-
-  const mockExamFunnel = [
-    {
-      stepName: 'Mock Exam Started',
-      count: examStarts,
-      dropoffRate: 0,
-      stepConversionRate: 100,
-    },
-    {
-      stepName: 'Question 15 Answered',
-      count: examMidpoint,
-      dropoffRate: Math.round(((examStarts - examMidpoint) / examStarts) * 100),
-      stepConversionRate: Math.round((examMidpoint / examStarts) * 100),
-    },
-    {
-      stepName: 'Mock Exam Completed',
-      count: examCompletes,
-      dropoffRate: Math.round(((examStarts - examCompletes) / examStarts) * 100),
-      stepConversionRate: Math.round((examCompletes / examMidpoint) * 100),
-    },
-    {
-      stepName: 'Diagnostic Report Viewed',
-      count: diagnosticViews,
-      dropoffRate: Math.round(((examStarts - diagnosticViews) / examStarts) * 100),
-      stepConversionRate: Math.round((diagnosticViews / examCompletes) * 100),
-    },
-  ];
-
-  const aiPracticeFunnel = [
-    {
-      stepName: 'Practice Session Started',
-      count: practiceStarts,
-      dropoffRate: 0,
-      stepConversionRate: 100,
-    },
-    {
-      stepName: 'Milestone 1 (Warmup)',
-      count: milestone1,
-      dropoffRate: Math.round(((practiceStarts - milestone1) / practiceStarts) * 100),
-      stepConversionRate: Math.round((milestone1 / practiceStarts) * 100),
-    },
-    {
-      stepName: 'Milestone 5 (Streak)',
-      count: milestone5,
-      dropoffRate: Math.round(((practiceStarts - milestone5) / practiceStarts) * 100),
-      stepConversionRate: Math.round((milestone5 / milestone1) * 100),
-    },
-    {
-      stepName: 'Milestone 10 (Mastery)',
-      count: milestone10,
-      dropoffRate: Math.round(((practiceStarts - milestone10) / practiceStarts) * 100),
-      stepConversionRate: Math.round((milestone10 / milestone5) * 100),
-    },
-    {
-      stepName: 'Milestone 20 (Marathon)',
-      count: milestone20,
-      dropoffRate: Math.round(((practiceStarts - milestone20) / practiceStarts) * 100),
-      stepConversionRate: Math.round((milestone20 / milestone10) * 100),
-    },
-  ];
-
-  const trafficChannels: TrafficChannel[] = [
-    { channel: 'Direct / Line Official', sessions: 540 * multiplier, percentage: 45 },
-    { channel: 'Organic Search (Google)', sessions: 336 * multiplier, percentage: 28 },
-    { channel: 'Parent Community Referrals', sessions: 216 * multiplier, percentage: 18 },
-    { channel: 'Facebook Education Groups', sessions: 108 * multiplier, percentage: 9 },
-  ];
-
-  const subjectBreakdown: SubjectBreakdown[] = [
-    { subject: 'คณิตศาสตร์ (Mathematics)', attempts: 210 * multiplier, averageScore: 68.4, completionRate: 78 },
-    { subject: 'วิทยาศาสตร์ (Science)', attempts: 185 * multiplier, averageScore: 72.1, completionRate: 81 },
-    { subject: 'ภาษาอังกฤษ (English)', attempts: 140 * multiplier, averageScore: 64.8, completionRate: 71 },
-    { subject: 'ภาษาไทย (Thai)', attempts: 95 * multiplier, averageScore: 79.5, completionRate: 86 },
-    { subject: 'สังคมศึกษา (Social Studies)', attempts: 75 * multiplier, averageScore: 74.2, completionRate: 83 },
-  ];
+  const enabled = process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING === 'true';
+  const parsedRate = Number(process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE ?? '0.05');
+  const rate = Number.isFinite(parsedRate) && parsedRate >= 0 && parsedRate <= 1 ? parsedRate : 0.05;
+  const samplingStatus = !enabled ? 'disabled' : rate === 0.05 ? 'enabled_5_percent' : 'custom';
+  const samplingRate = enabled ? rate : null;
 
   return {
     source: 'synthetic_fallback',
-    examStarts,
-    examCompletes,
-    diagnosticViews,
-    practiceStarts,
-    practiceMilestones: milestone1 + milestone5 + milestone10 + milestone20,
-    trafficChannels,
-    subjectBreakdown,
-    funnels: {
-      mockExamFunnel,
-      aiPracticeFunnel,
+    status: 'READY',
+    progression: {
+      mockExam: {
+        started: mockExamStarted,
+        completed: mockExamCompleted,
+        completionEventRatio: Math.round((mockExamCompleted / mockExamStarted) * 100),
+      },
+      aiPractice: {
+        started: aiPracticeStarted,
+        completed: aiPracticeCompleted,
+        completionEventRatio: Math.round((aiPracticeCompleted / aiPracticeStarted) * 100),
+      },
+      milestones: {
+        questions10: 245 * multiplier,
+        questions50: 130 * multiplier,
+        questions100: 65 * multiplier,
+      },
+      activity: {
+        sampledQuestionsAnswered: 3200 * multiplier,
+        samplingStatus,
+        samplingRate,
+        diagnosticViews: Math.round(mockExamCompleted * 0.92),
+      },
     },
+    trafficChannels: [
+      { channel: 'Direct / Line Official', sessions: 540 * multiplier, percentage: 45 },
+      { channel: 'Organic Search (Google)', sessions: 336 * multiplier, percentage: 28 },
+      { channel: 'Parent Referrals', sessions: 216 * multiplier, percentage: 18 },
+      { channel: 'Facebook Groups', sessions: 108 * multiplier, percentage: 9 },
+    ],
+    subjectBreakdown: [
+      { subject: 'คณิตศาสตร์ (Mathematics)', completedAttempts: 210 * multiplier },
+      { subject: 'วิทยาศาสตร์ (Science)', completedAttempts: 185 * multiplier },
+      { subject: 'ภาษาอังกฤษ (English)', completedAttempts: 140 * multiplier },
+      { subject: 'ภาษาไทย (Thai)', completedAttempts: 95 * multiplier },
+      { subject: 'สังคมศึกษา (Social Studies)', completedAttempts: 75 * multiplier },
+    ],
   };
+}
+
+export async function fetchGA4TelemetryMetrics(
+  timeframe: '7d' | '30d' | '90d'
+): Promise<GA4FetchResult> {
+  const propertyId = process.env.GA4_PROPERTY_ID;
+  const saKey = process.env.GA4_SERVICE_ACCOUNT_KEY;
+  const isProduction = process.env.NODE_ENV === 'production' && process.env.DEMO_MODE !== 'true';
+
+  if (propertyId && saKey) {
+    try {
+      const accessToken = await getGoogleAnalyticsAccessToken(saKey);
+      const daysAgo = timeframe === '90d' ? '90daysAgo' : timeframe === '30d' ? '30daysAgo' : '7daysAgo';
+
+      const batchRequestBody = {
+        requests: [
+          // 1. Core Progression & Milestone Events
+          {
+            dateRanges: [{ startDate: daysAgo, endDate: 'today' }],
+            dimensions: [{ name: 'eventName' }],
+            metrics: [{ name: 'eventCount' }],
+          },
+          // 2. Acquisition Channels
+          {
+            dateRanges: [{ startDate: daysAgo, endDate: 'today' }],
+            dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+            metrics: [{ name: 'sessions' }],
+          },
+          // 3. Authoritative Subject Attempts (Filtered strictly to attempt_completed)
+          {
+            dateRanges: [{ startDate: daysAgo, endDate: 'today' }],
+            dimensions: [{ name: 'customEvent:subject' }],
+            dimensionFilter: {
+              filter: {
+                fieldName: 'eventName',
+                stringFilter: { value: 'attempt_completed' },
+              },
+            },
+            metrics: [{ name: 'eventCount' }],
+          },
+        ],
+      };
+
+      const res = await fetch(
+        `https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:batchRunReports`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(batchRequestBody),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`GA4 batchRunReports returned HTTP ${res.status}`);
+      }
+
+      const batchJson: GA4BatchResponse = await res.json();
+      const parsed = parseGA4BatchReports(batchJson);
+
+      return {
+        source: 'live',
+        status: 'READY',
+        ...parsed,
+      };
+    } catch (err: any) {
+      console.warn('[GA4 Adapter] Live query error:', err.message);
+      if (isProduction) {
+        return {
+          source: 'unavailable',
+          status: 'DATA_SOURCE_UNAVAILABLE',
+          progression: getZeroProgression(),
+          trafficChannels: [],
+          subjectBreakdown: [],
+          error: `GA4 Data API unavailable: ${err.message}`,
+        };
+      }
+    }
+  }
+
+  if (isProduction) {
+    return {
+      source: 'unavailable',
+      status: 'DATA_SOURCE_UNAVAILABLE',
+      progression: getZeroProgression(),
+      trafficChannels: [],
+      subjectBreakdown: [],
+      error: 'GA4_PROPERTY_ID or GA4_SERVICE_ACCOUNT_KEY not configured',
+    };
+  }
+
+  return getSyntheticGA4Metrics(timeframe);
 }

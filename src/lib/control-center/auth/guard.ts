@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { getSessionStore } from './sessionStore';
 import { isSessionValid } from './session';
 import { ControlCenterPermission, ServerSessionRecord } from './types';
-import { createAuditRecord } from './audit';
+import { createAuditRecord, sanitizeAuditResource } from './audit';
 
 export const SESSION_COOKIE_NAME = 'tutor_m1_cc_session';
 
@@ -115,7 +115,7 @@ export async function enforceServerApiAuth(
         pseudonymousActorId: session.actorId,
         permissionTested: requiredPermission,
         decision: 'DENY',
-        resource: req.url,
+        resource: sanitizeAuditResource(req.url),
         ip: clientIp,
         userAgent,
       })
