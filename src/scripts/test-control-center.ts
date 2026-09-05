@@ -175,6 +175,9 @@ async function runTests() {
   assert(verifyGoogleMFA({ amr: ['pwd', 'totp'] }).isValid, 'Knowledge + Possession (pwd + totp) accepted');
   assert(verifyGoogleMFA({ amr: ['pin', 'fido'] }).isValid, 'Knowledge + Possession (pin + fido) accepted');
   assert(verifyGoogleMFA({ amr: ['pwd', 'hwk'] }).isValid, 'Knowledge + Possession (pwd + hwk) accepted');
+  assert(verifyGoogleMFA({ amr: ['pwd', 'sms'] }).isValid, 'Knowledge + Possession (pwd + sms) accepted');
+  assert(verifyGoogleMFA({ amr: ['pwd', 'swk'] }).isValid, 'Knowledge + Possession (pwd + swk) accepted');
+  assert(verifyGoogleMFA({ amr: ['pwd', 'tel'] }).isValid, 'Knowledge + Possession (pwd + tel) accepted');
 
   // --- Suite 6: Dual Session Lifetime Enforcement ---
   console.log('\n--- 6. Dual Session Lifetime Tests ---');
@@ -434,6 +437,10 @@ async function runTests() {
     }
   }
   assert(!piiDetected, 'Zero-PII verification passed: no student PII in telemetry aggregates');
+
+  // --- Suite 15: Real Route Handler & End-to-End Integration Tests ---
+  const { runIntegrationTests } = await import('./test-integration-suite');
+  await runIntegrationTests(assert);
 
   // Restore env
   process.env = origEnv;

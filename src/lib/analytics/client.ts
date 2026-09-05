@@ -33,11 +33,14 @@ import { observeWebVitals, shouldSamplePerformance } from './vitals';
 import { vercelProvider } from './providers/vercel';
 import { ga4Provider } from './providers/ga4';
 
+import { getQuestionSamplingConfig } from './sampling';
+
 const APP_VERSION = 'v1.4.0';
 
-// Per-question event sampling (Disabled by default; 5% sampling when enabled)
-const ENABLE_QUESTION_SAMPLING = process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING === 'true';
-const QUESTION_SAMPLE_RATE = Number(process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE || 0.05);
+// Per-question event sampling (Centralized contract helper)
+const samplingConfig = getQuestionSamplingConfig();
+const ENABLE_QUESTION_SAMPLING = samplingConfig.enabled;
+const QUESTION_SAMPLE_RATE = samplingConfig.rate;
 
 const PROVIDERS = [vercelProvider, ga4Provider];
 

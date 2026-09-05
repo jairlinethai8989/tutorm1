@@ -1,5 +1,6 @@
 import * as jose from 'jose';
 import { ProgressionSemantics, SubjectBreakdown, TrafficChannel } from './types';
+import { getQuestionSamplingConfig } from '@/lib/analytics/sampling';
 
 export interface GA4BatchResponse {
   reports?: Array<{
@@ -22,11 +23,7 @@ export interface GA4FetchResult {
 }
 
 export function getZeroProgression(): ProgressionSemantics {
-  const enabled = process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING === 'true';
-  const parsedRate = Number(process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE ?? '0.05');
-  const rate = Number.isFinite(parsedRate) && parsedRate >= 0 && parsedRate <= 1 ? parsedRate : 0.05;
-  const samplingStatus = !enabled ? 'disabled' : rate === 0.05 ? 'enabled_5_percent' : 'custom';
-  const samplingRate = enabled ? rate : null;
+  const samplingConfig = getQuestionSamplingConfig();
 
   return {
     mockExam: { started: 0, completed: 0, completionEventRatio: 0 },
@@ -34,8 +31,8 @@ export function getZeroProgression(): ProgressionSemantics {
     milestones: { questions10: 0, questions50: 0, questions100: 0 },
     activity: {
       sampledQuestionsAnswered: 0,
-      samplingStatus,
-      samplingRate,
+      samplingStatus: samplingConfig.status,
+      samplingRate: samplingConfig.samplingRate,
       diagnosticViews: 0,
     },
   };
@@ -68,18 +65,8 @@ export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResul
   const aiPracticeRatio =
     aiPracticeStarted > 0 ? Math.round((aiPracticeCompleted / aiPracticeStarted) * 100) : 0;
 
-  // Client-identical sampling contract
-  const enabled = process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING === 'true';
-  const parsedRate = Number(process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE ?? '0.05');
-  const rate = Number.isFinite(parsedRate) && parsedRate >= 0 && parsedRate <= 1 ? parsedRate : 0.05;
-
-  const samplingStatus: 'disabled' | 'enabled_5_percent' | 'custom' = !enabled
-    ? 'disabled'
-    : rate === 0.05
-      ? 'enabled_5_percent'
-      : 'custom';
-
-  const samplingRate: number | null = enabled ? rate : null;
+  // Centralized sampling contract
+  const samplingConfig = getQuestionSamplingConfig();
 
   const progression: ProgressionSemantics = {
     mockExam: {
@@ -99,8 +86,8 @@ export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResul
     },
     activity: {
       sampledQuestionsAnswered: eventCounts['question_answered'] || 0,
-      samplingStatus,
-      samplingRate,
+      samplingStatus: samplingConfig.status,
+      samplingRate: samplingConfig.samplingRate,
       diagnosticViews: eventCounts['ai_diagnostic_viewed'] || 0,
     },
   };

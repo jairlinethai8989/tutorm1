@@ -1,4 +1,4 @@
-﻿import { createRemoteJWKSet, jwtVerify } from 'jose';
+import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { getGoogleOidcConfig } from './config';
 
 const GOOGLE_JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/oauth2/v3/certs'));
@@ -17,12 +17,14 @@ export interface GoogleVerifiedClaims {
 
 export async function verifyGoogleIdTokenCryptographically(
   rawIdToken: string,
-  expectedNonce: string
+  expectedNonce: string,
+  jwksOverride?: Parameters<typeof jwtVerify>[1]
 ): Promise<GoogleVerifiedClaims> {
   const { clientId } = getGoogleOidcConfig();
 
   // 1. Cryptographic Signature & Standard Claims Verification (RS256 only)
-  const { payload } = await jwtVerify(rawIdToken, GOOGLE_JWKS, {
+  const keySource = jwksOverride || GOOGLE_JWKS;
+  const { payload } = await jwtVerify(rawIdToken, keySource, {
     issuer: 'https://accounts.google.com',
     audience: clientId,
     algorithms: ['RS256'],

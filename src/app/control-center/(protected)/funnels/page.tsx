@@ -1,10 +1,11 @@
 import React from 'react';
-import { fetchGA4TelemetryMetrics } from '@/lib/control-center/aggregation/ga4-adapter';
+import { getAggregatedTelemetry } from '@/lib/control-center/aggregation/service';
 
 export const dynamic = 'force-dynamic';
 
 export default async function FunnelsPage() {
-  const ga4Data = await fetchGA4TelemetryMetrics('7d');
+  const telemetry = await getAggregatedTelemetry('7d');
+  const ga4Data = telemetry.ga4;
   const { progression } = ga4Data;
 
   return (

@@ -1,14 +1,12 @@
 import React from 'react';
-import { fetchGA4TelemetryMetrics } from '@/lib/control-center/aggregation/ga4-adapter';
-import { fetchVercelWebMetrics } from '@/lib/control-center/aggregation/vercel-adapter';
+import { getAggregatedTelemetry } from '@/lib/control-center/aggregation/service';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ControlCenterCockpitPage() {
-  const [ga4Data, vercelData] = await Promise.all([
-    fetchGA4TelemetryMetrics('7d'),
-    fetchVercelWebMetrics('7d'),
-  ]);
+  const telemetry = await getAggregatedTelemetry('7d');
+  const ga4Data = telemetry.ga4;
+  const vercelData = telemetry.vercel;
 
   const isAnyUnavailable =
     ga4Data.status === 'DATA_SOURCE_UNAVAILABLE' ||

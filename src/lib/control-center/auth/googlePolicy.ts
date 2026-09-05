@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AMR Multi-Factor Verification Policy for Google Identity Services
  * Enforces NIST AAL2 level verification.
  */
@@ -18,9 +18,11 @@ export function verifyGoogleMFA(claims: { amr?: string[] }): { isValid: boolean;
     return { isValid: true };
   }
 
-  // Compound Multi-Factor: Knowledge (password/pin) AND Possession (hardware key, authenticator, fido, otp)
+  // Compound Multi-Factor: Knowledge (password/pin) AND Possession (hardware key, authenticator, fido, otp, sms, swk, tel)
   const hasKnowledge = amr.some((a) => ['pwd', 'pin'].includes(a));
-  const hasPossession = amr.some((a) => ['otp', 'totp', 'hwk', 'fido', 'webauthn'].includes(a));
+  const hasPossession = amr.some((a) =>
+    ['otp', 'totp', 'hwk', 'fido', 'webauthn', 'sms', 'swk', 'tel'].includes(a)
+  );
 
   if (hasKnowledge && hasPossession) {
     return { isValid: true };
