@@ -38,6 +38,19 @@ export function validateCachedPayload(val: unknown, expectedTimeframe: '7d' | '3
 
   if (!Array.isArray(p.trafficChannels) || !Array.isArray(p.subjectBreakdown)) return null;
 
+  for (const tc of p.trafficChannels) {
+    if (typeof tc !== 'object' || tc === null) return null;
+    if (typeof tc.channel !== 'string') return null;
+    if (!isNonNegativeNumber(tc.sessions)) return null;
+    if (typeof tc.percentage !== 'number' || !Number.isFinite(tc.percentage) || tc.percentage < 0 || tc.percentage > 100) return null;
+  }
+
+  for (const sb of p.subjectBreakdown) {
+    if (typeof sb !== 'object' || sb === null) return null;
+    if (typeof sb.subject !== 'string') return null;
+    if (!isNonNegativeNumber(sb.completedAttempts)) return null;
+  }
+
   return p as AggregateTelemetryResponse;
 }
 

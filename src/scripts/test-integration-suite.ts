@@ -273,10 +273,94 @@ export async function runIntegrationTests(assert: (cond: boolean, name: string) 
   assert(validateCachedPayload({ invalid: true }, '7d') === null, 'R2: validateCachedPayload rejects missing fields');
   assert(validateCachedPayload({ ...pollutedUnavailablePayload, timeframe: '30d' }, '7d') === null, 'R2: validateCachedPayload rejects timeframe mismatch');
 
+  // R2 Acceptance: Seed current service cache key with malformed array members (null and invalid fields)
+  // Verify fresh fetch is used; in production with unconfigured sources it returns DATA_SOURCE_UNAVAILABLE, never READY.
+  const malformedArrayPayload = {
+    ...pollutedUnavailablePayload,
+    dataSources: { ga4: 'live', vercel: 'live' },
+    trafficChannels: [null],
+    subjectBreakdown: [{ subject: 'Math', completedAttempts: 'bad' as any }],
+  };
+  await store.setCachedTelemetry(testCacheKey, JSON.stringify(malformedArrayPayload), 300);
+  const fetchedMalformed = await getAggregatedTelemetry('7d');
+  assert(
+    fetchedMalformed.status === 'DATA_SOURCE_UNAVAILABLE' && fetchedMalformed.source === 'unavailable',
+    'R2: Cached payload with malformed array members is rejected, triggering fresh fetch returning DATA_SOURCE_UNAVAILABLE (never READY)'
+  );
+  assert(
+    fetchedMalformed.ga4.trafficChannels.length === 0,
+    'R2: Malformed cached array members never reach dashboard render path (empty/clean metrics on fallback)'
+  );
+
+  // R2 Acceptance: Seed valid payload, exercise Upstash SDK deserialization path with mocked HTTP, assert cache hit without upstream reporting fetch
+  const validCachePayload = {
+    timeframe: '7d',
+    generatedAt: new Date().toISOString(),
+    dataSources: { ga4: 'live', vercel: 'live' },
+    progression: {
+      mockExam: { started: 100, completed: 80, completionEventRatio: 80 },
+      aiPractice: { started: 200, completed: 150, completionEventRatio: 75 },
+      milestones: { questions10: 50, questions50: 20, questions100: 10 },
+      activity: { sampledQuestionsAnswered: 500, samplingStatus: 'enabled_5_percent', samplingRate: 0.05, diagnosticViews: 30 },
+    },
+    webMetrics: { summedDailyVisitors: 450, pageViews: 1200 },
+    trafficChannels: [
+      { channel: 'Direct', sessions: 250, percentage: 55.5 },
+      { channel: '(not set)', sessions: 200, percentage: 44.5 },
+    ],
+    subjectBreakdown: [
+      { subject: 'Mathematics', completedAttempts: 80 },
+      { subject: '(not set)', completedAttempts: 20 },
+    ],
+  };
+
+  const { resetSessionStoreForTesting } = await import('../lib/control-center/auth/sessionStore');
+  const origFetch = global.fetch;
+  let upstreamFetchCalled = false;
+
+  // Mock fetch for Upstash Redis REST API
+  global.fetch = (async (url: string | URL | Request, init?: RequestInit) => {
+    const urlStr = url.toString();
+    if (urlStr.includes('upstash.io') || urlStr.includes('mock-redis.upstash.io')) {
+      const isPipeline = urlStr.includes('/pipeline') || urlStr.includes('/multi-exec');
+      // When Upstash set() writes cache, it sends JSON.stringify(payload) string.
+      // Therefore, Upstash Redis get() returns the JSON string.
+      const stringifiedPayload = JSON.stringify(validCachePayload);
+      const bodyPayload = isPipeline ? [{ result: stringifiedPayload }] : { result: stringifiedPayload };
+      return new Response(JSON.stringify(bodyPayload), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    upstreamFetchCalled = true;
+    return origFetch(url as any, init);
+  }) as typeof fetch;
+
+  process.env.UPSTASH_REDIS_REST_URL = 'https://mock-redis.upstash.io';
+  process.env.UPSTASH_REDIS_REST_TOKEN = 'mock_token_secret';
+  resetSessionStoreForTesting();
+
+  const upstashCachedResult = await getAggregatedTelemetry('7d');
+  if (upstashCachedResult.status !== 'READY') {
+    console.error('DEBUG upstashCachedResult:', JSON.stringify(upstashCachedResult, null, 2));
+  }
+  assert(!upstreamFetchCalled, 'R2: Cache hit with Upstash Redis SDK does not trigger upstream reporting/OAuth fetch');
+  assert(upstashCachedResult.status === 'READY', 'R2: Valid Upstash cached payload returns READY status');
+  assert(upstashCachedResult.source === 'live', 'R2: Valid Upstash cached payload returns live source');
+  assert(upstashCachedResult.payload.trafficChannels.length === 2, 'R2: Upstash cached trafficChannels preserved');
+  assert(upstashCachedResult.payload.subjectBreakdown[0]?.subject === 'Mathematics', 'R2: Upstash cached subjectBreakdown preserved');
+
+  // Clean up mock and restore memory store
+  global.fetch = origFetch;
+  delete process.env.UPSTASH_REDIS_REST_URL;
+  delete process.env.UPSTASH_REDIS_REST_TOKEN;
+  resetSessionStoreForTesting();
+
   // Test 15.11: AUTH-01 — Navigation after session revocation/expiry must deny access
   console.log('  Testing AUTH-01: Post-revocation authorization enforcement...');
+  const currentStore = getSessionStore();
   const revokedSession = await createServerSession('usr_revoke_test', 'telemetry_viewer', ['aggregate:read']);
-  await store.revokeSession(revokedSession.sessionId);
+  await currentStore.revokeSession(revokedSession.sessionId);
 
   const postRevokeReq = new NextRequest('https://tutorm1.com/api/control-center/analytics/aggregate', {
     headers: { cookie: `${SESSION_COOKIE_NAME}=${revokedSession.sessionId}` },

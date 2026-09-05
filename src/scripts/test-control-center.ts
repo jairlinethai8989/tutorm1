@@ -41,6 +41,7 @@ import {
   parseVercelAggregate,
 } from '../lib/control-center/aggregation/vercel-adapter';
 import { ServerSessionRecord } from '../lib/control-center/auth/types';
+import { validateCachedPayload } from '../lib/control-center/aggregation/service';
 import crypto from 'crypto';
 
 let passed = 0;
@@ -488,6 +489,142 @@ async function runTests() {
   const prodKey = `tutor_m1_telemetry_cache:${process.env.VERCEL_ENV}:prop123:proj456:7d`;
   const prodCacheResult = await store.getCachedTelemetry(prodKey);
   assert(prodCacheResult === null, 'Cache is strictly isolated between VERCEL_ENV preview and production');
+
+  // R2 / P2: Comprehensive validateCachedPayload member validation tests
+  const baseValidPayload = {
+    timeframe: '7d',
+    generatedAt: new Date().toISOString(),
+    dataSources: { ga4: 'live', vercel: 'live' },
+    progression: {
+      mockExam: { started: 10, completed: 8, completionEventRatio: 80 },
+      aiPractice: { started: 20, completed: 15, completionEventRatio: 75 },
+      milestones: { questions10: 5, questions50: 2, questions100: 1 },
+      activity: { sampledQuestionsAnswered: 50, samplingStatus: 'enabled_5_percent', samplingRate: 0.05, diagnosticViews: 12 },
+    },
+    webMetrics: { summedDailyVisitors: 100, pageViews: 250 },
+    trafficChannels: [
+      { channel: 'Direct', sessions: 50, percentage: 50 },
+      { channel: '(not set)', sessions: 50, percentage: 50 },
+    ],
+    subjectBreakdown: [
+      { subject: 'Mathematics', completedAttempts: 12 },
+      { subject: '(not set)', completedAttempts: 3 },
+    ],
+  };
+
+  // Valid cases
+  assert(validateCachedPayload(baseValidPayload, '7d') !== null, 'R2: Valid well-formed payload with provider labels like (not set) is accepted');
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [], subjectBreakdown: [] }, '7d') !== null,
+    'R2: Empty arrays for trafficChannels and subjectBreakdown are accepted'
+  );
+
+  // Null member in either array is rejected
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [null] }, '7d') === null,
+    'R2: Null member in trafficChannels is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, subjectBreakdown: [null] }, '7d') === null,
+    'R2: Null member in subjectBreakdown is rejected'
+  );
+
+  // Missing channel/subject or count is rejected
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ sessions: 50, percentage: 50 }] }, '7d') === null,
+    'R2: trafficChannels member missing channel is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 'Direct', percentage: 50 }] }, '7d') === null,
+    'R2: trafficChannels member missing sessions is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 'Direct', sessions: 50 }] }, '7d') === null,
+    'R2: trafficChannels member missing percentage is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, subjectBreakdown: [{ completedAttempts: 12 }] }, '7d') === null,
+    'R2: subjectBreakdown member missing subject is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, subjectBreakdown: [{ subject: 'Math' }] }, '7d') === null,
+    'R2: subjectBreakdown member missing completedAttempts is rejected'
+  );
+
+  // Wrong label/count types, negative count, non-finite count and invalid percentage are rejected
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 123, sessions: 50, percentage: 50 }] }, '7d') === null,
+    'R2: Non-string channel is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 'Direct', sessions: 'bad', percentage: 50 }] }, '7d') === null,
+    'R2: Non-number sessions is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 'Direct', sessions: -5, percentage: 50 }] }, '7d') === null,
+    'R2: Negative sessions count is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 'Direct', sessions: Infinity, percentage: 50 }] }, '7d') === null,
+    'R2: Non-finite sessions count is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 'Direct', sessions: 50, percentage: -1 }] }, '7d') === null,
+    'R2: Negative percentage is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 'Direct', sessions: 50, percentage: 101 }] }, '7d') === null,
+    'R2: Percentage > 100 is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, trafficChannels: [{ channel: 'Direct', sessions: 50, percentage: NaN }] }, '7d') === null,
+    'R2: Non-finite percentage (NaN) is rejected'
+  );
+
+  assert(
+    validateCachedPayload({ ...baseValidPayload, subjectBreakdown: [{ subject: 456, completedAttempts: 10 }] }, '7d') === null,
+    'R2: Non-string subject is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, subjectBreakdown: [{ subject: 'Math', completedAttempts: 'bad' }] }, '7d') === null,
+    'R2: Non-number completedAttempts is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, subjectBreakdown: [{ subject: 'Math', completedAttempts: -1 }] }, '7d') === null,
+    'R2: Negative completedAttempts is rejected'
+  );
+  assert(
+    validateCachedPayload({ ...baseValidPayload, subjectBreakdown: [{ subject: 'Math', completedAttempts: Infinity }] }, '7d') === null,
+    'R2: Non-finite completedAttempts is rejected'
+  );
+
+  // Mixed valid/invalid members reject the whole payload
+  assert(
+    validateCachedPayload(
+      {
+        ...baseValidPayload,
+        trafficChannels: [
+          { channel: 'Direct', sessions: 50, percentage: 50 },
+          { channel: 'Referral', sessions: -1, percentage: 50 },
+        ],
+      },
+      '7d'
+    ) === null,
+    'R2: Mixed valid/invalid members in trafficChannels reject the whole payload'
+  );
+  assert(
+    validateCachedPayload(
+      {
+        ...baseValidPayload,
+        subjectBreakdown: [
+          { subject: 'Math', completedAttempts: 10 },
+          { subject: 'Science', completedAttempts: 'invalid' as any },
+        ],
+      },
+      '7d'
+    ) === null,
+    'R2: Mixed valid/invalid members in subjectBreakdown reject the whole payload'
+  );
 
   // --- Suite 14: Zero-PII Telemetry Aggregate Verification ---
   console.log('\n--- 14. Zero-PII Aggregate Schema Compliance Tests ---');
