@@ -30,7 +30,7 @@ function shuffle<T>(array: T[]): T[] {
  * ดึงคำใบ้แบบ 3 ระดับจากข้อมูล Solution และ Topic ของข้อสอบ
  */
 export function extractQuestionHints(q: Question): QuestionHintBundle {
-  const sol = q.solution || {};
+  const sol = (q.solution || {}) as any;
 
   // 1. Concept & Formula (💡)
   let concept = '';

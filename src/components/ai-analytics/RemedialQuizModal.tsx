@@ -162,7 +162,7 @@ export const RemedialQuizModal: React.FC<RemedialQuizModalProps> = ({
       if (summary.scorePercentage >= 80 && typeof window !== 'undefined') {
         import('canvas-confetti')
           .then((mod) => {
-            const fireConfetti = mod.default || mod;
+            const fireConfetti = (mod.default || mod) as any;
             fireConfetti({
               particleCount: 120,
               spread: 80,
