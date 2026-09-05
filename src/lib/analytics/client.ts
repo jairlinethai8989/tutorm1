@@ -190,7 +190,7 @@ export function track<T = Record<string, unknown>>(eventName: AnalyticsEventName
 }
 
 /**
- * Track page views
+ * Track page views - Dedicated exclusively to GA4 (Vercel is auto-tracked by <VercelAnalytics />)
  */
 export function trackPageView(pageUrl?: string): void {
   if (typeof window === 'undefined') return;
@@ -198,12 +198,9 @@ export function trackPageView(pageUrl?: string): void {
   try {
     const url = pageUrl || window.location.pathname + window.location.search;
     const context = getTelemetryContext();
-
-    for (const provider of PROVIDERS) {
-      provider.trackPageView(url, context);
-    }
+    ga4Provider.trackPageView(url, context);
   } catch (e) {
-    console.debug('PageView telemetry suppressed', e);
+    console.debug('GA4 PageView telemetry suppressed', e);
   }
 }
 

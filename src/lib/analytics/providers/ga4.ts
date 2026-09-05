@@ -12,6 +12,19 @@ declare global {
   }
 }
 
+function toSnakeCase(str: string): string {
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+}
+
+function normalizeGA4Payload(payload: Record<string, unknown>): Record<string, unknown> {
+  if (!payload || typeof payload !== 'object') return {};
+  const normalized: Record<string, unknown> = {};
+  for (const [key, val] of Object.entries(payload)) {
+    normalized[toSnakeCase(key)] = val;
+  }
+  return normalized;
+}
+
 export const ga4Provider: AnalyticsProvider = {
   name: 'ga4',
 
@@ -20,8 +33,9 @@ export const ga4Provider: AnalyticsProvider = {
 
     try {
       if (typeof window.gtag === 'function') {
+        const cleanPayload = normalizeGA4Payload(payload);
         window.gtag('event', eventName, {
-          ...payload,
+          ...cleanPayload,
           traffic_category: context.firstTouchSource,
           traffic_campaign: context.firstTouchCampaign || '(none)',
           device_type: context.deviceType,

@@ -1,14 +1,11 @@
 /**
- * Tutor M.1 Vercel Web Analytics & Speed Insights Provider Adapter
+ * Tutor M.1 Vercel Web Analytics Provider Adapter
+ * Uses official @vercel/analytics SDK for custom events.
+ * Pageviews are handled automatically and natively by <VercelAnalytics /> in RootLayout.
  */
 
+import { track as vercelTrack } from '@vercel/analytics';
 import { AnalyticsProvider, AnalyticsEventName, BaseTelemetryContext } from '../types';
-
-declare global {
-  interface Window {
-    va?: (event: 'event' | 'pageview' | 'beforeSend', options?: any) => void;
-  }
-}
 
 export const vercelProvider: AnalyticsProvider = {
   name: 'vercel',
@@ -17,32 +14,17 @@ export const vercelProvider: AnalyticsProvider = {
     if (typeof window === 'undefined') return;
 
     try {
-      if (typeof window.va === 'function') {
-        window.va('event', {
-          name: eventName,
-          data: {
-            ...payload,
-            source: context.firstTouchSource,
-            device: context.deviceType,
-          },
-        });
-      }
+      vercelTrack(eventName, {
+        ...payload,
+        source: context.firstTouchSource,
+        device: context.deviceType,
+      });
     } catch (e) {
-      console.debug('Vercel Analytics dispatch bypassed', e);
+      console.debug('Vercel Analytics custom event dispatch suppressed', e);
     }
   },
 
-  trackPageView: (pageUrl: string, context: BaseTelemetryContext) => {
-    if (typeof window === 'undefined') return;
-
-    try {
-      if (typeof window.va === 'function') {
-        window.va('pageview', {
-          url: pageUrl,
-        });
-      }
-    } catch (e) {
-      console.debug('Vercel Pageview dispatch bypassed', e);
-    }
-  },
+  // No-op: Vercel pageviews are handled natively by <VercelAnalytics /> in root layout
+  trackPageView: () => {},
 };
+

@@ -7,12 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "validate:questions": "npx tsx src/scripts/validate-questions.ts"
+    "validate:questions": "npx tsx src/scripts/validate-questions.ts",
+    "test:control-center": "npx tsx src/scripts/test-control-center.ts"
   },
   "dependencies": {
+    "@upstash/redis": "^1.38.4",
+    "@vercel/analytics": "^2.0.1",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.43.0",
+    "jose": "^6.2.12",
     "katex": "^0.16.21",
     "lucide-react": "^1.16.0",
     "next": "^15.1.7",
