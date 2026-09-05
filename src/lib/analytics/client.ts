@@ -214,11 +214,11 @@ export function trackAttemptCompleted(payload: AttemptCompletedPayload): boolean
   if (!payload || !payload.attemptId) return false;
 
   // Prevent duplicate event dispatches for the same attempt
-  if (isAttemptAlreadyTracked(payload.attemptId)) {
+  if (isAttemptAlreadyTracked(payload.attemptId, 'attempt_completed')) {
     return false;
   }
 
-  markAttemptAsTracked(payload.attemptId);
+  markAttemptAsTracked(payload.attemptId, 'attempt_completed');
   track<AttemptCompletedPayload>('attempt_completed', payload);
   return true;
 }
@@ -234,13 +234,7 @@ export function trackQuestionAnswered(payload: QuestionAnsweredPayload): void {
  * Track milestone achievement (10, 50, or 100 questions answered)
  */
 export function trackMilestone(milestone: 10 | 50 | 100, totalQuestionsAnswered: number): void {
-  const eventName: AnalyticsEventName =
-    milestone === 10
-      ? 'questions_10_milestone'
-      : milestone === 50
-      ? 'questions_50_milestone'
-      : 'questions_100_milestone';
-
+  const eventName = `questions_${milestone}_milestone` as AnalyticsEventName;
   track<MilestonePayload>(eventName, {
     milestone,
     totalQuestionsAnswered,
@@ -266,12 +260,13 @@ export function trackMockExamStarted(payload: MockExamStartedPayload): void {
  * Track Mock Exam Completed with Idempotency Guard
  */
 export function trackMockExamCompleted(payload: MockExamCompletedPayload): boolean {
-  if (payload.attemptId) {
-    if (isAttemptAlreadyTracked(payload.attemptId)) {
-      return false;
-    }
-    markAttemptAsTracked(payload.attemptId);
+  if (!payload || !payload.attemptId) return false;
+
+  if (isAttemptAlreadyTracked(payload.attemptId, 'mock_exam_completed')) {
+    return false;
   }
+
+  markAttemptAsTracked(payload.attemptId, 'mock_exam_completed');
   track<MockExamCompletedPayload>('mock_exam_completed', payload);
   return true;
 }

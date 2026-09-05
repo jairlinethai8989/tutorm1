@@ -100,7 +100,7 @@ export interface MockExamStartedPayload {
 
 export interface MockExamCompletedPayload {
   examId: string;
-  attemptId?: string;
+  attemptId: string;
   score: number;
   durationSeconds: number;
   totalQuestions: number;
