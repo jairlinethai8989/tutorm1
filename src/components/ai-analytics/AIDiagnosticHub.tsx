@@ -47,6 +47,18 @@ export const AIDiagnosticHub: React.FC = () => {
   useEffect(() => {
     refreshReport();
 
+    // Phase B Telemetry: Track AI Diagnostic Viewed (Zero-PII)
+    try {
+      const { trackAIDiagnosticViewed } = require('@/lib/analytics');
+      const data = generateAIDiagnosticReport();
+      trackAIDiagnosticViewed({
+        totalAttemptsAnalyzed: (data?.totalMockExamsDone || 0) + (data?.totalQuestionsAnalyzed ? 1 : 0),
+        gradeFilter: 'm1',
+      });
+    } catch (e) {
+      console.debug('Telemetry trackAIDiagnosticViewed suppressed', e);
+    }
+
     const handleStatsChange = () => {
       refreshReport();
     };

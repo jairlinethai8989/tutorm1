@@ -15,6 +15,16 @@ import {
   QuestionAnsweredPayload,
   MilestonePayload,
   ParentReportViewedPayload,
+  MockExamHubViewedPayload,
+  MockExamStartedPayload,
+  MockExamCompletedPayload,
+  AIPracticeViewedPayload,
+  AIPracticeStartedPayload,
+  AIPracticeCompletedPayload,
+  AIDiagnosticViewedPayload,
+  SpeedRunLobbyViewedPayload,
+  SpeedRunStartedPayload,
+  SpeedRunCompletedPayload,
 } from './types';
 import { getOrCreateAnonymousId, getOrCreateSessionId, detectDeviceType } from './identity';
 import { captureAndPersistUTM, getFirstTouchAttribution } from './utm';
@@ -236,6 +246,76 @@ export function trackMilestone(milestone: 10 | 50 | 100, totalQuestionsAnswered:
     totalQuestionsAnswered,
     achievedAt: new Date().toISOString(),
   });
+}
+
+/**
+ * Track Mock Exam Hub View
+ */
+export function trackMockExamHubViewed(payload: MockExamHubViewedPayload): void {
+  track<MockExamHubViewedPayload>('mock_exam_hub_viewed', payload);
+}
+
+/**
+ * Track Mock Exam Started
+ */
+export function trackMockExamStarted(payload: MockExamStartedPayload): void {
+  track<MockExamStartedPayload>('mock_exam_started', payload);
+}
+
+/**
+ * Track Mock Exam Completed
+ */
+export function trackMockExamCompleted(payload: MockExamCompletedPayload): void {
+  track<MockExamCompletedPayload>('mock_exam_completed', payload);
+}
+
+/**
+ * Track AI Practice Hub View
+ */
+export function trackAIPracticeViewed(payload: AIPracticeViewedPayload): void {
+  track<AIPracticeViewedPayload>('ai_practice_viewed', payload);
+}
+
+/**
+ * Track AI Practice Started
+ */
+export function trackAIPracticeStarted(payload: AIPracticeStartedPayload): void {
+  track<AIPracticeStartedPayload>('ai_practice_started', payload);
+}
+
+/**
+ * Track AI Practice Completed
+ */
+export function trackAIPracticeCompleted(payload: AIPracticeCompletedPayload): void {
+  track<AIPracticeCompletedPayload>('ai_practice_completed', payload);
+}
+
+/**
+ * Track AI Diagnostic Viewed
+ */
+export function trackAIDiagnosticViewed(payload: AIDiagnosticViewedPayload): void {
+  track<AIDiagnosticViewedPayload>('ai_diagnostic_viewed', payload);
+}
+
+/**
+ * Track Speed Run Lobby Viewed
+ */
+export function trackSpeedRunLobbyViewed(payload: SpeedRunLobbyViewedPayload): void {
+  track<SpeedRunLobbyViewedPayload>('speed_run_lobby_viewed', payload);
+}
+
+/**
+ * Track Speed Run Started
+ */
+export function trackSpeedRunStarted(payload: SpeedRunStartedPayload): void {
+  track<SpeedRunStartedPayload>('speed_run_started', payload);
+}
+
+/**
+ * Track Speed Run Completed
+ */
+export function trackSpeedRunCompleted(payload: SpeedRunCompletedPayload): void {
+  track<SpeedRunCompletedPayload>('speed_run_completed', payload);
 }
 
 /**

@@ -61,6 +61,18 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
     });
 
     setAttemptHistory(map);
+
+    // Telemetry: Phase B - Track Mock Exam Hub View (Zero-PII)
+    try {
+      const { trackMockExamHubViewed } = require('@/lib/analytics');
+      trackMockExamHubViewed({
+        hasSchoolFilter: selectedSchool !== 'all',
+        examCategory: selectedSubject,
+        totalExamsVisible: exams.length,
+      });
+    } catch (e) {
+      console.debug('Telemetry trackMockExamHubViewed suppressed', e);
+    }
   }, [exams]);
 
   // School filter definitions
