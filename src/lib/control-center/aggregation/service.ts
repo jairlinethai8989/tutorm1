@@ -2,6 +2,44 @@ import { getSessionStore } from '@/lib/control-center/auth/sessionStore';
 import { fetchGA4TelemetryMetrics, GA4FetchResult } from './ga4-adapter';
 import { fetchVercelWebMetrics, VercelMetricsResult } from './vercel-adapter';
 import { AggregateTelemetryResponse } from './types';
+import { getQuestionSamplingConfig } from '@/lib/analytics/sampling';
+
+function isNonNegativeNumberOrNull(val: unknown): boolean {
+  if (val === null) return true;
+  return typeof val === 'number' && Number.isFinite(val) && val >= 0;
+}
+
+function isNonNegativeNumber(val: unknown): boolean {
+  return typeof val === 'number' && Number.isFinite(val) && val >= 0;
+}
+
+export function validateCachedPayload(val: unknown, expectedTimeframe: '7d' | '30d' | '90d'): AggregateTelemetryResponse | null {
+  if (typeof val !== 'object' || val === null) return null;
+  const p = val as any;
+
+  if (p.timeframe !== expectedTimeframe) return null;
+  if (typeof p.generatedAt !== 'string' || isNaN(Date.parse(p.generatedAt))) return null;
+
+  if (typeof p.dataSources !== 'object' || p.dataSources === null) return null;
+  const ga4Source = p.dataSources.ga4;
+  const vercelSource = p.dataSources.vercel;
+  const validSources = ['live', 'synthetic_fallback', 'unavailable'];
+  if (!validSources.includes(ga4Source) || !validSources.includes(vercelSource)) return null;
+
+  if (typeof p.progression !== 'object' || p.progression === null) return null;
+  const prog = p.progression;
+  if (!prog.mockExam || !isNonNegativeNumber(prog.mockExam.started) || !isNonNegativeNumber(prog.mockExam.completed) || !isNonNegativeNumberOrNull(prog.mockExam.completionEventRatio)) return null;
+  if (!prog.aiPractice || !isNonNegativeNumber(prog.aiPractice.started) || !isNonNegativeNumber(prog.aiPractice.completed) || !isNonNegativeNumberOrNull(prog.aiPractice.completionEventRatio)) return null;
+  if (!prog.milestones || !isNonNegativeNumber(prog.milestones.questions10) || !isNonNegativeNumber(prog.milestones.questions50) || !isNonNegativeNumber(prog.milestones.questions100)) return null;
+  if (!prog.activity || !isNonNegativeNumber(prog.activity.sampledQuestionsAnswered) || !isNonNegativeNumber(prog.activity.diagnosticViews)) return null;
+
+  if (typeof p.webMetrics !== 'object' || p.webMetrics === null) return null;
+  if (!isNonNegativeNumber(p.webMetrics.summedDailyVisitors) || !isNonNegativeNumber(p.webMetrics.pageViews)) return null;
+
+  if (!Array.isArray(p.trafficChannels) || !Array.isArray(p.subjectBreakdown)) return null;
+
+  return p as AggregateTelemetryResponse;
+}
 
 export interface AggregatedTelemetryResult {
   source: 'live' | 'synthetic_fallback' | 'unavailable' | 'partial';
@@ -32,44 +70,52 @@ export async function getAggregatedTelemetry(
   const cached = await store.getCachedTelemetry(cacheKey);
   if (cached) {
     try {
-      const payload = JSON.parse(cached) as AggregateTelemetryResponse;
-      // In live production mode, strictly reject any cached payload containing synthetic fallback data
-      const hasSynthetic =
-        payload.dataSources.ga4 === 'synthetic_fallback' ||
-        payload.dataSources.vercel === 'synthetic_fallback';
+      const raw = JSON.parse(cached);
+      const validated = validateCachedPayload(raw, timeframe);
 
-      if (isProduction && hasSynthetic) {
-        // Discard contaminated demo cache entry in live mode
-      } else if (payload.timeframe === timeframe && payload.progression && payload.webMetrics) {
-        const ga4Src = payload.dataSources.ga4;
-        const vercelSrc = payload.dataSources.vercel;
-        const overallSrc: 'live' | 'synthetic_fallback' | 'unavailable' | 'partial' =
-          ga4Src === 'live' && vercelSrc === 'live'
-            ? 'live'
-            : ga4Src === 'synthetic_fallback' && vercelSrc === 'synthetic_fallback'
-              ? 'synthetic_fallback'
-              : ga4Src === 'unavailable' && vercelSrc === 'unavailable'
-                ? 'unavailable'
+      if (validated) {
+        const ga4Src = validated.dataSources.ga4;
+        const vercelSrc = validated.dataSources.vercel;
+
+        // In production/live mode, reject synthetic fallback data
+        const hasSynthetic = ga4Src === 'synthetic_fallback' || vercelSrc === 'synthetic_fallback';
+
+        // Dual-READY cache invariant: under existing policy, unavailable data is NEVER cached.
+        // If a cached entry contains unavailable sources, reject it immediately.
+        const hasUnavailable = ga4Src === 'unavailable' || vercelSrc === 'unavailable';
+
+        if (!hasUnavailable && (!isProduction || !hasSynthetic)) {
+          // Derive current sampling metadata after data-cache read
+          const currentSampling = getQuestionSamplingConfig();
+          validated.progression.activity.samplingStatus = currentSampling.status;
+          validated.progression.activity.samplingRate = currentSampling.samplingRate;
+
+          const overallSrc: 'live' | 'synthetic_fallback' | 'unavailable' | 'partial' =
+            ga4Src === 'live' && vercelSrc === 'live'
+              ? 'live'
+              : ga4Src === 'synthetic_fallback' && vercelSrc === 'synthetic_fallback'
+                ? 'synthetic_fallback'
                 : 'partial';
 
-        return {
-          source: overallSrc,
-          status: 'READY',
-          payload,
-          ga4: {
-            source: payload.dataSources.ga4,
+          return {
+            source: overallSrc,
             status: 'READY',
-            progression: payload.progression,
-            trafficChannels: payload.trafficChannels,
-            subjectBreakdown: payload.subjectBreakdown,
-          },
-          vercel: {
-            source: payload.dataSources.vercel,
-            status: 'READY',
-            summedDailyVisitors: payload.webMetrics.summedDailyVisitors,
-            pageViews: payload.webMetrics.pageViews,
-          },
-        };
+            payload: validated,
+            ga4: {
+              source: ga4Src,
+              status: 'READY',
+              progression: validated.progression,
+              trafficChannels: validated.trafficChannels,
+              subjectBreakdown: validated.subjectBreakdown,
+            },
+            vercel: {
+              source: vercelSrc,
+              status: 'READY',
+              summedDailyVisitors: validated.webMetrics.summedDailyVisitors,
+              pageViews: validated.webMetrics.pageViews,
+            },
+          };
+        }
       }
     } catch {
       // Cache corruption fallback: continue to fresh fetch

@@ -5,8 +5,8 @@ import { getSessionStore } from '@/lib/control-center/auth/sessionStore';
 export const dynamic = 'force-dynamic';
 
 export default async function AuditPage() {
-  // Guard specifically for audit:read permission
-  await enforceServerPageAuth('audit:read');
+  // Guard specifically for audit:read permission with exact resource path
+  await enforceServerPageAuth('audit:read', '/control-center/audit');
 
   const store = getSessionStore();
   const records = await store.getRecentAuditRecords(7);

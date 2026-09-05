@@ -7,18 +7,34 @@ import { createAuditRecord, sanitizeAuditResource } from './audit';
 
 export const SESSION_COOKIE_NAME = 'tutor_m1_cc_session';
 
-async function safelyAppendAuditRecord(recordParams: Parameters<typeof createAuditRecord>[0]): Promise<void> {
+/**
+ * Safely records best-effort audit records on DENY/unauthenticated branches.
+ * Failure to audit an already-denied request must never allow access or mask the 401/403 response.
+ */
+async function recordBestEffortDenyAudit(recordParams: Parameters<typeof createAuditRecord>[0]): Promise<void> {
   try {
     const store = getSessionStore();
     await store.appendAuditRecord(createAuditRecord(recordParams));
   } catch (err) {
-    console.warn('[Audit Sink Warning] Failed to persist audit record:', err);
+    console.warn('[Audit Sink Warning] Failed to persist DENY audit record:', err);
   }
+}
+
+/**
+ * Authoritatively records mandatory audit records on ALLOW branches.
+ * Must fail-closed: if key validation, HMAC computation, or sink persistence fails,
+ * access to protected data is strictly aborted.
+ */
+async function recordMandatoryAllowAudit(recordParams: Parameters<typeof createAuditRecord>[0]): Promise<void> {
+  const store = getSessionStore();
+  const record = createAuditRecord(recordParams);
+  await store.appendAuditRecord(record);
 }
 
 /**
  * Enforce authorization in Next.js Server Components.
  * Redirects to /control-center/login if unauthorized.
+ * Fails closed if mandatory ALLOW audit record cannot be written.
  */
 export async function enforceServerPageAuth(
   requiredPermission: ControlCenterPermission = 'aggregate:read',
@@ -37,7 +53,7 @@ export async function enforceServerPageAuth(
   } catch {}
 
   if (!sessionCookie) {
-    await safelyAppendAuditRecord({
+    await recordBestEffortDenyAudit({
       pseudonymousActorId: 'usr_anonymous',
       permissionTested: requiredPermission,
       decision: 'DENY',
@@ -52,7 +68,7 @@ export async function enforceServerPageAuth(
   const session = await store.getSession(sessionCookie);
 
   if (!session) {
-    await safelyAppendAuditRecord({
+    await recordBestEffortDenyAudit({
       pseudonymousActorId: 'usr_anonymous',
       permissionTested: requiredPermission,
       decision: 'DENY',
@@ -66,7 +82,7 @@ export async function enforceServerPageAuth(
   const validity = isSessionValid(session);
   if (!validity.valid) {
     await store.revokeSession(sessionCookie);
-    await safelyAppendAuditRecord({
+    await recordBestEffortDenyAudit({
       pseudonymousActorId: session.actorId,
       permissionTested: requiredPermission,
       decision: 'DENY',
@@ -79,7 +95,7 @@ export async function enforceServerPageAuth(
 
   // Permission check
   if (!session.permissions.includes(requiredPermission)) {
-    await safelyAppendAuditRecord({
+    await recordBestEffortDenyAudit({
       pseudonymousActorId: session.actorId,
       permissionTested: requiredPermission,
       decision: 'DENY',
@@ -90,15 +106,23 @@ export async function enforceServerPageAuth(
     redirect('/control-center/login?error=permission_denied');
   }
 
-  // Successful Authorization Decision
-  await safelyAppendAuditRecord({
-    pseudonymousActorId: session.actorId,
-    permissionTested: requiredPermission,
-    decision: 'ALLOW',
-    resource: resourcePath,
-    ip: clientIp,
-    userAgent,
-  });
+  // Mandatory Fail-Closed ALLOW Audit Recording
+  // If audit key is missing/corrupted or sink fails, throw to prevent delivering protected data
+  try {
+    await recordMandatoryAllowAudit({
+      pseudonymousActorId: session.actorId,
+      permissionTested: requiredPermission,
+      decision: 'ALLOW',
+      resource: resourcePath,
+      ip: clientIp,
+      userAgent,
+    });
+  } catch (auditErr) {
+    console.error('[Security Fault] Mandatory audit sink failed for ALLOW path:', auditErr);
+    const err = new Error('Security subsystem unavailable: mandatory audit trail could not be recorded');
+    (err as any).code = 'AUDIT_UNAVAILABLE';
+    throw err;
+  }
 
   // Update sliding idle activity
   await store.touchSession(sessionCookie);
@@ -113,6 +137,7 @@ export type ApiAuthResult =
 /**
  * Enforce authorization in Route Handlers (/api/control-center/*).
  * Returns JSON 401/403 responses (never redirects).
+ * If mandatory ALLOW audit record cannot be written, returns JSON 503 AUDIT_UNAVAILABLE without protected data.
  */
 export async function enforceServerApiAuth(
   req: Request,
@@ -127,7 +152,7 @@ export async function enforceServerApiAuth(
   const resource = sanitizeAuditResource(req.url);
 
   if (!sessionId) {
-    await safelyAppendAuditRecord({
+    await recordBestEffortDenyAudit({
       pseudonymousActorId: 'usr_anonymous',
       permissionTested: requiredPermission,
       decision: 'DENY',
@@ -149,7 +174,7 @@ export async function enforceServerApiAuth(
   const session = await store.getSession(sessionId);
 
   if (!session) {
-    await safelyAppendAuditRecord({
+    await recordBestEffortDenyAudit({
       pseudonymousActorId: 'usr_anonymous',
       permissionTested: requiredPermission,
       decision: 'DENY',
@@ -170,7 +195,7 @@ export async function enforceServerApiAuth(
   const validity = isSessionValid(session);
   if (!validity.valid) {
     await store.revokeSession(sessionId);
-    await safelyAppendAuditRecord({
+    await recordBestEffortDenyAudit({
       pseudonymousActorId: session.actorId,
       permissionTested: requiredPermission,
       decision: 'DENY',
@@ -189,7 +214,7 @@ export async function enforceServerApiAuth(
   }
 
   if (!session.permissions.includes(requiredPermission)) {
-    await safelyAppendAuditRecord({
+    await recordBestEffortDenyAudit({
       pseudonymousActorId: session.actorId,
       permissionTested: requiredPermission,
       decision: 'DENY',
@@ -207,15 +232,30 @@ export async function enforceServerApiAuth(
     };
   }
 
-  // Successful API Authorization Decision
-  await safelyAppendAuditRecord({
-    pseudonymousActorId: session.actorId,
-    permissionTested: requiredPermission,
-    decision: 'ALLOW',
-    resource,
-    ip: clientIp,
-    userAgent,
-  });
+  // Mandatory Fail-Closed ALLOW Audit Recording
+  try {
+    await recordMandatoryAllowAudit({
+      pseudonymousActorId: session.actorId,
+      permissionTested: requiredPermission,
+      decision: 'ALLOW',
+      resource,
+      ip: clientIp,
+      userAgent,
+    });
+  } catch (auditErr) {
+    console.error('[Security Fault] Mandatory audit sink failed for ALLOW path:', auditErr);
+    return {
+      authorized: false,
+      response: new Response(
+        JSON.stringify({
+          error: 'SERVICE_UNAVAILABLE',
+          code: 'AUDIT_UNAVAILABLE',
+          message: 'Security subsystem unavailable: audit trail required',
+        }),
+        { status: 503, headers: { 'Content-Type': 'application/json' } }
+      ),
+    };
+  }
 
   await store.touchSession(sessionId);
 

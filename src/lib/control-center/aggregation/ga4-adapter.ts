@@ -53,6 +53,38 @@ function parseStrictNonNegativeInt(val: unknown, label: string): number {
   return num;
 }
 
+function validateReportRows(
+  report: GA4BatchResponse['reports'] extends Array<infer R> ? R : never,
+  reportName: string
+): Array<{
+  dimensionValues?: Array<{ value: string }>;
+  metricValues?: Array<{ value: string }>;
+}> {
+  if (!('rows' in report) || report.rows === undefined) {
+    return []; // Valid empty report
+  }
+  if (!Array.isArray(report.rows)) {
+    throw new Error(`GA4 ${reportName} rows must be an array or omitted`);
+  }
+  for (let i = 0; i < report.rows.length; i++) {
+    const row = report.rows[i];
+    if (typeof row !== 'object' || row === null) {
+      throw new Error(`GA4 ${reportName} row ${i} is not a valid object`);
+    }
+    if (!Array.isArray(row.dimensionValues) || row.dimensionValues.length === 0) {
+      throw new Error(`GA4 ${reportName} row ${i} is missing dimensionValues array`);
+    }
+    if (!Array.isArray(row.metricValues) || row.metricValues.length === 0) {
+      throw new Error(`GA4 ${reportName} row ${i} is missing metricValues array`);
+    }
+    const dimVal = row.dimensionValues[0]?.value;
+    if (typeof dimVal !== 'string') {
+      throw new Error(`GA4 ${reportName} row ${i} dimension value must be a string`);
+    }
+  }
+  return report.rows;
+}
+
 export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResult, 'source' | 'status'> {
   if (!data || typeof data !== 'object' || !data.reports || !Array.isArray(data.reports) || data.reports.length < 3) {
     throw new Error('GA4 batchRunReports returned invalid schema: minimum 3 reports expected');
@@ -81,12 +113,17 @@ export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResul
     throw new Error(`GA4 Report 3 failed header contract: expected customEvent:subject/eventCount, got ${rep3Dim}/${rep3Metric}`);
   }
 
+  // Validate row containers and strict row structure for all 3 reports
+  const progressionRows = validateReportRows(progressionReport, 'Report 1 (Progression)');
+  const channelsRows = validateReportRows(channelsReport, 'Report 2 (Channels)');
+  const topicsRows = validateReportRows(topicsReport, 'Report 3 (Topics)');
+
   // 1. Parse Event Progression using ACTUAL dispatched event names
   const eventCounts: Record<string, number> = {};
-  for (const row of progressionReport.rows || []) {
-    const eventName = row.dimensionValues?.[0]?.value;
-    const count = parseStrictNonNegativeInt(row.metricValues?.[0]?.value, `eventName:${eventName}`);
-    if (eventName) eventCounts[eventName] = count;
+  for (const row of progressionRows) {
+    const eventName = row.dimensionValues![0].value;
+    const count = parseStrictNonNegativeInt(row.metricValues![0]?.value, `eventName:${eventName}`);
+    eventCounts[eventName] = count;
   }
 
   const mockExamStarted = eventCounts['mock_exam_started'] || 0;
@@ -130,14 +167,13 @@ export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResul
 
   // 2. Parse Traffic Channels
   let totalSessions = 0;
-  const channelRows = channelsReport.rows || [];
-  for (const row of channelRows) {
-    totalSessions += parseStrictNonNegativeInt(row.metricValues?.[0]?.value, 'channelSessions');
+  for (const row of channelsRows) {
+    totalSessions += parseStrictNonNegativeInt(row.metricValues![0]?.value, 'channelSessions');
   }
 
-  const trafficChannels: TrafficChannel[] = channelRows.map((row) => {
-    const channel = row.dimensionValues?.[0]?.value || 'Unassigned';
-    const sessions = parseStrictNonNegativeInt(row.metricValues?.[0]?.value, `channel:${channel}`);
+  const trafficChannels: TrafficChannel[] = channelsRows.map((row) => {
+    const channel = row.dimensionValues![0].value;
+    const sessions = parseStrictNonNegativeInt(row.metricValues![0]?.value, `channel:${channel}`);
     return {
       channel,
       sessions,
@@ -146,9 +182,9 @@ export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResul
   });
 
   // 3. Parse Authoritative Subject Attempts (Filtered strictly by attempt_completed)
-  const subjectBreakdown: SubjectBreakdown[] = (topicsReport.rows || []).map((row) => {
-    const subject = row.dimensionValues?.[0]?.value || 'General';
-    const completedAttempts = parseStrictNonNegativeInt(row.metricValues?.[0]?.value, `subject:${subject}`);
+  const subjectBreakdown: SubjectBreakdown[] = topicsRows.map((row) => {
+    const subject = row.dimensionValues![0].value;
+    const completedAttempts = parseStrictNonNegativeInt(row.metricValues![0]?.value, `subject:${subject}`);
     return {
       subject,
       completedAttempts,

@@ -284,8 +284,8 @@ async function runTests() {
   const emptyVercel = parseVercelAggregate({ data: [] });
   assert(emptyVercel.pageViews === 0 && emptyVercel.summedDailyVisitors === 0, 'parseVercelAggregate valid empty array returns 0/0');
 
-  // --- Suite 9b: GA4 Schema Robustness & Malformed Payload Rejection (DATA-02) ---
-  console.log('\n--- 9b. GA4 Malformed Payload Contract Tests (DATA-02) ---');
+  // --- Suite 9b: GA4 Schema Robustness & Malformed Payload Rejection (DATA-02 / R3) ---
+  console.log('\n--- 9b. GA4 Malformed Payload Contract Tests (DATA-02 / R3) ---');
   assertThrows(() => parseGA4BatchReports({ reports: [{}, {}, {}] }), 'parseGA4BatchReports rejects reports missing headers ({reports:[{},{},{}]})');
   assertThrows(() => parseGA4BatchReports({ reports: [{ dimensionHeaders: [{ name: 'wrongDim' }], metricHeaders: [{ name: 'eventCount' }] }, {}, {}] }), 'parseGA4BatchReports rejects incorrect dimension header');
   assertThrows(() => parseGA4BatchReports({
@@ -295,6 +295,52 @@ async function runTests() {
       { dimensionHeaders: [{ name: 'customEvent:subject' }], metricHeaders: [{ name: 'eventCount' }], rows: [] },
     ]
   }), 'parseGA4BatchReports rejects negative metric count');
+
+  // R3 Acceptance: rows missing dimensionValues
+  assertThrows(() => parseGA4BatchReports({
+    reports: [
+      { dimensionHeaders: [{ name: 'eventName' }], metricHeaders: [{ name: 'eventCount' }], rows: [{ metricValues: [{ value: '7' }] } as any] },
+      { dimensionHeaders: [{ name: 'sessionDefaultChannelGroup' }], metricHeaders: [{ name: 'sessions' }], rows: [] },
+      { dimensionHeaders: [{ name: 'customEvent:subject' }], metricHeaders: [{ name: 'eventCount' }], rows: [] },
+    ]
+  }), 'R3: parseGA4BatchReports rejects row missing dimensionValues');
+
+  // R3 Acceptance: null rows or non-array rows
+  assertThrows(() => parseGA4BatchReports({
+    reports: [
+      { dimensionHeaders: [{ name: 'eventName' }], metricHeaders: [{ name: 'eventCount' }], rows: null as any },
+      { dimensionHeaders: [{ name: 'sessionDefaultChannelGroup' }], metricHeaders: [{ name: 'sessions' }], rows: [] },
+      { dimensionHeaders: [{ name: 'customEvent:subject' }], metricHeaders: [{ name: 'eventCount' }], rows: [] },
+    ]
+  }), 'R3: parseGA4BatchReports rejects null rows container');
+
+  // R3 Acceptance: null row item
+  assertThrows(() => parseGA4BatchReports({
+    reports: [
+      { dimensionHeaders: [{ name: 'eventName' }], metricHeaders: [{ name: 'eventCount' }], rows: [null as any] },
+      { dimensionHeaders: [{ name: 'sessionDefaultChannelGroup' }], metricHeaders: [{ name: 'sessions' }], rows: [] },
+      { dimensionHeaders: [{ name: 'customEvent:subject' }], metricHeaders: [{ name: 'eventCount' }], rows: [] },
+    ]
+  }), 'R3: parseGA4BatchReports rejects null row object');
+
+  // R3 Acceptance: non-string dimension value
+  assertThrows(() => parseGA4BatchReports({
+    reports: [
+      { dimensionHeaders: [{ name: 'eventName' }], metricHeaders: [{ name: 'eventCount' }], rows: [{ dimensionValues: [{ value: 123 as any }], metricValues: [{ value: '10' }] }] },
+      { dimensionHeaders: [{ name: 'sessionDefaultChannelGroup' }], metricHeaders: [{ name: 'sessions' }], rows: [] },
+      { dimensionHeaders: [{ name: 'customEvent:subject' }], metricHeaders: [{ name: 'eventCount' }], rows: [] },
+    ]
+  }), 'R3: parseGA4BatchReports rejects non-string dimension value');
+
+  // R3 Acceptance: valid omitted rows field (valid empty report)
+  const emptyReportResult = parseGA4BatchReports({
+    reports: [
+      { dimensionHeaders: [{ name: 'eventName' }], metricHeaders: [{ name: 'eventCount' }] },
+      { dimensionHeaders: [{ name: 'sessionDefaultChannelGroup' }], metricHeaders: [{ name: 'sessions' }] },
+      { dimensionHeaders: [{ name: 'customEvent:subject' }], metricHeaders: [{ name: 'eventCount' }] },
+    ]
+  });
+  assert(emptyReportResult.progression.mockExam.started === 0, 'R3: Valid empty report with omitted rows accepted as measured zero counts');
 
   // --- Suite 10: GA4 batchRunReports & Real Dispatched Events Mapping ---
   console.log('\n--- 10. GA4 batchRunReports Real Event Mapping & Subject Filter Tests ---');

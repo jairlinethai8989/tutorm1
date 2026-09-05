@@ -177,14 +177,12 @@ export async function runIntegrationTests(assert: (cond: boolean, name: string) 
   }
   assert(noSubFailed, 'JWT without sub claim is strictly rejected (AUTH-02)');
 
-  // Test 15.9: AUDIT-01 — Full access decision audit records (ALLOW & DENY)
-  console.log('  Testing AUDIT-01: Access decision auditing...');
-  const auditRecordsBefore = await store.getRecentAuditRecords(1);
-  const initialCount = auditRecordsBefore.length;
+  // Test 15.9: AUDIT-01 & R1 — Full access decision audit records and FAIL-CLOSED on ALLOW sink failure
+  console.log('  Testing AUDIT-01 & R1: Access decision auditing & fail-closed ALLOW...');
+  const { enforceServerApiAuth } = await import('../lib/control-center/auth/guard');
 
   // Exercise unauthenticated DENY
   const unauthDenyReq = new NextRequest('https://tutorm1.com/api/control-center/analytics/aggregate');
-  const { enforceServerApiAuth } = await import('../lib/control-center/auth/guard');
   const denyResult = await enforceServerApiAuth(unauthDenyReq, 'aggregate:read');
   assert(!denyResult.authorized, 'Unauthenticated API access denied');
 
@@ -206,9 +204,22 @@ export async function runIntegrationTests(assert: (cond: boolean, name: string) 
   assert(hasDeny, 'AUDIT-01: DENY decision logged for unauthenticated request without PII/token');
   assert(hasAllow, 'AUDIT-01: ALLOW decision logged for authorized request');
 
-  // Test 15.10: CACHE-01 & CACHE-02 — Object deserialization normalization & mode isolation
-  console.log('  Testing CACHE-01 & CACHE-02: Object normalization and demo mode isolation...');
-  const { getAggregatedTelemetry } = await import('../lib/control-center/aggregation/service');
+  // R1 Acceptance Test: Missing AUDIT_IP_SALT_KEY on valid session MUST fail-closed to 503 AUDIT_UNAVAILABLE
+  const savedSaltKey = process.env.AUDIT_IP_SALT_KEY;
+  delete process.env.AUDIT_IP_SALT_KEY;
+  const failSaltReq = new NextRequest('https://tutorm1.com/api/control-center/analytics/aggregate', {
+    headers: { cookie: `${SESSION_COOKIE_NAME}=${validAuditSession.sessionId}` },
+  });
+  const failSaltResult = await enforceServerApiAuth(failSaltReq, 'aggregate:read');
+  assert(!failSaltResult.authorized, 'R1: Valid session access strictly aborted when AUDIT_IP_SALT_KEY is missing');
+  assert(failSaltResult.response.status === 503, 'R1: Missing audit key returns HTTP 503 Service Unavailable');
+  const failSaltBody = await failSaltResult.response.json();
+  assert(failSaltBody.code === 'AUDIT_UNAVAILABLE', 'R1: Error response specifies AUDIT_UNAVAILABLE code without leaking secrets');
+  process.env.AUDIT_IP_SALT_KEY = savedSaltKey;
+
+  // Test 15.10: CACHE-01 & CACHE-02 (R2) — Object deserialization normalization, mode isolation & cached unavailable rejection
+  console.log('  Testing CACHE-01 & CACHE-02 (R2): Object normalization, demo mode isolation, and stale-cache rejection...');
+  const { getAggregatedTelemetry, validateCachedPayload } = await import('../lib/control-center/aggregation/service');
 
   // 15.10a: Demo mode cache write
   process.env.DEMO_MODE = 'true';
@@ -226,6 +237,41 @@ export async function runIntegrationTests(assert: (cond: boolean, name: string) 
     prodResult.source === 'unavailable',
     'CACHE-02: Switching to production rejects any previous demo cache entry and fails closed to unavailable'
   );
+
+  // R2 Acceptance: Stale/polluted cache containing unavailable sources must be rejected
+  const env = process.env.VERCEL_ENV || process.env.NODE_ENV || 'local';
+  const mode = process.env.DEMO_MODE === 'true' ? 'demo' : 'live';
+  const propertyId = process.env.GA4_PROPERTY_ID || 'none';
+  const projectId = process.env.VERCEL_PROJECT_ID || 'none';
+  const teamId = process.env.VERCEL_TEAM_ID || 'none';
+  const testCacheKey = `tutor_m1_telemetry_cache:${env}:${mode}:${propertyId}:${projectId}:${teamId}:7d:v1`;
+
+  const pollutedUnavailablePayload = {
+    timeframe: '7d',
+    generatedAt: new Date().toISOString(),
+    dataSources: { ga4: 'unavailable', vercel: 'unavailable' },
+    progression: {
+      mockExam: { started: 0, completed: 0, completionEventRatio: null },
+      aiPractice: { started: 0, completed: 0, completionEventRatio: null },
+      milestones: { questions10: 0, questions50: 0, questions100: 0 },
+      activity: { sampledQuestionsAnswered: 0, samplingStatus: 'disabled', samplingRate: null, diagnosticViews: 0 },
+    },
+    webMetrics: { summedDailyVisitors: 0, pageViews: 0 },
+    trafficChannels: [],
+    subjectBreakdown: [],
+  };
+
+  await store.setCachedTelemetry(testCacheKey, JSON.stringify(pollutedUnavailablePayload), 300);
+  const fetchedPolluted = await getAggregatedTelemetry('7d');
+  assert(
+    fetchedPolluted.source === 'unavailable' && fetchedPolluted.status === 'DATA_SOURCE_UNAVAILABLE',
+    'R2: Cached unavailable payload is rejected from cache, failing closed to fresh fetch DATA_SOURCE_UNAVAILABLE (never promoted to READY)'
+  );
+
+  // R2 Acceptance: validateCachedPayload rejects malformed schemas
+  assert(validateCachedPayload(null, '7d') === null, 'R2: validateCachedPayload rejects null');
+  assert(validateCachedPayload({ invalid: true }, '7d') === null, 'R2: validateCachedPayload rejects missing fields');
+  assert(validateCachedPayload({ ...pollutedUnavailablePayload, timeframe: '30d' }, '7d') === null, 'R2: validateCachedPayload rejects timeframe mismatch');
 
   // Test 15.11: AUTH-01 — Navigation after session revocation/expiry must deny access
   console.log('  Testing AUTH-01: Post-revocation authorization enforcement...');
