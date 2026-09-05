@@ -1,4 +1,4 @@
-﻿import { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server';
 import { GET as loginHandler } from '../app/api/control-center/auth/login/route';
 import { GET as logoutHandler } from '../app/api/control-center/auth/logout/route';
 import { GET as aggregateHandler } from '../app/api/control-center/analytics/aggregate/route';
@@ -111,4 +111,130 @@ export async function runIntegrationTests(assert: (cond: boolean, name: string) 
 
   process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING = origEnable;
   process.env.NEXT_PUBLIC_QUESTION_SAMPLE_RATE = origRate;
+
+  // Test 15.8: AUTH-02 — OIDC Missing Claims Rejection (exp, iat, sub, invalid amr)
+  console.log('  Testing AUTH-02: OIDC required claims enforcement...');
+  // JWT missing exp
+  const jwtNoExp = await new SignJWT({
+    iss: 'https://accounts.google.com',
+    sub: 'google_user_sub_no_exp',
+    aud: 'integration-client-id.apps.googleusercontent.com',
+    nonce: 'test_nonce_abc',
+    auth_time: Math.floor(Date.now() / 1000) - 10,
+    amr: ['pwd', 'sms'],
+  })
+    .setProtectedHeader({ alg: 'RS256' })
+    .setIssuedAt()
+    .sign(keyPair.privateKey);
+
+  let noExpFailed = false;
+  try {
+    await verifyGoogleIdTokenCryptographically(jwtNoExp, 'test_nonce_abc', customJwks as any);
+  } catch (err: any) {
+    noExpFailed = true;
+  }
+  assert(noExpFailed, 'JWT without exp claim is strictly rejected (AUTH-02)');
+
+  // JWT missing iat
+  const jwtNoIat = await new SignJWT({
+    iss: 'https://accounts.google.com',
+    sub: 'google_user_sub_no_iat',
+    aud: 'integration-client-id.apps.googleusercontent.com',
+    nonce: 'test_nonce_abc',
+    auth_time: Math.floor(Date.now() / 1000) - 10,
+    amr: ['pwd', 'sms'],
+  })
+    .setProtectedHeader({ alg: 'RS256' })
+    .setExpirationTime('1h')
+    .sign(keyPair.privateKey);
+
+  let noIatFailed = false;
+  try {
+    await verifyGoogleIdTokenCryptographically(jwtNoIat, 'test_nonce_abc', customJwks as any);
+  } catch (err: any) {
+    noIatFailed = true;
+  }
+  assert(noIatFailed, 'JWT without iat claim is strictly rejected (AUTH-02)');
+
+  // JWT missing sub
+  const jwtNoSub = await new SignJWT({
+    iss: 'https://accounts.google.com',
+    aud: 'integration-client-id.apps.googleusercontent.com',
+    nonce: 'test_nonce_abc',
+    auth_time: Math.floor(Date.now() / 1000) - 10,
+    amr: ['pwd', 'sms'],
+  })
+    .setProtectedHeader({ alg: 'RS256' })
+    .setIssuedAt()
+    .setExpirationTime('1h')
+    .sign(keyPair.privateKey);
+
+  let noSubFailed = false;
+  try {
+    await verifyGoogleIdTokenCryptographically(jwtNoSub, 'test_nonce_abc', customJwks as any);
+  } catch (err: any) {
+    noSubFailed = true;
+  }
+  assert(noSubFailed, 'JWT without sub claim is strictly rejected (AUTH-02)');
+
+  // Test 15.9: AUDIT-01 — Full access decision audit records (ALLOW & DENY)
+  console.log('  Testing AUDIT-01: Access decision auditing...');
+  const auditRecordsBefore = await store.getRecentAuditRecords(1);
+  const initialCount = auditRecordsBefore.length;
+
+  // Exercise unauthenticated DENY
+  const unauthDenyReq = new NextRequest('https://tutorm1.com/api/control-center/analytics/aggregate');
+  const { enforceServerApiAuth } = await import('../lib/control-center/auth/guard');
+  const denyResult = await enforceServerApiAuth(unauthDenyReq, 'aggregate:read');
+  assert(!denyResult.authorized, 'Unauthenticated API access denied');
+
+  // Exercise authorized ALLOW
+  const validAuditSession = await createServerSession('usr_audit_test', 'telemetry_viewer', ['aggregate:read']);
+  const authAllowReq = new NextRequest('https://tutorm1.com/api/control-center/analytics/aggregate', {
+    headers: { cookie: `${SESSION_COOKIE_NAME}=${validAuditSession.sessionId}` },
+  });
+  const allowResult = await enforceServerApiAuth(authAllowReq, 'aggregate:read');
+  assert(allowResult.authorized, 'Authorized API access allowed');
+
+  const auditRecordsAfter = await store.getRecentAuditRecords(1);
+  const hasDeny = auditRecordsAfter.some(
+    (r) => r.decision === 'DENY' && r.pseudonymousActorId === 'usr_anonymous'
+  );
+  const hasAllow = auditRecordsAfter.some(
+    (r) => r.decision === 'ALLOW' && r.pseudonymousActorId === 'usr_audit_test'
+  );
+  assert(hasDeny, 'AUDIT-01: DENY decision logged for unauthenticated request without PII/token');
+  assert(hasAllow, 'AUDIT-01: ALLOW decision logged for authorized request');
+
+  // Test 15.10: CACHE-01 & CACHE-02 — Object deserialization normalization & mode isolation
+  console.log('  Testing CACHE-01 & CACHE-02: Object normalization and demo mode isolation...');
+  const { getAggregatedTelemetry } = await import('../lib/control-center/aggregation/service');
+
+  // 15.10a: Demo mode cache write
+  process.env.DEMO_MODE = 'true';
+  const demoResult = await getAggregatedTelemetry('7d');
+  assert(demoResult.source === 'synthetic_fallback', 'Demo mode returns synthetic fallback data');
+
+  // 15.10b: Switch to production mode with DEMO_MODE disabled; ensure demo cache is rejected
+  (process.env as any).NODE_ENV = 'production';
+  delete process.env.DEMO_MODE;
+  delete process.env.GA4_PROPERTY_ID;
+  delete process.env.VERCEL_PROJECT_ID;
+
+  const prodResult = await getAggregatedTelemetry('7d');
+  assert(
+    prodResult.source === 'unavailable',
+    'CACHE-02: Switching to production rejects any previous demo cache entry and fails closed to unavailable'
+  );
+
+  // Test 15.11: AUTH-01 — Navigation after session revocation/expiry must deny access
+  console.log('  Testing AUTH-01: Post-revocation authorization enforcement...');
+  const revokedSession = await createServerSession('usr_revoke_test', 'telemetry_viewer', ['aggregate:read']);
+  await store.revokeSession(revokedSession.sessionId);
+
+  const postRevokeReq = new NextRequest('https://tutorm1.com/api/control-center/analytics/aggregate', {
+    headers: { cookie: `${SESSION_COOKIE_NAME}=${revokedSession.sessionId}` },
+  });
+  const postRevokeResult = await enforceServerApiAuth(postRevokeReq, 'aggregate:read');
+  assert(!postRevokeResult.authorized, 'AUTH-01: Navigating with revoked session is rejected immediately before data fetch');
 }

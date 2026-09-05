@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getSessionStore } from './sessionStore';
 import { isSessionValid } from './session';
@@ -7,17 +7,44 @@ import { createAuditRecord, sanitizeAuditResource } from './audit';
 
 export const SESSION_COOKIE_NAME = 'tutor_m1_cc_session';
 
+async function safelyAppendAuditRecord(recordParams: Parameters<typeof createAuditRecord>[0]): Promise<void> {
+  try {
+    const store = getSessionStore();
+    await store.appendAuditRecord(createAuditRecord(recordParams));
+  } catch (err) {
+    console.warn('[Audit Sink Warning] Failed to persist audit record:', err);
+  }
+}
+
 /**
  * Enforce authorization in Next.js Server Components.
  * Redirects to /control-center/login if unauthorized.
  */
 export async function enforceServerPageAuth(
-  requiredPermission: ControlCenterPermission = 'aggregate:read'
+  requiredPermission: ControlCenterPermission = 'aggregate:read',
+  resourcePath: string = '/control-center'
 ): Promise<ServerSessionRecord> {
   const cookieStore = await cookies();
   const sessionCookie = cookieStore.get(SESSION_COOKIE_NAME)?.value;
 
+  // Extract client IP and user agent from request headers
+  let clientIp = '127.0.0.1';
+  let userAgent = '';
+  try {
+    const reqHeaders = await headers();
+    clientIp = reqHeaders.get('x-forwarded-for')?.split(',')[0].trim() || '127.0.0.1';
+    userAgent = reqHeaders.get('user-agent') || '';
+  } catch {}
+
   if (!sessionCookie) {
+    await safelyAppendAuditRecord({
+      pseudonymousActorId: 'usr_anonymous',
+      permissionTested: requiredPermission,
+      decision: 'DENY',
+      resource: resourcePath,
+      ip: clientIp,
+      userAgent,
+    });
     redirect('/control-center/login');
   }
 
@@ -25,29 +52,53 @@ export async function enforceServerPageAuth(
   const session = await store.getSession(sessionCookie);
 
   if (!session) {
+    await safelyAppendAuditRecord({
+      pseudonymousActorId: 'usr_anonymous',
+      permissionTested: requiredPermission,
+      decision: 'DENY',
+      resource: resourcePath,
+      ip: clientIp,
+      userAgent,
+    });
     redirect('/control-center/login');
   }
 
   const validity = isSessionValid(session);
   if (!validity.valid) {
     await store.revokeSession(sessionCookie);
+    await safelyAppendAuditRecord({
+      pseudonymousActorId: session.actorId,
+      permissionTested: requiredPermission,
+      decision: 'DENY',
+      resource: resourcePath,
+      ip: clientIp,
+      userAgent,
+    });
     redirect('/control-center/login');
   }
 
   // Permission check
   if (!session.permissions.includes(requiredPermission)) {
-    // Record audit failure
-    await store.appendAuditRecord(
-      createAuditRecord({
-        pseudonymousActorId: session.actorId,
-        permissionTested: requiredPermission,
-        decision: 'DENY',
-        resource: 'page_access',
-        ip: '127.0.0.1',
-      })
-    );
+    await safelyAppendAuditRecord({
+      pseudonymousActorId: session.actorId,
+      permissionTested: requiredPermission,
+      decision: 'DENY',
+      resource: resourcePath,
+      ip: clientIp,
+      userAgent,
+    });
     redirect('/control-center/login?error=permission_denied');
   }
+
+  // Successful Authorization Decision
+  await safelyAppendAuditRecord({
+    pseudonymousActorId: session.actorId,
+    permissionTested: requiredPermission,
+    decision: 'ALLOW',
+    resource: resourcePath,
+    ip: clientIp,
+    userAgent,
+  });
 
   // Update sliding idle activity
   await store.touchSession(sessionCookie);
@@ -73,8 +124,18 @@ export async function enforceServerApiAuth(
 
   const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || '127.0.0.1';
   const userAgent = req.headers.get('user-agent') || '';
+  const resource = sanitizeAuditResource(req.url);
 
   if (!sessionId) {
+    await safelyAppendAuditRecord({
+      pseudonymousActorId: 'usr_anonymous',
+      permissionTested: requiredPermission,
+      decision: 'DENY',
+      resource,
+      ip: clientIp,
+      userAgent,
+    });
+
     return {
       authorized: false,
       response: new Response(
@@ -88,6 +149,15 @@ export async function enforceServerApiAuth(
   const session = await store.getSession(sessionId);
 
   if (!session) {
+    await safelyAppendAuditRecord({
+      pseudonymousActorId: 'usr_anonymous',
+      permissionTested: requiredPermission,
+      decision: 'DENY',
+      resource,
+      ip: clientIp,
+      userAgent,
+    });
+
     return {
       authorized: false,
       response: new Response(
@@ -100,6 +170,15 @@ export async function enforceServerApiAuth(
   const validity = isSessionValid(session);
   if (!validity.valid) {
     await store.revokeSession(sessionId);
+    await safelyAppendAuditRecord({
+      pseudonymousActorId: session.actorId,
+      permissionTested: requiredPermission,
+      decision: 'DENY',
+      resource,
+      ip: clientIp,
+      userAgent,
+    });
+
     return {
       authorized: false,
       response: new Response(
@@ -110,16 +189,14 @@ export async function enforceServerApiAuth(
   }
 
   if (!session.permissions.includes(requiredPermission)) {
-    await store.appendAuditRecord(
-      createAuditRecord({
-        pseudonymousActorId: session.actorId,
-        permissionTested: requiredPermission,
-        decision: 'DENY',
-        resource: sanitizeAuditResource(req.url),
-        ip: clientIp,
-        userAgent,
-      })
-    );
+    await safelyAppendAuditRecord({
+      pseudonymousActorId: session.actorId,
+      permissionTested: requiredPermission,
+      decision: 'DENY',
+      resource,
+      ip: clientIp,
+      userAgent,
+    });
 
     return {
       authorized: false,
@@ -129,6 +206,16 @@ export async function enforceServerApiAuth(
       ),
     };
   }
+
+  // Successful API Authorization Decision
+  await safelyAppendAuditRecord({
+    pseudonymousActorId: session.actorId,
+    permissionTested: requiredPermission,
+    decision: 'ALLOW',
+    resource,
+    ip: clientIp,
+    userAgent,
+  });
 
   await store.touchSession(sessionId);
 

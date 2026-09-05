@@ -1,8 +1,11 @@
-﻿import React from 'react';
+import React from 'react';
+import { enforceServerPageAuth } from '@/lib/control-center/auth/guard';
 
 export const dynamic = 'force-dynamic';
 
-export default function RetentionPage() {
+export default async function RetentionPage() {
+  await enforceServerPageAuth('aggregate:read', '/control-center/retention');
+
   const isProduction = process.env.NODE_ENV === 'production' && process.env.DEMO_MODE !== 'true';
 
   const cohortMetrics = [

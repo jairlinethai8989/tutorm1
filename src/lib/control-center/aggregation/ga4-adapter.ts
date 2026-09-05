@@ -26,8 +26,8 @@ export function getZeroProgression(): ProgressionSemantics {
   const samplingConfig = getQuestionSamplingConfig();
 
   return {
-    mockExam: { started: 0, completed: 0, completionEventRatio: 0 },
-    aiPractice: { started: 0, completed: 0, completionEventRatio: 0 },
+    mockExam: { started: 0, completed: 0, completionEventRatio: null },
+    aiPractice: { started: 0, completed: 0, completionEventRatio: null },
     milestones: { questions10: 0, questions50: 0, questions100: 0 },
     activity: {
       sampledQuestionsAnswered: 0,
@@ -38,32 +38,68 @@ export function getZeroProgression(): ProgressionSemantics {
   };
 }
 
+function parseStrictNonNegativeInt(val: unknown, label: string): number {
+  if (typeof val !== 'string' && typeof val !== 'number') {
+    throw new Error(`GA4 metric value for ${label} is not a string or number`);
+  }
+  const str = String(val).trim();
+  if (!/^\d+$/.test(str)) {
+    throw new Error(`GA4 metric value "${str}" for ${label} is not a valid non-negative integer`);
+  }
+  const num = parseInt(str, 10);
+  if (!Number.isFinite(num) || num < 0) {
+    throw new Error(`GA4 metric value ${num} for ${label} is not a finite non-negative number`);
+  }
+  return num;
+}
+
 export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResult, 'source' | 'status'> {
-  if (!data.reports || !Array.isArray(data.reports) || data.reports.length < 3) {
+  if (!data || typeof data !== 'object' || !data.reports || !Array.isArray(data.reports) || data.reports.length < 3) {
     throw new Error('GA4 batchRunReports returned invalid schema: minimum 3 reports expected');
   }
 
   const [progressionReport, channelsReport, topicsReport] = data.reports;
 
+  // Validate Report 1 Headers: expected eventName dimension & eventCount metric
+  const rep1Dim = progressionReport.dimensionHeaders?.[0]?.name;
+  const rep1Metric = progressionReport.metricHeaders?.[0]?.name;
+  if (rep1Dim !== 'eventName' || rep1Metric !== 'eventCount') {
+    throw new Error(`GA4 Report 1 failed header contract: expected eventName/eventCount, got ${rep1Dim}/${rep1Metric}`);
+  }
+
+  // Validate Report 2 Headers: expected sessionDefaultChannelGroup & sessions
+  const rep2Dim = channelsReport.dimensionHeaders?.[0]?.name;
+  const rep2Metric = channelsReport.metricHeaders?.[0]?.name;
+  if (rep2Dim !== 'sessionDefaultChannelGroup' || rep2Metric !== 'sessions') {
+    throw new Error(`GA4 Report 2 failed header contract: expected sessionDefaultChannelGroup/sessions, got ${rep2Dim}/${rep2Metric}`);
+  }
+
+  // Validate Report 3 Headers: expected customEvent:subject & eventCount
+  const rep3Dim = topicsReport.dimensionHeaders?.[0]?.name;
+  const rep3Metric = topicsReport.metricHeaders?.[0]?.name;
+  if (rep3Dim !== 'customEvent:subject' || rep3Metric !== 'eventCount') {
+    throw new Error(`GA4 Report 3 failed header contract: expected customEvent:subject/eventCount, got ${rep3Dim}/${rep3Metric}`);
+  }
+
   // 1. Parse Event Progression using ACTUAL dispatched event names
   const eventCounts: Record<string, number> = {};
   for (const row of progressionReport.rows || []) {
     const eventName = row.dimensionValues?.[0]?.value;
-    const count = parseInt(row.metricValues?.[0]?.value || '0', 10);
+    const count = parseStrictNonNegativeInt(row.metricValues?.[0]?.value, `eventName:${eventName}`);
     if (eventName) eventCounts[eventName] = count;
   }
 
   const mockExamStarted = eventCounts['mock_exam_started'] || 0;
   const mockExamCompleted = eventCounts['mock_exam_completed'] || 0;
-  // True unclamped event ratio (can exceed 100%)
-  const mockExamRatio =
-    mockExamStarted > 0 ? Math.round((mockExamCompleted / mockExamStarted) * 100) : 0;
+  // True unclamped event ratio: null if started is 0; can exceed 100%
+  const mockExamRatio: number | null =
+    mockExamStarted > 0 ? Math.round((mockExamCompleted / mockExamStarted) * 100) : null;
 
   const aiPracticeStarted = eventCounts['ai_practice_started'] || 0;
   const aiPracticeCompleted = eventCounts['ai_practice_completed'] || 0;
-  // True unclamped event ratio (can exceed 100%)
-  const aiPracticeRatio =
-    aiPracticeStarted > 0 ? Math.round((aiPracticeCompleted / aiPracticeStarted) * 100) : 0;
+  // True unclamped event ratio: null if started is 0; can exceed 100%
+  const aiPracticeRatio: number | null =
+    aiPracticeStarted > 0 ? Math.round((aiPracticeCompleted / aiPracticeStarted) * 100) : null;
 
   // Centralized sampling contract
   const samplingConfig = getQuestionSamplingConfig();
@@ -96,12 +132,12 @@ export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResul
   let totalSessions = 0;
   const channelRows = channelsReport.rows || [];
   for (const row of channelRows) {
-    totalSessions += parseInt(row.metricValues?.[0]?.value || '0', 10);
+    totalSessions += parseStrictNonNegativeInt(row.metricValues?.[0]?.value, 'channelSessions');
   }
 
   const trafficChannels: TrafficChannel[] = channelRows.map((row) => {
     const channel = row.dimensionValues?.[0]?.value || 'Unassigned';
-    const sessions = parseInt(row.metricValues?.[0]?.value || '0', 10);
+    const sessions = parseStrictNonNegativeInt(row.metricValues?.[0]?.value, `channel:${channel}`);
     return {
       channel,
       sessions,
@@ -112,7 +148,7 @@ export function parseGA4BatchReports(data: GA4BatchResponse): Omit<GA4FetchResul
   // 3. Parse Authoritative Subject Attempts (Filtered strictly by attempt_completed)
   const subjectBreakdown: SubjectBreakdown[] = (topicsReport.rows || []).map((row) => {
     const subject = row.dimensionValues?.[0]?.value || 'General';
-    const completedAttempts = parseInt(row.metricValues?.[0]?.value || '0', 10);
+    const completedAttempts = parseStrictNonNegativeInt(row.metricValues?.[0]?.value, `subject:${subject}`);
     return {
       subject,
       completedAttempts,

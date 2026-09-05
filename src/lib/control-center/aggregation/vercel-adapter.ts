@@ -17,24 +17,51 @@ interface VercelAggregateResponse {
 }
 
 export function parseVercelAggregate(json: unknown): { pageViews: number; summedDailyVisitors: number } {
-  if (typeof json === 'object' && json !== null && 'data' in json) {
-    const rawData = (json as VercelAggregateResponse).data;
-    if (Array.isArray(rawData)) {
-      let pageViews = 0;
-      let summedDailyVisitors = 0;
-      for (const row of rawData) {
-        if (typeof row.pageviews === 'number') pageViews += row.pageviews;
-        if (typeof row.visitors === 'number') summedDailyVisitors += row.visitors;
+  if (typeof json !== 'object' || json === null || !('data' in json)) {
+    throw new Error('Vercel Analytics response failed schema validation: data property missing or null');
+  }
+
+  const rawData = (json as VercelAggregateResponse).data;
+
+  // Case 1: Array of daily aggregated buckets (returned when by=day is requested)
+  if (Array.isArray(rawData)) {
+    let pageViews = 0;
+    let summedDailyVisitors = 0;
+
+    for (let i = 0; i < rawData.length; i++) {
+      const row = rawData[i];
+      if (typeof row !== 'object' || row === null) {
+        throw new Error(`Vercel Analytics row ${i} is not an object`);
       }
-      return { pageViews, summedDailyVisitors };
+      if (typeof row.pageviews !== 'number' || !Number.isFinite(row.pageviews) || row.pageviews < 0) {
+        throw new Error(`Vercel Analytics row ${i} has invalid pageviews (must be finite non-negative number)`);
+      }
+      if (typeof row.visitors !== 'number' || !Number.isFinite(row.visitors) || row.visitors < 0) {
+        throw new Error(`Vercel Analytics row ${i} has invalid visitors (must be finite non-negative number)`);
+      }
+      pageViews += row.pageviews;
+      summedDailyVisitors += row.visitors;
     }
-    if (typeof rawData === 'object' && rawData !== null) {
-      if (typeof rawData.pageviews === 'number' && typeof rawData.visitors === 'number') {
-        return { pageViews: rawData.pageviews, summedDailyVisitors: rawData.visitors };
-      }
+
+    return { pageViews, summedDailyVisitors };
+  }
+
+  // Case 2: Direct aggregate object { pageviews, visitors }
+  if (typeof rawData === 'object' && rawData !== null) {
+    const obj = rawData as { pageviews?: unknown; visitors?: unknown };
+    if (
+      typeof obj.pageviews === 'number' &&
+      Number.isFinite(obj.pageviews) &&
+      obj.pageviews >= 0 &&
+      typeof obj.visitors === 'number' &&
+      Number.isFinite(obj.visitors) &&
+      obj.visitors >= 0
+    ) {
+      return { pageViews: obj.pageviews, summedDailyVisitors: obj.visitors };
     }
   }
-  throw new Error('Vercel Analytics response failed schema validation: data array or pageviews/visitors missing');
+
+  throw new Error('Vercel Analytics response failed schema validation: valid data array or pageviews/visitors missing');
 }
 
 function formatDateYYYYMMDD(d: Date): string {

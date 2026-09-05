@@ -2,12 +2,12 @@ export interface ProgressionSemantics {
   mockExam: {
     started: number;
     completed: number;
-    completionEventRatio: number; // Ratio of completed to started events in window (can exceed 100%)
+    completionEventRatio: number | null; // Same-window event ratio (null when started is 0; can exceed 100%)
   };
   aiPractice: {
     started: number;
     completed: number;
-    completionEventRatio: number; // Ratio of completed to started events in window (can exceed 100%)
+    completionEventRatio: number | null; // Same-window event ratio (null when started is 0; can exceed 100%)
   };
   milestones: {
     questions10: number;

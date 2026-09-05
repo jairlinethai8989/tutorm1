@@ -1,19 +1,32 @@
 import React from 'react';
+import { enforceServerPageAuth } from '@/lib/control-center/auth/guard';
 import { getAggregatedTelemetry } from '@/lib/control-center/aggregation/service';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ControlCenterCockpitPage() {
+  await enforceServerPageAuth('aggregate:read', '/control-center');
+
   const telemetry = await getAggregatedTelemetry('7d');
   const ga4Data = telemetry.ga4;
   const vercelData = telemetry.vercel;
 
-  const isAnyUnavailable =
-    ga4Data.status === 'DATA_SOURCE_UNAVAILABLE' ||
-    vercelData.status === 'DATA_SOURCE_UNAVAILABLE';
+  const isGa4Unavailable = ga4Data.status === 'DATA_SOURCE_UNAVAILABLE';
+  const isVercelUnavailable = vercelData.status === 'DATA_SOURCE_UNAVAILABLE';
+  const isBothUnavailable = isGa4Unavailable && isVercelUnavailable;
   const isSynthetic =
     ga4Data.source === 'synthetic_fallback' ||
     vercelData.source === 'synthetic_fallback';
+
+  const mockExamRatioText =
+    ga4Data.progression.mockExam.completionEventRatio !== null
+      ? `${ga4Data.progression.mockExam.completionEventRatio}%`
+      : 'N/A';
+
+  const aiPracticeRatioText =
+    ga4Data.progression.aiPractice.completionEventRatio !== null
+      ? `${ga4Data.progression.aiPractice.completionEventRatio}%`
+      : 'N/A';
 
   return (
     <div className="space-y-8">
@@ -29,10 +42,15 @@ export default async function ControlCenterCockpitPage() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          {isAnyUnavailable ? (
+          {isBothUnavailable ? (
             <div className="flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-3 py-1 text-rose-400">
               <span className="h-2 w-2 rounded-full bg-rose-500"></span>
-              Production Telemetry Offline (DATA_SOURCE_UNAVAILABLE)
+              All Telemetry Sources Offline (DATA_SOURCE_UNAVAILABLE)
+            </div>
+          ) : isGa4Unavailable || isVercelUnavailable ? (
+            <div className="flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-amber-400">
+              <span className="h-2 w-2 rounded-full bg-amber-400"></span>
+              Partial Telemetry Degradation (One Source Offline)
             </div>
           ) : isSynthetic ? (
             <div className="flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-amber-400">
@@ -48,14 +66,17 @@ export default async function ControlCenterCockpitPage() {
         </div>
       </div>
 
-      {isAnyUnavailable && (
+      {(isGa4Unavailable || isVercelUnavailable) && (
         <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-xs text-rose-300 space-y-1">
           <div className="font-semibold text-rose-200">
-            ⚠️ Production Telemetry Data Source Unavailable
+            ⚠️ Telemetry Data Source Notice
           </div>
           <p>
-            One or more telemetry credentials are not configured or upstream reporting endpoints are unreachable.
-            Artificial numbers are strictly suppressed in production mode.
+            {isBothUnavailable
+              ? 'Both GA4 and Vercel telemetry sources are unreachable or unconfigured. Artificial numbers are strictly suppressed in production mode.'
+              : isGa4Unavailable
+                ? 'GA4 reporting endpoints are unreachable. GA4 metrics are suppressed; Vercel web metrics continue to display.'
+                : 'Vercel Web Analytics API is unreachable. Vercel metrics are suppressed; GA4 telemetry continues to display.'}
           </p>
           {ga4Data.error && <p className="font-mono text-[11px] text-rose-400">GA4: {ga4Data.error}</p>}
           {vercelData.error && <p className="font-mono text-[11px] text-rose-400">Vercel: {vercelData.error}</p>}
@@ -74,20 +95,28 @@ export default async function ControlCenterCockpitPage() {
               Diagnostic
             </span>
           </div>
-          <div className="mt-3 text-3xl font-extrabold text-white">
-            {ga4Data.progression.mockExam.started.toLocaleString()}
-          </div>
-          <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
-            <div className="flex justify-between">
-              <span>Completed: {ga4Data.progression.mockExam.completed.toLocaleString()}</span>
-              <span className="font-semibold text-emerald-400">
-                {ga4Data.progression.mockExam.completionEventRatio}% ratio
-              </span>
+          {isGa4Unavailable ? (
+            <div className="mt-3 py-2 text-sm font-semibold text-rose-400">
+              Source Unavailable
             </div>
-            <span className="text-[10px] text-slate-500">
-              Event progression ratio in window
-            </span>
-          </div>
+          ) : (
+            <>
+              <div className="mt-3 text-3xl font-extrabold text-white">
+                {ga4Data.progression.mockExam.started.toLocaleString()}
+              </div>
+              <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
+                <div className="flex justify-between">
+                  <span>Completed: {ga4Data.progression.mockExam.completed.toLocaleString()}</span>
+                  <span className="font-semibold text-emerald-400">
+                    {mockExamRatioText} ratio
+                  </span>
+                </div>
+                <span className="text-[10px] text-slate-500">
+                  Event progression ratio in window
+                </span>
+              </div>
+            </>
+          )}
         </div>
 
         {/* AI Practice Card */}
@@ -100,20 +129,28 @@ export default async function ControlCenterCockpitPage() {
               Adaptive
             </span>
           </div>
-          <div className="mt-3 text-3xl font-extrabold text-white">
-            {ga4Data.progression.aiPractice.started.toLocaleString()}
-          </div>
-          <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
-            <div className="flex justify-between">
-              <span>Completed: {ga4Data.progression.aiPractice.completed.toLocaleString()}</span>
-              <span className="font-semibold text-amber-400">
-                {ga4Data.progression.aiPractice.completionEventRatio}% ratio
-              </span>
+          {isGa4Unavailable ? (
+            <div className="mt-3 py-2 text-sm font-semibold text-rose-400">
+              Source Unavailable
             </div>
-            <span className="text-[10px] text-slate-500">
-              Event progression ratio in window
-            </span>
-          </div>
+          ) : (
+            <>
+              <div className="mt-3 text-3xl font-extrabold text-white">
+                {ga4Data.progression.aiPractice.started.toLocaleString()}
+              </div>
+              <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
+                <div className="flex justify-between">
+                  <span>Completed: {ga4Data.progression.aiPractice.completed.toLocaleString()}</span>
+                  <span className="font-semibold text-amber-400">
+                    {aiPracticeRatioText} ratio
+                  </span>
+                </div>
+                <span className="text-[10px] text-slate-500">
+                  Event progression ratio in window
+                </span>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Vercel Visitors Card */}
@@ -126,15 +163,23 @@ export default async function ControlCenterCockpitPage() {
               Vercel Web
             </span>
           </div>
-          <div className="mt-3 text-3xl font-extrabold text-white">
-            {vercelData.summedDailyVisitors.toLocaleString()}
-          </div>
-          <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
-            <span>{vercelData.pageViews.toLocaleString()} total pageviews</span>
-            <span className="text-[10px] text-slate-500">
-              Sum of daily occurrences (daily hash rotation)
-            </span>
-          </div>
+          {isVercelUnavailable ? (
+            <div className="mt-3 py-2 text-sm font-semibold text-rose-400">
+              Source Unavailable
+            </div>
+          ) : (
+            <>
+              <div className="mt-3 text-3xl font-extrabold text-white">
+                {vercelData.summedDailyVisitors.toLocaleString()}
+              </div>
+              <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
+                <span>{vercelData.pageViews.toLocaleString()} total pageviews</span>
+                <span className="text-[10px] text-slate-500">
+                  Sum of daily occurrences (daily hash rotation)
+                </span>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Sampled Activity Card */}
@@ -147,57 +192,71 @@ export default async function ControlCenterCockpitPage() {
               Activity
             </span>
           </div>
-          <div className="mt-3 text-3xl font-extrabold text-white">
-            {ga4Data.progression.activity.sampledQuestionsAnswered.toLocaleString()}
-          </div>
-          <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
-            <span>{ga4Data.progression.activity.diagnosticViews.toLocaleString()} diagnostic views</span>
-            <span className="text-[10px] text-violet-400">
-              {ga4Data.progression.activity.samplingStatus === 'enabled_5_percent'
-                ? '5% Client-Sampled Telemetry'
-                : ga4Data.progression.activity.samplingStatus === 'custom'
-                  ? `${((ga4Data.progression.activity.samplingRate ?? 0.05) * 100).toFixed(1)}% Custom Sampled Stream`
-                  : 'Sampling Inactive'}
-            </span>
-          </div>
+          {isGa4Unavailable ? (
+            <div className="mt-3 py-2 text-sm font-semibold text-rose-400">
+              Source Unavailable
+            </div>
+          ) : (
+            <>
+              <div className="mt-3 text-3xl font-extrabold text-white">
+                {ga4Data.progression.activity.sampledQuestionsAnswered.toLocaleString()}
+              </div>
+              <div className="mt-2 flex flex-col gap-0.5 text-xs text-slate-400">
+                <span>{ga4Data.progression.activity.diagnosticViews.toLocaleString()} diagnostic views</span>
+                <span className="text-[10px] text-violet-400">
+                  {ga4Data.progression.activity.samplingStatus === 'enabled_5_percent'
+                    ? '5% Client-Sampled Telemetry'
+                    : ga4Data.progression.activity.samplingStatus === 'custom'
+                      ? `${((ga4Data.progression.activity.samplingRate ?? 0.05) * 100).toFixed(1)}% Custom Sampled Stream`
+                      : 'Sampling Inactive'}
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Lifetime Student Achievement Milestones */}
+      {/* Milestone Events Recorded (Last 7 Days) */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-white">Lifetime Student Achievement Milestones</h2>
+            <h2 className="text-lg font-bold text-white">Milestone Events Recorded (Last 7 Days)</h2>
             <p className="text-xs text-slate-400 mt-0.5">
-              Cumulative mastery milestones reached by students (independent of single-session drop-offs)
+              Question answered milestone events logged in the selected window (same-window milestone counts)
             </p>
           </div>
-          <span className="text-xs font-mono text-amber-400">Authoritative Milestone Events</span>
+          <span className="text-xs font-mono text-amber-400">Milestone Events</span>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
-            <span className="text-xs font-medium text-slate-400">10 Questions Milestone</span>
-            <div className="text-2xl font-extrabold text-amber-400">
-              {ga4Data.progression.milestones.questions10.toLocaleString()}
-            </div>
-            <span className="text-[11px] text-slate-500">Early practice habit formed</span>
+        {isGa4Unavailable ? (
+          <div className="p-6 text-center text-xs text-rose-400">
+            Milestone events unavailable while GA4 reporting is offline.
           </div>
-          <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
-            <span className="text-xs font-medium text-slate-400">50 Questions Milestone</span>
-            <div className="text-2xl font-extrabold text-amber-500">
-              {ga4Data.progression.milestones.questions50.toLocaleString()}
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
+              <span className="text-xs font-medium text-slate-400">10 Questions Milestone</span>
+              <div className="text-2xl font-extrabold text-amber-400">
+                {ga4Data.progression.milestones.questions10.toLocaleString()}
+              </div>
+              <span className="text-[11px] text-slate-500">Early practice habit formed</span>
             </div>
-            <span className="text-[11px] text-slate-500">Dedicated curriculum study</span>
-          </div>
-          <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
-            <span className="text-xs font-medium text-slate-400">100 Questions Milestone</span>
-            <div className="text-2xl font-extrabold text-orange-400">
-              {ga4Data.progression.milestones.questions100.toLocaleString()}
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
+              <span className="text-xs font-medium text-slate-400">50 Questions Milestone</span>
+              <div className="text-2xl font-extrabold text-amber-500">
+                {ga4Data.progression.milestones.questions50.toLocaleString()}
+              </div>
+              <span className="text-[11px] text-slate-500">Dedicated curriculum study</span>
             </div>
-            <span className="text-[11px] text-slate-500">Mastery scholar achievement</span>
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
+              <span className="text-xs font-medium text-slate-400">100 Questions Milestone</span>
+              <div className="text-2xl font-extrabold text-orange-400">
+                {ga4Data.progression.milestones.questions100.toLocaleString()}
+              </div>
+              <span className="text-[11px] text-slate-500">Mastery scholar achievement</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Traffic Acquisition & Authoritative Subject Attempts */}
@@ -205,26 +264,30 @@ export default async function ControlCenterCockpitPage() {
         {/* Traffic Channels */}
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg lg:col-span-1">
           <h2 className="text-lg font-bold text-white mb-4">Traffic Acquisition</h2>
-          <div className="space-y-4">
-            {ga4Data.trafficChannels.length === 0 ? (
-              <p className="text-xs text-slate-500">No channel data available for this timeframe.</p>
-            ) : (
-              ga4Data.trafficChannels.map((tc, idx) => (
-                <div key={idx} className="space-y-1">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-300">{tc.channel}</span>
-                    <span className="font-semibold text-slate-200">{tc.percentage}%</span>
+          {isGa4Unavailable ? (
+            <p className="text-xs text-rose-400">Traffic channels unavailable (GA4 offline).</p>
+          ) : (
+            <div className="space-y-4">
+              {ga4Data.trafficChannels.length === 0 ? (
+                <p className="text-xs text-slate-500">No channel data available for this timeframe.</p>
+              ) : (
+                ga4Data.trafficChannels.map((tc, idx) => (
+                  <div key={idx} className="space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-300">{tc.channel}</span>
+                      <span className="font-semibold text-slate-200">{tc.percentage}%</span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
+                      <div
+                        className="h-full rounded-full bg-cyan-500"
+                        style={{ width: `${tc.percentage}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
-                    <div
-                      className="h-full rounded-full bg-cyan-500"
-                      style={{ width: `${tc.percentage}%` }}
-                    />
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+                ))
+              )}
+            </div>
+          )}
         </div>
 
         {/* Authoritative Subject Breakdown Table */}
@@ -239,34 +302,40 @@ export default async function ControlCenterCockpitPage() {
             <span className="text-xs font-mono text-emerald-400">Zero-Fabrication Metric</span>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
-                <tr>
-                  <th className="pb-3 font-semibold">Subject</th>
-                  <th className="pb-3 font-semibold text-right">Completed Attempts</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60">
-                {ga4Data.subjectBreakdown.length === 0 ? (
+          {isGa4Unavailable ? (
+            <div className="py-6 text-center text-xs text-rose-400">
+              Subject breakdown unavailable while GA4 reporting is offline.
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead className="border-b border-slate-800 text-slate-400 uppercase tracking-wider">
                   <tr>
-                    <td colSpan={2} className="py-4 text-center text-slate-500">
-                      No completed subject attempts recorded in this timeframe.
-                    </td>
+                    <th className="pb-3 font-semibold">Subject</th>
+                    <th className="pb-3 font-semibold text-right">Completed Attempts</th>
                   </tr>
-                ) : (
-                  ga4Data.subjectBreakdown.map((sb, idx) => (
-                    <tr key={idx} className="hover:bg-slate-800/30 transition">
-                      <td className="py-3 font-medium text-slate-200">{sb.subject}</td>
-                      <td className="py-3 text-right font-semibold text-indigo-400">
-                        {sb.completedAttempts.toLocaleString()}
+                </thead>
+                <tbody className="divide-y divide-slate-800/60">
+                  {ga4Data.subjectBreakdown.length === 0 ? (
+                    <tr>
+                      <td colSpan={2} className="py-4 text-center text-slate-500">
+                        No completed subject attempts recorded in this timeframe.
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                  ) : (
+                    ga4Data.subjectBreakdown.map((sb, idx) => (
+                      <tr key={idx} className="hover:bg-slate-800/30 transition">
+                        <td className="py-3 font-medium text-slate-200">{sb.subject}</td>
+                        <td className="py-3 text-right font-semibold text-indigo-400">
+                          {sb.completedAttempts.toLocaleString()}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
 

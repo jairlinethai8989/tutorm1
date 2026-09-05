@@ -273,8 +273,28 @@ async function runTests() {
   assert(parsedVercel.pageViews === 960, 'Summed pageviews calculated correctly (250+310+400 = 960)');
   assert(parsedVercel.summedDailyVisitors === 690, 'Summed daily visitors calculated correctly (180+220+290 = 690)');
 
-  // Malformed Vercel schema
+  // Malformed Vercel schema (DATA-02)
   assertThrows(() => parseVercelAggregate({ invalid: true }), 'parseVercelAggregate rejects invalid response schema');
+  assertThrows(() => parseVercelAggregate({ data: [{}] }), 'parseVercelAggregate rejects row missing pageviews and visitors ({data:[{}]})');
+  assertThrows(() => parseVercelAggregate({ data: [{ pageviews: '12junk', visitors: 10 }] }), 'parseVercelAggregate rejects non-numeric string values');
+  assertThrows(() => parseVercelAggregate({ data: [{ pageviews: -5, visitors: 10 }] }), 'parseVercelAggregate rejects negative numbers');
+  assertThrows(() => parseVercelAggregate({ data: [{ pageviews: 10, visitors: 10 }, { pageviews: null, visitors: 10 }] }), 'parseVercelAggregate rejects mixed invalid rows');
+
+  // Empty data row contract test (valid empty result returns 0/0)
+  const emptyVercel = parseVercelAggregate({ data: [] });
+  assert(emptyVercel.pageViews === 0 && emptyVercel.summedDailyVisitors === 0, 'parseVercelAggregate valid empty array returns 0/0');
+
+  // --- Suite 9b: GA4 Schema Robustness & Malformed Payload Rejection (DATA-02) ---
+  console.log('\n--- 9b. GA4 Malformed Payload Contract Tests (DATA-02) ---');
+  assertThrows(() => parseGA4BatchReports({ reports: [{}, {}, {}] }), 'parseGA4BatchReports rejects reports missing headers ({reports:[{},{},{}]})');
+  assertThrows(() => parseGA4BatchReports({ reports: [{ dimensionHeaders: [{ name: 'wrongDim' }], metricHeaders: [{ name: 'eventCount' }] }, {}, {}] }), 'parseGA4BatchReports rejects incorrect dimension header');
+  assertThrows(() => parseGA4BatchReports({
+    reports: [
+      { dimensionHeaders: [{ name: 'eventName' }], metricHeaders: [{ name: 'eventCount' }], rows: [{ dimensionValues: [{ value: 'mock_exam_started' }], metricValues: [{ value: '-5' }] }] },
+      { dimensionHeaders: [{ name: 'sessionDefaultChannelGroup' }], metricHeaders: [{ name: 'sessions' }], rows: [] },
+      { dimensionHeaders: [{ name: 'customEvent:subject' }], metricHeaders: [{ name: 'eventCount' }], rows: [] },
+    ]
+  }), 'parseGA4BatchReports rejects negative metric count');
 
   // --- Suite 10: GA4 batchRunReports & Real Dispatched Events Mapping ---
   console.log('\n--- 10. GA4 batchRunReports Real Event Mapping & Subject Filter Tests ---');
@@ -282,6 +302,8 @@ async function runTests() {
     reports: [
       // Report 0: Progression & Milestone Events
       {
+        dimensionHeaders: [{ name: 'eventName' }],
+        metricHeaders: [{ name: 'eventCount' }],
         rows: [
           { dimensionValues: [{ value: 'mock_exam_started' }], metricValues: [{ value: '100' }] },
           { dimensionValues: [{ value: 'mock_exam_completed' }], metricValues: [{ value: '75' }] },
@@ -296,6 +318,8 @@ async function runTests() {
       },
       // Report 1: Acquisition Channels
       {
+        dimensionHeaders: [{ name: 'sessionDefaultChannelGroup' }],
+        metricHeaders: [{ name: 'sessions' }],
         rows: [
           { dimensionValues: [{ value: 'Direct' }], metricValues: [{ value: '250' }] },
           { dimensionValues: [{ value: 'Organic Search' }], metricValues: [{ value: '150' }] },
@@ -304,6 +328,8 @@ async function runTests() {
       },
       // Report 2: Authoritative Subject Attempts (Filtered strictly by attempt_completed)
       {
+        dimensionHeaders: [{ name: 'customEvent:subject' }],
+        metricHeaders: [{ name: 'eventCount' }],
         rows: [
           { dimensionValues: [{ value: 'Mathematics' }], metricValues: [{ value: '85' }] },
           { dimensionValues: [{ value: 'Science' }], metricValues: [{ value: '65' }] },
@@ -336,21 +362,27 @@ async function runTests() {
 
   // --- Suite 11: Client-Exact Sampling Contract & Unclamped Ratio Tests ---
   console.log('\n--- 11. Sampling Contract & Unclamped Ratio Tests ---');
-  // Unclamped ratio test (> 100%)
-  const unclampedFixture: GA4BatchResponse = {
+  // METRIC-01 Acceptance: started/completed pairs 0/0 and 0/5 => null; 5/0 => 0; 5/6 => 120
+  const ratioTestFixture = (started: number, completed: number): GA4BatchResponse => ({
     reports: [
       {
+        dimensionHeaders: [{ name: 'eventName' }],
+        metricHeaders: [{ name: 'eventCount' }],
         rows: [
-          { dimensionValues: [{ value: 'mock_exam_started' }], metricValues: [{ value: '50' }] },
-          { dimensionValues: [{ value: 'mock_exam_completed' }], metricValues: [{ value: '60' }] }, // 60/50 = 120%
+          ...(started > 0 ? [{ dimensionValues: [{ value: 'mock_exam_started' }], metricValues: [{ value: String(started) }] }] : []),
+          ...(completed > 0 ? [{ dimensionValues: [{ value: 'mock_exam_completed' }], metricValues: [{ value: String(completed) }] }] : []),
         ],
       },
-      { rows: [] },
-      { rows: [] },
+      { dimensionHeaders: [{ name: 'sessionDefaultChannelGroup' }], metricHeaders: [{ name: 'sessions' }], rows: [] },
+      { dimensionHeaders: [{ name: 'customEvent:subject' }], metricHeaders: [{ name: 'eventCount' }], rows: [] },
     ],
-  };
-  const unclampedResult = parseGA4BatchReports(unclampedFixture);
-  assert(unclampedResult.progression.mockExam.completionEventRatio === 120, 'completionEventRatio correctly exceeds 100% (120%) without clamping');
+  });
+
+  assert(parseGA4BatchReports(ratioTestFixture(0, 0)).progression.mockExam.completionEventRatio === null, 'Ratio 0/0 returns null');
+  assert(parseGA4BatchReports(ratioTestFixture(0, 5)).progression.mockExam.completionEventRatio === null, 'Ratio 0/5 returns null (started is 0)');
+  assert(parseGA4BatchReports(ratioTestFixture(5, 0)).progression.mockExam.completionEventRatio === 0, 'Ratio 5/0 returns 0');
+  assert(parseGA4BatchReports(ratioTestFixture(5, 6)).progression.mockExam.completionEventRatio === 120, 'Ratio 5/6 returns 120 (unclamped > 100%)');
+  assert(getZeroProgression().mockExam.completionEventRatio === null, 'getZeroProgression returns null completionEventRatio');
 
   // Sampling contract tests
   delete process.env.NEXT_PUBLIC_ENABLE_QUESTION_SAMPLING;

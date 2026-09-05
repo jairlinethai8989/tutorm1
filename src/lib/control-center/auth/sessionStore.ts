@@ -181,7 +181,11 @@ class UpstashRedisStore implements SessionStore {
   }
 
   async getCachedTelemetry(key: string): Promise<string | null> {
-    return await this.redis.get<string>(key);
+    const raw = await this.redis.get<unknown>(key);
+    if (!raw) return null;
+    if (typeof raw === 'string') return raw;
+    if (typeof raw === 'object') return JSON.stringify(raw);
+    return null;
   }
 
   async setCachedTelemetry(key: string, data: string, ttlSeconds: number): Promise<void> {
@@ -190,6 +194,10 @@ class UpstashRedisStore implements SessionStore {
 }
 
 let storeInstance: SessionStore | null = null;
+
+export function resetSessionStoreForTesting(): void {
+  storeInstance = null;
+}
 
 export function getSessionStore(): SessionStore {
   if (storeInstance) return storeInstance;

@@ -175,7 +175,8 @@ export function track<T = Record<string, unknown>>(eventName: AnalyticsEventName
       // Bypassed: rely on authoritative attempt_completed and milestones
       return;
     }
-    if (Math.random() > QUESTION_SAMPLE_RATE) {
+    // Sample in only if Math.random() < QUESTION_SAMPLE_RATE (strict probability predicate)
+    if (Math.random() >= QUESTION_SAMPLE_RATE) {
       return; // Sampled out
     }
   }
