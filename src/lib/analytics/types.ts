@@ -85,6 +85,64 @@ export interface MilestonePayload {
   achievedAt: string;
 }
 
+export interface MockExamHubViewedPayload {
+  hasSchoolFilter: boolean;
+  examCategory: string;
+  totalExamsVisible: number;
+}
+
+export interface MockExamStartedPayload {
+  examId: string;
+  examCategory: string;
+  examType: string;
+  timeLimitMinutes: number;
+}
+
+export interface MockExamCompletedPayload {
+  examId: string;
+  attemptId: string;
+  score: number;
+  durationSeconds: number;
+  totalQuestions: number;
+}
+
+export interface AIPracticeViewedPayload {
+  activeTab: string;
+  category: string;
+}
+
+export interface AIPracticeStartedPayload {
+  topicId: string;
+  subject: string;
+  templateCount: number;
+}
+
+export interface AIPracticeCompletedPayload {
+  topicId: string;
+  totalAttempted: number;
+  correctCount: number;
+}
+
+export interface AIDiagnosticViewedPayload {
+  totalAttemptsAnalyzed: number;
+  gradeFilter?: string;
+}
+
+export interface SpeedRunLobbyViewedPayload {
+  defaultMode: string;
+}
+
+export interface SpeedRunStartedPayload {
+  mode: string;
+}
+
+export interface SpeedRunCompletedPayload {
+  mode: string;
+  score: number;
+  maxCombo: number;
+  correctCount: number;
+}
+
 export interface ParentReportViewedPayload {
   examCount: number;
   hasEnoughData: boolean;

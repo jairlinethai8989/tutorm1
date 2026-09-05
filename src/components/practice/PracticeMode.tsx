@@ -82,6 +82,18 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
 
     setTemplatePool(pool);
     loadNextQuestion(pool);
+
+    // Phase B Telemetry: Track AI Practice Started (Zero-PII)
+    try {
+      const { trackAIPracticeStarted } = require('@/lib/analytics');
+      trackAIPracticeStarted({
+        topicId: topicId || 'all_topics',
+        subject: subjectId || 'mixed',
+        templateCount: pool.length,
+      });
+    } catch (e) {
+      console.debug('Telemetry trackAIPracticeStarted suppressed', e);
+    }
   }, [topicId, subjectId]);
 
   const loadNextQuestion = (pool: QuestionTemplate[] = templatePool) => {
@@ -131,6 +143,21 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
     setCorrectCount(newCorrect);
     setStreak(newStreak);
     setMaxStreak(newMaxStreak);
+
+    // Phase B Telemetry: Track question_answered (5% gated sampling, Zero-PII)
+    try {
+      const { trackQuestionAnswered } = require('@/lib/analytics');
+      trackQuestionAnswered({
+        questionId: currentQuestion.id,
+        subject: currentQuestion.subjectId || subjectId || 'math',
+        topicId: topicId || currentQuestion.topicId || 'general',
+        isCorrect: correct,
+        timeSpentSeconds: 45,
+        questionIndex: newAttempted,
+      });
+    } catch (e) {
+      console.debug('Telemetry trackQuestionAnswered suppressed', e);
+    }
 
     // Save answer into session answers
     const currentAnswer: UserAnswer = {
@@ -188,6 +215,18 @@ export const PracticeMode: React.FC<PracticeModeProps> = ({
         },
       };
       saveAttempt(attempt);
+
+      // Phase B Telemetry: Track AI Practice Completed
+      try {
+        const { trackAIPracticeCompleted } = require('@/lib/analytics');
+        trackAIPracticeCompleted({
+          topicId: topicId || subjectId || 'general',
+          totalAttempted,
+          correctCount,
+        });
+      } catch (e) {
+        console.debug('Telemetry trackAIPracticeCompleted suppressed', e);
+      }
     }
     setIsFinished(true);
   };

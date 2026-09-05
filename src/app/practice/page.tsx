@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ALL_TEMPLATES } from '@/lib/template-engine';
 import { SUBJECTS } from '@/lib/constants/subjects';
 import { PracticeMode } from '@/components/practice/PracticeMode';
+import { PracticeHubTracker } from '@/components/practice/PracticeHubTracker';
 import { ExamStrategicGuide } from '@/components/guide/ExamStrategicGuide';
 import { Sparkles, ArrowLeft, Layers, ArrowRight, Dna } from 'lucide-react';
 
@@ -12,6 +13,7 @@ export default function PracticeHubPage() {
 
   return (
     <div className="space-y-8 pb-16">
+      <PracticeHubTracker />
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors"

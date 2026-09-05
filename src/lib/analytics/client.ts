@@ -15,6 +15,16 @@ import {
   QuestionAnsweredPayload,
   MilestonePayload,
   ParentReportViewedPayload,
+  MockExamHubViewedPayload,
+  MockExamStartedPayload,
+  MockExamCompletedPayload,
+  AIPracticeViewedPayload,
+  AIPracticeStartedPayload,
+  AIPracticeCompletedPayload,
+  AIDiagnosticViewedPayload,
+  SpeedRunLobbyViewedPayload,
+  SpeedRunStartedPayload,
+  SpeedRunCompletedPayload,
 } from './types';
 import { getOrCreateAnonymousId, getOrCreateSessionId, detectDeviceType } from './identity';
 import { captureAndPersistUTM, getFirstTouchAttribution } from './utm';
@@ -83,7 +93,7 @@ const EVENT_ALLOWLISTS: Partial<Record<AnalyticsEventName, string[]>> = {
   ai_practice_completed: ['topicId', 'totalAttempted', 'correctCount'],
   mock_exam_hub_viewed: ['hasSchoolFilter', 'examCategory', 'totalExamsVisible'],
   mock_exam_started: ['examId', 'examCategory', 'examType', 'timeLimitMinutes'],
-  mock_exam_completed: ['examId', 'score', 'durationSeconds', 'totalQuestions'],
+  mock_exam_completed: ['examId', 'attemptId', 'score', 'durationSeconds', 'totalQuestions'],
   speed_run_lobby_viewed: ['defaultMode'],
   speed_run_started: ['mode'],
   speed_run_completed: ['mode', 'score', 'maxCombo', 'correctCount'],
@@ -204,11 +214,11 @@ export function trackAttemptCompleted(payload: AttemptCompletedPayload): boolean
   if (!payload || !payload.attemptId) return false;
 
   // Prevent duplicate event dispatches for the same attempt
-  if (isAttemptAlreadyTracked(payload.attemptId)) {
+  if (isAttemptAlreadyTracked(payload.attemptId, 'attempt_completed')) {
     return false;
   }
 
-  markAttemptAsTracked(payload.attemptId);
+  markAttemptAsTracked(payload.attemptId, 'attempt_completed');
   track<AttemptCompletedPayload>('attempt_completed', payload);
   return true;
 }
@@ -224,18 +234,90 @@ export function trackQuestionAnswered(payload: QuestionAnsweredPayload): void {
  * Track milestone achievement (10, 50, or 100 questions answered)
  */
 export function trackMilestone(milestone: 10 | 50 | 100, totalQuestionsAnswered: number): void {
-  const eventName: AnalyticsEventName =
-    milestone === 10
-      ? 'questions_10_milestone'
-      : milestone === 50
-      ? 'questions_50_milestone'
-      : 'questions_100_milestone';
-
+  const eventName = `questions_${milestone}_milestone` as AnalyticsEventName;
   track<MilestonePayload>(eventName, {
     milestone,
     totalQuestionsAnswered,
     achievedAt: new Date().toISOString(),
   });
+}
+
+/**
+ * Track Mock Exam Hub View
+ */
+export function trackMockExamHubViewed(payload: MockExamHubViewedPayload): void {
+  track<MockExamHubViewedPayload>('mock_exam_hub_viewed', payload);
+}
+
+/**
+ * Track Mock Exam Started
+ */
+export function trackMockExamStarted(payload: MockExamStartedPayload): void {
+  track<MockExamStartedPayload>('mock_exam_started', payload);
+}
+
+/**
+ * Track Mock Exam Completed with Idempotency Guard
+ */
+export function trackMockExamCompleted(payload: MockExamCompletedPayload): boolean {
+  if (!payload || !payload.attemptId) return false;
+
+  if (isAttemptAlreadyTracked(payload.attemptId, 'mock_exam_completed')) {
+    return false;
+  }
+
+  markAttemptAsTracked(payload.attemptId, 'mock_exam_completed');
+  track<MockExamCompletedPayload>('mock_exam_completed', payload);
+  return true;
+}
+
+/**
+ * Track AI Practice Hub View
+ */
+export function trackAIPracticeViewed(payload: AIPracticeViewedPayload): void {
+  track<AIPracticeViewedPayload>('ai_practice_viewed', payload);
+}
+
+/**
+ * Track AI Practice Started
+ */
+export function trackAIPracticeStarted(payload: AIPracticeStartedPayload): void {
+  track<AIPracticeStartedPayload>('ai_practice_started', payload);
+}
+
+/**
+ * Track AI Practice Completed
+ */
+export function trackAIPracticeCompleted(payload: AIPracticeCompletedPayload): void {
+  track<AIPracticeCompletedPayload>('ai_practice_completed', payload);
+}
+
+/**
+ * Track AI Diagnostic Viewed
+ */
+export function trackAIDiagnosticViewed(payload: AIDiagnosticViewedPayload): void {
+  track<AIDiagnosticViewedPayload>('ai_diagnostic_viewed', payload);
+}
+
+/**
+ * Track Speed Run Lobby Viewed
+ */
+export function trackSpeedRunLobbyViewed(payload: SpeedRunLobbyViewedPayload): void {
+  track<SpeedRunLobbyViewedPayload>('speed_run_lobby_viewed', payload);
+}
+
+/**
+ * Track Speed Run Started
+ */
+export function trackSpeedRunStarted(payload: SpeedRunStartedPayload): void {
+  track<SpeedRunStartedPayload>('speed_run_started', payload);
+}
+
+/**
+ * Track Speed Run Completed
+ */
+export function trackSpeedRunCompleted(payload: SpeedRunCompletedPayload): void {
+  track<SpeedRunCompletedPayload>('speed_run_completed', payload);
 }
 
 /**

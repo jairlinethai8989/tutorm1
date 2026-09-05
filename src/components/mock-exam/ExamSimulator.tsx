@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { MockExam } from '@/types/exam';
 import { Question } from '@/types/question';
@@ -62,6 +62,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   const [hasSavedSession, setHasSavedSession] = useState<boolean>(false);
   const [savedSessionInfo, setSavedSessionInfo] = useState<{ answeredCount: number; remainingTime: number } | null>(null);
   const [isAITutorOpen, setIsAITutorOpen] = useState<boolean>(false);
+  const isSubmittingRef = useRef<boolean>(false);
 
   // User answers state
   const [answers, setAnswers] = useState<
@@ -122,6 +123,21 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
     }
   }, [hasStarted, isFinished, answers, secondsRemaining, currentIndex, activeExamStorageKey]);
 
+  // Phase B Telemetry: Helper to track mock_exam_started with Zero-PII
+  const triggerExamStartedTelemetry = () => {
+    try {
+      const { trackMockExamStarted } = require('@/lib/analytics');
+      trackMockExamStarted({
+        examId: exam.id,
+        examCategory: exam.subjectId || 'general',
+        examType: 'mock_exam',
+        timeLimitMinutes: exam.timeLimitMinutes,
+      });
+    } catch (e) {
+      console.debug('Telemetry trackMockExamStarted suppressed', e);
+    }
+  };
+
   // Resume saved session handler
   const handleResumeSavedSession = () => {
     if (typeof window !== 'undefined') {
@@ -134,6 +150,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
           if (parsed.currentIndex !== undefined) setCurrentIndex(parsed.currentIndex);
           setHasStarted(true);
           setIsPaused(false);
+          triggerExamStartedTelemetry();
           return;
         }
       } catch (e) {
@@ -141,6 +158,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
       }
     }
     setHasStarted(true);
+    triggerExamStartedTelemetry();
   };
 
   // Clear saved session and start fresh
@@ -154,7 +172,9 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
     setSecondsRemaining(exam.timeLimitMinutes * 60);
     setCurrentIndex(0);
     setHasSavedSession(false);
+    isSubmittingRef.current = false;
     setHasStarted(true);
+    triggerExamStartedTelemetry();
   };
 
   // Countdown timer
@@ -211,6 +231,10 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   };
 
   const handleSubmitExam = () => {
+    // Synchronous idempotency guard to prevent race conditions on rapid double-clicks or timeout clashes
+    if (isSubmittingRef.current || isFinished) return;
+    isSubmittingRef.current = true;
+
     setShowConfirmModal(false);
     setIsFinished(true);
     setIsPaused(false);
@@ -236,6 +260,20 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
 
     setAttemptResult(summary);
     saveAttempt(summary);
+
+    // Phase B Telemetry: Track Mock Exam Completed (bound to authoritative attemptId)
+    try {
+      const { trackMockExamCompleted } = require('@/lib/analytics');
+      trackMockExamCompleted({
+        examId: exam.id,
+        attemptId: summary.id,
+        score: summary.totalScore || 0,
+        durationSeconds: timeSpent,
+        totalQuestions: questions.length,
+      });
+    } catch (e) {
+      console.debug('Telemetry trackMockExamCompleted suppressed', e);
+    }
 
     if (summary.scorePercentage >= exam.passingScorePercent) {
       try {
@@ -362,6 +400,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
                 setIsNameModalOpen(true);
               } else {
                 setHasStarted(true);
+                triggerExamStartedTelemetry();
               }
             }}
             className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-base shadow-lg shadow-blue-500/25 hover:scale-105 transition-all cursor-pointer"
@@ -378,6 +417,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             setStudentName(name);
             setIsNameModalOpen(false);
             setHasStarted(true);
+            triggerExamStartedTelemetry();
           }}
           title="ระบุชื่อผู้เรียนก่อนเข้าห้องสอบ"
           subtitle={`กำลังจะเข้าสอบ: ${exam.name}`}

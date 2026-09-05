@@ -31,7 +31,16 @@ export const ParentReportDashboard: React.FC = () => {
   const [isPrintModalOpen, setIsPrintModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    setReport(generateParentDiagnosticReport());
+    const data = generateParentDiagnosticReport();
+    setReport(data);
+
+    // Phase B Telemetry: Track Parent Report Viewed (Zero-PII Aggregate Only)
+    try {
+      const { trackParentReportViewed } = require('@/lib/analytics');
+      trackParentReportViewed(data?.totalExamsDone || 0, (data?.totalExamsDone || 0) > 0);
+    } catch (e) {
+      console.debug('Telemetry trackParentReportViewed suppressed', e);
+    }
   }, []);
 
   if (!report) {
