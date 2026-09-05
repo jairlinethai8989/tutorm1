@@ -1,0 +1,7 @@
+[mcp_servers.tutorm1-review]
+command = "C:/Program Files/nodejs/node.exe"
+args = ["D:/Project APP/AntiGravity/Tutor M1/tools/mcp/server.mjs"]
+cwd = "D:/Project APP/AntiGravity/Tutor M1"
+enabled_tools = ["repo_status", "list_review_files", "read_committed_file", "diff_committed_file"]
+startup_timeout_sec = 20
+tool_timeout_sec = 45
