@@ -93,7 +93,7 @@ const EVENT_ALLOWLISTS: Partial<Record<AnalyticsEventName, string[]>> = {
   ai_practice_completed: ['topicId', 'totalAttempted', 'correctCount'],
   mock_exam_hub_viewed: ['hasSchoolFilter', 'examCategory', 'totalExamsVisible'],
   mock_exam_started: ['examId', 'examCategory', 'examType', 'timeLimitMinutes'],
-  mock_exam_completed: ['examId', 'score', 'durationSeconds', 'totalQuestions'],
+  mock_exam_completed: ['examId', 'attemptId', 'score', 'durationSeconds', 'totalQuestions'],
   speed_run_lobby_viewed: ['defaultMode'],
   speed_run_started: ['mode'],
   speed_run_completed: ['mode', 'score', 'maxCombo', 'correctCount'],
@@ -263,10 +263,17 @@ export function trackMockExamStarted(payload: MockExamStartedPayload): void {
 }
 
 /**
- * Track Mock Exam Completed
+ * Track Mock Exam Completed with Idempotency Guard
  */
-export function trackMockExamCompleted(payload: MockExamCompletedPayload): void {
+export function trackMockExamCompleted(payload: MockExamCompletedPayload): boolean {
+  if (payload.attemptId) {
+    if (isAttemptAlreadyTracked(payload.attemptId)) {
+      return false;
+    }
+    markAttemptAsTracked(payload.attemptId);
+  }
   track<MockExamCompletedPayload>('mock_exam_completed', payload);
+  return true;
 }
 
 /**

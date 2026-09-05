@@ -50,9 +50,10 @@ export const AIDiagnosticHub: React.FC = () => {
     // Phase B Telemetry: Track AI Diagnostic Viewed (Zero-PII)
     try {
       const { trackAIDiagnosticViewed } = require('@/lib/analytics');
-      const data = generateAIDiagnosticReport();
+      const { getStoredAttempts } = require('@/lib/storage');
+      const persistedAttempts = getStoredAttempts();
       trackAIDiagnosticViewed({
-        totalAttemptsAnalyzed: (data?.totalMockExamsDone || 0) + (data?.totalQuestionsAnalyzed ? 1 : 0),
+        totalAttemptsAnalyzed: Array.isArray(persistedAttempts) ? persistedAttempts.length : 0,
         gradeFilter: 'm1',
       });
     } catch (e) {

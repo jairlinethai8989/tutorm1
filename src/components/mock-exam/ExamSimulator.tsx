@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { MockExam } from '@/types/exam';
 import { Question } from '@/types/question';
@@ -62,6 +62,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   const [hasSavedSession, setHasSavedSession] = useState<boolean>(false);
   const [savedSessionInfo, setSavedSessionInfo] = useState<{ answeredCount: number; remainingTime: number } | null>(null);
   const [isAITutorOpen, setIsAITutorOpen] = useState<boolean>(false);
+  const isSubmittingRef = useRef<boolean>(false);
 
   // User answers state
   const [answers, setAnswers] = useState<
@@ -171,6 +172,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
     setSecondsRemaining(exam.timeLimitMinutes * 60);
     setCurrentIndex(0);
     setHasSavedSession(false);
+    isSubmittingRef.current = false;
     setHasStarted(true);
     triggerExamStartedTelemetry();
   };
@@ -229,6 +231,10 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   };
 
   const handleSubmitExam = () => {
+    // Synchronous idempotency guard to prevent race conditions on rapid double-clicks or timeout clashes
+    if (isSubmittingRef.current || isFinished) return;
+    isSubmittingRef.current = true;
+
     setShowConfirmModal(false);
     setIsFinished(true);
     setIsPaused(false);
@@ -255,11 +261,12 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
     setAttemptResult(summary);
     saveAttempt(summary);
 
-    // Phase B Telemetry: Track Mock Exam Completed
+    // Phase B Telemetry: Track Mock Exam Completed (bound to authoritative attemptId)
     try {
       const { trackMockExamCompleted } = require('@/lib/analytics');
       trackMockExamCompleted({
         examId: exam.id,
+        attemptId: summary.id,
         score: summary.totalScore || 0,
         durationSeconds: timeSpent,
         totalQuestions: questions.length,
