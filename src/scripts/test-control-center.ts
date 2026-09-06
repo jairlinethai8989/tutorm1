@@ -168,8 +168,9 @@ async function runTests() {
 
   // --- Suite 5: NIST AAL2 AMR Multi-Factor Verification ---
   console.log('\n--- 5. Google NIST AAL2 Multi-Factor Policy Tests ---');
-  assert(!verifyGoogleMFA({}).isValid, 'Empty claims rejected (no AMR)');
-  assert(!verifyGoogleMFA({ amr: [] }).isValid, 'Empty AMR array rejected');
+  process.env.CONTROL_CENTER_REQUIRE_MFA = 'true';
+  assert(!verifyGoogleMFA({}).isValid, 'Empty claims rejected when MFA required (no AMR)');
+  assert(!verifyGoogleMFA({ amr: [] }).isValid, 'Empty AMR array rejected when MFA required');
   assert(!verifyGoogleMFA({ amr: ['pwd'] }).isValid, 'Single factor password rejected');
   assert(!verifyGoogleMFA({ amr: ['otp'] }).isValid, 'Single factor OTP rejected');
   assert(verifyGoogleMFA({ amr: ['mfa'] }).isValid, 'Explicit mfa indicator accepted');
@@ -179,6 +180,10 @@ async function runTests() {
   assert(verifyGoogleMFA({ amr: ['pwd', 'sms'] }).isValid, 'Knowledge + Possession (pwd + sms) accepted');
   assert(verifyGoogleMFA({ amr: ['pwd', 'swk'] }).isValid, 'Knowledge + Possession (pwd + swk) accepted');
   assert(verifyGoogleMFA({ amr: ['pwd', 'tel'] }).isValid, 'Knowledge + Possession (pwd + tel) accepted');
+
+  delete process.env.CONTROL_CENTER_REQUIRE_MFA;
+  assert(verifyGoogleMFA({}).isValid, 'Standard consumer login permitted when AMR omitted and REQUIRE_MFA unset');
+  assert(!verifyGoogleMFA({ amr: ['pwd'] }).isValid, 'Single factor still rejected if AMR is explicitly provided');
 
   // --- Suite 6: Dual Session Lifetime Enforcement ---
   console.log('\n--- 6. Dual Session Lifetime Tests ---');

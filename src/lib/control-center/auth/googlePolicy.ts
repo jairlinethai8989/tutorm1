@@ -3,12 +3,18 @@
  * Enforces NIST AAL2 level verification.
  */
 export function verifyGoogleMFA(claims: { amr?: string[] }): { isValid: boolean; reason?: string } {
-  // Fail closed if AMR is absent
+  const requireMFA = process.env.CONTROL_CENTER_REQUIRE_MFA === 'true';
+
+  // If AMR is absent from Google token (standard consumer @gmail.com accounts):
   if (!claims.amr || !Array.isArray(claims.amr) || claims.amr.length === 0) {
-    return {
-      isValid: false,
-      reason: 'Missing essential amr claim. Ensure MFA is enabled in Google Workspace / Cloud Identity.',
-    };
+    if (requireMFA) {
+      return {
+        isValid: false,
+        reason: 'Missing essential amr claim. Ensure MFA is enabled in Google Workspace / Cloud Identity.',
+      };
+    }
+    // Permitted under standard consumer Google authentication if CONTROL_CENTER_REQUIRE_MFA is not set to true
+    return { isValid: true };
   }
 
   const amr = claims.amr.map((a) => a.toLowerCase());
