@@ -52,12 +52,10 @@ export async function verifyGoogleIdTokenCryptographically(
     throw new Error('OIDC verification failed: Mismatched or missing nonce claim');
   }
 
-  // 4. auth_time existence and sanity check
-  if (!claims.auth_time || typeof claims.auth_time !== 'number') {
-    throw new Error('OIDC verification failed: Missing essential auth_time claim');
-  }
+  // 4. auth_time existence and sanity check (fallback to iat if omitted by Google IdP)
+  const effectiveAuthTime = typeof claims.auth_time === 'number' ? claims.auth_time : claims.iat;
   const currentEpoch = Math.floor(Date.now() / 1000);
-  if (claims.auth_time > currentEpoch + 30) {
+  if (effectiveAuthTime > currentEpoch + 30) {
     throw new Error('OIDC verification failed: auth_time cannot be in the future');
   }
 
