@@ -135,7 +135,7 @@ export async function GET(req: NextRequest) {
     );
 
     return NextResponse.redirect(
-      new URL('/control-center/login?error=identity_not_authorized', req.url)
+      new URL(`/control-center/login?error=identity_not_authorized&sub=${encodeURIComponent(claims.sub)}`, req.url)
     );
   }
 

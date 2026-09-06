@@ -50,8 +50,14 @@ export default async function ControlCenterLoginPage({
         )}
 
         {errorMessage && (
-          <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-400">
-            {errorMessage}
+          <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-400 space-y-2">
+            <div>{errorMessage}</div>
+            {typeof params.sub === 'string' && (
+              <div className="mt-2 rounded bg-black/40 p-2 font-mono text-[11px] text-amber-300 select-all break-all border border-amber-500/20">
+                <span className="text-slate-400 block text-[10px] uppercase tracking-wider mb-1">Your Google Subject ID:</span>
+                {params.sub}
+              </div>
+            )}
           </div>
         )}
 
