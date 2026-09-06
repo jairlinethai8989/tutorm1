@@ -35,6 +35,7 @@ function buildGoogleAuthUrl(state: string, nonce: string, codeChallenge: string)
     code_challenge: codeChallenge,
     code_challenge_method: 'S256',
     prompt: 'select_account',
+    max_age: '28800',
     claims: claimsParam,
   });
 
