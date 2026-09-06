@@ -43,26 +43,26 @@ export default async function ProtectedControlCenterLayout({
                 href="/control-center"
                 className="rounded-md px-3 py-1.5 text-slate-300 hover:text-white hover:bg-slate-800/60 transition"
               >
-                Cockpit
+                ภาพรวม (Cockpit)
               </Link>
               <Link
                 href="/control-center/funnels"
                 className="rounded-md px-3 py-1.5 text-slate-300 hover:text-white hover:bg-slate-800/60 transition"
               >
-                Progression Funnels
+                กรวยวัดผล (Funnels)
               </Link>
               <Link
                 href="/control-center/retention"
                 className="rounded-md px-3 py-1.5 text-slate-300 hover:text-white hover:bg-slate-800/60 transition"
               >
-                Practice Habits
+                พฤติกรรมการเรียน (Habits)
               </Link>
               {isAdmin && (
                 <Link
                   href="/control-center/audit"
                   className="rounded-md px-3 py-1.5 text-slate-300 hover:text-white hover:bg-slate-800/60 transition"
                 >
-                  Audit Stream
+                  ความปลอดภัย (Audit)
                 </Link>
               )}
             </nav>
@@ -78,7 +78,7 @@ export default async function ProtectedControlCenterLayout({
                   }`}
                 />
                 <span className="text-[10px] uppercase font-semibold text-slate-400">
-                  {session.role.replace('_', ' ')}
+                  {isAdmin ? 'ผู้ดูแลระบบ (ADMIN)' : 'ผู้ดูข้อมูล (VIEWER)'}
                 </span>
               </div>
             </div>
@@ -87,7 +87,7 @@ export default async function ProtectedControlCenterLayout({
               href="/api/control-center/auth/logout"
               className="rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300 hover:bg-slate-700 hover:text-white transition active:scale-95"
             >
-              Sign out
+              ออกจากระบบ (Sign out)
             </a>
           </div>
         </div>

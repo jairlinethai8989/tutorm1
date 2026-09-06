@@ -28,10 +28,10 @@ export default async function FunnelsPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Event Progression &amp; Milestone Analytics
+            กรวยวัดความก้าวหน้าและหมุดหมาย (Progression Funnels)
           </h1>
           <p className="text-sm text-slate-400 mt-1">
-            Same-window event progression ratios and cumulative student achievement milestones (Last 7 Days)
+            อัตราส่วนการทำข้อสอบจนจบ และเป้าหมายความสำเร็จของนักเรียน (ย้อนหลัง 7 วัน)
           </p>
         </div>
 
@@ -39,17 +39,17 @@ export default async function FunnelsPage() {
           {isUnavailable ? (
             <div className="flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-3 py-1 text-rose-400">
               <span className="h-2 w-2 rounded-full bg-rose-500"></span>
-              GA4 Telemetry Offline (DATA_SOURCE_UNAVAILABLE)
+              แหล่งข้อมูล GA4 ออฟไลน์ (DATA_SOURCE_UNAVAILABLE)
             </div>
           ) : isSynthetic ? (
             <div className="flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-amber-400">
               <span className="h-2 w-2 rounded-full bg-amber-400"></span>
-              Demo / Sandbox Mode (Calibrated Baseline)
+              โหมดทดสอบจำลอง (Demo Baseline)
             </div>
           ) : (
             <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-emerald-400">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              Live Telemetry: GA4 batchRunReports
+              เชื่อมต่อข้อมูลสด (Live GA4)
             </div>
           )}
         </div>
@@ -63,10 +63,9 @@ export default async function FunnelsPage() {
             </svg>
           </div>
           <div className="space-y-2">
-            <h2 className="text-lg font-bold text-white">GA4 Telemetry Source Unavailable</h2>
+            <h2 className="text-lg font-bold text-white">แหล่งข้อมูล GA4 ยังไม่พร้อมใช้งาน</h2>
             <p className="max-w-xl mx-auto text-xs text-slate-400 leading-relaxed">
-              Upstream Google Analytics 4 credentials are not configured or the reporting service is unreachable.
-              Numeric event progression counts and ratios are suppressed to prevent zero-fabrication.
+              ยังไม่ได้ตั้งค่า Credentials หรือปลายทางไม่สามารถเชื่อมต่อได้ ระบบระงับการแสดงตัวเลขเพื่อความถูกต้องตามนโยบาย Zero-Fabrication
             </p>
             {ga4Data.error && (
               <p className="font-mono text-xs text-rose-400 mt-2">Error: {ga4Data.error}</p>
@@ -79,44 +78,47 @@ export default async function FunnelsPage() {
           <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg space-y-6">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div>
-                <h2 className="text-lg font-bold text-white">Mock Exam Journey</h2>
+                <h2 className="text-lg font-bold text-white">เส้นทางการทำข้อสอบจำลอง ม.1 (Mock Exam Journey)</h2>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Flow: Exam Started &rarr; Exam Completed &rarr; Diagnostic Report Viewed
+                  ขั้นตอน: เริ่มทำข้อสอบ &rarr; ส่งข้อสอบจนจบชุด &rarr; เปิดดูผลวิเคราะห์จุดอ่อน
                 </p>
               </div>
               <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-400">
-                Event Progression Ratio: {mockExamRatioText}
+                อัตราส่วนทำจบ: {mockExamRatioText}
               </span>
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
-                <span className="text-xs font-mono text-slate-400">EVENT 01</span>
-                <div className="text-sm font-bold text-white">Mock Exam Started</div>
+                <span className="text-xs font-mono text-slate-400">ขั้นที่ 1 (START)</span>
+                <div className="text-sm font-bold text-white">เริ่มทำข้อสอบจำลอง</div>
                 <div className="text-3xl font-extrabold text-slate-100">
                   {progression.mockExam.started.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">ครั้ง</span>
                 </div>
-                <div className="text-[11px] text-slate-500">Initiated exam sessions</div>
+                <div className="text-[11px] text-slate-500">จำนวนรอบการสอบที่ถูกเปิดเริ่มทำ</div>
               </div>
 
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
-                <span className="text-xs font-mono text-slate-400">EVENT 02</span>
-                <div className="text-sm font-bold text-white">Mock Exam Completed</div>
+                <span className="text-xs font-mono text-slate-400">ขั้นที่ 2 (COMPLETE)</span>
+                <div className="text-sm font-bold text-white">ส่งข้อสอบจนเสร็จสมบูรณ์</div>
                 <div className="text-3xl font-extrabold text-indigo-400">
                   {progression.mockExam.completed.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">ครั้ง</span>
                 </div>
                 <div className="text-[11px] text-slate-500">
-                  {mockExamRatioText} same-window event ratio
+                  คิดเป็นอัตราส่วนทำจบ {mockExamRatioText} ในช่วงเวลา
                 </div>
               </div>
 
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
-                <span className="text-xs font-mono text-slate-400">EVENT 03</span>
-                <div className="text-sm font-bold text-white">AI Diagnostic Viewed</div>
+                <span className="text-xs font-mono text-slate-400">ขั้นที่ 3 (DIAGNOSIS)</span>
+                <div className="text-sm font-bold text-white">เปิดดูผลวิเคราะห์ AI รายบุคคล</div>
                 <div className="text-3xl font-extrabold text-violet-400">
                   {progression.activity.diagnosticViews.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">ครั้ง</span>
                 </div>
-                <div className="text-[11px] text-slate-500">Diagnostic reports inspected</div>
+                <div className="text-[11px] text-slate-500">รายงานวิเคราะห์จุดอ่อนที่เด็กเปิดดู</div>
               </div>
             </div>
           </div>
@@ -125,49 +127,52 @@ export default async function FunnelsPage() {
           <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg space-y-6">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div>
-                <h2 className="text-lg font-bold text-white">AI Practice Journey</h2>
+                <h2 className="text-lg font-bold text-white">เส้นทางการฝึกฝนโจทย์ AI (AI Practice Journey)</h2>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Flow: Practice Started &rarr; Practice Completed &bull; In-flight Sampled Telemetry
+                  ขั้นตอน: เริ่มฝึกฝน &rarr; ฝึกจบชุด &bull; ระบบสุ่มเก็บสถิติเรียลไทม์
                 </p>
               </div>
               <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400">
-                Event Progression Ratio: {aiPracticeRatioText}
+                อัตราส่วนฝึกจบ: {aiPracticeRatioText}
               </span>
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
-                <span className="text-xs font-mono text-slate-400">EVENT 01</span>
-                <div className="text-sm font-bold text-white">Practice Started</div>
+                <span className="text-xs font-mono text-slate-400">ขั้นที่ 1 (START)</span>
+                <div className="text-sm font-bold text-white">เริ่มรอบฝึกฝน</div>
                 <div className="text-3xl font-extrabold text-slate-100">
                   {progression.aiPractice.started.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">รอบ</span>
                 </div>
-                <div className="text-[11px] text-slate-500">Practice sessions initiated</div>
+                <div className="text-[11px] text-slate-500">จำนวนรอบการฝึกฝนที่เริ่มทำ</div>
               </div>
 
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
-                <span className="text-xs font-mono text-slate-400">EVENT 02</span>
-                <div className="text-sm font-bold text-white">Practice Completed</div>
+                <span className="text-xs font-mono text-slate-400">ขั้นที่ 2 (COMPLETE)</span>
+                <div className="text-sm font-bold text-white">ฝึกฝนจบครบชุด</div>
                 <div className="text-3xl font-extrabold text-amber-400">
                   {progression.aiPractice.completed.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">รอบ</span>
                 </div>
                 <div className="text-[11px] text-slate-500">
-                  {aiPracticeRatioText} same-window event ratio
+                  คิดเป็นอัตราส่วนฝึกจบ {aiPracticeRatioText} ในช่วงเวลา
                 </div>
               </div>
 
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
-                <span className="text-xs font-mono text-slate-400">ACTIVITY</span>
-                <div className="text-sm font-bold text-white">Sampled Answers</div>
+                <span className="text-xs font-mono text-slate-400">กิจกรรม (ACTIVITY)</span>
+                <div className="text-sm font-bold text-white">คำตอบที่บันทึก (Sampled)</div>
                 <div className="text-3xl font-extrabold text-cyan-400">
                   {progression.activity.sampledQuestionsAnswered.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">ข้อ</span>
                 </div>
                 <div className="text-[11px] text-slate-500">
                   {progression.activity.samplingStatus === 'enabled_5_percent'
-                    ? '5% Client-Sampled Stream'
+                    ? 'สุ่มเก็บสถิติ 5% จากฝั่งผู้ใช้'
                     : progression.activity.samplingStatus === 'custom'
-                      ? `${((progression.activity.samplingRate ?? 0.05) * 100).toFixed(1)}% Custom Stream`
-                      : 'Sampling Inactive'}
+                      ? `สุ่มเก็บสถิติ ${((progression.activity.samplingRate ?? 0.05) * 100).toFixed(1)}%`
+                      : 'โหมดตรวจนับปกติ'}
                 </div>
               </div>
             </div>
@@ -176,35 +181,38 @@ export default async function FunnelsPage() {
           {/* Milestone Events Recorded in Window */}
           <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg space-y-4">
             <div>
-              <h2 className="text-lg font-bold text-white">Milestone Events Recorded (Last 7 Days)</h2>
+              <h2 className="text-lg font-bold text-white">หมุดหมายการทำโจทย์สะสม (Milestones)</h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Question answered milestone events logged in the selected window (same-window milestone counts)
+                จำนวนครั้งที่นักเรียนทำโจทย์สะสมถึงเป้าหมายที่กำหนด (ย้อนหลัง 7 วัน)
               </p>
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
-                <span className="text-xs font-medium text-slate-400">10 Questions Milestone</span>
+                <span className="text-xs font-medium text-slate-400">เป้าหมาย 10 ข้อ (Milestone 10)</span>
                 <div className="text-2xl font-extrabold text-amber-400">
                   {progression.milestones.questions10.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">คน</span>
                 </div>
-                <span className="text-[11px] text-slate-500">Early practice habit established</span>
+                <span className="text-[11px] text-slate-500">เริ่มสร้างนิสัยความสม่ำเสมอ</span>
               </div>
 
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
-                <span className="text-xs font-medium text-slate-400">50 Questions Milestone</span>
+                <span className="text-xs font-medium text-slate-400">เป้าหมาย 50 ข้อ (Milestone 50)</span>
                 <div className="text-2xl font-extrabold text-amber-500">
                   {progression.milestones.questions50.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">คน</span>
                 </div>
-                <span className="text-[11px] text-slate-500">Persistent revision mastery</span>
+                <span className="text-[11px] text-slate-500">มุ่งมั่นทบทวนเนื้อหาอย่างจริงจัง</span>
               </div>
 
               <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1">
-                <span className="text-xs font-medium text-slate-400">100 Questions Milestone</span>
+                <span className="text-xs font-medium text-slate-400">เป้าหมาย 100 ข้อ (Milestone 100)</span>
                 <div className="text-2xl font-extrabold text-orange-400">
                   {progression.milestones.questions100.toLocaleString()}
+                  <span className="text-xs font-normal text-slate-400 ml-1.5">คน</span>
                 </div>
-                <span className="text-[11px] text-slate-500">Advanced scholar marathon</span>
+                <span className="text-[11px] text-slate-500">ระดับเชี่ยวชาญ / ทำโจทย์มาราธอน</span>
               </div>
             </div>
           </div>

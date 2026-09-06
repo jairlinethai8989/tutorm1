@@ -40,7 +40,7 @@ export default async function ControlCenterLoginPage({
             </svg>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white">Tutor M.1 Control Center</h1>
-          <p className="text-sm text-slate-400">Executive Growth &amp; Telemetry Cockpit</p>
+          <p className="text-sm text-slate-400">ศูนย์บริหารและวิเคราะห์ข้อมูลการเรียนรู้ (Executive Growth &amp; Telemetry Cockpit)</p>
         </div>
 
         {status === 'logged_out' && (
@@ -54,7 +54,7 @@ export default async function ControlCenterLoginPage({
             <div>{errorMessage}</div>
             {typeof params.sub === 'string' && (
               <div className="mt-2 rounded bg-black/40 p-2 font-mono text-[11px] text-amber-300 select-all break-all border border-amber-500/20">
-                <span className="text-slate-400 block text-[10px] uppercase tracking-wider mb-1">Your Google Subject ID:</span>
+                <span className="text-slate-400 block text-[10px] uppercase tracking-wider mb-1">รหัส Google Subject ID ของท่าน:</span>
                 {params.sub}
               </div>
             )}
@@ -84,19 +84,19 @@ export default async function ControlCenterLoginPage({
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
               />
             </svg>
-            Sign in with Google Workspace
+            เข้าสู่ระบบด้วย Google (Sign in with Google)
           </a>
 
           <div className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-4 space-y-2.5 text-xs text-slate-400">
             <div className="flex items-center gap-2 font-medium text-slate-300">
               <span className="inline-block h-2 w-2 rounded-full bg-emerald-400"></span>
-              Security &amp; Privacy Policies
+              นโยบายความปลอดภัยและความเป็นส่วนตัว (Security &amp; Privacy)
             </div>
             <ul className="space-y-1.5 list-disc list-inside text-slate-400">
-              <li><strong className="text-slate-300">Zero Student PII</strong>: Identity decoupled from student exam records</li>
-              <li><strong className="text-slate-300">NIST AAL2 MFA</strong>: Google Multi-Factor verification enforced</li>
-              <li><strong className="text-slate-300">Dual Session Lifetime</strong>: 15-min idle timeout &bull; 8-hr maximum ceiling</li>
-              <li><strong className="text-slate-300">Immutable Audit Stream</strong>: Pseudonymized HMAC actor logging</li>
+              <li><strong className="text-slate-300">ปลอดข้อมูลส่วนบุคคลนักเรียน (Zero PII)</strong>: แยกข้อมูลตัวตนออกจากสถิติการสอบโดยสมบูรณ์</li>
+              <li><strong className="text-slate-300">การยืนยันตัวตน 2 ขั้นตอน (NIST AAL2 MFA)</strong>: รองรับ Google Multi-Factor verification</li>
+              <li><strong className="text-slate-300">อายุเซสชันคู่ (Dual Lifetime)</strong>: ตัดการเชื่อมต่อเมื่อไม่ใช้งาน 15 นาที &bull; สูงสุดไม่เกิน 8 ชม.</li>
+              <li><strong className="text-slate-300">บันทึกประวัติความปลอดภัย (Immutable Audit)</strong>: แปลงรหัสนามแฝงด้วย HMAC ที่ไม่สามารถย้อนกลับได้</li>
             </ul>
           </div>
         </div>
