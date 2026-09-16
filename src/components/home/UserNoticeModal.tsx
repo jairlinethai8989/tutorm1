@@ -45,7 +45,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
   triggerButton = true,
 }) => {
   const [internalIsOpen, setInternalIsOpen] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'whatsNew' | 'guide' | 'support'>('whatsNew');
+  const [activeTab, setActiveTab] = useState<'whatsNew' | 'guide' | 'support'>('guide');
   const [userName, setUserName] = useState<string>('ผู้เรียน');
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [showResetConfirm, setShowResetConfirm] = useState<boolean>(false);
@@ -65,7 +65,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
     }
   };
 
-  const openModal = (tab: 'whatsNew' | 'guide' | 'support' = 'whatsNew') => {
+  const openModal = (tab: 'whatsNew' | 'guide' | 'support' = 'guide') => {
     setActiveTab(tab);
     setUserName(getUserProfileName());
     setInternalIsOpen(true);
@@ -91,21 +91,18 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
         <div className="relative group">
           <button
             type="button"
-            onClick={() => openModal('whatsNew')}
-            className="flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full bg-amber-50 hover:bg-amber-100/90 border border-amber-200/90 text-amber-900 transition-all shadow-2xs hover:shadow-md hover:scale-102 cursor-pointer relative font-bold text-xs"
-            aria-label="คำแนะนำ & มีอะไรใหม่"
+            onClick={() => openModal('guide')}
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-amber-50 hover:bg-amber-100/90 border border-amber-200/90 text-amber-900 flex items-center justify-center transition-all shadow-2xs hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer relative"
+            aria-label="คู่มือการใช้งาน & คำแนะนำ"
           >
             <div className="relative flex items-center justify-center">
-              <Bell className="w-4 h-4 text-amber-600 group-hover:rotate-12 transition-transform" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white animate-pulse" />
+              <BookOpen className="w-4 h-4 text-amber-600 group-hover:rotate-6 transition-transform" />
+              <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-blue-500 ring-2 ring-white animate-pulse" />
             </div>
-            <span className="text-amber-900 font-extrabold text-[11px] whitespace-nowrap">
-              คำแนะนำ
-            </span>
           </button>
           {/* Tooltip on hover */}
           <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 rounded-xl bg-slate-900 text-white text-[11px] font-bold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 shadow-xl z-50">
-            คำแนะนำ & มีอะไรใหม่ ({APP_CONFIG.version})
+            คู่มือการใช้งาน & คำแนะนำ 📖
             <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
           </div>
         </div>
@@ -127,17 +124,17 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
               <div className="shrink-0 p-4 sm:p-5 bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white flex items-center justify-between shadow-xs">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20 shrink-0">
-                    <Sparkles className="w-5 h-5 text-amber-300" />
+                    <BookOpen className="w-5 h-5 text-amber-300" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="text-base sm:text-lg font-bold">ศูนย์ข้อมูล & คู่มือผู้เรียน</h2>
+                      <h2 className="text-base sm:text-lg font-bold">คู่มือผู้เรียน & ศูนย์ช่วยเหลือ</h2>
                       <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-white/20 text-blue-100">
                         {APP_CONFIG.version}
                       </span>
                     </div>
                     <p className="text-xs text-blue-100/90">
-                      มีอะไรใหม่ในเวอร์ชันนี้, คู่มือการใช้งาน และการจัดการข้อมูลผู้เรียน
+                      คู่มือ 8 โหมดการฝึกฝน, การจัดการข้อมูลผู้เรียน และอัปเดตฟีเจอร์เด่น
                     </p>
                   </div>
                 </div>
@@ -151,23 +148,8 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                 </button>
               </div>
 
-              {/* Tab Navigation */}
+              {/* Tab Navigation (Guide first as requested by users) */}
               <div className="shrink-0 px-4 sm:px-6 pt-3.5 pb-2.5 bg-slate-200/90 border-b border-slate-300 flex gap-2.5 overflow-x-auto">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('whatsNew')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer shadow-2xs ${
-                    activeTab === 'whatsNew'
-                      ? 'bg-blue-600 text-white shadow-md ring-2 ring-blue-400/40 border border-blue-700'
-                      : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-300 font-bold'
-                  }`}
-                >
-                  <Sparkles className={`w-3.5 h-3.5 ${activeTab === 'whatsNew' ? 'text-yellow-300' : 'text-amber-500'}`} />
-                  <span>มีอะไรใหม่ ({APP_CONFIG.version})</span>
-                  <span className={`px-1.5 py-0.2 text-[9px] rounded-full font-black ${
-                    activeTab === 'whatsNew' ? 'bg-white text-blue-700' : 'bg-rose-500 text-white'
-                  }`}>NEW</span>
-                </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab('guide')}
@@ -179,6 +161,21 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                 >
                   <BookOpen className={`w-3.5 h-3.5 ${activeTab === 'guide' ? 'text-cyan-300' : 'text-indigo-600'}`} />
                   <span>คู่มือการใช้งาน & ผู้เรียน</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('whatsNew')}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all shrink-0 cursor-pointer shadow-2xs ${
+                    activeTab === 'whatsNew'
+                      ? 'bg-blue-600 text-white shadow-md ring-2 ring-blue-400/40 border border-blue-700'
+                      : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-300 font-bold'
+                  }`}
+                >
+                  <Sparkles className={`w-3.5 h-3.5 ${activeTab === 'whatsNew' ? 'text-yellow-300' : 'text-amber-500'}`} />
+                  <span>ฟีเจอร์เด่น & มีอะไรใหม่</span>
+                  <span className={`px-1.5 py-0.2 text-[9px] rounded-full font-black ${
+                    activeTab === 'whatsNew' ? 'bg-white text-blue-700' : 'bg-rose-500 text-white'
+                  }`}>NEW</span>
                 </button>
                 <button
                   type="button"
@@ -232,53 +229,81 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                         </h4>
 
                         <div className="grid grid-cols-1 gap-2.5">
-                          {log.changes.map((change, idx) => {
-                            let icon = <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />;
-                            let tagBg = 'bg-emerald-50 text-emerald-700 border-emerald-200';
-                            let tagText = 'Feature';
+                          {log.changes
+                            .filter(
+                              (change) =>
+                                change.type === 'feature' ||
+                                (change.type === 'fix' &&
+                                  !change.description.includes('ReferenceError') &&
+                                  !change.description.includes('Type definitions'))
+                            )
+                            .map((change, idx) => {
+                              const isFeature = change.type === 'feature';
+                              const icon = isFeature ? (
+                                <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                              ) : (
+                                <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                              );
+                              const tagBg = isFeature
+                                ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                : 'bg-blue-50 text-blue-700 border-blue-200';
+                              const tagText = isFeature ? 'ฟีเจอร์ใหม่' : 'การปรับปรุง';
 
-                            if (change.type === 'fix') {
-                              icon = <Wrench className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />;
-                              tagBg = 'bg-rose-50 text-rose-700 border-rose-200';
-                              tagText = 'Bug Fix';
-                            } else if (change.type === 'verify') {
-                              icon = <CheckCheck className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />;
-                              tagBg = 'bg-indigo-50 text-indigo-700 border-indigo-200';
-                              tagText = 'Verification';
-                            } else if (change.type === 'system') {
-                              icon = <Cpu className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />;
-                              tagBg = 'bg-purple-50 text-purple-700 border-purple-200';
-                              tagText = 'Quality / CI';
-                            }
-
-                            return (
-                              <div
-                                key={idx}
-                                className="p-3 bg-white rounded-xl border border-slate-200/80 space-y-1 shadow-2xs"
-                              >
-                                <div className="flex items-center gap-2">
-                                  {icon}
-                                  <span className="font-bold text-xs text-slate-900">
-                                    {change.title}
-                                  </span>
-                                  <span
-                                    className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded border ml-auto uppercase ${tagBg}`}
-                                  >
-                                    {tagText}
-                                  </span>
+                              return (
+                                <div
+                                  key={idx}
+                                  className="p-3 bg-white rounded-xl border border-slate-200/80 space-y-1 shadow-2xs"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    {icon}
+                                    <span className="font-bold text-xs text-slate-900">
+                                      {change.title}
+                                    </span>
+                                    <span
+                                      className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded border ml-auto ${tagBg}`}
+                                    >
+                                      {tagText}
+                                    </span>
+                                  </div>
+                                  <p className="text-xs text-slate-600 leading-relaxed pl-6">
+                                    {change.description}
+                                  </p>
                                 </div>
-                                <p className="text-xs text-slate-600 leading-relaxed pl-6">
-                                  {change.description}
-                                </p>
-                              </div>
-                            );
-                          })}
+                              );
+                            })}
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : activeTab === 'guide' ? (
                   <>
+                {/* Visual Tutorial Quick Launch Banner */}
+                <div className="rounded-2xl p-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 text-white shadow-md flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
+                      <Sparkles className="w-5 h-5 text-amber-300" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-xs sm:text-sm">
+                        🎬 ดูขั้นตอนการใช้งานระบบ 5 ขั้นตอน (Visual Tutorial)
+                      </h4>
+                      <p className="text-[11px] text-blue-100">
+                        ภาพประกอบสวยงาม เข้าใจง่าย แนะนำฟังก์ชันเด่นทีละขั้นตอน
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      closeModal();
+                      window.dispatchEvent(new CustomEvent('tutor_m1_open_tutorial'));
+                    }}
+                    className="px-4 py-2 rounded-xl bg-white text-blue-800 font-extrabold text-xs hover:bg-amber-300 hover:text-slate-900 transition-all shadow-sm cursor-pointer shrink-0"
+                  >
+                    เปิดดูคำแนะนำ 💡
+                  </button>
+                </div>
+
                 <div className="rounded-2xl p-4 bg-slate-50 border border-slate-200/80 space-y-3">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2 text-slate-900 font-bold text-xs sm:text-sm">
@@ -300,7 +325,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
                       placeholder="ระบุชื่อผู้เรียน (เช่น น้องภูมิ, น้องอันดา)"
-                      className="flex-1 px-3 py-2 text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-medium"
+                      className="flex-1 px-3 py-2 text-base sm:text-xs rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white font-medium"
                       maxLength={30}
                     />
                     <button

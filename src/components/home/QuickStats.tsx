@@ -52,7 +52,7 @@ export const QuickStats: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-3 sm:mb-8">
       {items.map((item, idx) => {
         const Icon = item.icon;
         return (

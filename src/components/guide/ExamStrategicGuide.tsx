@@ -47,6 +47,8 @@ import {
   Share2,
   Crown,
   Star,
+  Lock,
+  X,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import {
@@ -161,6 +163,7 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
   const [targetSchoolName, setTargetSchoolName] = useState<string>('โรงเรียนห้องเรียนพิเศษ ม.1 ในฝัน');
   const [isEditingName, setIsEditingName] = useState<boolean>(false);
   const [tempNameInput, setTempNameInput] = useState<string>('');
+  const [lockedMilestoneNotice, setLockedMilestoneNotice] = useState<string | null>(null);
 
   // Load checked roadmap items & student profile dynamically from localStorage
   useEffect(() => {
@@ -396,14 +399,19 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
                     <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs">
                       {activeRoadmapStep < PREP_ROADMAP_DATA.length
                         ? `ระยะที่ ${activeRoadmapStep + 1} จาก ${PREP_ROADMAP_DATA.length}`
-                        : '🎯 เป้าหมายปลายทาง'}
+                        : completedTasks === totalTasks
+                        ? '🎯 เป้าหมายปลายทาง'
+                        : '🔒 เป้าหมายปลายทาง (ล็อกอยู่)'}
                     </span>
 
                     {/* Step Navigation Switcher */}
                     <div className="flex items-center gap-1">
                       <button
                         type="button"
-                        onClick={() => setActiveRoadmapStep((prev) => Math.max(0, prev - 1))}
+                        onClick={() => {
+                          setLockedMilestoneNotice(null);
+                          setActiveRoadmapStep((prev) => Math.max(0, prev - 1));
+                        }}
                         disabled={activeRoadmapStep === 0}
                         className="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-35 disabled:cursor-not-allowed text-slate-700 flex items-center gap-1 cursor-pointer transition-all shadow-2xs"
                       >
@@ -414,6 +422,13 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
                         type="button"
                         onClick={() => {
                           const nextStep = Math.min(PREP_ROADMAP_DATA.length, activeRoadmapStep + 1);
+                          if (nextStep === PREP_ROADMAP_DATA.length && completedTasks < totalTasks) {
+                            setLockedMilestoneNotice(
+                              `🔒 เป้าหมายปลายทางยังไม่ปลดล็อก! น้อง ๆ ต้องติ๊กทำภารกิจตาม Roadmap ให้ครบทั้ง ${totalTasks} ข้อก่อน (ขณะนี้สำเร็จ ${completedTasks}/${totalTasks} ภารกิจ, ขาดอีก ${totalTasks - completedTasks} ภารกิจ)`
+                            );
+                            return;
+                          }
+                          setLockedMilestoneNotice(null);
                           setActiveRoadmapStep(nextStep);
                           if (nextStep === PREP_ROADMAP_DATA.length) {
                             triggerCelebration();
@@ -428,6 +443,23 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
                     </div>
                   </div>
                 </div>
+
+                {/* Locked Milestone Notification Banner */}
+                {lockedMilestoneNotice && (
+                  <div className="p-4 rounded-2xl bg-amber-500 text-white font-bold text-xs sm:text-sm flex items-center justify-between gap-3 shadow-lg animate-in fade-in zoom-in-95 duration-200">
+                    <div className="flex items-center gap-2.5">
+                      <Lock className="w-5 h-5 shrink-0 text-amber-200" />
+                      <span>{lockedMilestoneNotice}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setLockedMilestoneNotice(null)}
+                      className="w-7 h-7 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center shrink-0 cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
 
                 {/* Continuous Master Progress Bar spanning across all phases */}
                 <div className="space-y-1.5">
@@ -533,69 +565,86 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
                     {/* Milestone 5: Final Destination / Victory Node */}
                     {(() => {
                       const destTheme = ROADMAP_PHASE_THEMES[4];
+                      const isAllDone = completedTasks === totalTasks && totalTasks > 0;
                       const isSelected = activeRoadmapStep === PREP_ROADMAP_DATA.length;
-                      const isAllDone = progressPercent === 100;
 
                       return (
                         <button
                           type="button"
                           onClick={() => {
+                            if (!isAllDone) {
+                              setLockedMilestoneNotice(
+                                `🔒 เป้าหมายปลายทางยังไม่ปลดล็อก! น้อง ๆ ต้องติ๊กทำภารกิจตาม Roadmap ให้ครบทั้ง ${totalTasks} ข้อก่อน (ขณะนี้สำเร็จ ${completedTasks}/${totalTasks} ภารกิจ, ขาดอีก ${totalTasks - completedTasks} ภารกิจ)`
+                              );
+                              return;
+                            }
+                            setLockedMilestoneNotice(null);
                             setActiveRoadmapStep(PREP_ROADMAP_DATA.length);
                             triggerCelebration();
                           }}
                           className={`p-3 rounded-2xl border text-left transition-all cursor-pointer relative flex flex-col justify-between gap-2.5 ${
-                            isSelected
+                            isSelected && isAllDone
                               ? 'bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 text-white border-amber-500 shadow-md ring-2 ring-amber-400/40 scale-[1.02]'
                               : isAllDone
                               ? 'bg-gradient-to-br from-amber-50 to-orange-50 border-amber-300 hover:border-amber-400 text-slate-800'
-                              : 'bg-white border-slate-200 hover:border-amber-300 hover:bg-amber-50/30 text-slate-700'
+                              : 'bg-slate-50/80 border-slate-200 hover:border-amber-300 hover:bg-amber-50/20 text-slate-500 opacity-90'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-1.5 w-full">
                             <div
                               className={`w-7 h-7 rounded-xl flex items-center justify-center font-extrabold text-xs shrink-0 transition-all ${
-                                isSelected
+                                isSelected && isAllDone
                                   ? 'bg-white text-orange-600 shadow-xs'
-                                  : 'bg-amber-100 text-amber-800 border border-amber-200'
+                                  : isAllDone
+                                  ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                                  : 'bg-slate-200/80 text-slate-500 border border-slate-300'
                               }`}
                             >
-                              <Flag className="w-4 h-4" />
+                              {isAllDone ? <Flag className="w-4 h-4" /> : <Lock className="w-3.5 h-3.5" />}
                             </div>
                             <span
                               className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
-                                isSelected ? 'bg-white/20 text-white' : 'bg-amber-100 text-amber-800'
+                                isSelected && isAllDone
+                                  ? 'bg-white/20 text-white'
+                                  : isAllDone
+                                  ? 'bg-amber-100 text-amber-800'
+                                  : 'bg-slate-200 text-slate-600'
                               }`}
                             >
-                              เป้าหมาย
+                              {isAllDone ? 'เป้าหมาย' : '🔒 ล็อกอยู่'}
                             </span>
                           </div>
 
                           <div>
                             <div
                               className={`text-xs font-extrabold line-clamp-1 ${
-                                isSelected ? 'text-white' : 'text-slate-900'
+                                isSelected && isAllDone ? 'text-white' : isAllDone ? 'text-slate-900' : 'text-slate-700'
                               }`}
                             >
                               ปลายทางชัยชนะ
                             </div>
                             <div
                               className={`text-[11px] line-clamp-1 ${
-                                isSelected ? 'text-amber-100' : 'text-slate-500'
+                                isSelected && isAllDone ? 'text-amber-100' : 'text-slate-500'
                               }`}
                             >
                               สอบติด ม.1
                             </div>
                           </div>
 
-                          <div className="w-full pt-1 border-t border-amber-200/40 text-[10px] font-bold flex items-center justify-between">
-                            <span className={isSelected ? 'text-amber-100' : 'text-amber-700'}>
-                              {progressPercent}% พร้อม
+                          <div className="w-full pt-1 border-t border-slate-200/60 text-[10px] font-bold flex items-center justify-between">
+                            <span className={isSelected && isAllDone ? 'text-amber-100' : isAllDone ? 'text-amber-700' : 'text-slate-500'}>
+                              {isAllDone ? `${progressPercent}% พร้อม` : `${completedTasks}/${totalTasks} ภารกิจ`}
                             </span>
-                            <Trophy
-                              className={`w-3.5 h-3.5 ${
-                                isSelected ? 'text-amber-200' : 'text-amber-500'
-                              }`}
-                            />
+                            {isAllDone ? (
+                              <Trophy
+                                className={`w-3.5 h-3.5 ${
+                                  isSelected ? 'text-amber-200' : 'text-amber-500'
+                                }`}
+                              />
+                            ) : (
+                              <Lock className="w-3 h-3 text-slate-400" />
+                            )}
                           </div>
                         </button>
                       );
@@ -787,6 +836,13 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
                             type="button"
                             onClick={() => {
                               const nextIdx = Math.min(PREP_ROADMAP_DATA.length, idx + 1);
+                              if (nextIdx === PREP_ROADMAP_DATA.length && completedTasks < totalTasks) {
+                                setLockedMilestoneNotice(
+                                  `🔒 เป้าหมายปลายทางยังไม่ปลดล็อก! น้อง ๆ ต้องติ๊กทำภารกิจตาม Roadmap ให้ครบทั้ง ${totalTasks} ข้อก่อน (ขณะนี้สำเร็จ ${completedTasks}/${totalTasks} ภารกิจ, ขาดอีก ${totalTasks - completedTasks} ภารกิจ)`
+                                );
+                                return;
+                              }
+                              setLockedMilestoneNotice(null);
                               setActiveRoadmapStep(nextIdx);
                               if (nextIdx === PREP_ROADMAP_DATA.length) {
                                 triggerCelebration();
@@ -802,6 +858,35 @@ export const ExamStrategicGuide: React.FC<ExamStrategicGuideProps> = ({
                     </div>
                   );
                 })()
+              ) : completedTasks < totalTasks ? (
+                /* Milestone 5 Locked View when tasks not 100% completed */
+                <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-amber-500/30 text-center space-y-5 animate-in fade-in-50 duration-300">
+                  <div className="w-16 h-16 rounded-3xl bg-amber-500/20 border-2 border-amber-400/40 text-amber-400 flex items-center justify-center mx-auto shadow-inner">
+                    <Lock className="w-8 h-8 text-amber-400" />
+                  </div>
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black border border-amber-400/30">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>เป้าหมายสูงสุดยังไม่ปลดล็อก (Locked Milestone)</span>
+                  </div>
+                  <h3 className="font-black text-2xl sm:text-3xl text-white">
+                    🔒 คุณยังไม่สามารถกดจุดพลุฉลองได้
+                  </h3>
+                  <p className="text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+                    เป้าหมายปลายทางชัยชนะและใบประกาศเกียรติคุณ จะปลดล็อกก็ต่อเมื่อน้อง ๆ ได้ติ๊กทำภารกิจตาม Roadmap ครบถ้วน 100% ทั้ง 4 ระยะ (ขณะนี้สำเร็จไปแล้ว <strong className="text-amber-300 font-extrabold">{completedTasks}</strong> จากทั้งหมด <strong className="text-white font-extrabold">{totalTasks}</strong> ภารกิจ, ขาดอีก <strong className="text-rose-400 font-extrabold">{totalTasks - completedTasks}</strong> ภารกิจ)
+                  </p>
+                  <div className="pt-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setLockedMilestoneNotice(null);
+                        setActiveRoadmapStep(0);
+                      }}
+                      className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-lg shadow-blue-600/30 transition-all cursor-pointer hover:scale-105"
+                    >
+                      ← กลับไปติ๊กทำภารกิจต่อในระยะที่ 1
+                    </button>
+                  </div>
+                </div>
               ) : (
                 /* Milestone 5: Victory Celebration & Professional Printable Certificate */
                 <div className="space-y-6 animate-in fade-in-50 duration-300">

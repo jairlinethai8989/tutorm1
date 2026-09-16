@@ -44,7 +44,7 @@ export const FlashcardPrintModal: React.FC<FlashcardPrintModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[999999] bg-slate-950/80 backdrop-blur-md overflow-y-auto p-2 sm:p-4 md:p-6 print:p-0 print:bg-white print:static print:overflow-visible">
+    <div className="fixed inset-0 z-[999999] bg-slate-950/80 backdrop-blur-md overflow-y-auto p-2 sm:p-4 md:p-6 print:p-0 print:bg-white print:static print:overflow-visible animate-in fade-in duration-200">
       {/* Dynamic Print CSS to isolate ONLY this print container and print instantly in 0.1s */}
       <style jsx global>{`
         @media print {

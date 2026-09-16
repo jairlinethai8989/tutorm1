@@ -65,6 +65,62 @@
 }
 
 /* ==========================================================================
+   Prevent iOS Safari Auto-Zoom on Form Inputs (< 16px triggers zoom)
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ==========================================================================
+   Modal Animations & Transitions (Smooth iOS-style Spring)
+   ========================================================================== */
+@keyframes modalBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalContentPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.93) translateY(12px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.01) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Utilities for modal backdrops and dialog containers */
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: modalBackdropFadeIn;
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zoom-in-95 {
+  animation-name: modalContentPopIn;
+  animation-duration: 260ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+/* ==========================================================================
    KaTeX & Math Typography Enhancement
    ========================================================================== */
 .katex {

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Prompt, Sarabun } from 'next/font/google';
 import './globals.css';
@@ -25,6 +25,12 @@ const sarabun = Sarabun({
   display: 'swap',
   preload: false,
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: APP_CONFIG.titleFull,
@@ -77,7 +83,7 @@ export default function RootLayout({
         {/* 2. Mount Tutor M.1 Analytics Provider second */}
         <AnalyticsProvider />
         <Navbar />
-        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
           {children}
         </main>
         <Footer />

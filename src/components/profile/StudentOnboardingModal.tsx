@@ -416,7 +416,7 @@ export const StudentOnboardingModal: React.FC<StudentOnboardingModalProps> = ({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="เช่น น้องภูมิ, น้องมะลิ, น้องอันดา"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-900 bg-slate-50/50"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-900 bg-slate-50/50 text-base sm:text-sm"
                       maxLength={30}
                       required
                     />
@@ -431,11 +431,11 @@ export const StudentOnboardingModal: React.FC<StudentOnboardingModalProps> = ({
                     <select
                       value={selectedSchoolId}
                       onChange={(e) => setSelectedSchoolId(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold text-slate-800 bg-slate-50/50 text-xs"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-slate-800 bg-white text-base sm:text-xs cursor-pointer"
                     >
-                      {TARGET_SCHOOL_OPTIONS.map((school) => (
-                        <option key={school.id} value={school.id}>
-                          {school.name}
+                      {TARGET_SCHOOL_OPTIONS.map((sch) => (
+                        <option key={sch.id} value={sch.id}>
+                          {sch.name}
                         </option>
                       ))}
                     </select>
@@ -448,7 +448,7 @@ export const StudentOnboardingModal: React.FC<StudentOnboardingModalProps> = ({
                           value={customSchoolName}
                           onChange={(e) => setCustomSchoolName(e.target.value)}
                           placeholder="พิมพ์ชื่อโรงเรียนที่ต้องการ (เช่น รร.ขอนแก่นวิทยายน, รร.หาดใหญ่วิทยาลัย)"
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-slate-900 bg-blue-50/40 text-xs"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold text-slate-900 bg-blue-50/40 text-base sm:text-xs"
                           maxLength={50}
                           required
                         />

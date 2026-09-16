@@ -8,6 +8,8 @@ import { ENGLISH_QUESTIONS } from '@/data/questions/english';
 import { THAI_QUESTIONS } from '@/data/questions/thai';
 import { SOCIAL_QUESTIONS } from '@/data/questions/social';
 
+import { BENCHAMA_MATH_QUESTIONS } from '@/data/questions/benchamaMath';
+import { BENCHAMA_SCIENCE_QUESTIONS } from '@/data/questions/benchamaScience';
 import { SATRIWIT_SCIENCE_QUESTIONS } from '@/data/questions/satriwitScience';
 import { SUANKULARB_SCIENCE_QUESTIONS } from '@/data/questions/suankularbScience';
 import { SUKSANARI_SCIENCE_QUESTIONS } from '@/data/questions/suksanariScience';
@@ -50,7 +52,10 @@ export const getQuestionById = (id: string): Question | undefined => {
 };
 
 export const getMockExams = (): MockExam[] => {
-  return MOCK_EXAMS;
+  return MOCK_EXAMS.map((base) => {
+    const full = getMockExamById(base.id);
+    return full ? { ...base, totalQuestions: full.questions?.length || base.totalQuestions } : base;
+  });
 };
 
 export const getMockExamById = (id: string): MockExam | undefined => {
@@ -59,9 +64,9 @@ export const getMockExamById = (id: string): MockExam | undefined => {
 
   let questions: Question[] = [];
   if (base.id === 'benchama-math-01') {
-    questions = MATH_QUESTIONS;
+    questions = BENCHAMA_MATH_QUESTIONS.slice(0, 25);
   } else if (base.id === 'benchama-sci-01') {
-    questions = SCIENCE_QUESTIONS;
+    questions = BENCHAMA_SCIENCE_QUESTIONS.slice(0, 25);
   } else if (base.id === 'chulabhorn-combined-01') {
     questions = [...CHULABHORN_SCIENCE_QUESTIONS, ...CHULABHORN_MATH_QUESTIONS];
   } else if (base.id === 'chulabhorn-math-intensive') {

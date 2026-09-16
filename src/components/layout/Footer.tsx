@@ -7,7 +7,7 @@ import { APP_CONFIG } from '@/lib/constants/app';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-white border-t border-slate-200 mt-16 pt-8 pb-10 text-center sm:text-left text-sm text-slate-500">
+    <footer className="bg-white border-t border-slate-200 mt-6 sm:mt-16 pt-6 sm:pt-8 pb-6 sm:pb-10 text-center sm:text-left text-sm text-slate-500">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Horizontal Layout: Mascot Card on Left + Details on Right (matching design) */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 lg:gap-10">

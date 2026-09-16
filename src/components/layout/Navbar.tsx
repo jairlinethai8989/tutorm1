@@ -12,6 +12,7 @@ import { StudentProfile } from '@/types/student';
 import { APP_CONFIG } from '@/lib/constants/app';
 import { UserNoticeModal } from '@/components/home/UserNoticeModal';
 import { StudentOnboardingModal } from '@/components/profile/StudentOnboardingModal';
+import { AppTutorialModal } from '@/components/home/AppTutorialModal';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -114,39 +115,39 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-2xs w-full">
-      <div className="w-full max-w-[1520px] mx-auto px-2 sm:px-4 lg:px-6">
-        {/* Snug & Centered Balanced Row with Transparent 3D Clay Icons */}
-        <div className="flex items-center justify-between xl:justify-center gap-2 sm:gap-4 lg:gap-6 h-20">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        {/* Snug & Responsive Top Bar Row */}
+        <div className="flex items-center justify-between gap-2 sm:gap-4 h-16 sm:h-18">
           {/* 1. Left: Official App Icon & Title */}
-          <Link href="/" className="flex items-center space-x-2.5 sm:space-x-3 group shrink-0">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl overflow-hidden shadow-sm shadow-blue-500/20 group-hover:scale-105 transition-transform bg-blue-600 relative border border-blue-200/50">
+          <Link href="/" className="flex items-center space-x-2 sm:space-x-2.5 group shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl overflow-hidden shadow-sm shadow-blue-500/20 group-hover:scale-105 transition-transform bg-blue-600 relative border border-blue-200/50">
               <Image
                 src="/images/logom1.png"
                 alt="Tutor M.1 Logo"
-                width={44}
-                height={44}
+                width={40}
+                height={40}
                 className="w-full h-full object-cover"
                 priority
               />
             </div>
-            <div className="hidden sm:block text-left">
+            <div className="text-left">
               <div className="flex items-center gap-1.5 leading-tight">
-                <span className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
+                <span className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
                   Tutor M.1
                 </span>
-                <span className="text-[10px] uppercase tracking-wider bg-purple-100 text-purple-700 font-extrabold px-1.5 py-0.2 rounded-md">
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-wider bg-purple-100 text-purple-700 font-extrabold px-1.5 py-0.2 rounded-md">
                   {APP_CONFIG.version}
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-medium line-clamp-1">
+              <p className="text-[10px] text-slate-400 font-medium line-clamp-1 hidden md:block">
                 เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ
               </p>
             </div>
           </Link>
 
-          {/* 2. Center: iPadOS Top Floating Capsule (Light Frosted Glass on all devices) */}
-          <nav className="hidden md:flex items-center justify-center shrink-0">
-            <div className="flex items-center gap-2 sm:gap-2.5 lg:gap-3.5 px-3 sm:px-4 py-1.5 rounded-3xl bg-slate-100/90 backdrop-blur-2xl border border-white shadow-inner ring-1 ring-slate-900/5">
+          {/* 2. Center: iPadOS Top Floating Capsule (Light Frosted Glass on desktop) */}
+          <nav className="hidden lg:flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-2.5 px-2.5 sm:px-3 py-1 rounded-2xl bg-slate-100/90 backdrop-blur-2xl border border-white shadow-inner ring-1 ring-slate-900/5">
               {dockItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
@@ -175,25 +176,25 @@ export const Navbar: React.FC = () => {
                     {/* Transparent 3D Claymorphic Squircle Icon Button */}
                     <Link
                       href={item.href}
-                      className={`relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 lg:w-13 lg:h-13 rounded-2xl transition-all duration-200 ease-out transform cursor-pointer select-none group-hover:scale-120 group-hover:-translate-y-2 active:scale-95 ${
+                      className={`relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl transition-all duration-200 ease-out transform cursor-pointer select-none group-hover:scale-115 group-hover:-translate-y-1 active:scale-95 ${
                         isActive
-                          ? `ring-2 ring-blue-500 ring-offset-2 ring-offset-white scale-110 -translate-y-1 ${item.activeGlow}`
+                          ? `ring-2 ring-blue-500 ring-offset-2 ring-offset-white scale-105 -translate-y-0.5 ${item.activeGlow}`
                           : `opacity-90 hover:opacity-100 ${item.glowColor}`
                       }`}
                       aria-label={item.name}
                     >
-                      {/* 3D Clay Icon Image with True Transparent Background (100% Squircle Alpha) */}
+                      {/* 3D Clay Icon Image */}
                       <Image
                         src={item.image}
                         alt={item.name}
-                        width={56}
-                        height={56}
+                        width={48}
+                        height={48}
                         className="w-full h-full object-contain transition-transform group-hover:scale-105"
                       />
                     </Link>
 
                     {/* Active Running App Indicator Dot */}
-                    <div className="h-1 mt-1 flex items-center justify-center">
+                    <div className="h-1 mt-0.5 flex items-center justify-center">
                       {isActive && (
                         <span className="w-1.5 h-1.5 rounded-full bg-slate-900 shadow-xs" />
                       )}
@@ -204,10 +205,10 @@ export const Navbar: React.FC = () => {
             </div>
           </nav>
 
-          {/* 3. Right: Streak, Readiness, Notice & Student Profile */}
-          <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+          {/* 3. Right: Streak, Readiness, Tutorial, Notice & Student Profile */}
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             {/* Streak */}
-            <div className="flex items-center space-x-1 bg-orange-50 border border-orange-200/90 px-2.5 py-1.5 rounded-full text-orange-600 text-xs font-bold shadow-2xs">
+            <div className="flex items-center space-x-1 bg-orange-50 border border-orange-200/90 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full text-orange-600 text-[11px] sm:text-xs font-bold shadow-2xs">
               <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500 animate-pulse" />
               <span>{stats?.streakDays || 1} วัน</span>
             </div>
@@ -218,7 +219,10 @@ export const Navbar: React.FC = () => {
               <span>พร้อม {stats?.examReadinessScore || 0}%</span>
             </div>
 
-            {/* Notice Capsule Button */}
+            {/* Tutorial Modal Button (SVG Icon Only with Tooltip) */}
+            <AppTutorialModal triggerButton={true} />
+
+            {/* Notice Capsule Button (SVG Icon Only with Tooltip) */}
             <UserNoticeModal triggerButton={true} />
 
             {/* Student Profile Capsule Badge */}

@@ -184,7 +184,7 @@ export const CheatSheetHub: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="ค้นหาชื่อสูตร, เนื้อหา, เทคนิคคิดลัด หรือแฮชแท็ก เช่น #สามเหลี่ยม #ร้อยละ..."
-            className="w-full pl-10 pr-10 py-2.5 rounded-2xl bg-white border border-slate-200/90 text-slate-900 text-xs sm:text-sm placeholder:text-slate-400 font-sarabun focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-xs"
+            className="w-full pl-10 pr-10 py-2.5 rounded-2xl bg-white border border-slate-200/90 text-slate-900 text-base sm:text-sm placeholder:text-slate-400 font-sarabun focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-xs"
           />
           {searchQuery && (
             <button

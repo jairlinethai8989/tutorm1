@@ -100,7 +100,7 @@ export const StudentNameModal: React.FC<StudentNameModalProps> = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="เช่น น้องภูมิ, น้องอันดา, ด.ช. ภูมิภัทร"
-                className="w-full px-4 py-3 text-sm rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium bg-slate-50/50"
+                className="w-full px-4 py-3 text-base sm:text-sm rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium bg-slate-50/50"
                 maxLength={35}
               />
             </div>

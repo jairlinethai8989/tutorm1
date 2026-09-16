@@ -148,8 +148,8 @@ export const MOCK_EXAMS: MockExam[] = [
     targetSchoolEn: 'suksanari',
     subjectId: 'science',
     subjectName: 'วิทยาศาสตร์',
-    totalQuestions: 40,
-    timeLimitMinutes: 60,
+    totalQuestions: 12,
+    timeLimitMinutes: 30,
     passingScorePercent: 75,
     description: 'ข้อสอบ Pretest วิทยาศาสตร์ รร.ศึกษานารี เน้นทักษะกระบวนการทดลอง ปัจจัยการเจริญเติบโต กรด-เบส และแรง พร้อมเฉลยละเอียด',
     questionIds: [
@@ -166,8 +166,8 @@ export const MOCK_EXAMS: MockExam[] = [
     targetSchoolEn: 'rittiya',
     subjectId: 'science',
     subjectName: 'วิทยาศาสตร์',
-    totalQuestions: 20,
-    timeLimitMinutes: 45,
+    totalQuestions: 10,
+    timeLimitMinutes: 30,
     passingScorePercent: 70,
     description: 'ข้อสอบ Pre-Entrance วิทยาศาสตร์ รร.ฤทธิยะวรรณาลัย ครอบคลุมเรื่องระบบสรีระ สิ่งแวดล้อม วงจรไฟฟ้า และสารละลาย พร้อมเฉลยละเอียด',
     questionIds: [
@@ -183,8 +183,8 @@ export const MOCK_EXAMS: MockExam[] = [
     targetSchoolEn: 'sarawittaya',
     subjectId: 'science',
     subjectName: 'วิทยาศาสตร์',
-    totalQuestions: 40,
-    timeLimitMinutes: 60,
+    totalQuestions: 7,
+    timeLimitMinutes: 25,
     passingScorePercent: 70,
     description: 'ข้อสอบ Pre-test วิทยาศาสตร์ รร.สารวิทยา ครอบคลุมชีววิทยา การสังเคราะห์ด้วยแสง สัตว์เลือดอุ่น-เย็น สารอาหาร และปฏิกิริยาเคมี',
     questionIds: [

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Target, Sparkles, ArrowRight, ShieldCheck, CheckCircle2, Award } from 'lucide-react';
+import { Target, Sparkles, ArrowRight, ShieldCheck, CheckCircle2, Award, Lightbulb } from 'lucide-react';
 import { APP_CONFIG } from '@/lib/constants/app';
 import { UserNoticeModal } from './UserNoticeModal';
 
@@ -24,6 +24,15 @@ export const HeroSection: React.FC = () => {
             <span className="text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-200">
               {APP_CONFIG.version}
             </span>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent('tutor_m1_open_tutorial'))}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 hover:bg-white text-white hover:text-blue-900 border border-white/40 text-xs font-bold transition-all shadow-xs cursor-pointer hover:scale-105"
+              aria-label="แนะนำวิธีใช้งานระบบ"
+            >
+              <Lightbulb className="w-3.5 h-3.5 text-yellow-300" />
+              <span>วิธีใช้งานระบบ 💡</span>
+            </button>
             <UserNoticeModal triggerButton={true} />
           </div>
 

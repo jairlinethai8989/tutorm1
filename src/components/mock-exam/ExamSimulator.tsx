@@ -53,6 +53,8 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [selectedTimeLimitMinutes, setSelectedTimeLimitMinutes] = useState<number>(exam.timeLimitMinutes);
+  const [isUnlimitedTime, setIsUnlimitedTime] = useState<boolean>(false);
   const [secondsRemaining, setSecondsRemaining] = useState<number>(exam.timeLimitMinutes * 60);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const [reviewMode, setReviewMode] = useState<boolean>(false);
@@ -169,7 +171,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
       } catch {}
     }
     setAnswers({});
-    setSecondsRemaining(exam.timeLimitMinutes * 60);
+    setSecondsRemaining(isUnlimitedTime ? 0 : selectedTimeLimitMinutes * 60);
     setCurrentIndex(0);
     setHasSavedSession(false);
     isSubmittingRef.current = false;
@@ -177,12 +179,15 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
     triggerExamStartedTelemetry();
   };
 
-  // Countdown timer
+  // Timer (Countdown or Count-up for unlimited time)
   useEffect(() => {
     if (!hasStarted || isFinished || isPaused) return;
 
     const timer = setInterval(() => {
       setSecondsRemaining((prev) => {
+        if (isUnlimitedTime) {
+          return prev + 1;
+        }
         if (prev <= 1) {
           clearInterval(timer);
           handleSubmitExam();
@@ -193,7 +198,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [hasStarted, isFinished, isPaused]);
+  }, [hasStarted, isFinished, isPaused, isUnlimitedTime]);
 
   const currentQuestion = questions[currentIndex];
 
@@ -245,7 +250,10 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
       } catch {}
     }
 
-    const timeSpent = exam.timeLimitMinutes * 60 - secondsRemaining;
+    const timeSpent = isUnlimitedTime
+      ? secondsRemaining
+      : Math.max(1, selectedTimeLimitMinutes * 60 - secondsRemaining);
+    const timeAllowed = isUnlimitedTime ? Math.max(timeSpent, 3600) : selectedTimeLimitMinutes * 60;
     const summary = calculateAttemptSummary(
       exam.id,
       exam.name,
@@ -253,7 +261,7 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
       'mock_exam',
       questions,
       answers,
-      exam.timeLimitMinutes * 60,
+      timeAllowed,
       timeSpent,
       new Date().toISOString()
     );
@@ -368,7 +376,9 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             </div>
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
               <div className="text-xs text-slate-500 font-semibold">เวลาสอบ</div>
-              <div className="text-xl font-extrabold text-slate-900 mt-1">{exam.timeLimitMinutes} นาที</div>
+              <div className="text-xl font-extrabold text-blue-600 mt-1">
+                {isUnlimitedTime ? '♾️ ไม่จำกัด' : `${selectedTimeLimitMinutes} นาที`}
+              </div>
             </div>
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
               <div className="text-xs text-slate-500 font-semibold">รูปแบบ</div>
@@ -377,6 +387,57 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
               <div className="text-xs text-slate-500 font-semibold">เกณฑ์ผ่าน</div>
               <div className="text-xl font-extrabold text-emerald-600 mt-1">{exam.passingScorePercent}%</div>
+            </div>
+          </div>
+
+          {/* Customizable Exam Time Limit */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 border border-slate-200 text-left max-w-xl mx-auto space-y-3">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-2 text-xs font-extrabold text-slate-800">
+                <Clock className="w-4 h-4 text-blue-600" />
+                <span>ปรับตั้งเวลาในการทำข้อสอบ (เลือกเวลาที่ต้องการฝึก):</span>
+              </div>
+              <span className="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                {isUnlimitedTime ? '♾️ ซ้อมแบบไม่จำกัดเวลา' : `⏱️ ${selectedTimeLimitMinutes} นาที`}
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {[15, 30, 45, 60, 90, 120].map((mins) => {
+                const isDefault = mins === exam.timeLimitMinutes;
+                const isSelected = !isUnlimitedTime && selectedTimeLimitMinutes === mins;
+                return (
+                  <button
+                    key={mins}
+                    type="button"
+                    onClick={() => {
+                      setSelectedTimeLimitMinutes(mins);
+                      setIsUnlimitedTime(false);
+                      setSecondsRemaining(mins * 60);
+                    }}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-300'
+                        : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    {mins} นาที {isDefault && <span className="text-[10px] opacity-80">(มาตรฐาน)</span>}
+                  </button>
+                );
+              })}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsUnlimitedTime(true);
+                  setSecondsRemaining(0);
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  isUnlimitedTime
+                    ? 'bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-300'
+                    : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                }`}
+              >
+                ♾️ ไม่จำกัดเวลา (ซ้อมแบบไม่จับเวลา)
+              </button>
             </div>
           </div>
 
@@ -749,14 +810,33 @@ export const ExamSimulator: React.FC<ExamSimulatorProps> = ({ exam }) => {
 
           <div
             className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono font-extrabold text-sm shadow-2xs ${
-              secondsRemaining <= 300
+              !isUnlimitedTime && secondsRemaining <= 300
                 ? 'bg-rose-500 text-white animate-pulse'
                 : 'bg-slate-900 text-white'
             }`}
           >
             <Clock className="w-4 h-4" />
-            <span>{isFinished ? 'หมดเวลาสอบ' : isPaused ? '⏸️ หยุดเวลา' : formatTime(secondsRemaining)}</span>
+            <span>
+              {isFinished
+                ? 'หมดเวลาสอบ'
+                : isPaused
+                ? '⏸️ หยุดเวลา'
+                : isUnlimitedTime
+                ? `${formatTime(secondsRemaining)} ♾️`
+                : formatTime(secondsRemaining)}
+            </span>
           </div>
+
+          {!isFinished && !reviewMode && !isUnlimitedTime && (
+            <button
+              type="button"
+              onClick={() => setSecondsRemaining((prev) => prev + 300)}
+              className="hidden sm:flex items-center gap-1 px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
+              title="เพิ่มเวลาสอบอีก 5 นาที"
+            >
+              <span>+5 น.</span>
+            </button>
+          )}
 
           {!isFinished && (
             <button

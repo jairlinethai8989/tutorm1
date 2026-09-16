@@ -1,12 +1,94 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Coffee, Heart, X, Sparkles, ShieldCheck, HeartHandshake } from 'lucide-react';
+
+interface Position {
+  x: number;
+  y: number;
+}
 
 export const SupportCoffeeWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isDismissed, setIsDismissed] = useState<boolean>(false);
+  const [position, setPosition] = useState<Position | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+
+  const dragStartPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const elementStartPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const hasMovedRef = useRef<boolean>(false);
+
+  // Initialize position on client mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const saved = localStorage.getItem('tutor_m1_coffee_pos');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed.x === 'number' && typeof parsed.y === 'number') {
+          const clampedX = Math.min(Math.max(12, parsed.x), window.innerWidth - 65);
+          const clampedY = Math.min(Math.max(60, parsed.y), window.innerHeight - 65);
+          setPosition({ x: clampedX, y: clampedY });
+          return;
+        }
+      }
+    } catch {}
+
+    // Default position: top right
+    const initialX = Math.max(16, window.innerWidth - 72);
+    const initialY = 100;
+    setPosition({ x: initialX, y: initialY });
+  }, []);
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    // If clicking the dismiss button, don't initiate drag
+    if ((e.target as HTMLElement).closest('[data-no-drag]')) return;
+    if (!position) return;
+
+    hasMovedRef.current = false;
+    dragStartPos.current = { x: e.clientX, y: e.clientY };
+    elementStartPos.current = { x: position.x, y: position.y };
+    setIsDragging(true);
+
+    const handlePointerMove = (moveEvent: PointerEvent) => {
+      const deltaX = moveEvent.clientX - dragStartPos.current.x;
+      const deltaY = moveEvent.clientY - dragStartPos.current.y;
+
+      if (Math.hypot(deltaX, deltaY) > 5) {
+        hasMovedRef.current = true;
+      }
+
+      if (hasMovedRef.current) {
+        const nextX = Math.min(Math.max(12, elementStartPos.current.x + deltaX), window.innerWidth - 65);
+        const nextY = Math.min(Math.max(50, elementStartPos.current.y + deltaY), window.innerHeight - 65);
+        setPosition({ x: nextX, y: nextY });
+      }
+    };
+
+    const handlePointerUp = () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      setIsDragging(false);
+
+      if (hasMovedRef.current) {
+        setPosition((curr) => {
+          if (curr) {
+            try {
+              localStorage.setItem('tutor_m1_coffee_pos', JSON.stringify(curr));
+            } catch {}
+          }
+          return curr;
+        });
+      } else {
+        setIsOpen(true);
+      }
+    };
+
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+  };
 
   if (isDismissed) {
     return null;
@@ -14,36 +96,57 @@ export const SupportCoffeeWidget: React.FC = () => {
 
   return (
     <>
-      {/* Floating Pill Trigger Button with mini 'X' close button on top-right (Image 3) */}
-      <div className="fixed top-20 sm:top-24 right-3 sm:right-6 z-40">
+      {/* Draggable Floating Button (Only SVG Icons, No Text) */}
+      <div
+        className="fixed z-40 touch-none select-none"
+        style={{
+          left: position ? `${position.x}px` : undefined,
+          top: position ? `${position.y}px` : undefined,
+          right: !position ? '16px' : undefined,
+          bottom: !position ? 'auto' : undefined,
+          opacity: position ? 1 : 0,
+        }}
+        onPointerDown={handlePointerDown}
+      >
         {!isOpen && (
           <div className="relative group">
-            {/* Main Pill Button */}
             <button
               type="button"
-              onClick={() => setIsOpen(true)}
-              className="relative flex items-center gap-2 pl-3 pr-4 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white font-black text-xs sm:text-sm shadow-xl shadow-orange-500/35 hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 hover:scale-105 cursor-pointer border-2 border-white/60 backdrop-blur-md"
+              className={`relative flex items-center justify-center w-12 h-12 sm:w-13 sm:h-13 rounded-2xl sm:rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 text-white shadow-xl shadow-orange-500/35 border-2 border-white/90 backdrop-blur-md transition-transform ${
+                isDragging ? 'cursor-grabbing scale-110 shadow-2xl' : 'cursor-grab hover:scale-108 active:scale-95'
+              }`}
               aria-label="ร่วมสนับสนุน & ให้กำลังใจผู้พัฒนา"
             >
-              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/30 backdrop-blur-xs flex items-center justify-center shadow-inner">
-                <Coffee className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
+              {/* Main Coffee SVG Icon */}
+              <div className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center shadow-inner">
+                <Coffee className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
               </div>
-              <span className="tracking-tight drop-shadow-xs">☕ ให้กำลังใจผู้พัฒนา</span>
-              <Heart className="w-3.5 h-3.5 text-rose-200 fill-rose-300" />
+
+              {/* Heart Badge SVG Overlay */}
+              <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white border border-white flex items-center justify-center shadow-xs">
+                <Heart className="w-2.5 h-2.5 text-white fill-white" />
+              </div>
             </button>
 
-            {/* Mini 'X' Button on top-right corner to dismiss floating pill (Image 3) */}
+            {/* Tooltip on hover */}
+            <div className="absolute top-full right-0 mt-2 px-3 py-1.5 rounded-xl bg-slate-900/95 text-white text-[11px] font-bold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 shadow-xl z-50">
+              ☕ ให้กำลังใจผู้พัฒนา
+              <div className="absolute -top-1 right-4 w-2 h-2 bg-slate-900/95 rotate-45" />
+            </div>
+
+            {/* Mini 'X' Button on top-right corner to dismiss */}
             <button
+              data-no-drag="true"
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsDismissed(true);
               }}
-              className="absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full bg-slate-900 hover:bg-rose-600 text-white border-2 border-white flex items-center justify-center shadow-md hover:scale-115 transition-all cursor-pointer z-50 group/x"
+              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-slate-900 hover:bg-rose-600 text-white border border-white flex items-center justify-center shadow-md hover:scale-115 transition-all cursor-pointer z-50"
               aria-label="ปิดปุ่มนี้"
               title="ซ่อนปุ่มนี้"
             >
-              <X className="w-3.5 h-3.5 stroke-[3]" />
+              <X className="w-3 h-3 stroke-[3]" />
             </button>
           </div>
         )}
