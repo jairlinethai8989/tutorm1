@@ -81,7 +81,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
   {
     id: 'mock-exam',
     stepNumber: 2,
-    title: 'จำลองสอบจริง',
+    title: 'จำลองสอบ',
     shortTitle: 'จำลองสอบ',
     badge: 'Mock Exam จับเวลาจริง',
     badgeColor: 'from-violet-600 to-purple-600',
@@ -114,7 +114,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
   {
     id: 'speed-ai',
     stepNumber: 3,
-    title: 'Speed Run & AI',
+    title: 'Speed & AI',
     shortTitle: 'Speed/AI',
     badge: 'แข่งความเร็ว & สุ่มโจทย์',
     badgeColor: 'from-orange-500 to-rose-500',
@@ -147,7 +147,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
   {
     id: 'analytics-mistake',
     stepNumber: 4,
-    title: 'วินิจฉัยจุดอ่อน AI',
+    title: 'จุดอ่อน AI',
     shortTitle: 'จุดอ่อน',
     badge: 'วิเคราะห์ 16 บท & สมุดข้อผิด',
     badgeColor: 'from-indigo-600 to-blue-700',
@@ -180,7 +180,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
   {
     id: 'roadmap-report',
     stepNumber: 5,
-    title: 'Roadmap & สรุปสูตร',
+    title: 'Roadmap ม.1',
     shortTitle: 'Roadmap',
     badge: '28 ภารกิจ & รายงานผู้ปกครอง',
     badgeColor: 'from-emerald-600 to-teal-600',
@@ -221,7 +221,7 @@ export const AppTutorialModal: React.FC<AppTutorialModalProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
-  const [dontShowAgain, setDontShowAgain] = useState<boolean>(true);
+  const [dontShowAgain, setDontShowAgain] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -241,6 +241,7 @@ export const AppTutorialModal: React.FC<AppTutorialModalProps> = ({
     // Listen for manual trigger events from anywhere in the app
     const handleOpenEvent = () => {
       setCurrentStepIndex(0);
+      setDontShowAgain(false);
       setIsOpen(true);
     };
 
@@ -285,6 +286,7 @@ export const AppTutorialModal: React.FC<AppTutorialModalProps> = ({
             type="button"
             onClick={() => {
               setCurrentStepIndex(0);
+              setDontShowAgain(false);
               setIsOpen(true);
             }}
             className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-50 hover:bg-blue-100/90 border border-blue-200/90 text-blue-900 flex items-center justify-center transition-all shadow-2xs hover:shadow-md hover:scale-105 active:scale-95 cursor-pointer relative"
