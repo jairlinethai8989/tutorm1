@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .plant-stem { stroke: #15803d; stroke-width: 4; fill: none; stroke-linecap: round; }
+      .plant-leaf { fill: #22c55e; stroke: #15803d; stroke-width: 2; }
+      .plant-seed { fill: #ca8a04; stroke: #854d0e; stroke-width: 2; }
+      .plant-root { stroke: #a16207; stroke-width: 2; fill: none; stroke-linecap: round; }
+      .lbl-box { fill: #ffffff; stroke: #0f172a; stroke-width: 1.5; rx: 4; }
+      .lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 15px; font-weight: bold; fill: #0f172a; text-anchor: middle; dominant-baseline: central; }
+      .pointer { stroke: #334155; stroke-width: 1.5; marker-start: url(#dot); }
+    </style>
+    <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4">
+      <circle cx="5" cy="5" r="4" fill="#334155" />
+    </marker>
+  </defs>
+
+  <!-- Ground line (soil surface) -->
+  <line x1="80" y1="260" x2="260" y2="260" stroke="#78716c" stroke-width="2" stroke-dasharray="4,3" />
+
+  <!-- Plant Illustration -->
+  <g transform="translate(160, 0)">
+    <!-- Root system (D) below y=260 -->
+    <!-- Taproot -->
+    <path d="M 0,260 Q 5,290 0,330 T -5,370" class="plant-root" stroke-width="3.5" />
+    <!-- Lateral roots -->
+    <path d="M 0,275 Q -20,290 -35,310" class="plant-root" />
+    <path d="M -15,295 Q -30,305 -40,325" class="plant-root" />
+    <path d="M 2,285 Q 25,300 35,320" class="plant-root" />
+    <path d="M 18,305 Q 35,320 40,340" class="plant-root" />
+    <path d="M -2,320 Q -15,340 -25,355" class="plant-root" />
+    <path d="M 0,340 Q 15,355 20,365" class="plant-root" />
+
+    <!-- Stem (B) from y=260 up to y=60 -->
+    <path d="M 0,260 Q -5,180 0,60" class="plant-stem" />
+
+    <!-- Cotyledon / Seed leaf (C) at y=170 -->
+    <path d="M -3,175 C -30,165 -35,185 -5,190 Z" class="plant-seed" />
+    <path d="M 0,175 C 28,165 32,185 3,190 Z" class="plant-seed" />
+
+    <!-- True Leaves (A) at y=60 -->
+    <!-- Leaf Left -->
+    <path d="M 0,65 C -40,30 -45,10 -15,40 C -5,50 0,65 0,65 Z" class="plant-leaf" />
+    <!-- Leaf Right -->
+    <path d="M 0,60 C 40,25 45,5 15,35 C 5,45 0,60 0,60 Z" class="plant-leaf" />
+    <!-- Apical bud -->
+    <path d="M 0,55 C -10,35 0,20 0,20 C 0,20 10,35 0,55 Z" fill="#4ade80" stroke="#15803d" stroke-width="1.5" />
+  </g>
+
+  <!-- Labels and Pointers -->
+  <!-- A: Pointing to True Leaf -->
+  <line x1="140" y1="45" x2="235" y2="45" class="pointer" />
+  <rect x="235" y="30" width="30" height="30" class="lbl-box" />
+  <text x="250" y="45" class="lbl">A</text>
+
+  <!-- B: Pointing to Stem -->
+  <line x1="160" y1="120" x2="215" y2="120" class="pointer" />
+  <rect x="215" y="105" width="30" height="30" class="lbl-box" />
+  <text x="230" y="120" class="lbl">B</text>
+
+  <!-- C: Pointing to Cotyledon -->
+  <line x1="190" y1="180" x2="225" y2="180" class="pointer" />
+  <rect x="225" y="165" width="30" height="30" class="lbl-box" />
+  <text x="240" y="180" class="lbl">C</text>
+
+  <!-- D: Pointing to Root -->
+  <line x1="165" y1="310" x2="225" y2="310" class="pointer" />
+  <rect x="225" y="295" width="30" height="30" class="lbl-box" />
+  <text x="240" y="310" class="lbl">D</text>
+</svg>

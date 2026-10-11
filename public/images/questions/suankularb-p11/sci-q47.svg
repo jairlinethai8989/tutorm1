@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" width="100%" height="100%">
+  <defs>
+    <style>
+      .block { fill: #1e293b; stroke: #0f172a; stroke-width: 2; }
+      .floor-line { stroke: #334155; stroke-width: 2.5; }
+      .hatch { stroke: #64748b; stroke-width: 1.5; }
+      .force-arr { stroke: #0284c7; stroke-width: 3; fill: #0284c7; }
+      .lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 16px; font-weight: bold; fill: #0f172a; }
+    </style>
+    <!-- Arrowhead marker -->
+    <marker id="arrow-left" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 10 0 L 0 5 L 10 10 z" fill="#0284c7" />
+    </marker>
+    <marker id="arrow-right" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0284c7" />
+    </marker>
+  </defs>
+
+  <!-- Floor with hatching -->
+  <line x1="180" y1="140" x2="340" y2="140" class="floor-line" />
+  <!-- Diagonal hatch marks -->
+  <path d="M 190,140 L 180,155 M 210,140 L 200,155 M 230,140 L 220,155 M 250,140 L 240,155 M 270,140 L 260,155 M 290,140 L 280,155 M 310,140 L 300,155 M 330,140 L 320,155" class="hatch" />
+
+  <!-- Block -->
+  <rect x="230" y="70" width="60" height="70" class="block" />
+
+  <!-- Forces to the left -->
+  <!-- F1 -->
+  <line x1="230" y1="85" x2="160" y2="85" class="force-arr" marker-end="url(#arrow-left)" />
+  <text x="175" y="72" class="lbl">F&#8407;<tspan font-size="11px" dy="3">1</tspan></text>
+
+  <!-- F2 -->
+  <line x1="230" y1="120" x2="160" y2="120" class="force-arr" marker-end="url(#arrow-left)" />
+  <text x="175" y="137" class="lbl">F&#8407;<tspan font-size="11px" dy="3">2</tspan></text>
+
+  <!-- Force to the right: F3 -->
+  <line x1="290" y1="102" x2="370" y2="102" class="force-arr" marker-end="url(#arrow-right)" />
+  <text x="310" y="88" class="lbl">F&#8407;<tspan font-size="11px" dy="3">3</tspan></text>
+</svg>

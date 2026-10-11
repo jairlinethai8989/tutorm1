@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="100%" height="100%">
+  <rect width="400" height="320" fill="#FFFFFF"/>
+
+  <!-- Triangle ABC (Isosceles AB = AC) -->
+  <polygon points="200,45 80,260 320,260" fill="none" stroke="#1E293B" stroke-width="2.5"/>
+
+  <!-- Points: D on AB, E on BC, F on AC -->
+  <!-- Line DE -->
+  <line x1="125" y1="180" x2="215" y2="260" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Line EF -->
+  <line x1="215" y1="260" x2="265" y2="145" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Line DF -->
+  <line x1="125" y1="180" x2="265" y2="145" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Labels -->
+  <text x="195" y="35" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">A</text>
+  <text x="60" y="268" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">B</text>
+  <text x="330" y="268" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">C</text>
+  <text x="105" y="180" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">D</text>
+  <text x="210" y="285" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">E</text>
+  <text x="275" y="145" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">F</text>
+</svg>

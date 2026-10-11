@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 380" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 12; }
+      .header-title { font-family: 'Arial', system-ui, sans-serif; font-size: 20px; font-weight: 900; fill: #0f172a; letter-spacing: 0.5px; }
+      .header-sub { font-family: 'Arial', system-ui, sans-serif; font-size: 13px; font-style: italic; fill: #475569; }
+      .top10-badge { fill: #0f172a; rx: 6; }
+      .top10-text { font-family: 'Arial', system-ui, sans-serif; font-size: 22px; font-weight: 900; fill: #ffffff; }
+      .top10-sub { font-family: 'Arial', system-ui, sans-serif; font-size: 11px; fill: #e2e8f0; }
+      .item-num { font-family: 'Arial', system-ui, sans-serif; font-size: 13px; font-weight: 900; fill: #ffffff; text-anchor: middle; dominant-baseline: central; }
+      .item-box { fill: #1e293b; rx: 4; }
+      .item-name { font-family: 'Arial', system-ui, sans-serif; font-size: 13px; font-weight: bold; fill: #1e293b; }
+      .item-pct { font-family: 'Arial', system-ui, sans-serif; font-size: 13px; font-weight: bold; fill: #0284c7; }
+      .item-diff { font-family: 'Arial', system-ui, sans-serif; font-size: 11px; font-weight: bold; }
+      .bullet-text { font-family: 'Arial', system-ui, sans-serif; font-size: 14px; font-weight: bold; fill: #0f172a; }
+      .pub-date { font-family: 'Arial', system-ui, sans-serif; font-size: 12px; font-weight: bold; fill: #64748b; }
+    </style>
+  </defs>
+
+  <!-- Outer background card -->
+  <rect x="15" y="15" width="620" height="350" class="bg" />
+
+  <!-- Header Section -->
+  <text x="35" y="45" class="header-title">CONSUMER INTENTIONS</text>
+  <text x="35" y="65" class="header-sub">What are the products / services you want to buy / use in August?</text>
+
+  <!-- TOP 10 Badge -->
+  <rect x="35" y="78" width="160" height="42" class="top10-badge" />
+  <text x="45" y="102" class="top10-text">TOP 10</text>
+  <text x="45" y="115" class="top10-sub">Compared to June 2021</text>
+
+  <!-- Left Column (Items 1 - 5) -->
+  <g transform="translate(35, 130)">
+    <!-- 01 -->
+    <rect x="0" y="0" width="22" height="20" class="item-box" /><text x="11" y="10" class="item-num">01</text>
+    <text x="28" y="10" class="item-name">Household essentials</text>
+    <text x="28" y="24" class="item-pct">59% <tspan class="item-diff" fill="#16a34a">(+1)</tspan></text>
+
+    <!-- 02 -->
+    <rect x="0" y="32" width="22" height="20" class="item-box" /><text x="11" y="42" class="item-num">02</text>
+    <text x="28" y="42" class="item-name">Food</text>
+    <text x="28" y="56" class="item-pct">58% <tspan class="item-diff" fill="#dc2626">(-3)</tspan></text>
+
+    <!-- 03 -->
+    <rect x="0" y="64" width="22" height="20" class="item-box" /><text x="11" y="74" class="item-num">03</text>
+    <text x="28" y="74" class="item-name">Clothing</text>
+    <text x="28" y="88" class="item-pct">44% <tspan class="item-diff" fill="#475569">(0)</tspan></text>
+
+    <!-- 04 -->
+    <rect x="0" y="96" width="22" height="20" class="item-box" /><text x="11" y="106" class="item-num">04</text>
+    <text x="28" y="106" class="item-name">Beverages</text>
+    <text x="28" y="120" class="item-pct">43% <tspan class="item-diff" fill="#dc2626">(-2)</tspan></text>
+
+    <!-- 05 -->
+    <rect x="0" y="128" width="22" height="20" class="item-box" /><text x="11" y="138" class="item-num">05</text>
+    <text x="28" y="138" class="item-name">Beauty products</text>
+    <text x="28" y="152" class="item-pct">38% <tspan class="item-diff" fill="#16a34a">(+1)</tspan></text>
+  </g>
+
+  <!-- Middle Column (Items 6 - 10) -->
+  <g transform="translate(240, 130)">
+    <!-- 06 -->
+    <rect x="0" y="0" width="22" height="20" class="item-box" /><text x="11" y="10" class="item-num">06</text>
+    <text x="28" y="10" class="item-name">Eating out</text>
+    <text x="28" y="24" class="item-pct">32% <tspan class="item-diff" fill="#16a34a">(+6)</tspan></text>
+
+    <!-- 07 -->
+    <rect x="0" y="32" width="22" height="20" class="item-box" /><text x="11" y="42" class="item-num">07</text>
+    <text x="28" y="42" class="item-name">Shoes / bags</text>
+    <text x="28" y="56" class="item-pct">30% <tspan class="item-diff" fill="#16a34a">(+1)</tspan></text>
+
+    <!-- 08 -->
+    <rect x="0" y="64" width="22" height="20" class="item-box" /><text x="11" y="74" class="item-num">08</text>
+    <text x="28" y="74" class="item-name">Fuels</text>
+    <text x="28" y="88" class="item-pct">27% <tspan class="item-diff" fill="#475569">(0)</tspan></text>
+
+    <!-- 09 -->
+    <rect x="0" y="96" width="22" height="20" class="item-box" /><text x="11" y="106" class="item-num">09</text>
+    <text x="28" y="106" class="item-name">Smartphones</text>
+    <text x="28" y="120" class="item-pct">25% <tspan class="item-diff" fill="#dc2626">(-1)</tspan></text>
+
+    <!-- 10 -->
+    <rect x="0" y="128" width="22" height="20" class="item-box" /><text x="11" y="138" class="item-num">10</text>
+    <text x="28" y="138" class="item-name">Home appliances</text>
+    <text x="28" y="152" class="item-pct">22% <tspan class="item-diff" fill="#16a34a">(+4)</tspan></text>
+  </g>
+
+  <!-- Right Section: Regional bullets & Phone Mockup -->
+  <g transform="translate(440, 80)">
+    <rect x="15" y="10" width="150" height="200" rx="20" fill="#1e293b" />
+    <rect x="22" y="25" width="136" height="170" rx="8" fill="#f8fafc" />
+    <!-- Screen graphic lines -->
+    <rect x="30" y="35" width="120" height="18" rx="4" fill="#0284c7" />
+    <line x1="30" y1="65" x2="130" y2="65" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" />
+    <line x1="30" y1="80" x2="110" y2="80" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" />
+    <line x1="30" y1="95" x2="140" y2="95" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" />
+    <line x1="30" y1="110" x2="120" y2="110" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" />
+    <line x1="30" y1="125" x2="135" y2="125" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" />
+
+    <!-- Bullet stats -->
+    <text x="-35" y="45" class="bullet-text">• BKK -3%</text>
+    <text x="-35" y="70" class="bullet-text">• Upcountry +8%</text>
+  </g>
+
+  <!-- Published Date -->
+  <text x="35" y="340" class="pub-date">PUBLISHED: 6 Aug 2021</text>
+</svg>

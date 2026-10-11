@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.21.0',
-  versionLabel: 'Version 2.21.0 (End-to-End Performance Optimization & Math Formatting Fixes)',
+  version: 'v2.22.0',
+  versionLabel: 'Version 2.22.0 (New Pre-Test Mock Exams: SK 11 & BM 2564 + Support Widget Fix)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,44 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.22.0',
+    date: '11 ตุลาคม 2026',
+    title: '🎓 นำเข้าชุดข้อสอบ Pre-Test 3 ชุดใหญ่ (สวนกุหลาบฯ 11 & เบ็ญจะมะฯ 2564) & ปรับปรุงปุ่มสนับสนุน',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'บรรจุข้อสอบ Pre-Test ครั้งที่ 11 สวนกุหลาบวิทยาลัย (ห้องเรียนพิเศษ GATE) ครบ 110 ข้อ',
+        description:
+          'นำเข้าข้อสอบรอบห้องเรียนพิเศษ GATE วิทยาศาสตร์, คณิตศาสตร์ และภาษาอังกฤษ ครบ 110 ข้อ พร้อมภาพประกอบเวกเตอร์ SVG คมชัด และเฉลยละเอียดทุกข้อ ผูกระบบจำลองสอบ Mock Exam 180 นาที 110 คะแนน',
+      },
+      {
+        type: 'feature',
+        title: 'บรรจุข้อสอบ Pre-Test ครั้งที่ 11 ปี 2568 สวนกุหลาบวิทยาลัย (ห้องเรียนปกติ 5 วิชา) ครบ 141 ข้อ',
+        description:
+          'นำเข้าข้อสอบรอบห้องเรียนปกติ 5 วิชาหลัก (คณิต, วิทย์, ไทย, สังคม, อังกฤษ) ครบ 141 ข้อ พร้อมภาพประกอบเวกเตอร์ SVG ดิจิทัล และเฉลยละเอียดทุกข้อ ผูกระบบจำลองสอบ Mock Exam 180 นาที 141 คะแนน',
+      },
+      {
+        type: 'feature',
+        title: 'บรรจุข้อสอบ Pre-Test คณิตศาสตร์ รร.เบ็ญจะมะมหาราช ปี 2564 ครบ 45 ข้อ (ปรนัย 35 + อัตนัย 10)',
+        description:
+          'นำเข้าข้อสอบคณิตศาสตร์เข้มข้น รร.เบ็ญจะมะมหาราช ครบ 45 ข้อ แบ่งเป็นปรนัย 35 ข้อ และอัตนัยเติมคำตอบ 10 ข้อ จัดทำภาพประกอบเวกเตอร์ SVG 9 ภาพและเฉลยแสดงวิธีทำอย่างละเอียดทุกข้อ ผูกระบบจำลองสอบ Mock Exam 120 นาที 100 คะแนน',
+      },
+      {
+        type: 'fix',
+        title: 'แก้ไขปุ่มให้กำลังใจผู้พัฒนา (Support Coffee Widget) คลิกครั้งแรกแสดงทันที 100%',
+        description:
+          'ปรับปรุง Event Lifecycle ของปุ่มสนับสนุน โดยแยก Event ลากย้าย (Drag) ออกจาก Click Handler พร้อมระบบ Portal และ Debounce ป้องกันการปิดป๊อปอัปโดยไม่ตั้งใจ คลิกครั้งเดียวเปิด QR Code พร้อมเพย์ได้ทันที',
+      },
+    ],
+  },
+  {
     version: 'v2.21.0',
     date: '30 สิงหาคม 2026',
     title: '🚀 ปรับปรุงประสิทธิภาพทั้งระบบ (End-to-End Optimization) & แก้ไขการแสดงผลสัญลักษณ์คณิต-วิทย์',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'system',

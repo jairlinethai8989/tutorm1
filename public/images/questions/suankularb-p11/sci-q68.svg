@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" width="100%" height="100%">
+  <defs>
+    <style>
+      .box { fill: #f8fafc; stroke: #0f172a; stroke-width: 2; rx: 6; }
+      .lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 13.5px; font-weight: bold; fill: #0f172a; text-anchor: middle; dominant-baseline: central; }
+      .crit-box { fill: #ffffff; stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 3,3; rx: 4; }
+      .crit-lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 12px; font-weight: bold; fill: #475569; text-anchor: middle; dominant-baseline: central; }
+      .line { stroke: #334155; stroke-width: 1.8; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Level 0: Root box -->
+  <rect x="180" y="20" width="290" height="34" class="box" />
+  <text x="325" y="37" class="lbl">งู กุหลาบ กบ เห็ด รา โลมา ผึ้ง ไส้เดือนดิน มอส</text>
+
+  <!-- Split by Criteria A -->
+  <line x1="325" y1="54" x2="325" y2="75" class="line" />
+  <rect x="295" y="65" width="60" height="20" class="crit-box" />
+  <text x="325" y="75" class="crit-lbl">เกณฑ์ A</text>
+  
+  <line x1="325" y1="85" x2="325" y2="95" class="line" />
+  <line x1="200" y1="95" x2="480" y2="95" class="line" />
+  <line x1="200" y1="95" x2="200" y2="115" class="line" />
+  <line x1="480" y1="95" x2="480" y2="115" class="line" />
+
+  <!-- Level 1: Left and Right -->
+  <!-- Left Box -->
+  <rect x="80" y="115" width="240" height="34" class="box" />
+  <text x="200" y="132" class="lbl">งู กบ เห็ด รา โลมา ผึ้ง ไส้เดือนดิน</text>
+
+  <!-- Right Box -->
+  <rect x="420" y="115" width="120" height="34" class="box" />
+  <text x="480" y="132" class="lbl">มอส กุหลาบ</text>
+
+  <!-- Split Left by Criteria B -->
+  <line x1="200" y1="149" x2="200" y2="165" class="line" />
+  <rect x="170" y="155" width="60" height="20" class="crit-box" />
+  <text x="200" y="165" class="crit-lbl">เกณฑ์ B</text>
+
+  <line x1="200" y1="175" x2="200" y2="185" class="line" />
+  <line x1="130" y1="185" x2="270" y2="185" class="line" />
+  <line x1="130" y1="185" x2="130" y2="205" class="line" />
+  <line x1="270" y1="185" x2="270" y2="205" class="line" />
+
+  <!-- Sub-leaves Left -->
+  <rect x="80" y="205" width="100" height="32" class="box" />
+  <text x="130" y="221" class="lbl">งู กบ โลมา ผึ้ง</text>
+
+  <rect x="230" y="205" width="80" height="32" class="box" />
+  <text x="270" y="221" class="lbl">เห็ด รา</text>
+
+  <!-- Split Right by Criteria C -->
+  <line x1="480" y1="149" x2="480" y2="165" class="line" />
+  <rect x="450" y="155" width="60" height="20" class="crit-box" />
+  <text x="480" y="165" class="crit-lbl">เกณฑ์ C</text>
+
+  <line x1="480" y1="175" x2="480" y2="185" class="line" />
+  <line x1="430" y1="185" x2="530" y2="185" class="line" />
+  <line x1="430" y1="185" x2="430" y2="205" class="line" />
+  <line x1="530" y1="185" x2="530" y2="205" class="line" />
+
+  <!-- Sub-leaves Right -->
+  <rect x="390" y="205" width="80" height="32" class="box" />
+  <text x="430" y="221" class="lbl">กุหลาบ</text>
+
+  <rect x="495" y="205" width="70" height="32" class="box" />
+  <text x="530" y="221" class="lbl">มอส</text>
+</svg>

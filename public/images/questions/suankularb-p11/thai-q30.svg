@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320" width="100%" height="100%">
+  <defs>
+    <style>
+      .chart-title { font-family: 'Sarabun', system-ui, sans-serif; font-size: 14px; font-weight: bold; fill: #1e293b; text-anchor: middle; }
+      .axis-lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 11px; fill: #64748b; }
+      .point-lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 11px; font-weight: bold; fill: #0f172a; text-anchor: middle; }
+      .axis { stroke: #334155; stroke-width: 1.5; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 2,2; }
+      .data-line { fill: none; stroke: #0f172a; stroke-width: 2; }
+      .point { fill: #0f172a; }
+    </style>
+  </defs>
+
+  <!-- Left Chart: CO2 Concentration (ppm) -->
+  <g transform="translate(30, 20)">
+    <text x="140" y="15" class="chart-title">ความเข้มข้นของก๊าซ CO<tspan font-size="10px" dy="3">2</tspan><tspan font-size="14px" dy="-3"> ในโลก ค.ศ. 1940-2020</tspan></text>
+    <text x="50" y="32" class="axis-lbl">ppm</text>
+    
+    <!-- Y Axis: 0 to 600 ppm, height = 180, origin at (50, 240) -->
+    <!-- 600 at y=60, 400 at y=120, 200 at y=180, 0 at y=240 -->
+    <line x1="50" y1="50" x2="50" y2="240" class="axis" />
+    <line x1="50" y1="240" x2="270" y2="240" class="axis" />
+    <text x="275" y="244" class="axis-lbl">ปี ค.ศ.</text>
+
+    <!-- Ticks & Grid Y -->
+    <text x="42" y="64" class="axis-lbl" text-anchor="end">600</text>
+    <line x1="50" y1="60" x2="260" y2="60" class="grid" />
+    <text x="42" y="124" class="axis-lbl" text-anchor="end">400</text>
+    <line x1="50" y1="120" x2="260" y2="120" class="grid" />
+    <text x="42" y="184" class="axis-lbl" text-anchor="end">200</text>
+    <line x1="50" y1="180" x2="260" y2="180" class="grid" />
+    <text x="42" y="244" class="axis-lbl" text-anchor="end">0</text>
+
+    <!-- X Ticks: 1940, 1960, 1980, 2000, 2020 -->
+    <!-- x positions: 60, 105, 150, 195, 240 -->
+    <text x="60" y="256" class="axis-lbl" text-anchor="middle">1940</text>
+    <text x="105" y="256" class="axis-lbl" text-anchor="middle">1960</text>
+    <text x="150" y="256" class="axis-lbl" text-anchor="middle">1980</text>
+    <text x="195" y="256" class="axis-lbl" text-anchor="middle">2000</text>
+    <text x="240" y="256" class="axis-lbl" text-anchor="middle">2020</text>
+
+    <!-- Vertical grid lines -->
+    <line x1="60" y1="50" x2="60" y2="240" class="grid" />
+    <line x1="105" y1="50" x2="105" y2="240" class="grid" />
+    <line x1="150" y1="50" x2="150" y2="240" class="grid" />
+    <line x1="195" y1="50" x2="195" y2="240" class="grid" />
+    <line x1="240" y1="50" x2="240" y2="240" class="grid" />
+
+    <!-- Data Line: (1940,280)->y=156, (1960,286)->y=154.2, (1980,310)->y=147, (2000,344)->y=136.8, (2020,480)->y=96 -->
+    <polyline points="60,156 105,154 150,147 195,137 240,96" class="data-line" />
+    <circle cx="60" cy="156" r="4" class="point" /><text x="60" y="146" class="point-lbl">280</text>
+    <circle cx="105" cy="154" r="4" class="point" /><text x="105" y="144" class="point-lbl">286</text>
+    <circle cx="150" cy="147" r="4" class="point" /><text x="150" y="137" class="point-lbl">310</text>
+    <circle cx="195" cy="137" r="4" class="point" /><text x="195" y="127" class="point-lbl">344</text>
+    <circle cx="240" cy="96" r="4" class="point" /><text x="240" y="86" class="point-lbl">480</text>
+  </g>
+
+  <!-- Right Chart: Global Temperature (°C) -->
+  <g transform="translate(380, 20)">
+    <text x="140" y="15" class="chart-title">อุณหภูมิเฉลี่ยโลก ระหว่าง ค.ศ. 1940-2020</text>
+    <text x="50" y="32" class="axis-lbl">°C</text>
+
+    <!-- Y Axis: 0 to 40 °C, origin at (50, 240) -->
+    <!-- 40 at y=60, 30 at y=105, 20 at y=150, 10 at y=195, 0 at y=240 -->
+    <line x1="50" y1="50" x2="50" y2="240" class="axis" />
+    <line x1="50" y1="240" x2="270" y2="240" class="axis" />
+    <text x="275" y="244" class="axis-lbl">ปี ค.ศ.</text>
+
+    <!-- Ticks & Grid Y -->
+    <text x="42" y="64" class="axis-lbl" text-anchor="end">40</text>
+    <line x1="50" y1="60" x2="260" y2="60" class="grid" />
+    <text x="42" y="109" class="axis-lbl" text-anchor="end">30</text>
+    <line x1="50" y1="105" x2="260" y2="105" class="grid" />
+    <text x="42" y="154" class="axis-lbl" text-anchor="end">20</text>
+    <line x1="50" y1="150" x2="260" y2="150" class="grid" />
+    <text x="42" y="199" class="axis-lbl" text-anchor="end">10</text>
+    <line x1="50" y1="195" x2="260" y2="195" class="grid" />
+    <text x="42" y="244" class="axis-lbl" text-anchor="end">0</text>
+
+    <!-- X Ticks -->
+    <text x="60" y="256" class="axis-lbl" text-anchor="middle">1940</text>
+    <text x="105" y="256" class="axis-lbl" text-anchor="middle">1960</text>
+    <text x="150" y="256" class="axis-lbl" text-anchor="middle">1980</text>
+    <text x="195" y="256" class="axis-lbl" text-anchor="middle">2000</text>
+    <text x="240" y="256" class="axis-lbl" text-anchor="middle">2020</text>
+
+    <!-- Vertical grid lines -->
+    <line x1="60" y1="50" x2="60" y2="240" class="grid" />
+    <line x1="105" y1="50" x2="105" y2="240" class="grid" />
+    <line x1="150" y1="50" x2="150" y2="240" class="grid" />
+    <line x1="195" y1="50" x2="195" y2="240" class="grid" />
+    <line x1="240" y1="50" x2="240" y2="240" class="grid" />
+
+    <!-- Data Line: 1940: 27.8 -> y=114.9, 1960: 30 -> y=105, 1980: 30.1 -> y=104.5, 2000: 32.7 -> y=92.8, 2020: 34.2 -> y=86.1 -->
+    <polyline points="60,115 105,105 150,104 195,93 240,86" class="data-line" />
+    <circle cx="60" cy="115" r="4" class="point" /><text x="50" y="122" class="point-lbl">27.8</text>
+    <circle cx="105" cy="105" r="4" class="point" /><text x="105" y="95" class="point-lbl">30</text>
+    <circle cx="150" cy="104" r="4" class="point" /><text x="150" y="94" class="point-lbl">30.1</text>
+    <circle cx="195" cy="93" r="4" class="point" /><text x="195" y="83" class="point-lbl">32.7</text>
+    <circle cx="240" cy="86" r="4" class="point" /><text x="240" y="76" class="point-lbl">34.2</text>
+  </g>
+</svg>

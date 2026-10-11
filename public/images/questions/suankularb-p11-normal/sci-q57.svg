@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="100%" height="100%">
+  <rect width="500" height="300" fill="#FFFFFF"/>
+
+  <!-- Light source line -->
+  <line x1="160" y1="50" x2="160" y2="210" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- Point P -->
+  <circle cx="160" cy="70" r="4" fill="#0F172A"/>
+  <text x="145" y="75" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#0F172A">P</text>
+
+  <!-- Point Q -->
+  <circle cx="160" cy="190" r="4" fill="#0F172A"/>
+  <text x="145" y="195" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#0F172A">Q</text>
+
+  <!-- Opaque Spherical Object -->
+  <!-- Located at distance X = 80px from sources => x = 240, y = 130 -->
+  <circle cx="240" cy="130" r="22" fill="#94A3B8" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Screen at distance X from sphere => x = 320 -->
+  <line x1="320" y1="40" x2="320" y2="230" stroke="#0F172A" stroke-width="3"/>
+  <text x="310" y="32" font-family="'Sarabun', sans-serif" font-size="15" font-weight="bold" fill="#0F172A">ฉาก</text>
+
+  <!-- Baseline & Dimensions -->
+  <line x1="160" y1="230" x2="320" y2="230" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="160" y1="225" x2="160" y2="235" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="240" y1="225" x2="240" y2="235" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="320" y1="225" x2="320" y2="235" stroke="#1E293B" stroke-width="1.5"/>
+
+  <text x="195" y="250" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">X</text>
+  <text x="275" y="250" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">X</text>
+</svg>

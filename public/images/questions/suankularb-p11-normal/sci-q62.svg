@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="100%" height="100%">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#1E293B"/>
+    </marker>
+  </defs>
+
+  <rect width="600" height="420" fill="#FFFFFF"/>
+
+  <!-- Nodes -->
+  <!-- Top: หินตะกอน (x=300, y=70, w=150, h=50) -->
+  <rect x="235" y="45" width="130" height="48" rx="8" fill="#F1F5F9" stroke="#1E293B" stroke-width="2"/>
+  <text x="300" y="75" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#0F172A" text-anchor="middle">หินตะกอน</text>
+
+  <!-- Left: ตะกอน (x=110, y=170, w=120, h=48) -->
+  <rect x="50" y="150" width="120" height="48" rx="8" fill="#F1F5F9" stroke="#1E293B" stroke-width="2"/>
+  <text x="110" y="180" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#0F172A" text-anchor="middle">ตะกอน</text>
+
+  <!-- Right: หินแปร (x=490, y=170, w=120, h=48) -->
+  <rect x="430" y="150" width="120" height="48" rx="8" fill="#F1F5F9" stroke="#1E293B" stroke-width="2"/>
+  <text x="490" y="180" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#0F172A" text-anchor="middle">หินแปร</text>
+
+  <!-- Bottom-Left: หินอัคนี (x=190, y=320, w=130, h=48) -->
+  <rect x="125" y="295" width="130" height="48" rx="8" fill="#F1F5F9" stroke="#1E293B" stroke-width="2"/>
+  <text x="190" y="325" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#0F172A" text-anchor="middle">หินอัคนี</text>
+
+  <!-- Bottom-Right: แมกมา หรือลาวา (x=410, y=320, w=150, h=48) -->
+  <rect x="335" y="295" width="150" height="48" rx="8" fill="#F1F5F9" stroke="#1E293B" stroke-width="2"/>
+  <text x="410" y="325" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#0F172A" text-anchor="middle">แมกมา หรือลาวา</text>
+
+  <!-- Arrows and numbers -->
+  <!-- 1: ตะกอน -> หินตะกอน -->
+  <line x1="160" y1="150" x2="235" y2="85" stroke="#1E293B" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="180" y="105" font-family="'Sarabun', sans-serif" font-size="17" font-weight="bold" fill="#E11D48">1</text>
+
+  <!-- 2: หินตะกอน -> หินแปร -->
+  <line x1="365" y1="85" x2="445" y2="150" stroke="#1E293B" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="420" y="105" font-family="'Sarabun', sans-serif" font-size="17" font-weight="bold" fill="#E11D48">2</text>
+
+  <!-- 3: หินแปร -> แมกมา หรือลาวา -->
+  <line x1="480" y1="200" x2="435" y2="295" stroke="#1E293B" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="470" y="255" font-family="'Sarabun', sans-serif" font-size="17" font-weight="bold" fill="#E11D48">3</text>
+
+  <!-- 4: แมกมา หรือลาวา -> หินอัคนี -->
+  <line x1="335" y1="320" x2="255" y2="320" stroke="#1E293B" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="290" y="345" font-family="'Sarabun', sans-serif" font-size="17" font-weight="bold" fill="#E11D48">4</text>
+
+  <!-- 5: หินอัคนี -> ตะกอน -->
+  <line x1="165" y1="295" x2="125" y2="200" stroke="#1E293B" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="125" y="255" font-family="'Sarabun', sans-serif" font-size="17" font-weight="bold" fill="#E11D48">5</text>
+
+  <!-- 6: หินตะกอน -> ตะกอน -->
+  <line x1="260" y1="95" x2="170" y2="175" stroke="#1E293B" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="230" y="145" font-family="'Sarabun', sans-serif" font-size="17" font-weight="bold" fill="#E11D48">6</text>
+
+  <!-- 7: หินอัคนี -> หินแปร -->
+  <line x1="250" y1="295" x2="430" y2="195" stroke="#1E293B" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="330" y="235" font-family="'Sarabun', sans-serif" font-size="17" font-weight="bold" fill="#E11D48">7</text>
+
+  <!-- 8: หินตะกอน -> แมกมา หรือลาวา -->
+  <line x1="340" y1="95" x2="400" y2="295" stroke="#1E293B" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="385" y="195" font-family="'Sarabun', sans-serif" font-size="17" font-weight="bold" fill="#E11D48">8</text>
+</svg>

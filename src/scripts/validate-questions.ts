@@ -387,6 +387,83 @@ async function main() {
         return m.SAMSEN_ENGLISH_QUESTIONS;
       },
     },
+    {
+      name: 'suankularbPretest11/math.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11/math');
+        return m.SUANKULARB_PRETEST_11_MATH_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbPretest11/thai.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11/thai');
+        return m.SUANKULARB_PRETEST_11_THAI_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbPretest11/science.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11/science');
+        return m.SUANKULARB_PRETEST_11_SCIENCE_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbPretest11/english.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11/english');
+        return m.SUANKULARB_PRETEST_11_ENGLISH_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbPretest11Normal/math.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11Normal/math');
+        return m.SUANKULARB_PRETEST_11_NORMAL_MATH_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbPretest11Normal/thai.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11Normal/thai');
+        return m.SUANKULARB_PRETEST_11_NORMAL_THAI_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbPretest11Normal/science.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11Normal/science');
+        return m.SUANKULARB_PRETEST_11_NORMAL_SCIENCE_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbPretest11Normal/social.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11Normal/social');
+        return m.SUANKULARB_PRETEST_11_NORMAL_SOCIAL_QUESTIONS;
+      },
+    },
+    {
+      name: 'suankularbPretest11Normal/english.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/suankularbPretest11Normal/english');
+        return m.SUANKULARB_PRETEST_11_NORMAL_ENGLISH_QUESTIONS;
+      },
+    },
+    {
+      name: 'benchamaMath2564/part1.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/benchamaMath2564/part1');
+        return m.BENCHAMA_MATH_2564_PART1;
+      },
+    },
+    {
+      name: 'benchamaMath2564/part2.ts',
+      getQuestions: async () => {
+        const m = await import('../data/questions/benchamaMath2564/part2');
+        return m.BENCHAMA_MATH_2564_PART2;
+      },
+    },
   ];
 
   const allIssues: ValidationIssue[] = [];

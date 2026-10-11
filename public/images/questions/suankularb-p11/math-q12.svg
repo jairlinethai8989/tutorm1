@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" width="100%" height="100%">
+  <defs>
+    <style>
+      .poly-bg { fill: #f8fafc; stroke: #1e293b; stroke-width: 2.5; stroke-linejoin: round; }
+      .lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 16px; font-weight: bold; fill: #0f172a; }
+      .deg { font-family: 'Sarabun', system-ui, sans-serif; font-size: 14px; fill: #334155; }
+      .dim { font-family: 'Sarabun', system-ui, sans-serif; font-size: 16px; font-weight: bold; fill: #2563eb; }
+      .rt-ang { fill: none; stroke: #1e293b; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <!-- Shape 1: ABCD -->
+  <g id="shape-abcd">
+    <polygon points="50,190 230,190 230,90 150,30" class="poly-bg" />
+    
+    <!-- Right angle at B (230, 190) -->
+    <polyline points="215,190 215,175 230,175" class="rt-ang" />
+    
+    <!-- Right angle at D (150, 30) -->
+    <!-- vector DA = (-100, 160), vector DC = (80, 60) perpendicular -->
+    <path d="M 140,46 L 152,55 L 162,39" class="rt-ang" />
+
+    <!-- 45 deg arc at A (50, 190) -->
+    <path d="M 90,190 A 40 40 0 0 0 78,162" fill="none" stroke="#64748b" stroke-width="1.5" />
+    <text x="95" y="175" class="deg">45°</text>
+
+    <!-- Labels -->
+    <text x="32" y="200" class="lbl">A</text>
+    <text x="240" y="200" class="lbl">B</text>
+    <text x="240" y="85" class="lbl">C</text>
+    <text x="145" y="22" class="lbl">D</text>
+
+    <!-- Dimensions -->
+    <text x="140" y="212" class="dim" text-anchor="middle">10</text>
+    <text x="200" y="55" class="dim" text-anchor="middle">4</text>
+  </g>
+
+  <!-- Shape 2: EFGH -->
+  <g id="shape-efgh">
+    <polygon points="350,190 480,190 410,50 350,50" class="poly-bg" />
+
+    <!-- Right angle at E (350, 190) -->
+    <polyline points="350,175 365,175 365,190" class="rt-ang" />
+    
+    <!-- Right angle at H (350, 50) -->
+    <polyline points="350,65 365,65 365,50" class="rt-ang" />
+
+    <!-- 45 deg arc at F (480, 190) -->
+    <path d="M 440,190 A 40 40 0 0 1 452,162" fill="none" stroke="#64748b" stroke-width="1.5" />
+    <text x="415" y="175" class="deg">45°</text>
+
+    <!-- Labels -->
+    <text x="332" y="200" class="lbl">E</text>
+    <text x="490" y="200" class="lbl">F</text>
+    <text x="415" y="45" class="lbl">G</text>
+    <text x="332" y="45" class="lbl">H</text>
+
+    <!-- Dimensions -->
+    <text x="415" y="212" class="dim" text-anchor="middle">6</text>
+    <text x="380" y="40" class="dim" text-anchor="middle">2</text>
+  </g>
+</svg>

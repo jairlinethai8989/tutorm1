@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 360" width="100%" height="100%">
+  <defs>
+    <style>
+      .sphere { fill: none; stroke: #0f172a; stroke-width: 2; }
+      .horizon { fill: #f8fafc; stroke: #334155; stroke-width: 1.5; stroke-dasharray: 4,4; }
+      .horizon-front { fill: none; stroke: #334155; stroke-width: 2; }
+      .zenith-line { stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 3,3; }
+      .sight-line { stroke: #0284c7; stroke-width: 2; }
+      .lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 14px; font-weight: bold; fill: #0f172a; }
+      .ang { font-family: 'Sarabun', system-ui, sans-serif; font-size: 12px; fill: #334155; }
+      .star { fill: #f59e0b; stroke: #d97706; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <!-- Celestial Sphere (cx=250, cy=180, r=130) -->
+  <circle cx="250" cy="180" r="130" class="sphere" />
+
+  <!-- Horizon Ellipse (cx=250, cy=200, rx=125, ry=35) -->
+  <ellipse cx="250" cy="200" rx="125" ry="35" class="horizon" />
+  <path d="M 125,200 A 125 35 0 0 0 375,200" class="horizon-front" />
+
+  <!-- North mark on horizon -->
+  <line x1="250" y1="200" x2="200" y2="230" stroke="#0f172a" stroke-width="2" />
+  <text x="185" y="242" class="lbl">N</text>
+
+  <!-- Observer at center (250, 200) -->
+  <!-- Person silhouette -->
+  <circle cx="250" cy="192" r="4" fill="#0f172a" />
+  <line x1="250" y1="196" x2="250" y2="202" stroke="#0f172a" stroke-width="2" />
+  <line x1="247" y1="205" x2="250" y2="202" stroke="#0f172a" stroke-width="2" />
+  <line x1="253" y1="205" x2="250" y2="202" stroke="#0f172a" stroke-width="2" />
+
+  <!-- Zenith line (upwards to 250, 50) -->
+  <line x1="250" y1="200" x2="250" y2="50" class="zenith-line" />
+
+  <!-- Star A -->
+  <line x1="250" y1="200" x2="280" y2="90" class="sight-line" />
+  <polygon points="280,82 283,88 289,88 284,92 286,98 280,94 274,98 276,92 271,88 277,88" class="star" />
+  <text x="268" y="85" class="lbl">A</text>
+
+  <!-- Star B -->
+  <line x1="250" y1="200" x2="200" y2="125" class="sight-line" />
+  <polygon points="200,117 203,123 209,123 204,127 206,133 200,129 194,133 196,127 191,123 197,123" class="star" />
+  <text x="185" y="125" class="lbl">B</text>
+
+  <!-- Angles indicators -->
+  <!-- Altitude angles from zenith or horizon -->
+  <text x="256" y="145" class="ang">11°</text>
+  <text x="228" y="152" class="ang">18°</text>
+  <!-- Azimuth angles from North -->
+  <text x="230" y="218" class="ang">20°</text>
+</svg>

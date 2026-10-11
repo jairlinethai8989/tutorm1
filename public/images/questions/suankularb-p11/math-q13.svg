@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280" width="100%" height="100%">
+  <defs>
+    <style>
+      .main-line { stroke: #1e293b; stroke-width: 2.5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      .lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 16px; font-weight: bold; fill: #0f172a; }
+      .ang-lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 14px; fill: #334155; font-weight: 600; }
+      .arc { fill: none; stroke: #64748b; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <!-- Parallel top line AB and bottom line CD -->
+  <line x1="160" y1="40" x2="360" y2="40" class="main-line" />
+  <line x1="180" y1="230" x2="380" y2="230" class="main-line" />
+
+  <!-- Parallel arrows -->
+  <polygon points="260,36 270,40 260,44" fill="#1e293b" />
+  <polygon points="280,226 290,230 280,234" fill="#1e293b" />
+
+  <!-- Left zig-zag: from A(180,40) to V1(130,140) to C(200,230) -->
+  <polyline points="180,40 130,140 200,230" class="main-line" />
+
+  <!-- Right zig-zag: from B(350,40) to V2(310,120) to D(370,230) -->
+  <polyline points="350,40 310,120 370,230" class="main-line" />
+
+  <!-- Angle at A: 142 deg -->
+  <path d="M 215,40 A 35 35 0 0 1 155,90" class="arc" />
+  <text x="175" y="65" class="ang-lbl">142°</text>
+
+  <!-- Angle at B: 28 deg -->
+  <path d="M 315,40 A 35 35 0 0 1 332,58" class="arc" />
+  <text x="325" y="58" class="ang-lbl">28°</text>
+
+  <!-- Angle at V2: x -->
+  <path d="M 322,145 A 30 30 0 0 1 338,94" class="arc" />
+  <text x="325" y="125" class="ang-lbl" font-weight="bold" fill="#2563eb">x</text>
+
+  <!-- Angle at D: 44 deg -->
+  <path d="M 335,230 A 35 35 0 0 1 350,195" class="arc" />
+  <text x="348" y="222" class="ang-lbl">44°</text>
+
+  <!-- Angle at C: y -->
+  <path d="M 170,230 A 35 35 0 0 1 185,195" class="arc" />
+  <text x="185" y="215" class="ang-lbl" font-weight="bold" fill="#2563eb">y</text>
+
+  <!-- Vertex labels -->
+  <text x="175" y="30" class="lbl">A</text>
+  <text x="355" y="30" class="lbl">B</text>
+  <text x="195" y="250" class="lbl">C</text>
+  <text x="375" y="250" class="lbl">D</text>
+</svg>

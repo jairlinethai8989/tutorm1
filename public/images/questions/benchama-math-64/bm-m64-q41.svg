@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 340" width="100%" height="100%">
+  <rect width="460" height="340" fill="#FFFFFF"/>
+  <defs>
+    <clipPath id="lune-clip">
+      <circle cx="284.2" cy="170.0" r="74.2"/>
+    </clipPath>
+  </defs>
+
+  <!-- Shaded Lune: Region inside small circle but outside large circle (crescent) -->
+  <path d="M 284.2 95.8 A 105 105 0 0 1 284.2 244.2 A 74.2 74.2 0 0 0 284.2 95.8 Z" fill="#94A3B8" stroke="none"/>
+
+  <!-- Large Circle -->
+  <circle cx="210" cy="170" r="105" fill="none" stroke="#1E293B" stroke-width="2.2"/>
+
+  <!-- Small Circle -->
+  <circle cx="284.2" cy="170.0" r="74.2" fill="none" stroke="#1E293B" stroke-width="2.2"/>
+
+  <!-- Segments CE and CF -->
+  <line x1="210" y1="170" x2="284.2" y2="95.8" stroke="#1E293B" stroke-width="2"/>
+  <line x1="210" y1="170" x2="284.2" y2="244.2" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Diameter/Axis line through D, C, G -->
+  <line x1="105" y1="170" x2="368.5" y2="170" stroke="#1E293B" stroke-width="1.8"/>
+
+  <!-- Right angle marker at C -->
+  <path d="M 221 159 L 232 170 L 221 181" fill="none" stroke="#1E293B" stroke-width="1.5"/>
+
+  <!-- Labels -->
+  <text x="90" y="175" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">D</text>
+  <text x="195" y="175" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">C</text>
+  <text x="320" y="188" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">G</text>
+  <text x="288.2462120245875" y="87.75378797541251" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">E</text>
+  <text x="288.2462120245875" y="264.2462120245875" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">F</text>
+</svg>

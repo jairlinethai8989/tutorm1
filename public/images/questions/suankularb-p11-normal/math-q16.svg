@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 440" width="100%" height="100%">
+  <rect width="440" height="440" fill="#FFFFFF"/>
+
+  <!-- Dimension line 28 cm -->
+  <line x1="60" y1="40" x2="340" y2="40" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="60" y1="33" x2="60" y2="47" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="340" y1="33" x2="340" y2="47" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="180" y="32" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1E293B">28 ซม.</text>
+
+  <!-- Dimension line 14 cm -->
+  <line x1="200" y1="58" x2="340" y2="58" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="200" y1="52" x2="200" y2="64" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="340" y1="52" x2="340" y2="64" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="250" y="52" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1E293B">14 ซม.</text>
+
+  <!-- Outer frames for the 3 squares:
+       Top-Left: (60, 70) to (200, 210) [140x140]
+       Top-Right: (200, 70) to (340, 210) [140x140]
+       Bottom-Right: (200, 210) to (340, 350) [140x140]
+  -->
+  <rect x="60" y="70" width="140" height="140" fill="none" stroke="#1E293B" stroke-width="2"/>
+  <rect x="200" y="70" width="140" height="140" fill="none" stroke="#1E293B" stroke-width="2"/>
+  <rect x="200" y="210" width="140" height="140" fill="none" stroke="#1E293B" stroke-width="2"/>
+
+  <!-- Top-Left Square (60,70 to 200,210):
+       Semicircles and shaded regions
+  -->
+  <!-- Large quadrant arc from (60,210) to (200,70) -->
+  <!-- Upper shaded region in top-left -->
+  <path d="M 60 210 A 140 140 0 0 1 200 70 L 60 70 Z" fill="#1E293B"/>
+  <path d="M 60 210 A 70 70 0 0 1 200 210 L 60 210 Z" fill="#1E293B"/>
+  <!-- Internal dividing circles -->
+  <circle cx="130" cy="140" r="70" fill="none" stroke="#1E293B" stroke-width="1.5"/>
+
+  <!-- Top-Right Square (200,70 to 340,210):
+       Semicircles/Quadrants
+  -->
+  <circle cx="270" cy="140" r="70" fill="none" stroke="#1E293B" stroke-width="1.5"/>
+  <path d="M 200 140 A 70 70 0 0 1 270 70 L 270 140 Z" fill="#FFFFFF"/>
+  <path d="M 270 70 A 70 70 0 0 1 340 140 L 270 140 Z" fill="#1E293B"/>
+  <path d="M 270 140 A 70 70 0 0 1 200 210 L 200 140 Z" fill="#1E293B"/>
+
+  <!-- Bottom-Right Square (200,210 to 340,350):
+       Divided into 4 quadrants (70x70 each)
+  -->
+  <line x1="200" y1="280" x2="340" y2="280" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="270" y1="210" x2="270" y2="350" stroke="#1E293B" stroke-width="1.5"/>
+  <circle cx="270" cy="280" r="70" fill="none" stroke="#1E293B" stroke-width="1.5"/>
+  <!-- Shaded quarter circles in alternating quadrants -->
+  <path d="M 200 280 A 70 70 0 0 1 270 210 L 200 210 Z" fill="#1E293B"/>
+  <path d="M 270 280 A 70 70 0 0 1 340 350 L 270 350 Z" fill="#1E293B"/>
+</svg>

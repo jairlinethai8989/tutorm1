@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 540" width="100%" height="100%">
+  <rect width="500" height="540" fill="#FFFFFF"/>
+
+  <!-- Body silhouette -->
+  <path d="M 270 60 C 250 60 230 75 230 100 C 230 115 240 125 245 135 L 245 155 C 220 165 200 185 195 220 L 195 380 C 215 390 285 390 305 380 L 305 220 C 300 185 280 165 255 155 L 255 135 C 265 125 275 115 275 100 C 275 75 290 60 270 60 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+
+  <!-- Head / Mouth A -->
+  <circle cx="260" cy="100" r="14" fill="#FCA5A5" stroke="#E11D48" stroke-width="1.5"/>
+
+  <!-- Esophagus B -->
+  <path d="M 260 114 L 260 210" fill="none" stroke="#E11D48" stroke-width="4"/>
+
+  <!-- Stomach D (right side in anatomy / viewer's right) -->
+  <path d="M 260 210 C 285 210 295 230 290 250 C 285 270 265 270 255 260 Z" fill="#F87171" stroke="#DC2626" stroke-width="2"/>
+
+  <!-- Liver C (viewer's left) -->
+  <path d="M 225 215 C 225 205 255 210 255 215 L 255 250 C 240 255 225 245 225 215 Z" fill="#B45309" stroke="#78350F" stroke-width="2"/>
+
+  <!-- Pancreas E (under stomach) -->
+  <path d="M 245 262 Q 265 260 280 268" fill="none" stroke="#FBBF24" stroke-width="4"/>
+
+  <!-- Large Intestine G (loops around) -->
+  <path d="M 230 330 L 230 275 C 230 270 270 270 270 275 L 270 330" fill="none" stroke="#A855F7" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Small Intestine F (folded in center) -->
+  <path d="M 240 285 Q 260 290 240 300 Q 260 305 240 315 Q 260 320 250 325" fill="none" stroke="#EC4899" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Callout A (Mouth) -->
+  <line x1="160" y1="100" x2="246" y2="100" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="120" y="85" width="40" height="30" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="140" y="106" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B" text-anchor="middle">A</text>
+
+  <!-- Callout B (Esophagus) -->
+  <line x1="160" y1="170" x2="258" y2="170" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="120" y="155" width="40" height="30" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="140" y="176" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B" text-anchor="middle">B</text>
+
+  <!-- Callout C (Liver) -->
+  <line x1="160" y1="230" x2="230" y2="230" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="120" y="215" width="40" height="30" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="140" y="236" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B" text-anchor="middle">C</text>
+
+  <!-- Callout D (Stomach) -->
+  <line x1="340" y1="235" x2="280" y2="235" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="340" y="220" width="40" height="30" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="360" y="241" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B" text-anchor="middle">D</text>
+
+  <!-- Callout E (Pancreas/Gallbladder) -->
+  <line x1="160" y1="275" x2="245" y2="265" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="120" y="260" width="40" height="30" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="140" y="281" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B" text-anchor="middle">E</text>
+
+  <!-- Callout F (Small Intestine) -->
+  <line x1="340" y1="305" x2="260" y2="305" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="340" y="290" width="40" height="30" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="360" y="311" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B" text-anchor="middle">F</text>
+
+  <!-- Callout G (Large Intestine) -->
+  <line x1="340" y1="355" x2="270" y2="340" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="340" y="340" width="40" height="30" rx="4" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="360" y="361" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B" text-anchor="middle">G</text>
+</svg>

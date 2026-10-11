@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 360" width="100%" height="100%">
+  <rect width="450" height="360" fill="#FFFFFF"/>
+
+  <!-- Stem and Leaves -->
+  <path d="M 225 340 Q 225 260 225 210" fill="none" stroke="#16A34A" stroke-width="6" stroke-linecap="round"/>
+  <!-- Leaf left -->
+  <path d="M 225 270 Q 170 250 140 280 Q 180 300 225 275" fill="#22C55E" stroke="#15803D" stroke-width="2"/>
+  <!-- Leaf right -->
+  <path d="M 225 250 Q 280 230 310 260 Q 270 280 225 255" fill="#22C55E" stroke="#15803D" stroke-width="2"/>
+
+  <!-- Sepals (กลีบเลี้ยง) -->
+  <path d="M 205 215 Q 175 225 160 210 Q 190 205 210 210" fill="#15803D" stroke="#0F172A" stroke-width="1.5"/>
+  <path d="M 245 215 Q 275 225 290 210 Q 260 205 240 210" fill="#15803D" stroke="#0F172A" stroke-width="1.5"/>
+  <path d="M 225 220 Q 225 235 220 238 Q 230 238 225 220" fill="#15803D" stroke="#0F172A" stroke-width="1.5"/>
+
+  <!-- Petals (กลีบดอก) -->
+  <!-- Back petals -->
+  <path d="M 225 180 C 200 110 250 110 225 70 C 200 110 210 140 225 180" fill="#FDE047" stroke="#CA8A04" stroke-width="2"/>
+  <path d="M 225 180 C 140 130 160 90 120 100 C 130 140 180 160 225 180" fill="#FDE047" stroke="#CA8A04" stroke-width="2"/>
+  <path d="M 225 180 C 310 130 290 90 330 100 C 320 140 270 160 225 180" fill="#FDE047" stroke="#CA8A04" stroke-width="2"/>
+
+  <!-- Front petals -->
+  <path d="M 225 180 C 130 180 130 230 110 220 C 130 250 180 220 225 180" fill="#FEF08A" stroke="#CA8A04" stroke-width="2"/>
+  <path d="M 225 180 C 320 180 320 230 340 220 C 320 250 270 220 225 180" fill="#FEF08A" stroke="#CA8A04" stroke-width="2"/>
+
+  <!-- Pistil / Carpel (เกสรเพศเมีย) in the center -->
+  <!-- Ovary at base -->
+  <ellipse cx="225" cy="180" rx="14" ry="18" fill="#86EFAC" stroke="#16A34A" stroke-width="2"/>
+  <!-- Style -->
+  <line x1="225" y1="165" x2="225" y2="105" stroke="#16A34A" stroke-width="4"/>
+  <!-- Stigma -->
+  <circle cx="225" cy="100" r="7" fill="#22C55E" stroke="#15803D" stroke-width="2"/>
+
+  <!-- Stamens (เกสรเพศผู้) surrounding pistil -->
+  <!-- Stamen 1 -->
+  <path d="M 218 175 Q 185 150 185 115" fill="none" stroke="#EAB308" stroke-width="2.5"/>
+  <ellipse cx="185" cy="115" rx="5" ry="3" fill="#CA8A04"/>
+
+  <!-- Stamen 2 -->
+  <path d="M 220 175 Q 200 140 205 110" fill="none" stroke="#EAB308" stroke-width="2.5"/>
+  <ellipse cx="205" cy="110" rx="5" ry="3" fill="#CA8A04"/>
+
+  <!-- Stamen 3 -->
+  <path d="M 230 175 Q 250 140 245 110" fill="none" stroke="#EAB308" stroke-width="2.5"/>
+  <ellipse cx="245" cy="110" rx="5" ry="3" fill="#CA8A04"/>
+
+  <!-- Stamen 4 -->
+  <path d="M 232 175 Q 265 150 265 115" fill="none" stroke="#EAB308" stroke-width="2.5"/>
+  <ellipse cx="265" cy="115" rx="5" ry="3" fill="#CA8A04"/>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 300" width="100%" height="100%">
+  <defs>
+    <style>
+      .rect-bg { fill: #f8fafc; stroke: #1e293b; stroke-width: 2.5; }
+      .inner-line { stroke: #1e293b; stroke-width: 2.5; fill: none; }
+      .tri-ade { fill: #eff6ff; opacity: 0.6; }
+      .tri-ebf { fill: #fef2f2; opacity: 0.6; }
+      .lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 18px; font-weight: bold; fill: #0f172a; }
+      .sub-lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 14px; fill: #475569; }
+    </style>
+  </defs>
+
+  <!-- Filled triangles -->
+  <polygon points="80,50 80,240 268,240" class="tri-ade" />
+  <polygon points="268,240 380,240 380,164" class="tri-ebf" />
+
+  <!-- Outer rectangle ABCD -->
+  <rect x="80" y="50" width="300" height="190" class="rect-bg" />
+
+  <!-- Triangle lines DE and EF -->
+  <line x1="80" y1="50" x2="268" y2="240" class="inner-line" />
+  <line x1="268" y1="240" x2="380" y2="164" class="inner-line" />
+
+  <!-- Vertex dots -->
+  <circle cx="268" cy="240" r="4" fill="#1e293b" />
+  <circle cx="380" cy="164" r="4" fill="#1e293b" />
+
+  <!-- Labels -->
+  <text x="60" y="45" class="lbl">D</text>
+  <text x="395" y="45" class="lbl">C</text>
+  <text x="60" y="255" class="lbl">A</text>
+  <text x="395" y="255" class="lbl">B</text>
+  <text x="265" y="268" class="lbl" text-anchor="middle">E</text>
+  <text x="400" y="169" class="lbl">F</text>
+</svg>

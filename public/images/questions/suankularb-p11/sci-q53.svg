@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 250" width="100%" height="100%">
+  <defs>
+    <style>
+      .wire { stroke: #334155; stroke-width: 2.5; fill: none; }
+      .bulb-circle { fill: #ffffff; stroke: #0f172a; stroke-width: 2; }
+      .bulb-x { stroke: #0f172a; stroke-width: 2; }
+      .lbl { font-family: 'Sarabun', system-ui, sans-serif; font-size: 16px; font-weight: bold; fill: #0f172a; }
+      .battery { stroke: #0f172a; stroke-width: 3; }
+      .switch-lever { stroke: #0f172a; stroke-width: 2.5; }
+    </style>
+  </defs>
+
+  <!-- Main circuit loop -->
+  <!-- Left wire with gap between X and Y -->
+  <line x1="160" y1="50" x2="160" y2="105" class="wire" />
+  <circle cx="160" cy="105" r="4" fill="#0f172a" />
+  <text x="142" y="110" class="lbl">Y</text>
+
+  <!-- Copper wire segment XY -->
+  <line x1="160" y1="105" x2="160" y2="135" stroke="#b45309" stroke-width="4" />
+
+  <circle cx="160" cy="135" r="4" fill="#0f172a" />
+  <text x="142" y="140" class="lbl">X</text>
+  <line x1="160" y1="135" x2="160" y2="190" class="wire" />
+
+  <!-- Bottom wire with switch at P and Q -->
+  <line x1="160" y1="190" x2="200" y2="190" class="wire" />
+  <circle cx="200" cy="190" r="3.5" fill="#0f172a" />
+  <text x="195" y="210" class="lbl">P</text>
+  <!-- Open switch lever -->
+  <line x1="200" y1="190" x2="218" y2="175" class="switch-lever" />
+  <circle cx="220" cy="190" r="3.5" fill="#0f172a" />
+  <text x="217" y="210" class="lbl">Q</text>
+  <line x1="220" y1="190" x2="260" y2="190" class="wire" />
+  <line x1="260" y1="190" x2="260" y2="50" class="wire" />
+
+  <!-- Top wire with Bulb -->
+  <line x1="160" y1="50" x2="195" y2="50" class="wire" />
+  <line x1="225" y1="50" x2="260" y2="50" class="wire" />
+  <circle cx="210" cy="50" r="14" class="bulb-circle" />
+  <line x1="200" y1="40" x2="220" y2="60" class="bulb-x" />
+  <line x1="200" y1="60" x2="220" y2="40" class="bulb-x" />
+
+  <!-- Battery R on the right -->
+  <g transform="translate(320, 160)">
+    <line x1="0" y1="15" x2="20" y2="15" class="wire" />
+    <line x1="20" y1="0" x2="20" y2="30" class="battery" stroke-width="4" />
+    <line x1="28" y1="6" x2="28" y2="24" class="battery" stroke-width="2" />
+    <line x1="28" y1="15" x2="48" y2="15" class="wire" />
+    <text x="22" y="48" class="lbl" text-anchor="middle">R</text>
+  </g>
+</svg>

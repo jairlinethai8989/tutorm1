@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 380" width="100%" height="100%">
+  <defs>
+    <marker id="arr1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 2 L 7 5 L 1 8 z" fill="#1E293B"/>
+    </marker>
+  </defs>
+
+  <rect width="460" height="380" fill="#FFFFFF"/>
+
+  <!-- Left side of main triangle -->
+  <line x1="180" y1="40" x2="70" y2="330" stroke="#1E293B" stroke-width="2.5"/>
+
+  <!-- Base line -->
+  <line x1="70" y1="330" x2="330" y2="330" stroke="#1E293B" stroke-width="2.5"/>
+  <!-- Base arrow (single) -->
+  <path d="M 195 324 L 208 330 L 195 336" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Top horizontal segment -->
+  <line x1="142" y1="140" x2="236" y2="140" stroke="#1E293B" stroke-width="2.5"/>
+  <path d="M 185 134 L 198 140 L 185 146" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Middle horizontal segment -->
+  <line x1="116" y1="210" x2="280" y2="210" stroke="#1E293B" stroke-width="2.5"/>
+  <path d="M 190 204 L 203 210 L 190 216" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Top right side: from (180,40) down to (280,210) -->
+  <line x1="180" y1="40" x2="280" y2="210" stroke="#1E293B" stroke-width="2.5"/>
+  <!-- Double arrow on top right side -->
+  <path d="M 222 110 L 234 122 L 225 130" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 229 117 L 241 129 L 232 137" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Transversal line: from (142,140) down to (330,330) -->
+  <line x1="142" y1="140" x2="330" y2="330" stroke="#1E293B" stroke-width="2.5"/>
+  <!-- Double arrow on transversal line -->
+  <path d="M 228 226 L 240 238 L 231 246" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 235 233 L 247 245 L 238 253" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Angle y at bottom left (70, 330) -->
+  <path d="M 95 330 A 25 25 0 0 0 83 295" fill="none" stroke="#1E293B" stroke-width="1.8"/>
+  <text x="96" y="322" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">y</text>
+
+  <!-- Angle z at bottom right (330, 330) -->
+  <path d="M 305 330 A 25 25 0 0 1 313 305" fill="none" stroke="#1E293B" stroke-width="1.8"/>
+  <text x="290" y="322" font-family="'Sarabun', sans-serif" font-size="16" font-weight="bold" fill="#1E293B">z</text>
+
+  <!-- Angle 137° at (116, 210) -->
+  <path d="M 141 210 A 25 25 0 0 1 103 245" fill="none" stroke="#1E293B" stroke-width="1.8"/>
+  <text x="120" y="235" font-family="'Sarabun', sans-serif" font-size="14" font-weight="bold" fill="#1E293B">137°</text>
+
+  <!-- Angle x at (142, 140) -->
+  <path d="M 132 165 A 25 25 0 0 1 160 158" fill="none" stroke="#1E293B" stroke-width="1.8"/>
+  <text x="142" y="180" font-family="'Sarabun', sans-serif" font-size="15" font-weight="bold" fill="#1E293B">x</text>
+
+  <!-- Angle 63° at intersection of transversal and middle line (211, 210) -->
+  <path d="M 236 210 A 25 25 0 0 1 228 227" fill="none" stroke="#1E293B" stroke-width="1.8"/>
+  <text x="238" y="230" font-family="'Sarabun', sans-serif" font-size="14" font-weight="bold" fill="#1E293B">63°</text>
+</svg>

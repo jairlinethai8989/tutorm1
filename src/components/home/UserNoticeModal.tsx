@@ -375,7 +375,7 @@ export const UserNoticeModal: React.FC<UserNoticeModalProps> = ({
                       <span>8 โหมด & เครื่องมือหลักในการฝึกฝนเพื่อสอบติด ม.1</span>
                     </h3>
                     <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
-                      อัปเดตล่าสุด v2.20.0
+                      อัปเดตล่าสุด {APP_CONFIG.version}
                     </span>
                   </div>
 

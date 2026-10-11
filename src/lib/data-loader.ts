@@ -22,6 +22,22 @@ import { SAMSEN_SCIENCE_QUESTIONS } from '@/data/questions/samsenScience';
 import { SAMSEN_ENGLISH_QUESTIONS } from '@/data/questions/samsenEnglish';
 import { SUANKULARB_PRETEST_9_MATH_QUESTIONS } from '@/data/questions/suankularbMath';
 import { PATUMWAN_MATH_QUESTIONS } from '@/data/questions/patumwanMath';
+import {
+  SUANKULARB_PRETEST_11_QUESTIONS,
+  SUANKULARB_PRETEST_11_MATH_QUESTIONS,
+  SUANKULARB_PRETEST_11_THAI_QUESTIONS,
+  SUANKULARB_PRETEST_11_SCIENCE_QUESTIONS,
+  SUANKULARB_PRETEST_11_ENGLISH_QUESTIONS,
+} from '@/data/questions/suankularbPretest11';
+import {
+  SUANKULARB_PRETEST_11_NORMAL_QUESTIONS,
+  SUANKULARB_PRETEST_11_NORMAL_MATH_QUESTIONS,
+  SUANKULARB_PRETEST_11_NORMAL_THAI_QUESTIONS,
+  SUANKULARB_PRETEST_11_NORMAL_SCIENCE_QUESTIONS,
+  SUANKULARB_PRETEST_11_NORMAL_SOCIAL_QUESTIONS,
+  SUANKULARB_PRETEST_11_NORMAL_ENGLISH_QUESTIONS,
+} from '@/data/questions/suankularbPretest11Normal';
+import { BENCHAMA_MATH_2564_QUESTIONS } from '@/data/questions/benchamaMath2564';
 
 export const ALL_QUESTIONS: Question[] = [
   ...MATH_QUESTIONS,
@@ -29,6 +45,9 @@ export const ALL_QUESTIONS: Question[] = [
   ...ENGLISH_QUESTIONS,
   ...THAI_QUESTIONS,
   ...SOCIAL_QUESTIONS,
+  ...SUANKULARB_PRETEST_11_QUESTIONS,
+  ...SUANKULARB_PRETEST_11_NORMAL_QUESTIONS,
+  ...BENCHAMA_MATH_2564_QUESTIONS,
 ];
 
 export const getSubjects = (): Subject[] => {
@@ -95,6 +114,30 @@ export const getMockExamById = (id: string): MockExam | undefined => {
     questions = SUANKULARB_PRETEST_9_MATH_QUESTIONS;
   } else if (base.id === 'patumwan-math-60') {
     questions = PATUMWAN_MATH_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-gate') {
+    questions = SUANKULARB_PRETEST_11_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-math') {
+    questions = SUANKULARB_PRETEST_11_MATH_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-thai') {
+    questions = SUANKULARB_PRETEST_11_THAI_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-sci') {
+    questions = SUANKULARB_PRETEST_11_SCIENCE_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-eng') {
+    questions = SUANKULARB_PRETEST_11_ENGLISH_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-normal') {
+    questions = SUANKULARB_PRETEST_11_NORMAL_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-normal-math') {
+    questions = SUANKULARB_PRETEST_11_NORMAL_MATH_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-normal-thai') {
+    questions = SUANKULARB_PRETEST_11_NORMAL_THAI_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-normal-sci') {
+    questions = SUANKULARB_PRETEST_11_NORMAL_SCIENCE_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-normal-soc') {
+    questions = SUANKULARB_PRETEST_11_NORMAL_SOCIAL_QUESTIONS;
+  } else if (base.id === 'suankularb-pretest-11-normal-eng') {
+    questions = SUANKULARB_PRETEST_11_NORMAL_ENGLISH_QUESTIONS;
+  } else if (base.id === 'benchama-math-pretest-64') {
+    questions = BENCHAMA_MATH_2564_QUESTIONS;
   } else {
     questions = ALL_QUESTIONS.slice(0, 10);
   }
