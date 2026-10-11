@@ -2,8 +2,8 @@ export const APP_CONFIG = {
   name: 'Tutor M.1',
   title: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ',
   titleFull: 'เตรียมสอบเข้า ม.1 ห้องพิเศษ โรงเรียนชั้นนำ — ระบบฝึกทำข้อสอบ & AI Practice',
-  version: 'v2.22.0',
-  versionLabel: 'Version 2.22.0 (New Pre-Test Mock Exams: SK 11 & BM 2564 + Support Widget Fix)',
+  version: 'v2.23.0',
+  versionLabel: 'Version 2.23.0 (Mock Exam Sorting & New Badges + KaTeX Render Fix)',
   description:
     'ระบบเตรียมสอบเข้า ม.1 ห้องเรียนพิเศษ โรงเรียนชั้นนำของไทย ครอบคลุม 5 วิชาหลัก ระบบจำลองสอบเสมือนจริง และ AI Practice สุ่มโจทย์ไม่จำกัด',
 };
@@ -25,11 +25,38 @@ export interface ChangelogItem {
 
 export const APP_CHANGELOG: ChangelogItem[] = [
   {
+    version: 'v2.23.0',
+    date: '11 ตุลาคม 2026',
+    title: '✨ ปรับปรุงหน้า Mock Exam: เพิ่มระบบเรียงลำดับ, สัญลักษณ์แจ้งเตือนอัปเดตใหม่ 🔥 & แก้ไข KaTeX ข้อสอบคณิตศาสตร์',
+    badge: 'ล่าสุด (Latest)',
+    isLatest: true,
+    changes: [
+      {
+        type: 'feature',
+        title: 'ระบบจัดเรียงชุดข้อสอบจำลอง (Mock Exam Sorting)',
+        description:
+          'เพิ่มแถบควบคุมการเรียงลำดับชุดข้อสอบ 4 รูปแบบ: เรียงตามการอัปเดตล่าสุด 🔥, เรียงตามปีข้อสอบ (ล่าสุดก่อน) 📅, เรียงตามชื่อชุดข้อสอบ (ก-ฮ) 🔤 และเรียงตามประเภทวิชา 📚',
+      },
+      {
+        type: 'feature',
+        title: 'ป้ายสัญลักษณ์แจ้งเตือน "อัปเดตใหม่ 🔥" และตัวกรองเฉพาะชุดใหม่',
+        description:
+          'เพิ่มปุ่มสลับกรอง "✨ เฉพาะชุดอัปเดตใหม่" พร้อมป้ายกำกับข้อสอบใหม่และปี พ.ศ. ทั้งในมุมมองการ์ด (Card Grid) และตารางสรุป (Table View)',
+      },
+      {
+        type: 'fix',
+        title: 'แก้ไขการเรนเดอร์ KaTeX ข้อสอบคณิตศาสตร์เบ็ญจะมะฯ 2564 ข้อ 36 และเพิ่ม KaTeX Auto-Sanitize',
+        description:
+          'แก้ไขรูปแบบตารางคำนวณทศนิยมข้อ 36 ให้แยกแสดงผล 2 ฝั่งชัดเจน พร้อมระบบดักจับตัวอักษรภาษาไทยในโหมดคณิตศาสตร์อัตโนมัติ ป้องกัน KaTeX Error ทั่วทั้งระบบ',
+      },
+    ],
+  },
+  {
     version: 'v2.22.0',
     date: '11 ตุลาคม 2026',
     title: '🎓 นำเข้าชุดข้อสอบ Pre-Test 3 ชุดใหญ่ (สวนกุหลาบฯ 11 & เบ็ญจะมะฯ 2564) & ปรับปรุงปุ่มสนับสนุน',
-    badge: 'ล่าสุด (Latest)',
-    isLatest: true,
+    badge: 'Previous',
+    isLatest: false,
     changes: [
       {
         type: 'feature',

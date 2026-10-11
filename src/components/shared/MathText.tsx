@@ -9,15 +9,30 @@ const katexBlockCache = new Map<string, string>();
 const katexInlineCache = new Map<string, string>();
 const MAX_CACHE_SIZE = 1000;
 
+// Auto-sanitize math expressions: remove unsupported @{...} in arrays and auto-wrap raw Thai in \text{...}
+function sanitizeMathExpression(math: string): string {
+  // 1. Remove unsupported @{...} in array column specifiers
+  let s = math.replace(/@\{[^}]*\}/g, ' ');
+
+  // 2. Auto-wrap raw Thai characters in \text{...} so KaTeX can render them cleanly
+  s = s.replace(/(\\text\{[^\}]*\})|([\u0E00-\u0E7F]+)/g, (match, textGroup, thaiGroup) => {
+    if (textGroup) return textGroup;
+    return `\\text{${thaiGroup}}`;
+  });
+
+  return s;
+}
+
 function renderCachedKatex(math: string, displayMode: boolean): string {
+  const sanitized = sanitizeMathExpression(math);
   const cache = displayMode ? katexBlockCache : katexInlineCache;
-  const cached = cache.get(math);
+  const cached = cache.get(sanitized);
   if (cached !== undefined) {
     return cached;
   }
 
   try {
-    const html = katex.renderToString(math, {
+    const html = katex.renderToString(sanitized, {
       displayMode,
       throwOnError: false,
     });
@@ -26,7 +41,7 @@ function renderCachedKatex(math: string, displayMode: boolean): string {
       const firstKey = cache.keys().next().value;
       if (firstKey) cache.delete(firstKey);
     }
-    cache.set(math, html);
+    cache.set(sanitized, html);
     return html;
   } catch {
     return '';

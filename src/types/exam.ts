@@ -14,6 +14,9 @@ export interface MockExam {
   questionIds: string[];
   questions?: Question[];
   badgeColor: string;
+  isNew?: boolean;
+  year?: number;
+  updatedAt?: string;
 }
 
 export interface UserAnswer {

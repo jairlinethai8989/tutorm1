@@ -14,6 +14,9 @@ export const MOCK_EXAMS: MockExam[] = [
     description: 'เน้นข้อสอบวิเคราะห์เชิงลึก พีชคณิต เรขาคณิตตัดแปะ และโจทย์ปัญหากำไร-ขาดทุน อัตราเร็ว สไตล์ มศว.',
     questionIds: [],
     badgeColor: '#3B82F6',
+    year: 2566,
+    isNew: false,
+    updatedAt: '2026-08-01',
   },
   {
     id: 'benchama-sci-01',
@@ -28,6 +31,9 @@ export const MOCK_EXAMS: MockExam[] = [
     description: 'ข้อสอบกระบวนการทางวิทยาศาสตร์ วิเคราะห์ตารางทดลอง วงจรไฟฟ้า และการแยกสาร',
     questionIds: [],
     badgeColor: '#10B981',
+    year: 2566,
+    isNew: false,
+    updatedAt: '2026-08-01',
   },
   {
     id: 'chulabhorn-combined-01',
@@ -46,6 +52,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'pcsh-math-001', 'pcsh-math-002', 'pcsh-math-003', 'pcsh-math-004', 'pcsh-math-005'
     ],
     badgeColor: '#8B5CF6',
+    year: 2562,
+    isNew: false,
+    updatedAt: '2026-08-10',
   },
   {
     id: 'chulabhorn-math-intensive',
@@ -62,6 +71,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'pcsh-math-001', 'pcsh-math-002', 'pcsh-math-003', 'pcsh-math-004', 'pcsh-math-005'
     ],
     badgeColor: '#EC4899',
+    year: 2565,
+    isNew: false,
+    updatedAt: '2026-08-10',
   },
   {
     id: 'chulabhorn-pretest-sci-62',
@@ -79,6 +91,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'pcsh-sci-62-005', 'pcsh-sci-62-006', 'pcsh-sci-62-008', 'pcsh-sci-62-009'
     ],
     badgeColor: '#7C3AED',
+    year: 2562,
+    isNew: false,
+    updatedAt: '2026-08-12',
   },
   {
     id: 'chulabhorn-sci-set1',
@@ -98,6 +113,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'pcsh-set1-029'
     ],
     badgeColor: '#059669',
+    year: 2565,
+    isNew: false,
+    updatedAt: '2026-08-12',
   },
   {
     id: 'satriwit-pretest-sci-05',
@@ -119,6 +137,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sw-sci-051', 'sw-sci-052', 'sw-sci-053', 'sw-sci-054', 'sw-sci-055'
     ],
     badgeColor: '#F43F5E',
+    year: 2565,
+    isNew: false,
+    updatedAt: '2026-08-15',
   },
   {
     id: 'suankularb-pretest-sci-64',
@@ -140,6 +161,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-sci-64-056', 'sk-sci-64-057', 'sk-sci-64-058', 'sk-sci-64-059', 'sk-sci-64-060'
     ],
     badgeColor: '#E11D48',
+    year: 2564,
+    isNew: false,
+    updatedAt: '2026-08-15',
   },
   {
     id: 'suksanari-pretest-sci-63',
@@ -158,6 +182,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sn-sci-63-011', 'sn-sci-63-012'
     ],
     badgeColor: '#0284C7',
+    year: 2563,
+    isNew: false,
+    updatedAt: '2026-08-18',
   },
   {
     id: 'rittiya-pre-sci-64',
@@ -175,6 +202,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'rit-sci-64-070', 'rit-sci-64-071', 'rit-sci-64-072', 'rit-sci-64-079', 'rit-sci-64-080'
     ],
     badgeColor: '#059669',
+    year: 2564,
+    isNew: false,
+    updatedAt: '2026-08-18',
   },
   {
     id: 'sarawittaya-pretest-sci-63',
@@ -192,6 +222,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sara-sci-63-008', 'sara-sci-63-014', 'sara-sci-63-015'
     ],
     badgeColor: '#D97706',
+    year: 2563,
+    isNew: false,
+    updatedAt: '2026-08-18',
   },
   {
     id: 'samsen-pretest-math-65',
@@ -214,6 +247,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'ss-m65-031', 'ss-m65-032', 'ss-m65-033', 'ss-m65-034'
     ],
     badgeColor: '#2563EB',
+    year: 2566,
+    isNew: false,
+    updatedAt: '2026-08-20',
   },
   {
     id: 'suankularb-pretest-math-9',
@@ -235,6 +271,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-m-p9-026', 'sk-m-p9-027', 'sk-m-p9-028', 'sk-m-p9-029', 'sk-m-p9-030'
     ],
     badgeColor: '#E11D48',
+    year: 2565,
+    isNew: false,
+    updatedAt: '2026-08-20',
   },
   {
     id: 'patumwan-math-60',
@@ -254,6 +293,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'ptw-m-016', 'ptw-m-017', 'ptw-m-018', 'ptw-m-019'
     ],
     badgeColor: '#8B5CF6',
+    year: 2566,
+    isNew: false,
+    updatedAt: '2026-08-22',
   },
   {
     id: 'samsen-sci-gifted-65',
@@ -275,6 +317,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'ss-sci-65-026', 'ss-sci-65-027', 'ss-sci-65-028', 'ss-sci-65-029', 'ss-sci-65-030'
     ],
     badgeColor: '#059669',
+    year: 2565,
+    isNew: false,
+    updatedAt: '2026-08-22',
   },
   {
     id: 'samsen-pretest-eng-66',
@@ -302,6 +347,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'ss-eng-66-056', 'ss-eng-66-057', 'ss-eng-66-058', 'ss-eng-66-059', 'ss-eng-66-060'
     ],
     badgeColor: '#2563EB',
+    year: 2566,
+    isNew: false,
+    updatedAt: '2026-08-24',
   },
   {
     id: 'suankularb-pretest-11-gate',
@@ -339,6 +387,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11-en-106', 'sk-p11-en-107', 'sk-p11-en-108', 'sk-p11-en-109', 'sk-p11-en-110'
     ],
     badgeColor: '#E11D48',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-math',
@@ -359,6 +410,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11-m-021', 'sk-p11-m-022', 'sk-p11-m-023', 'sk-p11-m-024', 'sk-p11-m-025'
     ],
     badgeColor: '#E11D48',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-sci',
@@ -382,6 +436,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11-sc-081', 'sk-p11-sc-082', 'sk-p11-sc-083', 'sk-p11-sc-084', 'sk-p11-sc-085'
     ],
     badgeColor: '#059669',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-eng',
@@ -402,6 +459,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11-en-106', 'sk-p11-en-107', 'sk-p11-en-108', 'sk-p11-en-109', 'sk-p11-en-110'
     ],
     badgeColor: '#2563EB',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-thai',
@@ -421,6 +481,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11-th-041', 'sk-p11-th-042', 'sk-p11-th-043', 'sk-p11-th-044', 'sk-p11-th-045'
     ],
     badgeColor: '#D97706',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-normal',
@@ -466,6 +529,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11n-en-137', 'sk-p11n-en-138', 'sk-p11n-en-139', 'sk-p11n-en-140', 'sk-p11n-en-141'
     ],
     badgeColor: '#1E3A8A',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-normal-math',
@@ -485,6 +551,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11n-m-016', 'sk-p11n-m-017', 'sk-p11n-m-018', 'sk-p11n-m-019', 'sk-p11n-m-020'
     ],
     badgeColor: '#E11D48',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-normal-sci',
@@ -507,6 +576,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11n-sc-083', 'sk-p11n-sc-084'
     ],
     badgeColor: '#059669',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-normal-soc',
@@ -529,6 +601,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11n-so-115', 'sk-p11n-so-116'
     ],
     badgeColor: '#7C3AED',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-normal-eng',
@@ -549,6 +624,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11n-en-137', 'sk-p11n-en-138', 'sk-p11n-en-139', 'sk-p11n-en-140', 'sk-p11n-en-141'
     ],
     badgeColor: '#2563EB',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'suankularb-pretest-11-normal-thai',
@@ -571,6 +649,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'sk-p11n-th-051', 'sk-p11n-th-052'
     ],
     badgeColor: '#D97706',
+    year: 2568,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
   {
     id: 'benchama-math-pretest-64',
@@ -595,6 +676,9 @@ export const MOCK_EXAMS: MockExam[] = [
       'bm-m64-041', 'bm-m64-042', 'bm-m64-043', 'bm-m64-044', 'bm-m64-045'
     ],
     badgeColor: '#2563EB',
+    year: 2564,
+    isNew: true,
+    updatedAt: '2026-10-11',
   },
 ];
 

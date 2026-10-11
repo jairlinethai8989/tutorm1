@@ -23,6 +23,8 @@ import {
   CheckCircle,
   AlertCircle,
   BarChart2,
+  ArrowUpDown,
+  Calendar,
 } from 'lucide-react';
 
 interface MockExamHubProps {
@@ -32,11 +34,14 @@ interface MockExamHubProps {
 type ViewMode = 'grid' | 'list';
 type SubjectFilter = 'all' | 'math' | 'science' | 'english';
 type SchoolFilter = 'all' | 'benchama' | 'chulabhorn' | 'suankularb' | 'samsen' | 'satriwit' | 'patumwan' | 'others';
+type SortOption = 'updated' | 'year' | 'name' | 'subject';
 
 export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedSchool, setSelectedSchool] = useState<SchoolFilter>('all');
   const [selectedSubject, setSelectedSubject] = useState<SubjectFilter>('all');
+  const [sortBy, setSortBy] = useState<SortOption>('updated');
+  const [showOnlyNew, setShowOnlyNew] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [attemptHistory, setAttemptHistory] = useState<Record<string, { count: number; bestScore: number; isPassed: boolean; lastDate: string }>>({});
 
@@ -111,22 +116,31 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
     ];
   }, [exams]);
 
-  // Filtered exams logic
+  // New exams count
+  const newExamsCount = useMemo(() => exams.filter((e) => e.isNew).length, [exams]);
+
+  // Filtered and sorted exams logic
   const filteredExams = useMemo(() => {
-    return exams.filter((exam) => {
-      // 1. Search Query Filter
+    const list = exams.filter((exam) => {
+      // 1. Show only new filter
+      if (showOnlyNew && !exam.isNew) {
+        return false;
+      }
+
+      // 2. Search Query Filter
       if (searchQuery.trim() !== '') {
         const query = searchQuery.toLowerCase().trim();
         const matchTitle = exam.name.toLowerCase().includes(query);
         const matchSchool = exam.targetSchool.toLowerCase().includes(query);
         const matchSubject = (exam.subjectName || '').toLowerCase().includes(query);
         const matchDesc = (exam.description || '').toLowerCase().includes(query);
-        if (!matchTitle && !matchSchool && !matchSubject && !matchDesc) {
+        const matchYear = exam.year ? exam.year.toString().includes(query) : false;
+        if (!matchTitle && !matchSchool && !matchSubject && !matchDesc && !matchYear) {
           return false;
         }
       }
 
-      // 2. School Filter
+      // 3. School Filter
       if (selectedSchool !== 'all') {
         const s = exam.targetSchoolEn?.toLowerCase() || '';
         if (selectedSchool === 'benchama' && !s.includes('benchama')) return false;
@@ -148,7 +162,7 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
         }
       }
 
-      // 3. Subject Filter
+      // 4. Subject Filter
       if (selectedSubject !== 'all') {
         const sub = exam.subjectId?.toLowerCase() || '';
         const name = (exam.subjectName || '').toLowerCase();
@@ -159,7 +173,35 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
 
       return true;
     });
-  }, [exams, searchQuery, selectedSchool, selectedSubject]);
+
+    // Sorting
+    return [...list].sort((a, b) => {
+      if (sortBy === 'updated') {
+        if (a.isNew && !b.isNew) return -1;
+        if (!a.isNew && b.isNew) return 1;
+        const dateA = a.updatedAt || '';
+        const dateB = b.updatedAt || '';
+        if (dateA !== dateB) return dateB.localeCompare(dateA);
+        return (b.year || 0) - (a.year || 0);
+      }
+      if (sortBy === 'year') {
+        const diff = (b.year || 0) - (a.year || 0);
+        if (diff !== 0) return diff;
+        return a.name.localeCompare(b.name, 'th');
+      }
+      if (sortBy === 'name') {
+        return a.name.localeCompare(b.name, 'th');
+      }
+      if (sortBy === 'subject') {
+        const subA = a.subjectName || '';
+        const subB = b.subjectName || '';
+        const subDiff = subA.localeCompare(subB, 'th');
+        if (subDiff !== 0) return subDiff;
+        return a.name.localeCompare(b.name, 'th');
+      }
+      return 0;
+    });
+  }, [exams, searchQuery, selectedSchool, selectedSubject, sortBy, showOnlyNew]);
 
   // Quick stats summary
   const totalCompletedCount = Object.keys(attemptHistory).length;
@@ -169,6 +211,8 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
     setSearchQuery('');
     setSelectedSchool('all');
     setSelectedSubject('all');
+    setSortBy('updated');
+    setShowOnlyNew(false);
   };
 
   return (
@@ -217,12 +261,19 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="bg-white/10 border border-white/15 backdrop-blur-md rounded-2xl p-4 text-center min-w-[100px]">
+          <div className="flex items-center gap-2.5 shrink-0 flex-wrap sm:flex-nowrap">
+            <div className="bg-white/10 border border-white/15 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 text-center min-w-[90px] sm:min-w-[100px]">
               <div className="text-2xl font-black text-amber-300">{exams.length}</div>
               <div className="text-[10px] font-bold text-slate-200 uppercase mt-0.5">ชุดข้อสอบทั้งหมด</div>
             </div>
-            <div className="bg-white/10 border border-white/15 backdrop-blur-md rounded-2xl p-4 text-center min-w-[100px]">
+            <div className="bg-gradient-to-br from-amber-500/25 to-rose-500/25 border border-amber-400/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 text-center min-w-[90px] sm:min-w-[100px] shadow-sm">
+              <div className="text-2xl font-black text-amber-300 flex items-center justify-center gap-1">
+                <span>{newExamsCount}</span>
+                <span className="text-sm">🔥</span>
+              </div>
+              <div className="text-[10px] font-bold text-amber-200 uppercase mt-0.5">อัปเดตใหม่</div>
+            </div>
+            <div className="bg-white/10 border border-white/15 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 text-center min-w-[90px] sm:min-w-[100px]">
               <div className="text-2xl font-black text-cyan-300">7</div>
               <div className="text-[10px] font-bold text-slate-200 uppercase mt-0.5">โรงเรียนดัง</div>
             </div>
@@ -362,22 +413,104 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
             );
           })}
         </div>
+
+        {/* Row 3: Sort Options & New Filter Toggle */}
+        <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-1.5 text-xs font-black text-slate-800 shrink-0 mr-1">
+              <ArrowUpDown className="w-4 h-4 text-indigo-600" />
+              <span>เรียงตาม:</span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setSortBy('updated')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer select-none active:scale-95 shadow-2xs ${
+                sortBy === 'updated'
+                  ? 'bg-amber-500 text-white font-black ring-2 ring-amber-400/40 border border-amber-600 shadow-xs'
+                  : 'bg-white hover:bg-slate-50 text-slate-700 font-bold border-2 border-slate-200'
+              }`}
+            >
+              <span>🔥 การอัปเดตล่าสุด</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setSortBy('year')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer select-none active:scale-95 shadow-2xs ${
+                sortBy === 'year'
+                  ? 'bg-blue-600 text-white font-black ring-2 ring-blue-400/40 border border-blue-700 shadow-xs'
+                  : 'bg-white hover:bg-slate-50 text-slate-700 font-bold border-2 border-slate-200'
+              }`}
+            >
+              <Calendar className="w-3.5 h-3.5" />
+              <span>ปีข้อสอบ (ล่าสุดก่อน)</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setSortBy('name')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer select-none active:scale-95 shadow-2xs ${
+                sortBy === 'name'
+                  ? 'bg-indigo-600 text-white font-black ring-2 ring-indigo-400/40 border border-indigo-700 shadow-xs'
+                  : 'bg-white hover:bg-slate-50 text-slate-700 font-bold border-2 border-slate-200'
+              }`}
+            >
+              <span>🔤 ชื่อชุดข้อสอบ</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setSortBy('subject')}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer select-none active:scale-95 shadow-2xs ${
+                sortBy === 'subject'
+                  ? 'bg-purple-600 text-white font-black ring-2 ring-purple-400/40 border border-purple-700 shadow-xs'
+                  : 'bg-white hover:bg-slate-50 text-slate-700 font-bold border-2 border-slate-200'
+              }`}
+            >
+              <span>📚 ประเภทวิชา</span>
+            </button>
+          </div>
+
+          {/* New Only Toggle Pill */}
+          <button
+            type="button"
+            onClick={() => setShowOnlyNew(!showOnlyNew)}
+            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-2xl text-xs font-black transition-all cursor-pointer select-none shrink-0 border-2 active:scale-95 shadow-2xs ${
+              showOnlyNew
+                ? 'bg-gradient-to-r from-amber-500 to-rose-500 text-white ring-2 ring-amber-400/40 border-amber-600 shadow-xs'
+                : 'bg-amber-50/70 hover:bg-amber-100 text-amber-900 border-amber-200 font-bold'
+            }`}
+          >
+            <span>✨ เฉพาะชุดอัปเดตใหม่</span>
+            <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
+              showOnlyNew ? 'bg-white/25 text-white' : 'bg-amber-200/80 text-amber-900'
+            }`}>
+              {newExamsCount}
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* 4. Results Header Counter */}
       <div className="flex items-center justify-between px-1">
-        <div className="text-xs sm:text-sm font-extrabold text-slate-700 flex items-center gap-2">
+        <div className="text-xs sm:text-sm font-extrabold text-slate-700 flex items-center gap-2 flex-wrap">
           <span>พบข้อสอบทั้งหมด:</span>
           <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/60 font-black">
             {filteredExams.length} ชุด
           </span>
-          {(searchQuery || selectedSchool !== 'all' || selectedSubject !== 'all') && (
+          {showOnlyNew && (
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-black border border-amber-300">
+              เฉพาะชุดอัปเดตใหม่ 🔥
+            </span>
+          )}
+          {(searchQuery || selectedSchool !== 'all' || selectedSubject !== 'all' || showOnlyNew || sortBy !== 'updated') && (
             <button
               type="button"
               onClick={handleResetFilters}
-              className="text-xs text-blue-600 hover:text-blue-700 underline font-bold cursor-pointer ml-2"
+              className="text-xs text-blue-600 hover:text-blue-700 underline font-bold cursor-pointer ml-1"
             >
-              ล้างตัวกรอง
+              ล้างตัวกรองทั้งหมด
             </button>
           )}
         </div>
@@ -417,12 +550,16 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
             return (
               <div
                 key={exam.id}
-                className="bg-white rounded-3xl border-2 border-slate-200/90 p-5 sm:p-6 shadow-xs hover:shadow-xl hover:border-indigo-400 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group"
+                className={`rounded-3xl border-2 p-5 sm:p-6 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group relative overflow-hidden ${
+                  exam.isNew
+                    ? 'bg-gradient-to-b from-amber-50/25 via-white to-white border-amber-300 ring-2 ring-amber-400/20 hover:border-amber-400'
+                    : 'bg-white border-slate-200/90 hover:border-indigo-400'
+                }`}
               >
                 <div className="space-y-3.5">
                   {/* Top Bar: School & Subject Badge + Status */}
                   <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       <span
                         className="text-[11px] font-black px-3 py-1 rounded-full text-white shadow-2xs"
                         style={{ backgroundColor: exam.badgeColor || '#4F46E5' }}
@@ -432,6 +569,17 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
                       {exam.subjectName && (
                         <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                           {exam.subjectName}
+                        </span>
+                      )}
+                      {exam.year && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-50 text-slate-600 border border-slate-200">
+                          ปี {exam.year}
+                        </span>
+                      )}
+                      {exam.isNew && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-black px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-rose-500 text-white shadow-2xs">
+                          <span>🔥</span>
+                          <span>อัปเดตใหม่</span>
                         </span>
                       )}
                     </div>
@@ -520,11 +668,15 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
             return (
               <div
                 key={exam.id}
-                className="p-4 sm:p-5 hover:bg-indigo-50/40 transition-all duration-150 flex flex-col lg:grid lg:grid-cols-12 gap-3.5 lg:gap-4 items-start lg:items-center group select-none"
+                className={`p-4 sm:p-5 transition-all duration-150 flex flex-col lg:grid lg:grid-cols-12 gap-3.5 lg:gap-4 items-start lg:items-center group select-none ${
+                  exam.isNew
+                    ? 'bg-amber-50/30 hover:bg-amber-50/70 border-l-4 border-l-amber-500'
+                    : 'hover:bg-indigo-50/40'
+                }`}
               >
                 {/* Col 1: School & Title (5 cols on desktop) */}
                 <div className="lg:col-span-5 space-y-1.5 min-w-0 w-full">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 flex-wrap">
                     <span
                       className="text-[11px] font-black px-2.5 py-0.5 rounded-full text-white shadow-2xs shrink-0"
                       style={{ backgroundColor: exam.badgeColor || '#4F46E5' }}
@@ -534,6 +686,17 @@ export const MockExamHub: React.FC<MockExamHubProps> = ({ exams }) => {
                     {exam.subjectName && (
                       <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200 shrink-0">
                         {exam.subjectName}
+                      </span>
+                    )}
+                    {exam.year && (
+                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200 shrink-0">
+                        ปี {exam.year}
+                      </span>
+                    )}
+                    {exam.isNew && (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-rose-500 text-white shadow-2xs shrink-0">
+                        <span>🔥</span>
+                        <span>อัปเดตใหม่</span>
                       </span>
                     )}
                   </div>
